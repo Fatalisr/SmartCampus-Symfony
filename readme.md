@@ -53,6 +53,11 @@ Le membre de l'équipe qui a réalisé le fork, doit cloner ce dépôt sur son p
 
 Dans un terminal positionné dans le dossier de la stack du projet : 
 
+- Créer le dossier `sfapp`
+```
+mkdir sfapp
+```
+
 - démarrer la stack    
 ```
 docker compose up --build
@@ -75,7 +80,7 @@ docker compose exec sfapp bash
 ```
 pwd 
 ```
-- créer le projet `sae4api`
+- créer le projet `sfapp`
 ```
 composer create-project symfony/skeleton:"6.3.*" sfapp
 ```
