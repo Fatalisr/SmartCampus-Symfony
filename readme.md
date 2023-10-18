@@ -1,3 +1,19 @@
+## Membres de l'équipe 
+- JOYET Gabin (PO)
+- GAY Ulysse (SM)
+- MOREAU Romain
+- BEAUFORT Alex
+- BLANDIN Mathieu
+
+## Support
+- Hha (GPI)
+- (DEV)
+- (ARCHI)
+
+[Lien vers le Miro](https://miro.com/app/board/uXjVNeCX4Lg=/)
+
+
+
 <h1>Stack de développement Symfony de la SAE3</h1>
 
 --- 
