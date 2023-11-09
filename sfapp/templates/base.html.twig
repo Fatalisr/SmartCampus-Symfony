@@ -12,7 +12,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.min.js"></script>
 
         <!-- Include de mon fichier css -->
-        <link rel="stylesheet" href="{{ asset('styles.css') }}">
+        <link rel="stylesheet" href="{{ asset('style.css') }}">
         {% block stylesheets %}
         {% endblock %}
 
@@ -20,26 +20,6 @@
         {% endblock %}
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
-            <div class="container-fluid">
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ path('app_index') }}">Accueil</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ path('listevt') }}">Liste des evenements</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ path('membre') }}">Membres</a>
-                        </li>
-
-                    </ul>
-
-                </div>
-            </div>
-        </nav>
         {% block body %}{% endblock %}
     </body>
 </html>
