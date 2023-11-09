@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello IndexController!{% endblock %}
+
+{% block body %}
+<div id="index_pres_block">
+    <h1 id="boa">Back Office Admin</h1>
+    <p id="boa_desc">Application d'administration des jeuxdicode</p>
+</div>
+<div id="tableaux_evt">
+    <div id="ep">
+        <h2>Prochains évènements</h2>
+        <table>
+            <tr>
+                <td>Titre</td>
+                <td>Date</td>
+                <td>heure</td>
+                <td>Detail</td>
+            </tr>
+            {% for evt in evenements %}
+                {% if evt.evtcourant %}
+                    <tr>
+                        <td>{{ evt.titre }}</td>
+                        <td>{{ evt.dateHeureDebut|date('d-m-Y') }}</td>
+                        <td>{{ evt.dateHeureDebut|date('H:i') }}</td>
+                        <td><a class="btn btn-outline-success" href="{{ path('detail_evt_pass',{'id': evt.id}) }}">Detail</a></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+    </div>
+    <div id="ep">
+        <h2>Les évènement passés</h2>
+        <table>
+            <tr>
+                <td>Titre</td>
+                <td>Date</td>
+                <td>heure</td>
+                <td>Detail</td>
+            </tr>
+            {% for evt in evenements %}
+                {% if not evt.evtcourant %}
+                    <tr>
+                        <td>{{ evt.titre }}</td>
+                        <td>{{ evt.dateHeureDebut|date('d-m-Y') }}</td>
+                        <td>{{ evt.dateHeureDebut|date('H:i') }}</td>
+                        <td><a class="btn btn-outline-success" href="{{ path('detail_evt_pass',{'id': evt.id}) }}">Detail</a></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+    </div>
+    <div id="lp">
+        <h2>Les propositions</h2>
+        <table>
+            <tr>
+                <td>#</td>
+                <td>Table heading</td>
+                <td>Table heading</td>
+                <td>Table heading</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Table cell</td>
+                <td>Table cell</td>
+                <td><a class="btn btn-outline-success" href="{{ path('detail_prop') }}">Detail</a></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Table cell</td>
+                <td>Table cell</td>
+                <td><a class="btn btn-outline-success" href="{{ path('detail_prop') }}">Detail</a></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Table cell</td>
+                <td>Table cell</td>
+                <td><a class="btn btn-outline-success" href="{{ path('detail_prop') }}">Detail</a></td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <a href="{{ path('add') }}">Creer un EVT</a>
+    </div>
+</div>
+{% endblock %}
