@@ -1,0 +1,7 @@
+.fse {
+    display: flex;
+    align-content: space-evenly;
+    background-color: #56DAFF;
+    color : #080708;
+    font-size: 100%;
+}
