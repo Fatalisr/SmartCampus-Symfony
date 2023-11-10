@@ -16,7 +16,7 @@ class SA
     #[ORM\Column(length: 15)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 15)]
+    #[ORM\Column(length: 15, options: ['check' => "check (state in ('INACTIF','ACTIF',MAINTENANCE,A_INSATLLER))"])]
     private ?string $state = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]

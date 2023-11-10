@@ -19,7 +19,7 @@ class Room
     #[ORM\Column]
     private ?int $nbComputer = null;
 
-    #[ORM\Column(length: 1)]
+    #[ORM\Column(length: 1, options: ['check' => "check (facing in ('N','S',E,W))"])]
 
     private ?string $facing = null;
 
