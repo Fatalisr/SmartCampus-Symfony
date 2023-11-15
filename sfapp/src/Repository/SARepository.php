@@ -24,10 +24,23 @@ class SARepository extends ServiceEntityRepository
     public function findAllPlanAction(): array
     {
         return $this->createQueryBuilder('s')
-            ->orWhere("s.state = 'ACTIF', 'A_INSTALLER','MAINTENANCE'")
+            ->orWhere("s.state != :state")
+            ->setParameter('state',  "INACTIF")
             ->orderBy('s.state', 'ASC')
-            ->getQuery()->getResult()
+            ->getQuery()
+            ->getResult()
         ;
+    }
+
+    public function findAllInactive(): array
+    {
+        return $this->createQueryBuilder('s')
+            ->orWhere("s.state = :state")
+            ->setParameter('state',  "INACTIF")
+            ->orderBy('s.state', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
     }
 
 //    /**

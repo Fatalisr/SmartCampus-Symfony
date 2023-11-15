@@ -13,13 +13,18 @@ class ReferentController extends AbstractController
     public function index(ManagerRegistry $doctrine): Response
     {
         $entityManager = $doctrine->getManager();
-        $repository = $$entityManager->getRepository('App\Entity\SA');
+        $saRepository = $entityManager->getRepository('App\Entity\SA');
+        $roomRepository = $entityManager->getRepository('App\Entity\Room');
 
-        $planAction = $repository->findAllPlanAction();
+        $planAction = $saRepository->findAllPlanAction();
+        $inactive = $saRepository->findAllInactive();
+        $rooms = $roomRepository->findAll();
 
         return $this->render("referent/referent.html.twig", [
         'path' => 'src/Controller/ReferentController.php',
         'planAction' => $planAction,
+        'inactive' => $inactive,
+        'rooms' => $rooms,
         ]);
     }
 }
