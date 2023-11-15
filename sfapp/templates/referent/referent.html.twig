@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="example-wrapper">
+        <h1>Plan d'action</h1>
+        <ul>
+            {% for sa in planAction %}
+                <li>{{ sa.name }}</li>
+                <li>{{ sa.state }}</li>
+                <li>{{ sa.currentRoom->getName() }}</li>
+            {% endfor %}
+        </ul>
+        <h1>SA disponibles</h1>
+        <ul>
+
+        </ul>
+    </div>
+{% endblock %}

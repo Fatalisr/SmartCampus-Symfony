@@ -10,10 +10,16 @@ use Doctrine\Persistence\ManagerRegistry;
 class ReferentController extends AbstractController
 {
     #[Route('/referent', name: 'app_referent')]
-    public function index(): Response
+    public function index(ManagerRegistry $doctrine): Response
     {
-        return $this->render("referent.html.twig",[
-            'path' => 'src/Controller/ReferentController.php',
+        $entityManager = $doctrine->getManager();
+        $repository = $$entityManager->getRepository('App\Entity\SA');
+
+        $planAction = $repository->findAllPlanAction();
+
+        return $this->render("referent/referent.html.twig", [
+        'path' => 'src/Controller/ReferentController.php',
+        'planAction' => $planAction,
         ]);
     }
 }
