@@ -19,7 +19,7 @@ class Member
     #[ORM\Column(length: 30)]
     private ?string $password = null;
 
-    #[ORM\Column(length: 15)]
+    #[ORM\Column(length: 15, options: ['check' => "check (role in ('REFERENT','TECHNICIEN'))"])]
     private ?string $role = null;
 
     public function getId(): ?int
