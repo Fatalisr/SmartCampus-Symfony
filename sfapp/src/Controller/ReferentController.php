@@ -12,7 +12,7 @@ class ReferentController extends AbstractController
     #[Route('/referent', name: 'app_referent')]
     public function index(): Response
     {
-        return $this->render("referent.html.twig",[
+        return $this->render("referent/home_ref.html.twig",[
             'path' => 'src/Controller/ReferentController.php',
         ]);
     }
