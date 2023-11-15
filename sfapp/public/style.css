@@ -1,7 +1,34 @@
 .fse {
     display: flex;
-    align-content: space-evenly;
+    justify-content: space-evenly;
     background-color: #56DAFF;
-    color : #080708;
     font-size: 100%;
+}
+HTML{
+    font-family: Arial;
+    color : #080708;
+    background-color: #F7FFF7;
+    overflow-y: hidden;
+}
+aside{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 48%;
+    float: right;
+}
+section > p,aside > p{
+    background-color: #A29EA9;
+    color: #080708;
+    border-radius: 10px;
+}
+aside > p{
+    max-height: 50%;
+}
+#left{
+    width: 48%;
+    height: 100%;
+}
+#mainsection{
+    padding: 0px 25px 25px 25px;
 }
