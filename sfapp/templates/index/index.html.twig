@@ -16,23 +16,23 @@
         </div>
         <div class="form_line">
             {{ form_widget(form.username) }} <span style="color: red"> * </span>
-            {% if error == 'badUser'%}
-                <p style="color: red">Mauvais login</p>
-            {% endif %}
         </div>
+        {% if error == 'badUser'%}
+            <p id="bad_login" style="color: red">Login incorrect</p>
+        {% endif %}
         <div class="form_line">
             {{ form_widget(form.password) }} <span style="color: red"> * </span>
-            {% if error == 'badPwd'%}
-                <p style="color: red">Mauvais mots de passe</p>
-            {% endif %}
         </div>
+        {% if error == 'badPwd'%}
+            <p id="bad_pwd" style="color: red">Mot de passe incorrect</p>
+        {% endif %}
         <div id="submit_btn">
             <button type="submit">Se connecter</button>
         </div>
         {{ form_end(form) }}
     </div>
     <div id="invit_link">
-        <a href="">Espace invité</a>
+        <a href="">Espace usager</a>
     </div>
 
 

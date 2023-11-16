@@ -70,7 +70,6 @@ html, body {
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin: 10px 0;
     justify-content: center;
     height: 15%;
 }
@@ -87,6 +86,15 @@ html, body {
     justify-content: center;
     align-items: center;
     text-align: center;
+}
+#bad_login{
+    margin-left: 12.5%;
+    color: red;
+}
+
+#bad_pwd{
+    margin-left: 12.5%;
+    color: red;
 }
 
 @media screen and (max-width: 600px) {
