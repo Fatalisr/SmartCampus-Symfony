@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <section class="bandeau_ref">
+        <div>
+            <h1>Bonjour référent</h1>
+            <p>Vous vous trouvez sur la page d'accueil de l'espace référent. Vous pouvez y retrouver l'ensemble de vos SA et y gérer votre plan d'action en gérant les différents SA</p>
+        </div>
+        <div class="addSAButton">
+
+        </div>
+    </section>
+    <section>
+        <h1>Plan d'action</h1>
+        <ul>
+            {% for sa in planAction %}
+                <li>{{ sa.name }}</li>
+                <li>{{ sa.state }}</li>
+                <li>{{ sa.currentRoom.getName }}</li>
+
+
+
+                <br/>
+            {% endfor %}
+        </ul>
+        <h1>SA disponibles</h1>
+        <ul>
+            {% for sa in inactive %}
+                <li>{{ sa.name }}</li>
+                <br/>
+            {% endfor %}
+        </ul>
+    </section>
+    <div>
+        <p>copyrights mentions légales blablabla</p>
+    </div>
+{% endblock %}
