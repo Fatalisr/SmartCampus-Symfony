@@ -83,3 +83,11 @@ html, body {
 }
 
 
+#nouveau_sa_form_currentRoom{
+    width: 75%;
+    height: 70%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+
+}
+

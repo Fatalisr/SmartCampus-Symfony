@@ -11,12 +11,11 @@
     {{ form_start(form) }}
     <div id="form_header">
         <h1>Veuillez renseigner les informations</h1>
-        <p>Les champs <span style="color: red"> * </span> sont obligatoires</p>
     </div>
     <div class="form_line">
-        {{ form_widget(form.name) }} <span style="color: red"> * </span>
+        {{ form_widget(form.name) }}
     </div>
-        <div class="form_line">
+        <div class="form_line" >
             {{ form_widget(form.currentRoom) }}
         </div>
         <div id="submit_btn">
