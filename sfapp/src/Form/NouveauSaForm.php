@@ -4,6 +4,7 @@ namespace App\Form;
 
 
 use App\Entity\Room;
+use App\Entity\SA;
 use App\Repository\RoomRepository;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -23,17 +24,23 @@ class NouveauSaForm extends AbstractType
         $builder
             ->add('name', TextType::class , [
                 'label' => 'Nom de la salle',
+                'attr' => [
+                    'placeholder' => 'Nom de la salle',
+                ],
+
             ])
             ->add('currentRoom', EntityType::class, [
                 'class' => Room::class,
                 'query_builder' => function (RoomRepository $er) {
                     return $er->createQueryBuilder('r')
+                        ->leftJoin('App\Entity\SA', 's', 'WITH', 's.currentRoom = r')
+                        ->where('s.id IS NULL') // Exclude rooms with foreign key in sa table
                         ->orderBy('r.name', 'ASC');
                 },
                 'choice_label' => 'name',
                 'placeholder' => 'Pas de salle', // Default or null choice label
                 'required' => false, // Allow null values
-            ])
-            ->add('save', SubmitType::class, ['label' => 'Creer un SA']);
+            ]);
+            //->add('save', SubmitType::class, ['label' => 'Creer un SA']);
     }
 }
