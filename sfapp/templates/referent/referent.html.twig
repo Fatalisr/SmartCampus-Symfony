@@ -2,12 +2,12 @@
 
 {% block body %}
     <section class="bandeau_ref">
-        <div>
+        <aside class="addSAButton">
+            <a id="saButton" href="{{ path("nouveau_SA") }}"><center>Ajouter un nouveau SA</center></a>
+        </aside>
+        <div class="flex">
             <h1>Bonjour référent</h1>
             <p>Vous vous trouvez sur la page d'accueil de l'espace référent. Vous pouvez y retrouver l'ensemble de vos SA et y gérer votre plan d'action en gérant les différents SA</p>
-        </div>
-        <div class="addSAButton">
-
         </div>
     </section>
     <section>
@@ -17,17 +17,14 @@
                 <li>{{ sa.name }}</li>
                 <li>{{ sa.state }}</li>
                 <li>{{ sa.currentRoom.getName }}</li>
-
-
-
-                <br/>
+                <br>
             {% endfor %}
         </ul>
         <h1>SA disponibles</h1>
         <ul>
             {% for sa in inactive %}
                 <li>{{ sa.name }}</li>
-                <br/>
+                <br>
             {% endfor %}
         </ul>
     </section>
