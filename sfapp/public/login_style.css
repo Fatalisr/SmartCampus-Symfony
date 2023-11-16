@@ -1,0 +1,96 @@
+/* Common styles for all screen sizes */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#block_pres {
+    background-color: #56DAFF;
+    text-align: center;
+    height: 20%;
+    min-height: 120px;
+}
+
+#block_pres h1 {
+    padding: 1.5%;
+    margin: 0;
+}
+
+#block_pres p {
+    margin: 0;
+}
+
+#form_block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 70%;
+    min-height: 330px;
+}
+#form_header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+#form_block form {
+    width: 80%;
+    max-width: 550px;
+    height: 60%;
+    min-height: 312px;
+    margin: 0 auto;
+    background-color: #d9dde1;
+    border-radius: 10px;
+    padding: 20px;
+
+}
+
+#form_block h1 {
+    padding-top: 10px;
+}
+
+#submit_btn button {
+    width: 60%;
+    background-color: #56DAFF;
+    border-radius: 10px;
+
+}
+#submit_btn{
+    display: flex;
+    justify-content: center;
+    height: 15%;
+}
+
+
+.form_line {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 10px 0;
+    justify-content: center;
+    height: 15%;
+}
+
+.form_line input {
+    width: 75%;
+    height: 70%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+#invit_link{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+@media screen and (max-width: 600px) {
+    #form_block form {
+        width: 90%;
+    }
+}
