@@ -21,6 +21,28 @@ class SARepository extends ServiceEntityRepository
         parent::__construct($registry, SA::class);
     }
 
+    public function findAllPlanAction(): array
+    {
+        return $this->createQueryBuilder('s')
+            ->orWhere("s.state != :state")
+            ->setParameter('state',  "INACTIF")
+            ->orderBy('s.state', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findAllInactive(): array
+    {
+        return $this->createQueryBuilder('s')
+            ->orWhere("s.state = :state")
+            ->setParameter('state',  "INACTIF")
+            ->orderBy('s.state', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 //    /**
 //     * @return SA[] Returns an array of SA objects
 //     */

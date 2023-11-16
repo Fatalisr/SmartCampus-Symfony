@@ -1,36 +1,56 @@
 <?php
 
 namespace App\Controller;
-
-use App\Entity\Room;
 use App\Entity\SA;
+use App\Entity\Room;
 use App\Repository\RoomRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ObjectManager;
-
 use Doctrine\Bundle\FixturesBundle\Fixture;
-
-
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
 use App\Form\NouveauSaForm;
-
 use Symfony\Component\HttpFoundation\Request;
 
 
 class ReferentController extends AbstractController
 {
     #[Route('/referent', name: 'app_referent')]
-    public function index(): Response
+    public function index(ManagerRegistry $doctrine): Response
     {
-        return $this->render("referent/referent.html.twig",[
-            'path' => 'src/Controller/ReferentController.php',
+        $entityManager = $doctrine->getManager();
+        $saRepository = $entityManager->getRepository('App\Entity\SA');
+        $roomRepository = $entityManager->getRepository('App\Entity\Room');
+
+        $planAction = $saRepository->findAllPlanAction();
+        $inactive = $saRepository->findAllInactive();
+        $rooms = $roomRepository->findAll();
+
+        return $this->render("referent/referent.html.twig", [
+        'path' => 'src/Controller/ReferentController.php',
+        'planAction' => $planAction,
+        'inactive' => $inactive,
+        'rooms' => $rooms,
         ]);
     }
 
+    #[Route('/referent/sa/{id}', name: 'app_view_sa')]
+    public function view_sa(?int $id,ManagerRegistry $doctrine): Response
+    {
+        $entityManager = $doctrine->getManager();
+        $sa = $entityManager->find(SA::class,$id);
+        $nom = $sa->getName();
+        $salle = $sa->getCurrentRoom()->getName();
+        $etat = $sa->getState();
+
+        return $this->render("referent/sa.html.twig",[
+            'nom' => $nom,
+            'salle' => $salle,
+            'etat' => $etat,
+        ]);
+    }
     #[Route('/referent/nouveausa', name: 'nouveau_SA')]
     public function NouveauSA(Request $request, ManagerRegistry $doctrine): Response
     {

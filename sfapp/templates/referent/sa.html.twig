@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <div class="fse">
+        <p> {{ nom }}</p>
+        <p>{{ salle }}</p>
+        {% if etat == 'A_INSTALLER' %}
+            <p>🟠 A Installer</p>
+        {% elseif etat == 'ACTIF' %}
+            <p>🟢 Actif</p>
+        {% elseif etat == 'MAINTENANCE' %}
+            <p>🔴 Maintenance</p>
+        {% endif %}
+        <p><a href="{{ path("app_referent") }}">Retour</a></p>
+    </div>
+    {% if etat == 'ACTIF' %}
+        <section id="mainsection">
+            <aside>
+                <p>Right top</p>
+                <p>Right bottom </p>
+            </aside>
+            <section id="left">
+                <p>Left</p>
+            </section>
+        </section>
+    {% else %}
+        <section id="mainsection">
+            <div class="centre">
+                <img src="{{ asset('noWifi.png') }}" alt="no data">
+                <p>Aucun donnée disponible</p>
+            </div>
+        </section>
+    {% endif %}
+
+{% endblock %}
