@@ -7,7 +7,7 @@
             <p>Vous vous trouvez sur la page d'accueil de l'espace référent. Vous pouvez y retrouver l'ensemble de vos SA et y gérer votre plan d'action en gérant les différents SA</p>
         </div>
         <div class="addSAButton">
-            <a href="{{ path("nouveau_SA") }}">Ajouter un nouveau SA</a>
+
         </div>
     </section>
     <section>
@@ -17,6 +17,9 @@
                 <li>{{ sa.name }}</li>
                 <li>{{ sa.state }}</li>
                 <li>{{ sa.currentRoom.getName }}</li>
+
+
+
                 <br/>
             {% endfor %}
         </ul>
