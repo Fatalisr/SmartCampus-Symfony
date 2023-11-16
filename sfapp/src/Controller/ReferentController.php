@@ -92,5 +92,13 @@ class ReferentController extends AbstractController
         return $this->render("referent/nouveausa.html.twig",[
             'form' => $form,
         ]);
+
+    }
+
+    public function changerSalle(Request $request, ManagerRegistry $doctrine): Response
+    {
+        $form = $this->createForm(changerSalle::class);
+
+        $form->handleRequest($request);
     }
 }

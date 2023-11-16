@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+
 {% block body %}
     <section class="bandeau_ref">
         <div>
@@ -16,12 +17,22 @@
             {% for sa in planAction %}
                 <li>{{ sa.name }}</li>
                 <li>{{ sa.state }}</li>
-                <li>{{ sa.currentRoom.getName }}</li>
-
-
-
+                <li>
+                    <form id="avRooms">
+                        <select name="avRooms" id="availableRooms">
+                            <option value={{ sa.getCurrentRoom.getId }} selected>{{ sa.getCurrentRoom.getName }}</option>
+                            {% for room in rooms %}
+                                {% if sa.getCurrentRoom != room %}
+                                    <option value={{ room.getId }}>{{ room.getName }}</option>
+                                {% endif %}
+                            {% endfor %}
+                            <option value=NULL >Aucune salle</option>
+                        </select>
+                    </form>
+                </li>
                 <br/>
             {% endfor %}
+            <p id="test"></p>
         </ul>
         <h1>SA disponibles</h1>
         <ul>
