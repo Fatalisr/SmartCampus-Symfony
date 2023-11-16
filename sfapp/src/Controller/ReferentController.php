@@ -46,15 +46,25 @@ class ReferentController extends AbstractController
 
             $sa = new SA();
             $sa->setName($form->get('name')->getData());
-            $sa->setState("A_INSTALLER");
+
+
             $entityManager = $doctrine->getManager();
+            if($form->get('currentRoom')->getData())
+            {
+                $sa->setState("A_INSTALLER");
+            }
+            else
+            {
+                $sa->setState("INACTIF");
+            }
             $sa->setCurrentRoom($form->get('currentRoom')->getData());
+
 
             //Ajoute à la base de donnée
             $entityManager->persist($sa);
             $entityManager->flush();
 
-            return $this->redirectToRoute('/referent', [
+            return $this->redirectToRoute('app_referent', [
             ]);
 
         }

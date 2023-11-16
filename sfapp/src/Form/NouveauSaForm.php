@@ -21,18 +21,19 @@ class NouveauSaForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class)
-
-            ->add('currentRoom', EntityType::class,
-                [
-                    'class' => Room::class,
-                    'query_builder' => function (RoomRepository $er): QueryBuilder {
-                        return $er->createQueryBuilder('r')
-                            ->orderBy('r.id', 'ASC');
-                    },
-                    'choice_label' => 'name',
-                ])
+            ->add('name', TextType::class , [
+                'label' => 'Nom de la salle',
+            ])
+            ->add('currentRoom', EntityType::class, [
+                'class' => Room::class,
+                'query_builder' => function (RoomRepository $er) {
+                    return $er->createQueryBuilder('r')
+                        ->orderBy('r.name', 'ASC');
+                },
+                'choice_label' => 'name',
+                'placeholder' => 'Pas de salle', // Default or null choice label
+                'required' => false, // Allow null values
+            ])
             ->add('save', SubmitType::class, ['label' => 'Creer un SA']);
     }
-
 }
