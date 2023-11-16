@@ -39,6 +39,8 @@ aside{
 .pSA{
     background-color: #A29EA9;
     border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
 }
 #left{
     width: 48%;
@@ -171,4 +173,7 @@ aside{
     background-color: #08B2E3;
     border: 2px solid #080708;
     border-radius: 5px;
+}
+.listSA{
+    list-style-type: none;
 }
