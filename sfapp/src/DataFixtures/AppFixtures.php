@@ -69,7 +69,6 @@ class AppFixtures extends Fixture
         $sa3->setCurrentRoom($this->getReference('r3'));
         $manager->persist($sa3);
 
-
         $manager->flush();
     }
 }

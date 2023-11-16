@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello IndexController!{% endblock %}
+
+{% block body %}
+    <div id="block_pres">
+        <h1>Création d'un nouveau système d'acquisition</h1>
+    </div>
+
+    <div id="form_block">
+    {{ form_start(form) }}
+    <div id="form_header">
+        <h1>Veuillez renseigner les informations</h1>
+        <p>Les champs <span style="color: red"> * </span> sont obligatoires</p>
+    </div>
+    <div class="form_line">
+        {{ form_widget(form.name) }} <span style="color: red"> * </span>
+    </div>
+        {{ form_end(form) }}
+    </div>
+
+
+{% endblock %}
+

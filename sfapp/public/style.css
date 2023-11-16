@@ -71,16 +71,13 @@ section > p,aside > p{
     height: 20%;
     min-height: 120px;
 }
-
 #block_pres h1 {
     padding: 1.5%;
     margin: 0;
 }
-
 #block_pres p {
     margin: 0;
 }
-
 #form_block {
     display: flex;
     flex-direction: column;
@@ -96,7 +93,6 @@ section > p,aside > p{
     justify-content: center;
     text-align: center;
 }
-
 #form_block form {
     width: 80%;
     max-width: 550px;
@@ -108,7 +104,6 @@ section > p,aside > p{
     padding: 20px;
 
 }
-
 #form_block h1 {
     padding-top: 10px;
 }
