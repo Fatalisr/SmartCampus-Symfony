@@ -33,7 +33,9 @@ pwd
 ```
 composer dump-autoload
 ```
-
+```
+composer install
+```
 - Vérifier l'exécution du service `sfapp`
 ```
 localhost:8000
