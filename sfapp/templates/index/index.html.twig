@@ -4,8 +4,10 @@
 
 {% block body %}
     <div id="block_pres">
-        <h1>BIENVENU SUR L'ESPACE SMART CAMPUS</h1>
-        <p>Connectez-vous ou accedez à l'espace usager</p>
+        <div id="bull">
+            <h1>BIENVENU SUR L'ESPACE SMART CAMPUS</h1>
+            <p>Connectez-vous ou accedez à l'espace usager</p>
+        </div>
     </div>
 
     <div id="form_block">
@@ -15,16 +17,22 @@
             <p>Les champs <span style="color: red"> * </span> sont obligatoires</p>
         </div>
         <div class="form_line">
-            {{ form_widget(form.username) }} <span style="color: red"> * </span>
+            {{ form_widget(form.username) }}
+            <div><span style="color: red"> * </span></div>
         </div>
         {% if error == 'badUser'%}
-            <p id="bad_login" style="color: red">Login incorrect</p>
+            <div class="err_block">
+                <p id="bad_login">Login incorrect</p>
+            </div>
         {% endif %}
         <div class="form_line">
-            {{ form_widget(form.password) }} <span style="color: red"> * </span>
+            {{ form_widget(form.password) }}
+            <div><span style="color: red"> * </span></div>
         </div>
         {% if error == 'badPwd'%}
-            <p id="bad_pwd" style="color: red">Mot de passe incorrect</p>
+            <div class="err_block">
+                <p id="bad_pwd">Mot de passe incorrect</p>
+            </div>
         {% endif %}
         <div id="submit_btn">
             <button type="submit">Se connecter</button>
@@ -34,6 +42,7 @@
     <div id="invit_link">
         <a href="">Espace usager</a>
     </div>
+
 
 
 
