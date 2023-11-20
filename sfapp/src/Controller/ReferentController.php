@@ -99,6 +99,7 @@ class ReferentController extends AbstractController
         $entityManager = $doctrine->getManager();
         $sa = $entityManager->find(SA::class, $id);
 
+        $sa->setCurrentRoom(null);
         $entityManager->remove($sa);
         $entityManager->flush();
 

@@ -72,6 +72,11 @@
         }
     },
     "require-dev": {
-        "symfony/maker-bundle": "*"
+        "phpunit/phpunit": "^10.4",
+        "phpunit/phpunit-story": "^1.0",
+        "symfony/browser-kit": "6.3.*",
+        "symfony/css-selector": "6.3.*",
+        "symfony/maker-bundle": "*",
+        "symfony/phpunit-bridge": "^6.3"
     }
 }
