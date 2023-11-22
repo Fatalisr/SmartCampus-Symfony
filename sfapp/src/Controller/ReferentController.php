@@ -115,6 +115,7 @@ class ReferentController extends AbstractController
             {
                 $sa->setState("INACTIF");
             }
+            $sa->setOldRoom($sa->getCurrentRoom());
             $sa->setCurrentRoom($changeRoom->get('newRoom')->getData());
 
             $entityManager->persist($sa);

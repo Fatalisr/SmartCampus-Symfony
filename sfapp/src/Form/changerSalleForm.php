@@ -15,7 +15,7 @@ use App\Repository\RoomRepository;
 
 class changerSalleForm extends \Symfony\Component\Form\AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options) : void
     {
         $builder
             ->add('newRoom', EntityType::class, [
