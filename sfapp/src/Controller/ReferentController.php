@@ -99,8 +99,10 @@ class ReferentController extends AbstractController
         $entityManager = $doctrine->getManager();
         $sa = $entityManager->find(SA::class, $id);
 
+        $sa->setOldRoom($sa->getCurrentRoom());
         $sa->setCurrentRoom(null);
-        $entityManager->remove($sa);
+        $sa->setState("INACTIF");
+        $entityManager->persist($sa);
         $entityManager->flush();
 
         return $this->redirectToRoute('app_referent', [
