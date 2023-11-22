@@ -3,29 +3,30 @@
 
 {% block body %}
     <section class="bandeau_ref">
-        <div>
+        <div class="pres_page">
             <h1>Bonjour référent</h1>
             <p>Vous vous trouvez sur la page d'accueil de l'espace référent. Vous pouvez y retrouver l'ensemble de vos SA et y gérer votre plan d'action en gérant les différents SA</p>
+            <p>🟢 Actif 🟠 A Installer 🔴 Maintenance ⚫ Inactif</p>
         </div>
         <div class="addSAButton">
-
+            <a id="saButton" href="{{ path("nouveau_SA") }}">Ajouter un nouveau SA</a>
         </div>
     </section>
-    <section>
-        <h1>Plan d'action</h1>
-        <ul>
+    <section id="liste_salle">
+        <ul class="block_sa">
+            <h1>Plan d'action</h1>
             {% for sa in planAction %}
-                <li>{{ sa.name }}</li>
-                <li>{{ sa.state }}</li>
-                <li>{{ sa.currentRoom.getName }}</li>
-                <li><a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}">Changer la salle</a></li>
-                <li><a id="navdroite" href="{{ path('delete_sa', {'id': sa.getId}) }}">Supprimer</a></li>
-                <br/>
+                <li class="listSA">
+                    <span class="sa_info"> {% if sa.state == 'A_INSTALLER' %}🟠 {% elseif sa.state == 'ACTIF' %}🟢 {% elseif sa.state == 'MAINTENANCE' %}🔴 {% endif %}{{ sa.name }}{{ sa.currentRoom.name }}</span>
+                    <li><a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}">Changer la salle</a></li>
+                    <li><a id="navdroite" href="{{ path('delete_sa', {'id': sa.getId}) }}">Supprimer</a></li>
+                    <br/>
+                </li>
             {% endfor %}
             <p id="test"></p>
         </ul>
-        <h1>SA disponibles</h1>
-        <ul>
+        <ul class="block_sa">
+            <h1>SA disponibles</h1>
             {% for sa in inactive %}
                 <li>{{ sa.name }}</li>
                 <li><a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}">Affecter à une salle</a></li>
@@ -33,7 +34,4 @@
             {% endfor %}
         </ul>
     </section>
-    <div>
-        <p>copyrights mentions légales blablabla</p>
-    </div>
 {% endblock %}

@@ -17,9 +17,6 @@ header{
     justify-content: space-between;
     padding: 0px 5px 0px 5px;
 }
-/*
- * sa.html.twig
- */
 aside{
     display: flex;
     flex-direction: column;
@@ -75,9 +72,6 @@ body{
     padding: 0px 10px 0px 10px;
 }
 
-/*
- * index.html.twig
- */
 #block_pres {
     display: flex;
     justify-content: center;
@@ -274,6 +268,4 @@ body{
         width: 90%;
     }
 }
-
-
 

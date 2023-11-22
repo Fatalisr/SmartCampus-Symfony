@@ -1,0 +1,83 @@
+HTML{
+    font-family: Arial;
+    color : #080708;
+    background-color: #F7FFF7;
+    overflow-y: hidden;
+    height: 100%;
+    width: 100%;
+}
+body{
+    height: 100%;
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+a{
+    all: initial;
+}
+
+
+header{
+    background-color: #08B2E3;
+    display: flex;
+    height: 12%;
+    min-height: 55px;
+    min-width: fit-content;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+header h1{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    min-width: fit-content;
+    justify-content: center;
+    align-items: center;
+    font-size: 6vh;
+}
+
+header a{
+    width: fit-content;
+    height: fit-content;
+    background-color: #5b68c0;
+    border-color: #5b68c0;
+    color: black;
+    font-style: normal;
+    border-radius: 15px;
+    font-family: Arial;
+    font-size: 2.5vh;
+    padding: 10px;
+    margin-right: 10px;
+}
+
+header a:hover{
+    cursor: pointer;
+    opacity: 60%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#nameAndlogo{
+    background-color: #5b68c0;
+    color: black;
+    border-color: #5b68c0;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    width: 45%;
+    min-width: fit-content;
+    height: 70%;
+    min-height: fit-content;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 3px 0px 5px 0px;
+}
+
+#leaf{
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0% 15% 0% 5%;
+}

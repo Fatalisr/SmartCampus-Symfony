@@ -1,0 +1,106 @@
+/*
+ * referent.html.twig
+ */
+
+#liste_salle{
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    height: fit-content;
+}
+
+.bandeau_ref{
+    display: flex;
+    width: auto;
+    height: fit-content;
+    background-color: #56DAFF;
+    padding: 10px;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+.pres_page{
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+}
+.pres_page h1{
+    margin: 0;
+    font-size: xx-large;
+}
+
+.addSAButton{
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    width: 30%;
+    padding-right: 4%;
+}
+
+#saButton{
+    color:inherit;
+    text-decoration: none;
+    width: fit-content;
+    padding: 10px;
+    background-color: #5b68c0;
+    border-radius: 5px;
+    font-family: Arial;
+}
+#saButton:hover{
+    cursor: pointer;
+    opacity: 60%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.block_sa{
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+    height: fit-content;
+    list-style-type: none;
+    background-color: #d6dfe8;
+    padding: 0 15px 15px 15px;
+    margin: 10px 20px 10px 20px;
+    border-radius: 20px;
+}
+
+.block_sa li{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: auto;
+    padding: 20px;
+    margin: 10px;
+    height: fit-content;
+    background-color: #5b68c0;
+    border-radius: 10px;
+}
+
+.block_sa li:hover{
+    cursor: pointer;
+    /*background-color: #56DAFF;*/
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    opacity: 60%;
+}
+
+.sa_info{
+    font-size: x-large;
+}
+
+
+.out_pa{
+    font-family: Arial;
+    padding: 10px;
+    background-color: red;
+    border-radius: 25px;
+}
+
+.add_room{
+    font-family: Arial;
+    padding: 10px;
+    background-color: #56DAFF;
+    border-radius: 25px;
+}
+
+

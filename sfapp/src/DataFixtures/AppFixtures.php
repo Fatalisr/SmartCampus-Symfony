@@ -68,6 +68,11 @@ class AppFixtures extends Fixture
         $sa3->setState("MAINTENANCE");
         $sa3->setCurrentRoom($this->getReference('r3'));
         $manager->persist($sa3);
+        // SA 4
+        $sa4 = new SA();
+        $sa4->setName("SA3");
+        $sa4->setState("INACTIF");
+        $manager->persist($sa4);
 
         $manager->flush();
     }

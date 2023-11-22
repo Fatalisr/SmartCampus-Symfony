@@ -1,6 +1,5 @@
 <?php
 namespace App\Tests;
-
 use App\Entity\Room;
 use App\Entity\SA;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;

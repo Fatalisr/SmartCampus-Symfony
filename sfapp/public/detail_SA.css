@@ -1,0 +1,45 @@
+/*
+ * sa.html.twig
+ */
+aside{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    max-width: 48%;
+    width: 48%;
+    height: 80%;
+    max-height: 80%;
+    float: right;
+}
+.centre{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.pSA{
+    background-color: #A29EA9;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+}
+#left{
+    width: 48%;
+    max-width: 48%;
+    height: 100%;
+    max-height: 100%;
+}
+#mainsection{
+    padding: 0px 25px 25px 25px;
+    height: 80vh;
+    max-height: 80vh;
+}
+
+.fse {
+    display: flex;
+    justify-content: space-between;
+    background-color: #56DAFF;
+    font-size: 3vh;
+    height: 10vh;
+    padding: 0px 10px 0px 10px;
+}
