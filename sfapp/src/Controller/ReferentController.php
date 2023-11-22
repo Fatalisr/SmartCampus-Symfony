@@ -55,11 +55,9 @@ class ReferentController extends AbstractController
     public function NouveauSA(Request $request, ManagerRegistry $doctrine): Response
     {
 
-
         $form = $this->createForm(NouveauSaForm::class);
 
         $form->handleRequest($request);
-
 
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -86,9 +84,7 @@ class ReferentController extends AbstractController
 
             return $this->redirectToRoute('app_referent', [
             ]);
-
         }
-
         return $this->render("referent/nouveausa.html.twig",[
             'form' => $form,
         ]);

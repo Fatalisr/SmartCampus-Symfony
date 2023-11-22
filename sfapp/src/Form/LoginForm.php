@@ -11,7 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class LoginForm extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options) : void
     {
         $builder
             ->add('username', TextType::class, [
@@ -26,9 +26,5 @@ class LoginForm extends AbstractType
                     'placeholder' => 'Mot de passe',
                 ],
             ]);
-        /*
-        ->add('submit', SubmitType::class, [
-            'label' => 'Se connecter'
-        ]);*/
     }
 }

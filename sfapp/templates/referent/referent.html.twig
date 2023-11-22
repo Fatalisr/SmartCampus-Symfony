@@ -18,8 +18,6 @@
                 <li>{{ sa.state }}</li>
                 <li>{{ sa.currentRoom.getName }}</li>
                 <a id="navdroite" href="{{ path('delete_sa', {'id': sa.getId}) }}">delete</a>
-
-
                 <br/>
             {% endfor %}
         </ul>
