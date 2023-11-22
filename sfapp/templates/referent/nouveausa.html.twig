@@ -4,18 +4,25 @@
 
 {% block body %}
     <div id="block_pres">
-        <h1>Création d'un nouveau système d'acquisition</h1>
+        <h1>Création d'un nouveau système d'acquisition  </h1>
+        <p><a href="{{ path("app_referent") }}">Retour</a></p>
     </div>
 
     <div id="form_block">
     {{ form_start(form) }}
     <div id="form_header">
         <h1>Veuillez renseigner les informations</h1>
-        <p>Les champs <span style="color: red"> * </span> sont obligatoires</p>
     </div>
     <div class="form_line">
-        {{ form_widget(form.name) }} <span style="color: red"> * </span>
+        {{ form_widget(form.name) }}
     </div>
+        <div class="form_line" >
+            {{ form_widget(form.currentRoom) }}
+        </div>
+        <div id="submit_btn">
+            <button type="submit">Creer le SA</button>
+        </div>
+
         {{ form_end(form) }}
     </div>
 
