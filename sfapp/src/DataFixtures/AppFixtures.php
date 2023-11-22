@@ -49,6 +49,20 @@ class AppFixtures extends Fixture
         $manager->persist($r3);
         $this->addReference('r3',$r3);
 
+        // Room 4
+        $r4 = new Room();
+        $r4->setName("D206");
+        $r4->setNbComputer("15");
+        $r4->setFacing("S");
+        $manager->persist($r4);
+
+        // Room 5
+        $r5 = new Room();
+        $r5->setName("D301");
+        $r5->setNbComputer("12");
+        $r5->setFacing("S");
+        $manager->persist($r4);
+
 
         // SA 1
         $sa = new SA();

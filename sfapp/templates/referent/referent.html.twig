@@ -16,22 +16,23 @@
         <ul class="block_sa">
             <h1>Plan d'action</h1>
             {% for sa in planAction %}
-                <li class="listSA">
-                    <span class="sa_info"> {% if sa.state == 'A_INSTALLER' %}🟠 {% elseif sa.state == 'ACTIF' %}🟢 {% elseif sa.state == 'MAINTENANCE' %}🔴 {% endif %}{{ sa.name }} {{ sa.currentRoom.name }}</span>
-                    <li><a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}">Changer la salle</a></li>
-                    <li><a href="{{ path('delete_sa', {'id': sa.getId}) }}">Supprimer</a></li>
-                    <li><a href="{{ path('app_view_sa', {'id': sa.getId}) }}">Infos</a></li>
-                    <br/>
-                </li>
+                <a href="{{ path('app_view_sa', {'id': sa.getId}) }}">
+                    <li class="listSA"> <!-- UN <LI></LI> = UNE LIGNE : ajouter les elements À L'INTERIEUR du li. Le webdesigner. -->
+                        <span class="sa_info"> {% if sa.state == 'A_INSTALLER' %}🟠 {% elseif sa.state == 'ACTIF' %}🟢 {% elseif sa.state == 'MAINTENANCE' %}🔴 {% endif %}{{ sa.name }} {{ sa.currentRoom.name }}</span>
+                        <a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}">Changer la salle</a>
+                        <a href="{{ path('delete_sa', {'id': sa.getId}) }}">Supprimer</a>
+                    </li>
+                </a>
             {% endfor %}
             <p id="test"></p>
         </ul>
         <ul class="block_sa">
             <h1>SA disponibles</h1>
             {% for sa in inactive %}
-                <li>{{ sa.name }}</li>
-                <li><a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}">Affecter à une salle</a></li>
-                <br/>
+                <li>
+                    {{ sa.name }}
+                    <a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}">Affecter à une salle</a>
+                </li>
             {% endfor %}
         </ul>
     </section>
