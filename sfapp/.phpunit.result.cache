@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"version":1,"defects":{"App\\Tests\\referentControllerTest::testReferentPage":3,"App\\Tests\\referentControllerTest::testChangeRoomPage":3,"App\\Tests\\referentControllerTest::testSAPage":3,"App\\Tests\\referentControllerTest::testChangerSalle":3},"times":{"App\\Tests\\referentControllerTest::testReferentPage":0.014,"App\\Tests\\referentControllerTest::testChangeRoomPage":0.019,"App\\Tests\\referentControllerTest::testSAPage":0.07,"App\\Tests\\referentControllerTest::testChangerSalle":0.017}}
+=======
+{"version":1,"defects":{"App\\Tests\\referentControllerTest::testReferentPage":4,"App\\Tests\\referentControllerTest::testChangeRoomPage":3},"times":{"App\\Tests\\referentControllerTest::testReferentPage":0.296,"App\\Tests\\referentControllerTest::testChangeRoomPage":0.093}}
+>>>>>>> origin/US-R4

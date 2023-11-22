@@ -95,6 +95,7 @@ class ReferentController extends AbstractController
         ]);
 
     }
+
     #[Route('/referent/changersalle/{id}', name: 'changer_salle_sa')]
     public function changeRoom(?int $id,Request $request, ManagerRegistry $doctrine): Response
     {
