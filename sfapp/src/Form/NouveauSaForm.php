@@ -23,9 +23,9 @@ class NouveauSaForm extends AbstractType
     {
         $builder
             ->add('name', TextType::class , [
-                'label' => 'Nom de la salle',
+                'label' => 'Nom du SA',
                 'attr' => [
-                    'placeholder' => 'Nom de la salle',
+                    'placeholder' => 'Nom du SA',
                 ],
 
             ])
