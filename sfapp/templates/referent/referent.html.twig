@@ -17,9 +17,10 @@
             <h1>Plan d'action</h1>
             {% for sa in planAction %}
                 <li class="listSA">
-                    <span class="sa_info"> {% if sa.state == 'A_INSTALLER' %}🟠 {% elseif sa.state == 'ACTIF' %}🟢 {% elseif sa.state == 'MAINTENANCE' %}🔴 {% endif %}{{ sa.name }}{{ sa.currentRoom.name }}</span>
+                    <span class="sa_info"> {% if sa.state == 'A_INSTALLER' %}🟠 {% elseif sa.state == 'ACTIF' %}🟢 {% elseif sa.state == 'MAINTENANCE' %}🔴 {% endif %}{{ sa.name }} {{ sa.currentRoom.name }}</span>
                     <li><a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}">Changer la salle</a></li>
-                    <li><a id="navdroite" href="{{ path('delete_sa', {'id': sa.getId}) }}">Supprimer</a></li>
+                    <li><a href="{{ path('delete_sa', {'id': sa.getId}) }}">Supprimer</a></li>
+                    <li><a href="{{ path('app_view_sa', {'id': sa.getId}) }}">Infos</a></li>
                     <br/>
                 </li>
             {% endfor %}
