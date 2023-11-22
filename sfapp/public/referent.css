@@ -1,0 +1,27 @@
+/*
+ * referent.html.twig
+ */
+.flex{
+    display: flex;
+    flex-direction: column;
+}
+.addSAButton{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    float: right;
+}
+.bandeau_ref{
+    background-color: #56DAFF;
+}
+#saButton{
+    color:inherit;
+    text-decoration: none;
+    width: 25%;
+    background-color: #08B2E3;
+    border: 2px solid #080708;
+    border-radius: 5px;
+}
+.listSA{
+    list-style-type: none;
+}
