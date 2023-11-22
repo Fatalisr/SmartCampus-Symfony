@@ -7,6 +7,7 @@ use App\Repository\RoomRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use App\Form\changerSalleForm;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -87,6 +88,42 @@ class ReferentController extends AbstractController
         }
         return $this->render("referent/nouveausa.html.twig",[
             'form' => $form,
+        ]);
+
+    }
+
+    #[Route('/referent/changersalle/{id}', name: 'changer_salle_sa')]
+    public function changeRoom(?int $id,Request $request, ManagerRegistry $doctrine): Response
+    {
+        $entityManager = $doctrine->getManager();
+        $sa = $entityManager->find(SA::class,$id);
+        $nom = $sa->getName();
+
+        $changeRoom = $this->createForm(changerSalleForm::class);
+        $changeRoom->handleRequest($request);
+
+        if ($changeRoom->isSubmitted() && $changeRoom->isValid()) {
+
+            if($changeRoom->get('newRoom')->getData())
+            {
+                $sa->setState("A_INSTALLER");
+            }
+            else
+            {
+                $sa->setState("INACTIF");
+            }
+            $sa->setOldRoom($sa->getCurrentRoom());
+            $sa->setCurrentRoom($changeRoom->get('newRoom')->getData());
+
+            $entityManager->persist($sa);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_referent', [
+            ]);
+        }
+
+        return $this->render("referent/changersalle.html.twig",[
+            'changeRoom' => $changeRoom,
         ]);
     }
     #[Route('/referent/delete_SA/{id}', name: 'delete_sa')]

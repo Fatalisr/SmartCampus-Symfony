@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+
 {% block body %}
     <section class="bandeau_ref">
         <div>
@@ -17,14 +18,17 @@
                 <li>{{ sa.name }}</li>
                 <li>{{ sa.state }}</li>
                 <li>{{ sa.currentRoom.getName }}</li>
-                <a id="navdroite" href="{{ path('delete_sa', {'id': sa.getId}) }}">delete</a>
+                <li><a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}">Changer la salle</a></li>
+                <li><a id="navdroite" href="{{ path('delete_sa', {'id': sa.getId}) }}">Supprimer</a></li>
                 <br/>
             {% endfor %}
+            <p id="test"></p>
         </ul>
         <h1>SA disponibles</h1>
         <ul>
             {% for sa in inactive %}
                 <li>{{ sa.name }}</li>
+                <li><a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}">Affecter à une salle</a></li>
                 <br/>
             {% endfor %}
         </ul>
