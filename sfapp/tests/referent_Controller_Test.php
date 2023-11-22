@@ -6,25 +6,34 @@ use App\Entity\SA;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\AbstractBrowser;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Persistence\ObjectManager;
 
 class referent_Controller_Test extends WebTestCase
 {
     public function test_suppression_d_un_sa(){
+        $client = static::createClient();
+        $entityManager = $client->getContainer()->get('doctrine.orm.entity_manager');
+
         $Rtest = new Room();
         $Rtest->setName("WXYZ");
         $Rtest->setNbComputer("20");
         $Rtest->setFacing("S");
+        $entityManager->persist($Rtest);
 
         $SAtest = new SA();
         $SAtest->setName("SAtest");
         $SAtest->setState("ACTIF");
-        $SAtest->setCurrentRoom($Rtest->getId());
+        $SAtest->setCurrentRoom($Rtest);
+        $entityManager->persist($SAtest);
+        $entityManager->flush();
 
-        $client = static::createClient();
-        $client->request('GET', '/referent/delete_sa/'.$SAtest->getId());
+        $this->assertNotEquals(null, $SAtest->getCurrentRoom());
+        $this->assertNotEquals(null, $SAtest->getId());
 
-        $this->assertResponseRedirects('/referent');
+        $client->request('GET', '/referent/delete_SA/'.$SAtest->getId());
 
-        $this->assertEquals($SAtest->getId(), null);
+        $this->assertEquals(null, $SAtest->getId());
+        $this->assertNotEquals(null, $Rtest->getId());
     }
 }

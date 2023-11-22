@@ -93,7 +93,7 @@ class ReferentController extends AbstractController
             'form' => $form,
         ]);
     }
-    #[Route('/referent/delete_SA/{id}', name: 'delete_SA')]
+    #[Route('/referent/delete_SA/{id}', name: 'delete_sa')]
     public function delete_sa(?int $id, ManagerRegistry $doctrine): Response
     {
         $entityManager = $doctrine->getManager();
