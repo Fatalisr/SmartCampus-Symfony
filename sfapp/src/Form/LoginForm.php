@@ -26,9 +26,5 @@ class LoginForm extends AbstractType
                     'placeholder' => 'Mot de passe',
                 ],
             ]);
-        /*
-        ->add('submit', SubmitType::class, [
-            'label' => 'Se connecter'
-        ]);*/
     }
 }

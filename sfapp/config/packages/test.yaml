@@ -1,0 +1,4 @@
+# config/packages/test.yaml
+
+framework:
+  test: true
