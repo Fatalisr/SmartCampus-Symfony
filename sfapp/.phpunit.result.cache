@@ -1,0 +1,1 @@
+{"version":1,"defects":{"App\\Tests\\referentControllerTest::testReferentPage":4,"App\\Tests\\referentControllerTest::testChangeRoomPage":3},"times":{"App\\Tests\\referentControllerTest::testReferentPage":0.296,"App\\Tests\\referentControllerTest::testChangeRoomPage":0.093}}
