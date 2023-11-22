@@ -17,6 +17,7 @@ a{
     all: initial;
 }
 
+
 header{
     background-color: #08B2E3;
     display: flex;
@@ -53,6 +54,8 @@ header a{
 
 header a:hover{
     cursor: pointer;
+    opacity: 60%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 #nameAndlogo{
