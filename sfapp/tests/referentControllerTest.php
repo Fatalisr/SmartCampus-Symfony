@@ -54,6 +54,7 @@ class referentControllerTest extends WebTestCase
         $entityManager = $client->getContainer()->get('doctrine.orm.entity_manager');
         // Delete the entry in the database to avoid conflict with the tests
         $entityManager->beginTransaction(); // Begin a transaction
+        $entityManager->createQuery("DELETE FROM App\Entity\SA SA WHERE SA.name=:nom")->setParameter('nom','Test_SA_INSTA')->execute();
         $entityManager->createQuery("DELETE FROM App\Entity\Room R WHERE R.name=:nom")->setParameter('nom','Test_Room')->execute();
         $entityManager->commit();
         // Create a new room for testing
@@ -65,11 +66,6 @@ class referentControllerTest extends WebTestCase
         $entityManager->flush();
 
         $crawler = $client->request('GET', '/referent/nouveausa');
-        // Delete the entry in the database to avoid conflict with the tests
-        $entityManager->beginTransaction(); // Begin a transaction
-        $entityManager->createQuery("DELETE FROM App\Entity\SA SA WHERE SA.name=:nom")->setParameter('nom','Test_SA_INSTA')->execute();
-        $entityManager->commit();
-
 
         $form = $crawler->selectButton('Creer le SA')->form([
             'nouveau_sa_form[name]' => 'Test_SA_INSTA',
