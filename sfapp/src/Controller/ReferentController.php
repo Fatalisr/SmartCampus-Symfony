@@ -1,12 +1,19 @@
 <?php
 
 namespace App\Controller;
-
 use App\Entity\SA;
+use App\Entity\Room;
+use App\Repository\RoomRepository;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Form\NouveauSaForm;
+use Symfony\Component\HttpFoundation\Request;
+
 
 class ReferentController extends AbstractController
 {
@@ -42,6 +49,48 @@ class ReferentController extends AbstractController
             'nom' => $nom,
             'salle' => $salle,
             'etat' => $etat,
+        ]);
+    }
+    #[Route('/referent/nouveausa', name: 'nouveau_SA')]
+    public function NouveauSA(Request $request, ManagerRegistry $doctrine): Response
+    {
+
+
+        $form = $this->createForm(NouveauSaForm::class);
+
+        $form->handleRequest($request);
+
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $sa = new SA();
+            $sa->setName($form->get('name')->getData());
+
+
+            $entityManager = $doctrine->getManager();
+            if($form->get('currentRoom')->getData())
+            {
+                $sa->setState("A_INSTALLER");
+            }
+            else
+            {
+                $sa->setState("INACTIF");
+            }
+            $sa->setCurrentRoom($form->get('currentRoom')->getData());
+
+
+            //Ajoute à la base de donnée
+            $entityManager->persist($sa);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_referent', [
+            ]);
+
+        }
+
+        return $this->render("referent/nouveausa.html.twig",[
+            'form' => $form,
         ]);
     }
 }
