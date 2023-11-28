@@ -1,43 +1,23 @@
 {# templates/index/login.html.twig #}
-
-
 {% block body %}
     <link rel="stylesheet" href="{{ asset('login.css') }}">
     <div id="block_pres">
         <div id="bull">
-            <h1>BIENVENU SUR L'ESPACE SMART CAMPUS</h1>
-            <p>Connectez-vous ou accedez à l'espace usager</p>
+            <h1>BIENVENUE SUR L'ESPACE SMART CAMPUS</h1>
+            <p>Connectez-vous ou accèder à l'espace usager</p>
         </div>
     </div>
-    <div id="form_block">
-        {{ form_start(form) }}
-        <div id="form_header">
-            <h1>Veuillez entrer vos identifiants</h1>
-            <p>Les champs <span style="color: red"> * </span> sont obligatoires</p>
-        </div>
-        <div class="form_line">
-            {{ form_widget(form.username) }}
-            <div><span style="color: red"> * </span></div>
-        </div>
-        {% if error == 'badUser'%}
-            <div class="err_block">
-                <p id="bad_login">Login incorrect</p>
-            </div>
-        {% endif %}
-        <div class="form_line">
-            {{ form_widget(form.password) }}
-            <div><span style="color: red"> * </span></div>
-        </div>
-        {% if error == 'badPwd'%}
-            <div class="err_block">
-                <p id="bad_pwd">Mot de passe incorrect</p>
-            </div>
-        {% endif %}
-        <div id="submit_btn">
-            <button type="submit">Se connecter</button>
-        </div>
-        {{ form_end(form) }}
-    </div>
+    {% if error %}
+        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+    <form action="{{ path('app_login') }}" method="post">
+        <label for="username">Email:</label>
+        <input type="text" id="username" name="_username" value="{{ last_username }}">
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="_password">
+        <button type="submit">login</button>
+    </form>
     <div id="invit_link">
         <a href="">Espace usager</a>
     </div>
