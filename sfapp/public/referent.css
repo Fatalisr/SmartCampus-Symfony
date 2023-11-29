@@ -13,6 +13,7 @@
     display: flex;
     width: auto;
     height: fit-content;
+
     background-color: #56DAFF;
     padding: 10px;
     border-bottom-right-radius: 15px;
@@ -21,7 +22,9 @@
 
 .pres_page{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-content: space-around;
+    justify-content: center;
     width: 70%;
 }
 .pres_page h1{
@@ -29,12 +32,15 @@
     font-size: xx-large;
 }
 
-.addSAButton{
+
+
+.buttonPresPage{
     display: flex;
-    justify-content: right;
+    justify-content: center;
     align-items: center;
-    width: 30%;
-    padding-right: 4%;
+    /*width: 30%;*/
+    padding-right: 2%;
+    padding-left: 2%;
 }
 
 #saButton{

@@ -4,13 +4,19 @@
 {% block body %}
     <section class="bandeau_ref">
         <div class="pres_page">
-            <h1>Bonjour référent</h1>
-            <p>Vous vous trouvez sur la page d'accueil de l'espace référent. Vous pouvez y retrouver l'ensemble de vos SA et y gérer votre plan d'action en gérant les différents SA</p>
-            <p>🟢 Actif 🟠 A Installer 🔴 Maintenance ⚫ Inactif</p>
+
+            <div class="buttonPresPage">
+                <a id="saButton" href="{{ path("nouveau_SA") }}">Ajouter un nouveau SA</a>
+            </div>
+            <div class="buttonPresPage">
+                <a id="saButton" href="{{ path("nouveau_SA") }}">Plan des salles</a>
+            </div>
+            <div class="buttonPresPage">
+                <a id="saButton" href="{{ path("nouveau_SA") }}">Informations</a>
+            </div>
+
         </div>
-        <div class="addSAButton">
-            <a id="saButton" href="{{ path("nouveau_SA") }}">Ajouter un nouveau SA</a>
-        </div>
+
     </section>
     <section id="liste_salle">
         <ul class="block_sa">
