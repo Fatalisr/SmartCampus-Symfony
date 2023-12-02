@@ -18,7 +18,9 @@
             {% for sa in planAction %}
                 <a href="{{ path('app_view_sa', {'id': sa.getId}) }}">
                     <li class="listSA"> <!-- UN <LI></LI> = UNE LIGNE : ajouter les elements À L'INTERIEUR du li. Le webdesigner. -->
-                        <span class="sa_info"> {% if sa.state == 'A_INSTALLER' %}🟠 {% elseif sa.state == 'ACTIF' %}🟢 {% elseif sa.state == 'MAINTENANCE' %}🔴 {% endif %}{{ sa.name }} {{ sa.currentRoom.name }}</span>
+                        <span class="sa_info">
+                            {% if sa.state == 'A_INSTALLER' %}🟠 {% elseif sa.state == 'ACTIF' %}🟢 {% elseif sa.state == 'MAINTENANCE' %}🔴 {% endif %}{{ sa.name }} {{ sa.currentRoom.name }}
+                        </span>
                         <a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}">Changer la salle</a>
                         <a href="{{ path('delete_sa', {'id': sa.getId}) }}">Supprimer</a>
                     </li>
@@ -29,9 +31,12 @@
         <ul class="block_sa">
             <h1>SA disponibles</h1>
             {% for sa in inactive %}
-                <li>
-                    {{ sa.name }}
+                <li class="listSA">
+                    <span class="sa_info">
+                        ⚫ {{ sa.name }}
+                    </span>
                     <a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}">Affecter à une salle</a>
+                    <a href="{{ path('delete_sa_base', {'id': sa.getId}) }}" onclick="return confirm('Etes vous sur?')"><img id="trash_can" src="{{ asset('images/trash_can.svg') }}" alt="trash_can" height="5%" width="5%"></a>
                 </li>
             {% endfor %}
         </ul>

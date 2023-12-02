@@ -141,4 +141,16 @@ class ReferentController extends AbstractController
         return $this->redirectToRoute('app_referent', [
         ]);
     }
+
+    #[Route('/referent/delete_SA_base/{id}', name: 'delete_sa_base')]
+    public function delete_sa_base(?int $id, ManagerRegistry $doctrine): Response
+    {
+        $entityManager = $doctrine->getManager();
+
+        $sa = $entityManager->find(SA::class, $id);
+        $entityManager->remove($sa);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_referent', [
+        ]);
+    }
 }
