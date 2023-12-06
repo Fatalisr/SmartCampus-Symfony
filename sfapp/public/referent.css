@@ -128,5 +128,18 @@
 
 .btn.active {
     background-color: #666;
-    color: white;
+    color: #f1f1f1;
+}
+.listSAInactif{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: auto;
+    padding: 20px;
+    margin: 10px;
+    height: fit-content;
+    background-color: #5b68c0;
+    border-radius: 10px;
+    font-size: x-large;
 }
