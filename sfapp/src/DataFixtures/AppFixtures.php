@@ -27,41 +27,176 @@ class AppFixtures extends Fixture
         $tech1->setRole("TECHNICIEN");
         $manager->persist($tech1);
 
-        // Room 1
-        $r1 = new Room();
-        $r1->setName("D204");
-        $r1->setNbComputer("20");
-        $r1->setFacing("S");
-        $manager->persist($r1);
-        $this->addReference('r1',$r1);
-        // Room 2
-        $r2 = new Room();
-        $r2->setName("D207");
-        $r2->setNbComputer("15");
-        $r2->setFacing("N");
-        $manager->persist($r2);
-        $this->addReference('r2',$r2);
-        // Room 3
-        $r3 = new Room();
-        $r3->setName("D002");
-        $r3->setNbComputer("0");
-        $r3->setFacing("S");
-        $manager->persist($r3);
-        $this->addReference('r3',$r3);
+        // =============================== //
+        //      Création des salles        //
+        // =============================== //
 
-        // Room 4
-        $r4 = new Room();
-        $r4->setName("D206");
-        $r4->setNbComputer("15");
-        $r4->setFacing("S");
-        $manager->persist($r4);
+        /*      Rez-de-chaussée      */
 
-        // Room 5
-        $r5 = new Room();
-        $r5->setName("D301");
-        $r5->setNbComputer("12");
-        $r5->setFacing("S");
-        $manager->persist($r4);
+        // Création de la salle du BDE Réseaux Télécom
+        $bde_rt = new Room();
+        $bde_rt->setName("BDE-R&T");
+        $bde_rt->setNbComputer("0");
+        $bde_rt->setFacing("N");
+        $manager->persist($bde_rt);
+        $this->addReference('bde_rt',$bde_rt);
+
+        // Création de la salle C004
+        $COO4 = new Room();
+        $COO4->setName("C004");
+        $COO4->setNbComputer("16");
+        $COO4->setFacing("S");
+        $manager->persist($COO4);
+        $this->addReference('C004',$COO4);
+
+        // Création de la salle C005
+        $COO5 = new Room();
+        $COO5->setName("C005");
+        $COO5->setNbComputer("16");
+        $COO5->setFacing("N");
+        $manager->persist($COO5);
+        $this->addReference('C005',$COO5);
+
+        // Création de la salle C006
+        $COO6 = new Room();
+        $COO6->setName("C006");
+        $COO6->setNbComputer("0");
+        $COO6->setFacing("S");
+        $manager->persist($COO6);
+        $this->addReference('C006',$COO6);
+
+        // Création de la salle C007
+        $COO7 = new Room();
+        $COO7->setName("C007");
+        $COO7->setNbComputer("2");
+        $COO7->setFacing("N");
+        $manager->persist($COO7);
+        $this->addReference('C007',$COO7);
+
+        // Création de la salle C007
+        $COO7 = new Room();
+        $COO7->setName("C007");
+        $COO7->setNbComputer("2");
+        $COO7->setFacing("N");
+        $manager->persist($COO7);
+        $this->addReference('C007',$COO7);
+
+        // Création de la salle D001
+        $DOO1 = new Room();
+        $DOO1->setName("D001");
+        $DOO1->setNbComputer("0");
+        $DOO1->setFacing("N");
+        $manager->persist($DOO1);
+        $this->addReference('D001',$DOO1);
+
+        // Création de la salle D002
+        $DOO2 = new Room();
+        $DOO2->setName("D002");
+        $DOO2->setNbComputer("0");
+        $DOO2->setFacing("S");
+        $manager->persist($DOO2);
+        $this->addReference('D002',$DOO2);
+
+        // Création de la salle D003
+        $DOO3 = new Room();
+        $DOO3->setName("D003");
+        $DOO3->setNbComputer("0");
+        $DOO3->setFacing("N");
+        $manager->persist($DOO3);
+        $this->addReference('D003',$DOO3);
+
+        // Création de la salle D004
+        $DOO4 = new Room();
+        $DOO4->setName("D004");
+        $DOO4->setNbComputer("0");
+        $DOO4->setFacing("S");
+        $manager->persist($DOO4);
+        $this->addReference('D004',$DOO4);
+
+        // Création de la salle D005
+        $DOO5 = new Room();
+        $DOO5->setName("D005");
+        $DOO5->setNbComputer("0");
+        $DOO5->setFacing("N");
+        $manager->persist($DOO5);
+        $this->addReference('D005',$DOO5);
+
+        // Création de la salle du BDE Informatique
+        $bde_it = new Room();
+        $bde_it->setName("BDE-Info");
+        $bde_it->setNbComputer("2");
+        $bde_it->setFacing("N");
+        $manager->persist($bde_it);
+        $this->addReference('bde_it',$bde_it);
+
+        /*      1er étage      */
+
+        // Création de la salle C101
+        $C101 = new Room();
+        $C101->setName("C101");
+        $C101->setNbComputer("16");
+        $C101->setFacing("N");
+        $manager->persist($C101);
+        $this->addReference('C101',$C101);
+
+        // Création de la salle C104
+        $C104 = new Room();
+        $C104->setName("C104");
+        $C104->setNbComputer("16");
+        $C104->setFacing("S");
+        $manager->persist($C104);
+        $this->addReference('C104',$C104);
+
+        // Création de la salle C107
+        $C107 = new Room();
+        $C107->setName("C107");
+        $C107->setNbComputer("16");
+        $C107->setFacing("N");
+        $manager->persist($C107);
+        $this->addReference('C107',$C107);
+
+        // Création de la salle C110
+        $C110 = new Room();
+        $C110->setName("C110");
+        $C110->setNbComputer("16");
+        $C110->setFacing("S");
+        $manager->persist($C110);
+        $this->addReference('C110',$C110);
+
+        // Création de la salle D101
+        $D101 = new Room();
+        $D101->setName("D101");
+        $D101->setNbComputer("1");
+        $D101->setFacing("N");
+        $manager->persist($D101);
+        $this->addReference('D101',$D101);
+
+        // Création de la salle D104
+        $D104 = new Room();
+        $D104->setName("D104");
+        $D104->setNbComputer("2");
+        $D104->setFacing("S");
+        $manager->persist($D104);
+        $this->addReference('D104',$D104);
+
+        // Création de la salle D106
+        $D106 = new Room();
+        $D106->setName("D106");
+        $D106->setNbComputer("4");
+        $D106->setFacing("N");
+        $manager->persist($D106);
+        $this->addReference('D106',$D106);
+
+        // Création de la salle D108
+        $D108 = new Room();
+        $D108->setName("D108");
+        $D108->setNbComputer("4");
+        $D108->setFacing("S");
+        $manager->persist($D108);
+        $this->addReference('D108',$D108);
+
+
+
 
 
         // SA 1
