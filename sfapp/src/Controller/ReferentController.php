@@ -91,7 +91,6 @@ class ReferentController extends AbstractController
             $sa = new SA();
             $sa->setName($form->get('name')->getData());
 
-
             $entityManager = $doctrine->getManager();
             if($form->get('currentRoom')->getData())
             {
@@ -164,6 +163,40 @@ class ReferentController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('app_referent', [
+        ]);
+    }
+    #[Route('/referent/plan', name: 'plan_salles')]
+    public function plan_salles(ManagerRegistry $doctrine): Response
+    {
+        $entityManager = $doctrine->getManager();
+        $roomRepository = $entityManager->getRepository('App\Entity\Room');
+        $roomRDC = $roomRepository->getRoomRDC();
+        $roomFloor1 = $roomRepository->getRoomFloor(1);
+        $roomFloor2 = $roomRepository->getRoomFloor(2);
+        $roomFloor3 = $roomRepository->getRoomFloor(3);
+
+        foreach ($roomRDC as $room){
+            $sa = $entityManager->getRepository(SA::class)->findOneBy(['currentRoom' => $room]);
+            $room->sa = $sa;
+        }
+        foreach ($roomFloor1 as $room){
+            $sa = $entityManager->getRepository(SA::class)->findOneBy(['currentRoom' => $room]);
+            $room->sa = $sa;
+        }
+        foreach ($roomFloor2 as $room){
+            $sa = $entityManager->getRepository(SA::class)->findOneBy(['currentRoom' => $room]);
+            $room->sa = $sa;
+        }
+        foreach ($roomFloor3 as $room){
+            $sa = $entityManager->getRepository(SA::class)->findOneBy(['currentRoom' => $room]);
+            $room->sa = $sa;
+        }
+
+        return $this->render("referent/plan_salles.html.twig", [
+            'roomRDC' => $roomRDC,
+            'roomFloor1' => $roomFloor1,
+            'roomFloor2' => $roomFloor2,
+            'roomFloor3' => $roomFloor3,
         ]);
     }
 }
