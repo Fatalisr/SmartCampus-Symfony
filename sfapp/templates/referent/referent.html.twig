@@ -9,10 +9,10 @@
                 <a id="saButton" href="{{ path("nouveau_SA") }}">Ajouter un nouveau SA</a>
             </div>
             <div class="buttonPresPage">
-                <a id="saButton" href="{{ path("nouveau_SA") }}">Plan des salles</a>
+                <a id="saButton" href="{{ path("plan_salles") }}">Plan des salles</a>
             </div>
             <div class="buttonPresPage">
-                <a id="saButton" href="{{ path("nouveau_SA") }}">Informations</a>
+                <a id="saButton" onclick="alert('Actif : 🟢\nMaintenance : 🔴\nInstallation : 🟠\nInactif : ⚫')">Informations</a>
             </div>
 
         </div>
@@ -30,7 +30,7 @@
                 {% for sa in maintenance %}
                     <a id="view" href="{{ path('app_view_sa', {'id': sa.getId}) }}">
                         <div class="listSA maintenance"> <!-- UN <LI></LI> = UNE LIGNE : ajouter les elements À L'INTERIEUR du li. Le webdesigner. -->
-                            🔴{{ sa.currentRoom.name }}
+                            🔴 {{ sa.currentRoom.name }}
                             <a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}">Changer la salle</a>
                             <a href="{{ path('delete_sa', {'id': sa.getId}) }}">Supprimer</a>
                         </div>
@@ -39,7 +39,7 @@
                 {% for sa in installer %}
                     <a id="view" href="{{ path('app_view_sa', {'id': sa.getId}) }}">
                         <div class="listSA installer"> <!-- UN <LI></LI> = UNE LIGNE : ajouter les elements À L'INTERIEUR du li. Le webdesigner. -->
-                            🟠{{ sa.currentRoom.name }}
+                            🟠 {{ sa.currentRoom.name }}
                             <a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}">Changer la salle</a>
                             <a href="{{ path('delete_sa', {'id': sa.getId}) }}">Supprimer</a>
                         </div>
@@ -48,7 +48,7 @@
                 {% for sa in actif %}
                     <a id="view" href="{{ path('app_view_sa', {'id': sa.getId}) }}">
                         <div class="listSA actif"> <!-- UN <LI></LI> = UNE LIGNE : ajouter les elements À L'INTERIEUR du li. Le webdesigner. -->
-                            🟢{{ sa.currentRoom.name }}
+                            🟢 {{ sa.currentRoom.name }}
                             <a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}">Changer la salle</a>
                             <a href="{{ path('delete_sa', {'id': sa.getId}) }}">Supprimer</a>
                         </div>
