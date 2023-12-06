@@ -17,15 +17,26 @@
     {% if etat == 'ACTIF' %}
         <section id="mainsection">
             <aside>
-                <div class="pSA">
-                    {{ form(form) }}
+                <div class="pSAr">
+                    {{ form_start(form) }}
+                    <div id="form_header">
+                        <h1>Demande de Maintenance</h1>
+                    </div>
+                    <div class="form_line">
+                        {{ form_widget(form.message) }}
+                    </div>
+                    <div id="submit_btn">
+                        <button type="submit" onclick="return confirm('Voulez-vous démarrer une maintenance pour le SA {{ nom }}?')">Envoyer</button>
+                    </div>
+
+                    {{ form_end(form) }}
                 </div>
-                <div class="pSA">
+                <div class="pSAr">
                     Right bottom
                 </div>
             </aside>
             <section id="left">
-                <div class="pSA">Left</div>
+                <div class="pSAl">Left</div>
             </section>
         </section>
     {% else %}

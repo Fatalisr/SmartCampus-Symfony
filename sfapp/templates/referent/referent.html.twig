@@ -58,12 +58,15 @@
         </ul>
         <ul class="block_sa">
             <h1>SA disponibles</h1>
-            {% for sa in inactive %}
-                <li class="listSA">
-                    {{ sa.name }}
-                    <a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}">Affecter à une salle</a>
-                </li>
-            {% endfor %}
+            <div>
+                {% for sa in inactive %}
+                    <div class="listSAInactif">
+                        ⚫ {{ sa.name }}
+                        <a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}">Affecter à une salle</a>
+                        <a href="{{ path('delete_sa_base', {'id': sa.getId}) }}" onclick="return confirm('Etes-vous sur de vouloir supprimer le SA {{ sa.name }}?')"><img id="trash_can" src="{{ asset('images/trash_can.svg') }}" alt="trash_can" height="5%" width="5%"></a>
+                    </div>
+                {% endfor %}
+            </div>
         </ul>
     </section>
     <script>
