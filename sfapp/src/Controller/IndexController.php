@@ -9,9 +9,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class IndexController extends AbstractController
 {
+    /*
     #[Route('/', name: 'login')]
     public function login(Request $request, ManagerRegistry $doctrine): Response
     {
@@ -52,7 +54,23 @@ class IndexController extends AbstractController
             'form' => $form->createView(),
             'error' => null,
         ]);
+    }*/
+
+    #[Route('/', name: 'login')]
+    public function login(Request $request, AuthenticationUtils $authenticationUtils): Response
+    {
+        // Créer le formulaire de connexion
+        $form = $this->createForm(LoginForm::class);
+
+        // Gérer la soumission du formulaire
+        $form->handleRequest($request);
+
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        return $this->render('index/index.html.twig', [
+            'form' => $form->createView(),
+            'error' => $error,
+        ]);
     }
-
-
 }
