@@ -5,8 +5,13 @@ HTML{
     overflow-y: hidden;
 }
 body{
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
+    background-image: url("images/fond_feuille.jpeg");
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    box-sizing: border-box;
 }
 header{
     background-color: #08B2E3;
@@ -17,59 +22,10 @@ header{
     justify-content: space-between;
     padding: 0px 5px 0px 5px;
 }
-aside{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    max-width: 48%;
-    width: 48%;
-    height: 80%;
-    max-height: 80%;
-    float: right;
-}
-.centre{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-section > p,aside > p{
-    background-color: #A29EA9;
-    color: #080708;
-    border-radius: 10px;
-}
-#left{
-    width: 48%;
-    max-width: 48%;
-    height: 100%;
-    max-height: 100%;
-}
-#mainsection{
-    padding: 0px 25px 25px 25px;
-    height: 80vh;
-    max-height: max-content;
-    margin: 0;
-    padding: 0;
-    font-family: Arial;
-}
+
 a{
     text-decoration: none; /* Retire le soulignage par défaut */
     color: inherit; /* Utilise la couleur héritée (par défaut) */
-}
-
-body{
-    background-image: url("images/fond_feuille.jpeg");
-    background-size: cover;
-    background-position: center;
-}
-
-.fse {
-    display: flex;
-    justify-content: space-between;
-    background-color: #56DAFF;
-    font-size: 3vh;
-    height: 10vh;
-    padding: 0px 10px 0px 10px;
 }
 
 #block_pres {
@@ -99,7 +55,7 @@ body{
     align-items: center;
     justify-content: center;
     height: fit-content;
-    margin: 7% 0% 7% 0%;
+    margin: 4% 0% 4% 0%;
 }
 #form_header{
     display: flex;
@@ -191,6 +147,7 @@ body{
     display: flex;
     justify-content: center;
     height: 50px;
+    margin: 3% 0;
 }
 
 
@@ -200,7 +157,7 @@ body{
     align-items: center;
     justify-content: center;
     height: 50px;
-    margin: 2% 0% 2% 0%;
+    margin: 2% 0 0 0;
 }
 
 .form_line input {
@@ -214,6 +171,11 @@ body{
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     outline: none;
 }
+.form_line input:focus{
+    outline: none;
+}
+
+
 .form_line input:hover{
     box-shadow: 0 0 10px rgba(86, 218, 255, 0.6);
 }
@@ -231,16 +193,18 @@ body{
     justify-content: center;
     align-items: center;
     text-align: center;
+    font-size: large;
     height: auto;
-    font-size: x-large;
 }
 #invit_link a{
     background-color: darkgreen;
-    width: fit-content;
+    min-width: fit-content;
     height: 100%;
-    padding: 0.8%;
+    width: 40%;
+    padding: 1%;
     border-radius: 20px;
     color: #F7FFF7;
+
 }
 
 #invit_link a:hover{
@@ -250,17 +214,18 @@ body{
 }
 
 #bad_login{
-    margin: 0% 0% 3% 12.5%;
+    margin: 0 0 0 12.5%;
     color: red;
 }
 
 #bad_pwd{
-    margin: 0% 0% 3% 12.5%;
+    margin: 0 0 0 12.5%;
     color: red;
 }
 .err_block{
     display: flex;
     padding-left: 3px;
+    height: fit-content;
 }
 
 @media screen and (max-width: 600px) {
@@ -269,3 +234,28 @@ body{
     }
 }
 
+.form-input-label {
+    position: relative;
+}
+
+#lign_or{
+    width: 100%;
+    text-align: center;
+    border-top: 2px solid black;
+    margin-top: 5%;
+
+}
+#lign_or span{
+    background-color: #d9dde1;
+    display: inline-block;
+    padding: 0 10px;
+    position: relative;
+    top: -12px;
+    font-size: large;
+}
+
+.star_require{
+    position: relative;
+    color: red;
+    right: 12px;
+}

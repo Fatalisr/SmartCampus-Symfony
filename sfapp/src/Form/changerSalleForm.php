@@ -29,6 +29,7 @@ class changerSalleForm extends \Symfony\Component\Form\AbstractType
                 'choice_label' => 'name',
                 'placeholder' => 'Pas de salle', // Default or null choice label
                 'required' => false, // Allow null values
-            ]);
+            ])
+            ->add('save', SubmitType::class, ['label' => 'changer la salle']);
     }
 }

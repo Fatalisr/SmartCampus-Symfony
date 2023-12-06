@@ -79,21 +79,26 @@
 
 .block_sa li:hover{
     cursor: pointer;
-    /*background-color: #56DAFF;*/
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     opacity: 60%;
 }
 
-.sa_info{
+.block_sa li a:hover{
+    cursor: pointer;
+    opacity: 100%;
+}
+
+.listSA span{
     font-size: x-large;
 }
 
 
-.out_pa{
+.retirer{
     font-family: Arial;
     padding: 10px;
     background-color: red;
     border-radius: 25px;
+    font-size: small;
 }
 
 .add_room{

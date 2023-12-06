@@ -1,12 +1,17 @@
 {# templates/index/login.html.twig #}
+<head>
+    <link rel="stylesheet" href="{{ asset('login.css') }}">
+    <link rel="icon" href="{{ asset('images/leaf.png') }}">
+    <title>{% block title %}Smart Campus{% endblock %}</title>
+</head>
+
 
 
 {% block body %}
-    <link rel="stylesheet" href="{{ asset('login.css') }}">
     <div id="block_pres">
         <div id="bull">
-            <h1>BIENVENU SUR L'ESPACE SMART CAMPUS</h1>
-            <p>Connectez-vous ou accedez à l'espace usager</p>
+            <h1>BIENVENUE SUR L'ESPACE SMART CAMPUS</h1>
+            <p>Connectez-vous ou accédez à l'espace usager</p>
         </div>
     </div>
     <div id="form_block">
@@ -17,28 +22,32 @@
         </div>
         <div class="form_line">
             {{ form_widget(form.username) }}
-            <div><span style="color: red"> * </span></div>
+            <div><span class="star_require"> * </span></div>
         </div>
-        {% if error == 'badUser'%}
+        {% if error %}
             <div class="err_block">
-                <p id="bad_login">Login incorrect</p>
+                <p id="bad_login">Login ou mot de passe incorrect</p>
             </div>
         {% endif %}
         <div class="form_line">
             {{ form_widget(form.password) }}
-            <div><span style="color: red"> * </span></div>
+            <div><span class="star_require"> * </span></div>
         </div>
-        {% if error == 'badPwd'%}
+        {% if error %}
             <div class="err_block">
-                <p id="bad_pwd">Mot de passe incorrect</p>
+                <p id="bad_pwd">Login ou mot de passe incorrect</p>
             </div>
         {% endif %}
         <div id="submit_btn">
             <button type="submit">Se connecter</button>
         </div>
+        <div id="lign_or">
+            <span>ou</span>
+        </div>
+        <div id="invit_link">
+            <a href="">Espace usager</a>
+        </div>
         {{ form_end(form) }}
     </div>
-    <div id="invit_link">
-        <a href="">Espace usager</a>
-    </div>
+
 {% endblock %}

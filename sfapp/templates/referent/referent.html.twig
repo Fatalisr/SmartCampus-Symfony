@@ -6,7 +6,7 @@
         <div class="pres_page">
             <h1>Bonjour référent</h1>
             <p>Vous vous trouvez sur la page d'accueil de l'espace référent. Vous pouvez y retrouver l'ensemble de vos SA et y gérer votre plan d'action en gérant les différents SA</p>
-            <p>🟢 Actif 🟠 A Installer 🔴 Maintenance ⚫ Inactif</p>
+            <p>🟢 Actif 🟠 A Installer 🔴 Maintenance</p>
         </div>
         <div class="addSAButton">
             <a id="saButton" href="{{ path("nouveau_SA") }}">Ajouter un nouveau SA</a>
@@ -16,24 +16,37 @@
         <ul class="block_sa">
             <h1>Plan d'action</h1>
             {% for sa in planAction %}
-                <a href="{{ path('app_view_sa', {'id': sa.getId}) }}">
                     <li class="listSA"> <!-- UN <LI></LI> = UNE LIGNE : ajouter les elements À L'INTERIEUR du li. Le webdesigner. -->
-                        <span class="sa_info"> {% if sa.state == 'A_INSTALLER' %}🟠 {% elseif sa.state == 'ACTIF' %}🟢 {% elseif sa.state == 'MAINTENANCE' %}🔴 {% endif %}{{ sa.name }} {{ sa.currentRoom.name }}</span>
-                        <a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}">Changer la salle</a>
-                        <a href="{{ path('delete_sa', {'id': sa.getId}) }}">Supprimer</a>
+                        <span class="sa_info"> {% if sa.state == 'A_INSTALLER' %}🟠 {% elseif sa.state == 'ACTIF' %}🟢 {% elseif sa.state == 'MAINTENANCE' %}🔴 {% endif %}
+                            <a href="{{ path('app_view_sa', {'id': sa.getId}) }}"> <span>{{ sa.name }}</span> </a>
+                        </span>
+                        <span class="sa_info">{{ sa.currentRoom.name }}</span>
+                        <div class="add_room">
+                            {{ form_start(forms[loop.index0]) }}
+                            {{ form_widget(forms[loop.index0].newRoom) }}
+                            {{ form_end(forms[loop.index0]) }}
+                        </div>
+                        <div class="retirer">
+                            <a href="{{ path('delete_sa', {'id': sa.getId}) }}">Retirer</a>
+                        </div>
                     </li>
-                </a>
             {% endfor %}
             <p id="test"></p>
         </ul>
         <ul class="block_sa">
             <h1>SA disponibles</h1>
             {% for sa in inactive %}
-                <li>
-                    {{ sa.name }}
-                    <a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}">Affecter à une salle</a>
-                </li>
+
             {% endfor %}
         </ul>
-    </section>
+    </section><!--
+    <script>
+        // Code JavaScript pour rendre les cards cliquables si nécessaire
+        document.querySelectorAll('.listSA').forEach(listSA => {
+            listSA.addEventListener('click', () => {
+                window.location.href = listSA.querySelector('a').href;
+            });
+        });
+    </script>-->
+
 {% endblock %}

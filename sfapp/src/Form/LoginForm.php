@@ -17,7 +17,7 @@ class LoginForm extends AbstractType
             ->add('username', TextType::class, [
                 'label' => 'Nom d\'utilisateur',
                 'attr' => [
-                    'placeholder' => 'Login',
+                    'placeholder' => 'Identifiant',
                 ],
             ])
             ->add('password', PasswordType::class, [

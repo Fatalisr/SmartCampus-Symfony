@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 class ReferentController extends AbstractController
 {
     #[Route('/referent', name: 'app_referent')]
-    public function index(ManagerRegistry $doctrine): Response
+    public function index(Request $request, ManagerRegistry $doctrine): Response
     {
         $entityManager = $doctrine->getManager();
         $saRepository = $entityManager->getRepository('App\Entity\SA');
@@ -29,11 +29,38 @@ class ReferentController extends AbstractController
         $inactive = $saRepository->findAllInactive();
         $rooms = $roomRepository->findAll();
 
+        $forms = []; //Stockage des instances de formulaire
+
+        foreach ($planAction as $sa){
+            $form = $this->createForm(changerSalleForm::class);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+
+                if($form->get('newRoom')->getData())
+                {
+                    $sa->setState("A_INSTALLER");
+                }
+                else
+                {
+                    $sa->setState("INACTIF");
+                }
+                $sa->setOldRoom($sa->getCurrentRoom());
+                $sa->setCurrentRoom($form->get('newRoom')->getData());
+
+                $entityManager->persist($sa);
+                $entityManager->flush();
+
+            }
+            $forms[] = $form->createView();
+        }
+
         return $this->render("referent/referent.html.twig", [
         'path' => 'src/Controller/ReferentController.php',
         'planAction' => $planAction,
         'inactive' => $inactive,
         'rooms' => $rooms,
+        'forms' => $forms,
         ]);
     }
 
@@ -52,6 +79,7 @@ class ReferentController extends AbstractController
             'etat' => $etat,
         ]);
     }
+
     #[Route('/referent/nouveausa', name: 'nouveau_SA')]
     public function NouveauSA(Request $request, ManagerRegistry $doctrine): Response
     {
@@ -89,7 +117,6 @@ class ReferentController extends AbstractController
         return $this->render("referent/nouveausa.html.twig",[
             'form' => $form,
         ]);
-
     }
 
     #[Route('/referent/changersalle/{id}', name: 'changer_salle_sa')]
@@ -104,7 +131,7 @@ class ReferentController extends AbstractController
 
         if ($changeRoom->isSubmitted() && $changeRoom->isValid()) {
 
-            if($changeRoom->get('newRoom')->getData())
+            if($changeRoom->get('currentRoom')->getData())
             {
                 $sa->setState("A_INSTALLER");
             }
@@ -126,6 +153,8 @@ class ReferentController extends AbstractController
             'changeRoom' => $changeRoom,
         ]);
     }
+
+
     #[Route('/referent/delete_SA/{id}', name: 'delete_sa')]
     public function delete_sa(?int $id, ManagerRegistry $doctrine): Response
     {

@@ -37,20 +37,20 @@ class IndexController extends AbstractController
 
                     return $this->render('/index/index.html.twig', [
                         'form' => $form->createView(),
-                        'error' => 'badPwd'
+                        'error' => true
                     ]);
                 }
             }else{
                 return $this->render('/index/index.html.twig', [
                     'form' => $form->createView(),
-                    'error' => 'badUser'
+                    'error' => true
                 ]);
             }
         }
 
         return $this->render('/index/index.html.twig', [
             'form' => $form->createView(),
-            'error' => null,
+            'error' => false,
         ]);
     }
 
