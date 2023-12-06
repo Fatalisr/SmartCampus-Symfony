@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Controller;
+use App\Entity\Maintenance;
 use App\Entity\SA;
-use App\Entity\Room;
+use App\Form\MaintenanceFormType;
 use App\Repository\RoomRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ObjectManager;
@@ -42,7 +43,7 @@ class ReferentController extends AbstractController
     }
 
     #[Route('/referent/sa/{id}', name: 'app_view_sa')]
-    public function view_sa(?int $id,ManagerRegistry $doctrine): Response
+    public function view_sa(?int $id,ManagerRegistry $doctrine,Request $request): Response
     {
         $entityManager = $doctrine->getManager();
         $sa = $entityManager->find(SA::class,$id);
@@ -50,12 +51,32 @@ class ReferentController extends AbstractController
         $salle = $sa->getCurrentRoom()->getName();
         $etat = $sa->getState();
 
+        $form = $this->createForm(MaintenanceFormType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $maintenance = new Maintenance();
+            $maintenance->setMessage($form->get('message')->getData());
+            date_default_timezone_set('UTC');
+            $maintenance->setStartingDate(date_create(date("m.d.y")));
+            $maintenance->setSa($sa);
+            $sa->setState("MAINTENANCE");
+            $entityManager = $doctrine->getManager();
+            $entityManager->persist($maintenance);
+            $entityManager->persist($sa);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_referent', [
+            ]);
+        }
         return $this->render("referent/sa.html.twig",[
             'nom' => $nom,
             'salle' => $salle,
             'etat' => $etat,
+            'form' => $form,
         ]);
     }
+
     #[Route('/referent/nouveausa', name: 'nouveau_SA')]
     public function NouveauSA(Request $request, ManagerRegistry $doctrine): Response
     {
