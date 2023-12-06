@@ -16,30 +16,108 @@
             </div>
 
         </div>
-
     </section>
     <section id="liste_salle">
         <ul class="block_sa">
             <h1>Plan d'action</h1>
-            {% for sa in planAction %}
-                <a href="{{ path('app_view_sa', {'id': sa.getId}) }}">
-                    <li class="listSA"> <!-- UN <LI></LI> = UNE LIGNE : ajouter les elements À L'INTERIEUR du li. Le webdesigner. -->
-                        <span class="sa_info"> {% if sa.state == 'A_INSTALLER' %}🟠 {% elseif sa.state == 'ACTIF' %}🟢 {% elseif sa.state == 'MAINTENANCE' %}🔴 {% endif %}{{ sa.name }} {{ sa.currentRoom.name }}</span>
-                        <a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}">Changer la salle</a>
-                        <a href="{{ path('delete_sa', {'id': sa.getId}) }}">Supprimer</a>
-                    </li>
-                </a>
-            {% endfor %}
-            <p id="test"></p>
+            <div id="filter">
+                <button class="btn active" onclick="filtre('all')">Tous</button>
+                <button class="btn" onclick="filtre('actif')">Actif</button>
+                <button class="btn" onclick="filtre('maintenance')">Maintenance</button>
+                <button class="btn" onclick="filtre('installer')">A Installer</button>
+            </div>
+            <div>
+                {% for sa in maintenance %}
+                    <a id="view" href="{{ path('app_view_sa', {'id': sa.getId}) }}">
+                        <div class="listSA maintenance"> <!-- UN <LI></LI> = UNE LIGNE : ajouter les elements À L'INTERIEUR du li. Le webdesigner. -->
+                            🔴{{ sa.currentRoom.name }}
+                            <a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}">Changer la salle</a>
+                            <a href="{{ path('delete_sa', {'id': sa.getId}) }}">Supprimer</a>
+                        </div>
+                    </a>
+                {% endfor %}
+                {% for sa in installer %}
+                    <a id="view" href="{{ path('app_view_sa', {'id': sa.getId}) }}">
+                        <div class="listSA installer"> <!-- UN <LI></LI> = UNE LIGNE : ajouter les elements À L'INTERIEUR du li. Le webdesigner. -->
+                            🟠{{ sa.currentRoom.name }}
+                            <a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}">Changer la salle</a>
+                            <a href="{{ path('delete_sa', {'id': sa.getId}) }}">Supprimer</a>
+                        </div>
+                    </a>
+                {% endfor %}
+                {% for sa in actif %}
+                    <a id="view" href="{{ path('app_view_sa', {'id': sa.getId}) }}">
+                        <div class="listSA actif"> <!-- UN <LI></LI> = UNE LIGNE : ajouter les elements À L'INTERIEUR du li. Le webdesigner. -->
+                            🟢{{ sa.currentRoom.name }}
+                            <a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}">Changer la salle</a>
+                            <a href="{{ path('delete_sa', {'id': sa.getId}) }}">Supprimer</a>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
         </ul>
         <ul class="block_sa">
             <h1>SA disponibles</h1>
             {% for sa in inactive %}
-                <li>
+                <li class="listSA">
                     {{ sa.name }}
                     <a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}">Affecter à une salle</a>
                 </li>
             {% endfor %}
         </ul>
     </section>
+    <script>
+        document.querySelectorAll('.listSA').forEach(card => {
+            card.addEventListener('click', () => {
+                window.location.href = card.querySelector("#view").href;
+            });
+        });
+        function filtre(c) {
+            var x, i;
+            x = document.getElementsByClassName("listSA");
+            if (c == "all") c = "";
+            for (i = 0; i < x.length; i++) {
+                removeClass(x[i], "show");
+                if (x[i].className.indexOf(c) > -1){
+                    addClass(x[i], "show");
+
+                }
+            }
+        }
+
+
+        function addClass(element, name) {
+            var i, arr1, arr2;
+            arr1 = element.className.split(" ");
+            arr2 = name.split(" ");
+            for (i = 0; i < arr2.length; i++) {
+                if (arr1.indexOf(arr2[i]) == -1) {
+                    element.className += " " + arr2[i];
+                }
+            }
+        }
+        function removeClass(element, name) {
+            var i, arr1, arr2;
+            arr1 = element.className.split(" ");
+            arr2 = name.split(" ");
+            for (i = 0; i < arr2.length; i++) {
+                while (arr1.indexOf(arr2[i]) > -1) {
+                    arr1.splice(arr1.indexOf(arr2[i]), 1);
+                }
+            }
+            element.className = arr1.join(" ");
+        }
+        filtre('all')
+
+        // Add active class to the current button (highlight it)
+        var btnContainer = document.getElementById("filter");
+        var btns = btnContainer.getElementsByClassName("btn");
+        for (var i = 0; i < btns.length; i++) {
+            btns[i].addEventListener("click", function(){
+                var current = document.getElementsByClassName("active");
+                current[0].className = current[0].className.replace(" active", "");
+                this.className += " active";
+            });
+        }
+    </script>
 {% endblock %}

@@ -25,13 +25,17 @@ class ReferentController extends AbstractController
         $saRepository = $entityManager->getRepository('App\Entity\SA');
         $roomRepository = $entityManager->getRepository('App\Entity\Room');
 
-        $planAction = $saRepository->findAllPlanAction();
+        $actif = $saRepository->findAllActif();
+        $maintenance = $saRepository->findAllMaintenance();
+        $installer = $saRepository->findAllInstaller();
         $inactive = $saRepository->findAllInactive();
         $rooms = $roomRepository->findAll();
 
         return $this->render("referent/referent.html.twig", [
         'path' => 'src/Controller/ReferentController.php',
-        'planAction' => $planAction,
+        'actif' => $actif,
+        'maintenance' => $maintenance,
+        'installer' => $installer,
         'inactive' => $inactive,
         'rooms' => $rooms,
         ]);
