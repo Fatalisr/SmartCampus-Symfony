@@ -30,7 +30,8 @@ security:
                 check_path: login
                 username_parameter: "login_form[username]"
                 password_parameter: "login_form[password]"
-                default_target_path: app_referent
+                default_target_path: login
+                success_handler: App\Security\LoginSuccessHandler
             logout:
                 path: app_logout
                 target: login
