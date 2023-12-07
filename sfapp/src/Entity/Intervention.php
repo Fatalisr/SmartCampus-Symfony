@@ -6,8 +6,8 @@ use App\Repository\MaintenanceRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: MaintenanceRepository::class)]
-class Maintenance
+#[ORM\Entity(repositoryClass: InterventionRepository::class)]
+class Intervention
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -26,6 +26,12 @@ class Maintenance
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?SA $sa = null;
+
+    #[ORM\Column(length: 500, nullable: true)]
+    private ?string $report = null;
+
+    #[ORM\Column(length: 15, options: ['check' => "check (type in ('INSTALLATION','MAINTENANCE'))"])]
+    private ?string $type = null;
 
     public function getId(): ?int
     {
@@ -76,6 +82,30 @@ class Maintenance
     public function setSa(?SA $sa): static
     {
         $this->sa = $sa;
+
+        return $this;
+    }
+
+    public function getReport(): ?string
+    {
+        return $this->report;
+    }
+
+    public function setReport(?string $report): static
+    {
+        $this->report = $report;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): static
+    {
+        $this->type = $type;
 
         return $this;
     }
