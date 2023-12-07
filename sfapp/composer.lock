@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dda765bb8030fa60a80877f46d7ee590",
+    "content-hash": "32965aa7ef1e2efffd4961ddcab39360",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -1625,6 +1625,57 @@
                 }
             ],
             "time": "2023-03-08T13:26:56+00:00"
+        },
+        {
+            "name": "nemke/d3js-bundle",
+            "version": "1.0",
+            "target-dir": "Nemke/D3JSBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nemke/D3JSBundle.git",
+                "reference": "360911a3a92f8c5985d4f0a13db1bf1f845e9f8d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nemke/D3JSBundle/zipball/360911a3a92f8c5985d4f0a13db1bf1f845e9f8d",
+                "reference": "360911a3a92f8c5985d4f0a13db1bf1f845e9f8d",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/framework-bundle": ">=2.1"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "Nemke\\D3JSBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nemanja Andrejevic",
+                    "email": "andrejevicnemanja@gmail.com",
+                    "homepage": "https://www.nmdesign.rs/"
+                }
+            ],
+            "description": "Simple D3 JS bundle for Symfony",
+            "homepage": "http://d3js.org/",
+            "keywords": [
+                "charts",
+                "d3",
+                "d3.js",
+                "graphs",
+                "responsive",
+                "symfony"
+            ],
+            "support": {
+                "issues": "https://github.com/nemke/D3JSBundle/issues",
+                "source": "https://github.com/nemke/D3JSBundle/tree/1.0"
+            },
+            "time": "2016-01-31T23:39:39+00:00"
         },
         {
             "name": "nikic/php-parser",
