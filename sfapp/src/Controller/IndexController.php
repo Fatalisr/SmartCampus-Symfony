@@ -10,51 +10,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 class IndexController extends AbstractController
 {
-    /*
-    #[Route('/', name: 'login')]
-    public function login(Request $request, ManagerRegistry $doctrine): Response
-    {
-        // Créer le formulaire de connexion
-        $form = $this->createForm(LoginForm::class);
 
-        // Gérer la soumission du formulaire
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $login = $form->get('username')->getData();
-
-            $entityManager = $doctrine->getManager();
-
-            $user = $entityManager->getRepository(Member::class)->findOneBy(['login' => $login]);
-
-            if($user){
-                if($user->getPassword() == $form->get('password')->getData() && $user->getRole() == "REFERENT"){
-                    return $this->redirectToRoute('app_referent');
-                }elseif ($user->getPassword() == $form->get('password')->getData() && $user->getRole() == "TECHNICIEN"){
-                    return $this->redirectToRoute('app_technicien');
-                }else{
-
-                    return $this->render('/index/index.html.twig', [
-                        'form' => $form->createView(),
-                        'error' => 'badPwd'
-                    ]);
-                }
-            }else{
-                return $this->render('/index/index.html.twig', [
-                    'form' => $form->createView(),
-                    'error' => 'badUser'
-                ]);
-            }
-        }
-
-        return $this->render('/index/index.html.twig', [
-            'form' => $form->createView(),
-            'error' => null,
-        ]);
-    }*/
 
     #[Route('/', name: 'login')]
     public function login(Request $request, AuthenticationUtils $authenticationUtils): Response
@@ -64,10 +24,19 @@ class IndexController extends AbstractController
 
         // Gérer la soumission du formulaire
         $form->handleRequest($request);
-
+        $error = null;
         // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
-
+        $erreurServer = $authenticationUtils->getLastAuthenticationError();;
+        if($erreurServer)
+        {
+            // Customizing error message based on the error type
+            if ($erreurServer->getMessage() ==  "Bad credentials.") {
+                $error = 'badUser'; // You can customize this message
+            } elseif ($erreurServer->getMessage() == "The presented password is invalid.") {
+                $error = 'badPwd'; // You can customize this message
+            }
+        }
+        //dump($error);
         return $this->render('index/index.html.twig', [
             'form' => $form->createView(),
             'error' => $error,

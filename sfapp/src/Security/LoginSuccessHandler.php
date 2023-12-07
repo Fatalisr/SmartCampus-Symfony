@@ -2,7 +2,6 @@
 
 namespace App\Security;
 
-use ContainerVbuOxp0\getConsole_ErrorListenerService;
 use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\RouterInterface;

@@ -15,7 +15,6 @@ security:
                     referent:
                         roles: 'ROLE_REFERENT'
     firewalls:
-
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
@@ -35,7 +34,7 @@ security:
             logout:
                 path: app_logout
                 target: login
-
+            access_denied_handler: 'App\Security\AccessDeniedHandler'
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
@@ -46,7 +45,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/referent, roles: ROLE_REFERENT }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/technicien, roles: ROLE_TECHNICIEN }
 
 when@test:
     security:
