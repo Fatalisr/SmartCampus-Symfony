@@ -16,7 +16,8 @@
                     <a id="view" href="{{ path('app_view_sa', {'id': sa.getId}) }}">
                         <div class="listSA maintenance"> <!-- UN <LI></LI> = UNE LIGNE : ajouter les elements À L'INTERIEUR du li. Le webdesigner. -->
                             <span>🔴 {{ sa.name }}</span>
-                            <a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}"><span class="change_room_btn">Changer la salle</span></a>
+                            <span>Salle : {{ sa.currentRoom.name }}</span>
+                            <a href="#"><span class="change_room_btn">Changer la salle</span></a>
                             <a href="{{ path('delete_sa', {'id': sa.getId}) }}"><span class="retirer_room_btn">Retirer</span></a>
                         </div>
                     </a>
@@ -25,26 +26,21 @@
                     <a id="view" href="{{ path('app_view_sa', {'id': sa.getId}) }}">
                         <div class="listSA installer"> <!-- UN <LI></LI> = UNE LIGNE : ajouter les elements À L'INTERIEUR du li. Le webdesigner. -->
                             <span>🟠 {{ sa.name }}</span>
-                            <a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}"><span class="change_room_btn">Changer la salle</span></a>
+                            <span>Salle : {{ sa.currentRoom.name }}</span>
+                            <a href="#"><span class="change_room_btn">Changer la salle</span></a>
                             <a href="{{ path('delete_sa', {'id': sa.getId}) }}"><span class="retirer_room_btn">Retirer</span></a>
                         </div>
                     </a>
                 {% endfor %}
                 {% for sa in actif %}
+                    <a id="view" href="{{ path('app_view_sa', {'id': sa.getId}) }}">
                         <div class="listSA actif"> <!-- UN <LI></LI> = UNE LIGNE : ajouter les elements À L'INTERIEUR du li. Le webdesigner. -->
                             <span>🟢 {{ sa.name }}</span>
-                            <div>
-                                {{ form_start(forms[loop.index0],{'attr': {'id': 'form_changer_salle'}}) }}
-                                {{ form_widget(forms[loop.index0].newRoom, {'attr': {'onchange': 'submitForm()'}}) }}
-                                {{ form_end(forms[loop.index0]) }}
-                            </div>
-
-
+                            <span>Salle : {{ sa.currentRoom.name }}</span>
+                            <a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}"><span class="change_room_btn">Changer la salle</span></a>
                             <a href="{{ path('delete_sa', {'id': sa.getId}) }}"><span class="retirer_room_btn">Retirer</span></a>
-                            <a id="view" href="{{ path('app_view_sa', {'id': sa.getId}) }}">
-                                clic
-                            </a>
                         </div>
+                    </a>
                 {% endfor %}
             </div>
         </ul>
@@ -65,12 +61,11 @@
     </section>
     <script>
         function submitForm() {}
-        /*
         document.querySelectorAll('.listSA').forEach(card => {
             card.addEventListener('click', () => {
                 window.location.href = card.querySelector("#view").href;
             });
-        });*/
+        });
         function filtre(c) {
             var x, i;
             x = document.getElementsByClassName("listSA");
