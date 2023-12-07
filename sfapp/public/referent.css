@@ -7,31 +7,8 @@
     flex-direction: row;
     width: auto;
     height: fit-content;
+    margin-top: 30px;
 }
-
-.bandeau_ref{
-    display: flex;
-    width: auto;
-    height: fit-content;
-
-    background-color: #56DAFF;
-    padding: 10px;
-    border-bottom-right-radius: 15px;
-    border-bottom-left-radius: 15px;
-}
-
-.pres_page{
-    display: flex;
-    flex-direction: row;
-    align-content: space-around;
-    justify-content: center;
-    width: 70%;
-}
-.pres_page h1{
-    margin: 0;
-    font-size: xx-large;
-}
-
 
 
 .buttonPresPage{
@@ -69,6 +46,7 @@
     padding: 0 15px 15px 15px;
     margin: 10px 20px 10px 20px;
     border-radius: 20px;
+    /*overflow: scroll;*/
 }
 
 .listSA{
@@ -77,9 +55,9 @@
     align-items: center;
     justify-content: space-between;
     width: auto;
-    padding: 20px;
     margin: 10px;
-    height: fit-content;
+    padding: 0 10px 0 10px;
+    height: 60px;
     background-color: #5b68c0;
     border-radius: 10px;
     font-size: x-large;
@@ -110,7 +88,7 @@
     display: none;
 }
 .show {
-    display: block;
+    display: flex;
 }
 
 /* Style the buttons */
@@ -135,11 +113,58 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    width: auto;
-    padding: 20px;
     margin: 10px;
-    height: fit-content;
+    padding: 0 10px 0 10px;
+    height: 60px;
     background-color: #5b68c0;
     border-radius: 10px;
     font-size: x-large;
+}
+
+.listSA:hover{
+    height: 62px;
+    background-color: #5b68c9;
+    box-shadow: 0 4px 30px rgba(0, 0, 0);
+    transition-duration: .2s;
+}
+
+#trash{
+    display: flex;
+    width: 50px;
+    right: 50px;
+    justify-content: center;
+    align-items: center;
+}
+#trash img:hover{
+    height: 87%;
+    width: 87%;
+    cursor: pointer;
+}
+
+span{
+    font-size: large;
+    font-family: Arial;
+}
+
+.change_room_btn{
+    background-color: #56DAFF;
+    padding: 7px;
+    border-radius: 5px;
+}
+.retirer_room_btn{
+    background-color: #FF1D15;
+    padding: 7px;
+    border-radius: 5px;
+}
+
+.change_room_btn:hover{
+    opacity: 60%;
+    transition-duration: .2s;
+    cursor: pointer;
+}
+
+.retirer_room_btn:hover{
+    opacity: 60%;
+    transition-duration: .2s;
+    cursor: pointer;
 }

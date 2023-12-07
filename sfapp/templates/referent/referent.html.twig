@@ -1,22 +1,7 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_referent.html.twig' %}
 
 
 {% block body %}
-    <section class="bandeau_ref">
-        <div class="pres_page">
-
-            <div class="buttonPresPage">
-                <a id="saButton" href="{{ path("nouveau_SA") }}">Ajouter un nouveau SA</a>
-            </div>
-            <div class="buttonPresPage">
-                <a id="saButton" href="{{ path("plan_salles") }}">Plan des salles</a>
-            </div>
-            <div class="buttonPresPage">
-                <a id="saButton" onclick="alert('Actif : 🟢\nMaintenance : 🔴\nInstallation : 🟠\nInactif : ⚫')">Informations</a>
-            </div>
-
-        </div>
-    </section>
     <section id="liste_salle">
         <ul class="block_sa">
             <h1>Plan d'action</h1>
@@ -30,29 +15,36 @@
                 {% for sa in maintenance %}
                     <a id="view" href="{{ path('app_view_sa', {'id': sa.getId}) }}">
                         <div class="listSA maintenance"> <!-- UN <LI></LI> = UNE LIGNE : ajouter les elements À L'INTERIEUR du li. Le webdesigner. -->
-                            🔴 {{ sa.currentRoom.name }}
-                            <a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}">Changer la salle</a>
-                            <a href="{{ path('delete_sa', {'id': sa.getId}) }}">Supprimer</a>
+                            <span>🔴 {{ sa.name }}</span>
+                            <a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}"><span class="change_room_btn">Changer la salle</span></a>
+                            <a href="{{ path('delete_sa', {'id': sa.getId}) }}"><span class="retirer_room_btn">Retirer</span></a>
                         </div>
                     </a>
                 {% endfor %}
                 {% for sa in installer %}
                     <a id="view" href="{{ path('app_view_sa', {'id': sa.getId}) }}">
                         <div class="listSA installer"> <!-- UN <LI></LI> = UNE LIGNE : ajouter les elements À L'INTERIEUR du li. Le webdesigner. -->
-                            🟠 {{ sa.currentRoom.name }}
-                            <a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}">Changer la salle</a>
-                            <a href="{{ path('delete_sa', {'id': sa.getId}) }}">Supprimer</a>
+                            <span>🟠 {{ sa.name }}</span>
+                            <a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}"><span class="change_room_btn">Changer la salle</span></a>
+                            <a href="{{ path('delete_sa', {'id': sa.getId}) }}"><span class="retirer_room_btn">Retirer</span></a>
                         </div>
                     </a>
                 {% endfor %}
                 {% for sa in actif %}
-                    <a id="view" href="{{ path('app_view_sa', {'id': sa.getId}) }}">
                         <div class="listSA actif"> <!-- UN <LI></LI> = UNE LIGNE : ajouter les elements À L'INTERIEUR du li. Le webdesigner. -->
-                            🟢 {{ sa.currentRoom.name }}
-                            <a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}">Changer la salle</a>
-                            <a href="{{ path('delete_sa', {'id': sa.getId}) }}">Supprimer</a>
+                            <span>🟢 {{ sa.name }}</span>
+                            <div>
+                                {{ form_start(forms[loop.index0],{'attr': {'id': 'form_changer_salle'}}) }}
+                                {{ form_widget(forms[loop.index0].newRoom, {'attr': {'onchange': 'submitForm()'}}) }}
+                                {{ form_end(forms[loop.index0]) }}
+                            </div>
+
+
+                            <a href="{{ path('delete_sa', {'id': sa.getId}) }}"><span class="retirer_room_btn">Retirer</span></a>
+                            <a id="view" href="{{ path('app_view_sa', {'id': sa.getId}) }}">
+                                clic
+                            </a>
                         </div>
-                    </a>
                 {% endfor %}
             </div>
         </ul>
@@ -61,20 +53,24 @@
             <div>
                 {% for sa in inactive %}
                     <div class="listSAInactif">
-                        ⚫ {{ sa.name }}
-                        <a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}">Affecter à une salle</a>
-                        <a href="{{ path('delete_sa_base', {'id': sa.getId}) }}" onclick="return confirm('Etes-vous sur de vouloir supprimer le SA {{ sa.name }}?')"><img id="trash_can" src="{{ asset('images/trash_can.svg') }}" alt="trash_can" height="5%" width="5%"></a>
+                        <span>⚫ {{ sa.name }}</span>
+                        <a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}"><span class="change_room_btn">Affecter à une salle</span></a>
+                        <a id="trash" href="{{ path('delete_sa_base', {'id': sa.getId}) }}" onclick="return confirm('Etes-vous sur de vouloir supprimer le SA {{ sa.name }}?')">
+                            <img id="trash_can" src="{{ asset('images/trash_can.png') }}" alt="trash_can" height="80%" width="80%">
+                        </a>
                     </div>
                 {% endfor %}
             </div>
         </ul>
     </section>
     <script>
+        function submitForm() {}
+        /*
         document.querySelectorAll('.listSA').forEach(card => {
             card.addEventListener('click', () => {
                 window.location.href = card.querySelector("#view").href;
             });
-        });
+        });*/
         function filtre(c) {
             var x, i;
             x = document.getElementsByClassName("listSA");
@@ -83,11 +79,9 @@
                 removeClass(x[i], "show");
                 if (x[i].className.indexOf(c) > -1){
                     addClass(x[i], "show");
-
                 }
             }
         }
-
 
         function addClass(element, name) {
             var i, arr1, arr2;
@@ -99,6 +93,7 @@
                 }
             }
         }
+
         function removeClass(element, name) {
             var i, arr1, arr2;
             arr1 = element.className.split(" ");
