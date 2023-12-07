@@ -14,6 +14,9 @@
  * Initialisation of the global variables
 */
 
+//Screen
+U8G2_SSD1306_128X64_NONAME_F_SW_I2C screen(U8G2_R0, /* clock=*/ SCL, /*data=*/ SDA, /* reset=*/ U8X8_PIN_NONE);
+
 const int thresholdvalue=20;//The threshold for which the LED should turn on. 
 float Rsensor;// Quantity of light in the room
 
@@ -83,7 +86,9 @@ void init_LED(){
   ws2812fx.setBrightness(25);
   ws2812fx.setColor(0x00, 0x00, 0xff); // Blue color
   ws2812fx.setMode(FX_MODE_STATIC);
-  ws2812fx.start();
+  if(!ws2812fx.start()){ //Verify if the LED has been launch succesfully
+    Serial.println("Erreur lors du démmarage de la LED !");
+  }
   ws2812fx.service();
 }
 
