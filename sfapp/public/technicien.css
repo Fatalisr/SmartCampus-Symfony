@@ -2,6 +2,13 @@
 * home_tech
 */
 
+#liste_interventions{
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    height: fit-content;
+}
+
 .bandeau_tech{
     display: flex;
     width: auto;
@@ -16,9 +23,9 @@
 .pres_page{
     display: flex;
     flex-direction: row;
-    align-content: space-around;
+    align-content: space-evenly;
     justify-content: center;
-    width: 70%;
+    width: 90%;
 }
 
 .pres_page h1{
@@ -54,7 +61,7 @@
 
 
 
-.listSA{
+.listIntervention{
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -70,7 +77,7 @@
 
 
 
-.block_sa{
+.block_interv{
     display: flex;
     flex-direction: column;
     width: 45%;
@@ -82,9 +89,7 @@
     border-radius: 20px;
 }
 
-.block_sa li:hover{
-    cursor: pointer;
-    /*background-color: #56DAFF;*/
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    opacity: 60%;
+p{
+    font-family: Arial;
 }
+

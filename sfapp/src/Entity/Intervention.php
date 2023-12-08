@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Repository\MaintenanceRepository;
+use App\Repository\InterventionRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -20,7 +20,7 @@ class Intervention
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $endingDate = null;
 
-    #[ORM\Column(length: 500)]
+    #[ORM\Column(length: 500, nullable: true)]
     private ?string $message = null;
 
     #[ORM\ManyToOne]
