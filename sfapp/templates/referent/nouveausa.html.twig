@@ -2,30 +2,33 @@
 
 {% block title %}Hello IndexController!{% endblock %}
 
+
 {% block body %}
-    <div id="block_pres">
-        <h1>Création d'un nouveau système d'acquisition  </h1>
-        <p><a href="{{ path("app_referent") }}">Retour</a></p>
-    </div>
-
-    <div id="form_block">
-    {{ form_start(form) }}
-    <div id="form_header">
-        <h1>Veuillez renseigner les informations</h1>
-    </div>
-    <div class="form_line">
-        {{ form_widget(form.name) }}
-    </div>
-        <div class="form_line" >
-            {{ form_widget(form.currentRoom) }}
+    <link rel="stylesheet" href="{{ asset('nouveauSA.css') }}">
+    <div id="default_block">
+        <div id="form_block_cs">
+            {{ form_start(form) }}
+            <div id="form_header">
+                <h3>Création d'un nouveau système d'acquisition </h3>
+                <p>Les champs <span style="color: red">*</span> sont obligatoires</p>
+            </div>
+            <div id="black_line"></div>
+            <div id="door">
+                <img src="{{ asset('images/processor.png') }}">
+            </div>
+            <div id="form_line_cs">
+                {{ form_widget(form.name) }}
+                <div><span class="star_require"> * </span></div>
+            </div>
+            <div id="form_line_cs">
+                {{ form_widget(form.currentRoom) }}
+            </div>
+            <div id="submit_btn_cs">
+                <button type="submit">Creer le SA</button>
+            </div>
+            {{ form_end(form) }}
         </div>
-        <div id="submit_btn">
-            <button type="submit">Creer le SA</button>
-        </div>
-
-        {{ form_end(form) }}
     </div>
-
 
 {% endblock %}
 
