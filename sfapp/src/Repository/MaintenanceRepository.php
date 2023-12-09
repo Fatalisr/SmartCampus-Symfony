@@ -22,7 +22,7 @@ class MaintenanceRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Maintenance[] Returns an array of Maintenance objects
+//     * @return MaintenanceForm[] Returns an array of MaintenanceForm objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -36,7 +36,7 @@ class MaintenanceRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Maintenance
+//    public function findOneBySomeField($value): ?MaintenanceForm
 //    {
 //        return $this->createQueryBuilder('m')
 //            ->andWhere('m.exampleField = :val')

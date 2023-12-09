@@ -418,12 +418,19 @@ class AppFixtures extends Fixture
         $sa3->setName("SA3");
         $sa3->setState("MAINTENANCE");
         $sa3->setCurrentRoom($this->getReference('D304'));
+        $this->addReference('sa3',$sa3);
         $manager->persist($sa3);
         // SA 4
         $sa4 = new SA();
         $sa4->setName("SA3");
         $sa4->setState("INACTIF");
         $manager->persist($sa4);
+
+        $maintenance1 = new Maintenance();
+        $maintenance1->setSa($this->getReference('sa3'));
+        $maintenance1->setMessage('Le capteur de CO2 ne remonte plus de CO2');
+        $maintenance1->setStartingDate(new \DateTime());
+        $manager->persist($maintenance1);
 
         $manager->flush();
     }

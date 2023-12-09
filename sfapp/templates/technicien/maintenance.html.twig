@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Maintenance{% endblock %}
+
+{% block body %}
+    <link rel="stylesheet" href={{ asset('tech_maintenance.css') }}>
+    <div id="div_sa_info">
+        <div class="imgANDtext">
+            <img src="{{ asset('images/door.png') }}">
+            <span>  {{ curSA.name }} </span>
+        </div>
+        <div class="imgANDtext">
+            <img src="{{ asset('images/processor.png') }}">
+            <span> {{ curSA.currentRoom.name }} </span>
+        </div>
+        <a href="{{ path("app_technicien") }}"><span>Retour</span></a>
+    </div>
+    <div id="block_ref_msg">
+        <div id="ref_msg">
+            <h2>Indications du referent :</h2>
+            <p>{{ maintenance.message }}</p>
+        </div>
+    </div>
+    <div id="block_btns">
+        {{ form_start(form_validMtn, {'attr' : {'id' : 'maintenance_form'}}) }}
+        {{ form_widget(form_validMtn.valid) }}
+        <button id="valid_btn" type="button" onclick="sendformulaire('true')">VALIDER LA MAINTENANCE</button>
+        <button id="invalid_btn" type="button" onclick="sendformulaire('false')">MAINTENANCE IMPOSSIBLE</button>
+        {{ form_end(form_validMtn) }}
+    </div>
+    <script>
+        function sendformulaire(valid){
+            let data = document.getElementById('maintenance_form_valid');
+            if(valid === 'true'){
+                data.value = 'true';
+            }else{
+                data.value = 'false';
+            }
+            document.getElementById('maintenance_form').submit();
+        }
+    </script>
+
+{% endblock %}

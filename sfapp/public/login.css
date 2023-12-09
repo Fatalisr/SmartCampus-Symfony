@@ -5,8 +5,11 @@ HTML{
     overflow-y: hidden;
 }
 body{
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
+    background-image: url("images/fond_feuille.jpeg");
+    background-size: cover;
+    background-position: center;
 }
 header{
     background-color: #08B2E3;
@@ -57,11 +60,6 @@ a{
     color: inherit; /* Utilise la couleur héritée (par défaut) */
 }
 
-body{
-    background-image: url("images/fond_feuille.jpeg");
-    background-size: cover;
-    background-position: center;
-}
 
 .fse {
     display: flex;
