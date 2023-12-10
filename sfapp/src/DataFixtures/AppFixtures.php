@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Intervention;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Maintenance;
@@ -424,6 +425,13 @@ class AppFixtures extends Fixture
         $sa4->setName("SA3");
         $sa4->setState("INACTIF");
         $manager->persist($sa4);
+
+        //Installation 1
+        $Inst1 = new Intervention();
+        $Inst1->setSa($sa2);
+        $Inst1->setType("INSTALLATION");
+        $Inst1->setStartingDate(new \DateTime());
+        $manager->persist($Inst1);
 
         $manager->flush();
     }

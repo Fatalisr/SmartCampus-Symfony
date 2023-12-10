@@ -73,6 +73,19 @@ class SARepository extends ServiceEntityRepository
             ;
     }
 
+    public function findInstallationBySAId($sa)
+    {
+        return $this->createQueryBuilder('s')
+            ->select('i')
+            ->from('App\Entity\Intervention', 'i')
+            ->where('i.sa = :sa and i.endingDate is null')
+            ->setParameter('sa', $sa)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+    }
+
+
 //    /**
 //     * @return SA[] Returns an array of SA objects
 //     */
