@@ -2,10 +2,10 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use App\Entity\Maintenance;
-use App\Entity\Member;
+use App\Entity\Intervention;
 use App\Entity\Room;
 use App\Entity\SA;
 
@@ -13,20 +13,6 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        // Referent 1
-        $ref1 = new Member();
-        $ref1->setLogIn("ref1");
-        $ref1->setPassword("123");
-        $ref1->setRole("REFERENT");
-        $manager->persist($ref1);
-
-        //Technicien 1
-        $tech1 = new Member();
-        $tech1->setLogIn("tech1");
-        $tech1->setPassword("456");
-        $tech1->setRole("TECHNICIEN");
-        $manager->persist($tech1);
-
         // =============================== //
         //      Création des salles        //
         // =============================== //
@@ -437,6 +423,23 @@ class AppFixtures extends Fixture
         $sa4->setName("SA3");
         $sa4->setState("INACTIF");
         $manager->persist($sa4);
+
+
+
+
+        $ref1 = new User();
+        $ref1->setUsername("ref1");
+        $ref1->setPassword("$2y$13$/Bpyv7s0SexmSOxxaINszOMmtqs7iSIFINdzBfKAQUAmHMthVAKzS");
+        $ref1->setRoles(["ROLE_REFERENT"]);
+        $manager->persist($ref1);
+
+        $ref1 = new User();
+        $ref1->setUsername("tec1");
+        //hash le password avec php bin/console security:hash-password
+        $ref1->setPassword("$2y$13$/Bpyv7s0SexmSOxxaINszOMmtqs7iSIFINdzBfKAQUAmHMthVAKzS");
+        $ref1->setRoles(["ROLE_TECHNICIEN"]);
+        $manager->persist($ref1);
+
 
         $manager->flush();
     }
