@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Controller;
-use App\Entity\Maintenance;
+use App\Entity\Intervention;
 use App\Entity\SA;
-use App\Form\MaintenanceFormType;
+use App\Form\InterventionFormType;
 use App\Repository\RoomRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ObjectManager;
@@ -96,15 +96,16 @@ class ReferentController extends AbstractController
         $salle = $sa->getCurrentRoom()->getName();
         $etat = $sa->getState();
 
-        $form = $this->createForm(MaintenanceFormType::class);
+        $form = $this->createForm(InterventionFormType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $maintenance = new Maintenance();
+            $maintenance = new Intervention();
             $maintenance->setMessage($form->get('message')->getData());
             date_default_timezone_set('UTC');
             $maintenance->setStartingDate(date_create(date("m.d.y")));
             $maintenance->setSa($sa);
+            $maintenance->setType("MAINTENANCE");
             $sa->setState("MAINTENANCE");
             $entityManager = $doctrine->getManager();
             $entityManager->persist($maintenance);
@@ -140,6 +141,11 @@ class ReferentController extends AbstractController
             if($form->get('currentRoom')->getData())
             {
                 $sa->setState("A_INSTALLER");
+                $installationSA = new Intervention();
+                $installationSA->setSa($sa);
+                $installationSA->setType("INSTALLATION");
+                $installationSA->setStartingDate(date_create(date("m.d.y")));
+                $entityManager->persist($installationSA);
             }
             else
             {
@@ -176,6 +182,11 @@ class ReferentController extends AbstractController
             if($changeRoom->get('newRoom')->getData())
             {
                 $sa->setState("A_INSTALLER");
+                $installationSA = new Intervention();
+                $installationSA->setSa($sa);
+                $installationSA->setType("INSTALLATION");
+                $installationSA->setStartingDate(date_create(date("m.d.y")));
+                $entityManager->persist($installationSA);
             }
             else
             {
