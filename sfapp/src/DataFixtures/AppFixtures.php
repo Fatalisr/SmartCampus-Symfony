@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Maintenance;
@@ -437,6 +438,23 @@ class AppFixtures extends Fixture
         $sa4->setName("SA3");
         $sa4->setState("INACTIF");
         $manager->persist($sa4);
+
+
+
+
+        $ref1 = new User();
+        $ref1->setUsername("ref1");
+        $ref1->setPassword("$2y$13$/Bpyv7s0SexmSOxxaINszOMmtqs7iSIFINdzBfKAQUAmHMthVAKzS");
+        $ref1->setRoles(["ROLE_REFERENT"]);
+        $manager->persist($ref1);
+
+        $ref1 = new User();
+        $ref1->setUsername("tec1");
+        //hash le password avec php bin/console security:hash-password
+        $ref1->setPassword("$2y$13$/Bpyv7s0SexmSOxxaINszOMmtqs7iSIFINdzBfKAQUAmHMthVAKzS");
+        $ref1->setRoles(["ROLE_TECHNICIEN"]);
+        $manager->persist($ref1);
+
 
         $manager->flush();
     }
