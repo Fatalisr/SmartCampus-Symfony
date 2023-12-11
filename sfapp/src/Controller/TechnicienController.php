@@ -4,18 +4,25 @@ namespace App\Controller;
 
 use App\Form\InterventionFormType;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class TechnicienController extends AbstractController
 {
     #[Route('/technicien', name: 'app_technicien')]
-    public function index(): Response
+    public function index(ManagerRegistry $doctrine): Response
     {
+        $entityManager = $doctrine->getManager();
+        $interventionRepository = $entityManager->getRepository('App\Entity\Intervention');
+
+        $installations = $interventionRepository->findAllInstallations();
+        $maintenances = $interventionRepository->findAllMaintenances();
+
         return $this->render('technicien/home_tech.html.twig', [
-            'controller_name' => 'TechnicienController',
+            'maintenances' => $maintenances,
+            'installations' => $installations,
         ]);
     }
 
@@ -48,5 +55,16 @@ class TechnicienController extends AbstractController
             'form_validInstal' => $form_validMtn,
         ]);
 
+    }
+    #[Route('/technicien/maintenance/{id}', name: 'app_view_maintenance')]
+    public function view_maintenance(?int $id,ManagerRegistry $doctrine,Request $request): Response
+    {
+        $entityManager = $doctrine->getManager();
+        $interventionRepository = $entityManager->getRepository('App\Entity\Intervention');
+
+
+        return $this->render('technicien/maintenance.html.twig', [
+
+        ]);
     }
 }

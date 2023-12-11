@@ -1,0 +1,106 @@
+#default_block{
+    width: 100%;
+    height: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#form_header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#form_block_cs{
+    width: 100%;
+    display: flex;
+    height: fit-content;
+    align-items: center;
+    justify-content: center;
+}
+
+#form_block_cs form{
+    display: flex;
+    width: 45%;
+    height: fit-content;
+    align-items: center;
+    flex-direction: column;
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    margin: 30px 0 0 0;
+}
+
+#form_line_cs{
+    margin: 2% 0 2% 0;
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    justify-content: center;
+    align-items: center;
+}
+#form_line_cs select{
+    display: flex;
+    padding: 10px 20px 10px 20px;
+    border-radius: 10px;
+    background-color: #d6dfe8;
+    font-size: large;
+    width: 60%;
+}
+#form_line_cs input{
+    display: flex;
+    padding: 10px 20px 10px 20px;
+    border-radius: 10px;
+    background-color: #d6dfe8;
+    font-size: large;
+    width: 60%;
+}
+
+#black_line {
+    border-top: solid black 2px;
+    width: 80%;
+}
+
+#door{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: fit-content;
+    margin: 5% 5% 0 5%;
+}
+
+#door img{
+    height: 70px;
+    width: 70px;
+}
+
+#submit_btn_cs{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    justify-content: center;
+    align-items: center;
+    margin: 2% 0 5% 0;
+}
+
+#submit_btn_cs button{
+    width: 60%;
+    height: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: solid black 1px;
+    background-color: #d9dde1;
+    font-size: large;
+}
+#submit_btn_cs button:hover{
+    background-color: #7aee62;
+    cursor: pointer;
+    transition-duration: .2s;
+}
+.star_require{
+    position: relative;
+    color: red;
+    right: 12px;
+}

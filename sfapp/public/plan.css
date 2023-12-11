@@ -5,6 +5,7 @@ body{
     flex-direction: column;
 }
 
+
 select{
     display: flex;
     margin-right: 10%;
@@ -20,10 +21,16 @@ select{
     height: 10%;
     justify-content: space-between;
     align-items: center;
+
 }
 
 #top_div h1{
-    margin-left: 10px;
+
+    margin: 1% 0 0 5%;
+    background-color: white;
+    padding: 5px 5px 20px 5px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 #plan{
@@ -36,10 +43,11 @@ select{
     display: none;
     width: 90%;
     height: 80%;
-    border: solid black 1px;
     flex-direction: column;
     justify-content: space-between;
+    background-color: white;
 }
+
 .rangee{
     display: flex;
     flex-direction: row;
@@ -50,11 +58,18 @@ select{
 
 .plan_salle{
     display: flex;
-    background-color: #d6dfe8;
     flex: 1;
     height: auto;
     margin: 2px 5px 2px 5px;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+}
+
+#block_general_plan{
+    display: flex;
+    height: 80%;
+    width: 80%;
+    background-color: #d6dfe8;
+    border-radius: 10px;
 }

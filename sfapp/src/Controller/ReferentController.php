@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Controller;
-use App\Entity\Maintenance;
+use App\Entity\Intervention;
 use App\Entity\SA;
-use App\Form\MaintenanceFormType;
+use App\Form\InterventionFormType;
 use App\Repository\RoomRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ObjectManager;
@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 class ReferentController extends AbstractController
 {
     #[Route('/referent', name: 'app_referent')]
-    public function index(ManagerRegistry $doctrine): Response
+    public function index(ManagerRegistry $doctrine, Request $request): Response
     {
         $entityManager = $doctrine->getManager();
         $saRepository = $entityManager->getRepository('App\Entity\SA');
@@ -32,6 +32,49 @@ class ReferentController extends AbstractController
         $inactive = $saRepository->findAllInactive();
         $rooms = $roomRepository->findAll();
 
+
+        $formsChange = []; //Stockage des instances de formulaire
+        $formsAdd = [];
+
+        foreach ($actif as $sa){
+            $form = $this->createForm(changerSalleForm::class);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+
+                if($form->get('newRoom')->getData()) {
+                    $sa->setState("A_INSTALLER");
+                }
+                else {
+                    $sa->setState("INACTIF");
+                }
+
+                $sa->setOldRoom($sa->getCurrentRoom());
+                $sa->setCurrentRoom($form->get('newRoom')->getData());
+
+                $entityManager->persist($sa);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('app_referent',[]);
+            }
+            $formsChange[] = $form->createView();
+        }
+
+        foreach ($inactive as $sa){
+            $form = $this->createForm(changerSalleForm::class);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $sa->setState("A_INSTALLER");
+                $sa->setCurrentRoom($form->get('newRoom')->getData());
+                $entityManager->persist($sa);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('app_referent',[]);
+            }
+            $formsAdd[] = $form->createView();
+        }
+
         return $this->render("referent/referent.html.twig", [
         'path' => 'src/Controller/ReferentController.php',
         'actif' => $actif,
@@ -39,6 +82,8 @@ class ReferentController extends AbstractController
         'installer' => $installer,
         'inactive' => $inactive,
         'rooms' => $rooms,
+        'formsChange' => $formsChange,
+        'formsAdd' => $formsAdd,
         ]);
     }
 
@@ -51,15 +96,16 @@ class ReferentController extends AbstractController
         $salle = $sa->getCurrentRoom()->getName();
         $etat = $sa->getState();
 
-        $form = $this->createForm(MaintenanceFormType::class);
+        $form = $this->createForm(InterventionFormType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $maintenance = new Maintenance();
+            $maintenance = new Intervention();
             $maintenance->setMessage($form->get('message')->getData());
             date_default_timezone_set('UTC');
             $maintenance->setStartingDate(date_create(date("m.d.y")));
             $maintenance->setSa($sa);
+            $maintenance->setType("MAINTENANCE");
             $sa->setState("MAINTENANCE");
             $entityManager = $doctrine->getManager();
             $entityManager->persist($maintenance);
@@ -95,6 +141,11 @@ class ReferentController extends AbstractController
             if($form->get('currentRoom')->getData())
             {
                 $sa->setState("A_INSTALLER");
+                $installationSA = new Intervention();
+                $installationSA->setSa($sa);
+                $installationSA->setType("INSTALLATION");
+                $installationSA->setStartingDate(date_create(date("m.d.y")));
+                $entityManager->persist($installationSA);
             }
             else
             {
@@ -131,6 +182,11 @@ class ReferentController extends AbstractController
             if($changeRoom->get('newRoom')->getData())
             {
                 $sa->setState("A_INSTALLER");
+                $installationSA = new Intervention();
+                $installationSA->setSa($sa);
+                $installationSA->setType("INSTALLATION");
+                $installationSA->setStartingDate(date_create(date("m.d.y")));
+                $entityManager->persist($installationSA);
             }
             else
             {
@@ -148,6 +204,7 @@ class ReferentController extends AbstractController
 
         return $this->render("referent/changersalle.html.twig",[
             'changeRoom' => $changeRoom,
+            'sa' => $sa,
         ]);
     }
     #[Route('/referent/delete_SA/{id}', name: 'delete_sa')]

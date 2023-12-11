@@ -32,8 +32,7 @@ class InterventionRepository extends ServiceEntityRepository
             ->andWhere('i.endingDate IS NULL')
             ->orderBy('i.id', 'DESC')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
     /**
@@ -61,4 +60,3 @@ class InterventionRepository extends ServiceEntityRepository
 //        ;
 //    }
 }
-
