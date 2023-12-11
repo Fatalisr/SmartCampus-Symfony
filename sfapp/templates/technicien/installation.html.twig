@@ -22,6 +22,7 @@
             <p>3 - Test des données remontées</p>
         </div>
     </div>
-    <a href="{{ path("app_technicien") }}"><span>Valider l'installation</span></a>
-
+    {{ form_start(form_validInstal) }}
+    {{ form_widget(form_validInstal.valid) }}
+    {{ form_end(form_validInstal) }}
 {% endblock %}

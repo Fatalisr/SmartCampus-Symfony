@@ -33,16 +33,11 @@ class TechnicienController extends AbstractController
         $dateCourante = new \DateTime();
 
         if($form_validMtn->isSubmitted() && $form_validMtn->isValid()) {
-            if ($form_validMtn->get('valid')->getData() == 'true') {
-                $curSA->setState('ACTIF');
-            } else {
-                $curSA->setState('INACTIF');
-            }
-            $installation->setEndingDate($dateCourante);
 
+            $curSA->setState('ACTIF');
+            $installation->setEndingDate($dateCourante);
             $entityManager->persist($curSA);
             $entityManager->persist($installation);
-
             $entityManager->flush();
 
             return $this->redirectToRoute('app_technicien');
@@ -50,7 +45,7 @@ class TechnicienController extends AbstractController
         return $this->render('technicien/installation.html.twig',[
             'curSA' => $curSA,
             'installation' => $installation,
-            'form_validMtn' => $form_validMtn,
+            'form_validInstal' => $form_validMtn,
         ]);
 
     }
