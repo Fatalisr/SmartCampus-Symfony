@@ -4,13 +4,6 @@ HTML{
     background-color: #F7FFF7;
     overflow-y: hidden;
 }
-body{
-    padding: 0;
-    margin: 0;
-    background-image: url("images/fond_feuille.jpeg");
-    background-size: cover;
-    background-position: center;
-}
 header{
     background-color: #08B2E3;
     height: 10vh;
@@ -48,16 +41,24 @@ section > p,aside > p{
     max-height: 100%;
 }
 #mainsection{
-    padding: 0px 25px 25px 25px;
+    padding: 0 25px 25px 25px;
     height: 80vh;
     max-height: max-content;
     margin: 0;
-    padding: 0;
     font-family: Arial;
 }
 a{
     text-decoration: none; /* Retire le soulignage par défaut */
     color: inherit; /* Utilise la couleur héritée (par défaut) */
+}
+body{
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    background-image: url("images/fond_feuille.jpeg");
+    background-size: cover;
+    background-position: center;
 }
 
 
@@ -266,4 +267,30 @@ a{
         width: 90%;
     }
 }
+.form-input-label {
+    position: relative;
+}
+
+#lign_or{
+    width: 100%;
+    text-align: center;
+    border-top: 2px solid black;
+    margin-top: 5%;
+
+}
+#lign_or span{
+    background-color: #d9dde1;
+    display: inline-block;
+    padding: 0 10px;
+    position: relative;
+    top: -12px;
+    font-size: large;
+}
+
+.star_require{
+    position: relative;
+    color: red;
+    right: 12px;
+}
+
 
