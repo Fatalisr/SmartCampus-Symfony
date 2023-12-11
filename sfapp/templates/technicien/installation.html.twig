@@ -9,6 +9,10 @@
             <span>  {{ curSA.name }} </span>
         </div>
         <div class="imgANDtext">
+            {% if curSA.oldRoom is NULL %}
+                <h2>Salle actuelle :</h2>
+                <p>{{  cursa.oldRoom }}</p>
+            {% endif %}
             <h2>A installer en :</h2>
             <span> {{ curSA.currentRoom.name }} </span>
         </div>
