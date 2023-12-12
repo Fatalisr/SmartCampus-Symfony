@@ -1,26 +1,26 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_referent.html.twig' %}
 
 {% block title %}Smart Campus - Changement de salle{% endblock %}
 
 {% block body %}
-    <div id="block_pres">
-        <h1>Changer la salle d'un système d'acquisition</h1>
+    <div id="default_block">
+        <div id="form_block_cs">
+            {{ form_start(changeRoom) }}
+            <div id="form_header">
+                <h3>Veuillez choisir une salle pour le systeme d'acquisition {{ sa.name }}</h3>
+            </div>
+            <div id="black_line"></div>
+            <div id="door">
+                <img src="{{ asset('images/door.png') }}">
+            </div>
+            <div id="form_line_cs">
+                {{ form_widget(changeRoom.newRoom) }}
+            </div>
+            <div id="submit_btn_cs">
+                <button type="submit">Confirmer les modifications</button>
+            </div>
+            {{ form_end(changeRoom) }}
+        </div>
     </div>
-
-    <div id="form_block">
-        {{ form_start(changeRoom) }}
-        <div id="form_header">
-            <h1>Veuillez renseigner les informations</h1>
-            <p>Les champs <span style="color: red"> * </span> sont obligatoires</p>
-        </div>
-        <div class="form_line">
-            {{ form_widget(changeRoom.newRoom) }} <span style="color: red"> * </span>
-        </div>
-        <div id="submit_btn">
-            <button type="submit">Confirmer les modifications</button>
-        </div>
-        {{ form_end(changeRoom) }}
-    </div>
-
 
 {% endblock %}

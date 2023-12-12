@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use App\Entity\Room;
 use App\Repository\RoomRepository;
-
+use function Sodium\add;
 
 
 class changerSalleForm extends \Symfony\Component\Form\AbstractType
@@ -27,8 +27,12 @@ class changerSalleForm extends \Symfony\Component\Form\AbstractType
                         ->orderBy('r.name', 'ASC');
                 },
                 'choice_label' => 'name',
-                'placeholder' => 'Pas de salle', // Default or null choice label
                 'required' => false, // Allow null values
+            ])
+
+            ->add('save', SubmitType::class,[
+                'label' => 'oui',
             ]);
+
     }
 }

@@ -1,7 +1,8 @@
-{% extends 'base.html.twig' %}
-
+{% extends 'base_referent.html.twig' %}
 
 {% block body %}
+    <link rel="stylesheet" href="{{ asset('detail_SA.css') }}">
+    <script src="https://d3js.org/d3.v4.js"></script>
     <div class="fse">
         <p> {{ nom }}</p>
         <p>{{ salle }}</p>
@@ -17,11 +18,28 @@
     {% if etat == 'ACTIF' %}
         <section id="mainsection">
             <aside>
-                <p class="pSA">Right top</p>
-                <p class="pSA">Right bottom </p>
+                <div class="pSAr">
+                    {{ form_start(form) }}
+                    <div id="form_header">
+                        <h1>Demande de Maintenance</h1>
+                    </div>
+                    <div class="form_line">
+                        {{ form_widget(form.message) }}
+                    </div>
+                    <div id="submit_btn">
+                        <button type="submit" onclick="return confirm('Voulez-vous démarrer une maintenance pour le SA {{ nom }}?')">Envoyer</button>
+                    </div>
+
+                    {{ form_end(form) }}
+                </div>
+                <div class="pSAr">
+                    Right bottom
+                </div>
             </aside>
             <section id="left">
-                <p class="pSA">Left</p>
+                <div class="pSAl">
+                    <div id="graph"></div>
+                </div>
             </section>
         </section>
     {% else %}
@@ -33,4 +51,50 @@
         </section>
     {% endif %}
 
+    <script>
+        // set the dimensions and margins of the graph
+        var margin = {top: 10, right: 40, bottom: 30, left: 30},
+            width = 450 - margin.left - margin.right,
+            height = 400 - margin.top - margin.bottom;
+
+        // append the svg object to the body of the page
+        var svG = d3.select("#graph")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform",
+                "translate(" + margin.left + "," + margin.top + ")");
+
+        // Create data
+        var data = [ {x:10, y:20}, {x:40, y:90}, {x:80, y:50} ]
+
+        // X scale and Axis
+        var x = d3.scaleLinear()
+            .domain([0, 100])         // This is the min and the max of the data: 0 to 100 if percentages
+            .range([0, width]);       // This is the corresponding value I want in Pixel
+        svG
+            .append('g')
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x));
+
+        // X scale and Axis
+        var y = d3.scaleLinear()
+            .domain([0, 100])         // This is the min and the max of the data: 0 to 100 if percentages
+            .range([height, 0]);       // This is the corresponding value I want in Pixel
+        svG
+            .append('g')
+            .call(d3.axisLeft(y));
+
+        // Add 3 dots for 0, 50 and 100%
+        svG
+            .selectAll("whatever")
+            .data(data)
+            .enter()
+            .append("circle")
+            .attr("cx", function(d){ return x(d.x) })
+            .attr("cy", function(d){ return y(d.y) })
+            .attr("r", 5)
+        <!--d3js.org/what-is-d3-->
+    </script>
 {% endblock %}

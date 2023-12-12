@@ -21,6 +21,31 @@ class RoomRepository extends ServiceEntityRepository
         parent::__construct($registry, Room::class);
     }
 
+    /**
+     * @return Room[] Returns an array of Room objects
+     */
+    public function getRoomFloor($floor){
+        $query = $this->createQueryBuilder('r')
+            ->where('SUBSTRING(r.name, 2, 1) = :etage')
+            ->setParameter('etage', $floor)
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+    /**
+     * @return Room[] Returns an array of Room objects
+     */
+    public function getRoomRDC(){
+        $query = $this->createQueryBuilder('r')
+            ->where('SUBSTRING(r.name, 2, 1) = :etage')
+            ->setParameter('etage', '0')
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+
 
 
 //    /**

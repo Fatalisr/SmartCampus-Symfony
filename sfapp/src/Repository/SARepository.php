@@ -31,6 +31,36 @@ class SARepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+    public function findAllActif(): array
+    {
+        return $this->createQueryBuilder('s')
+            ->orWhere("s.state = :state")
+            ->setParameter('state',  "ACTIF")
+            ->orderBy('s.state', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+    public function findAllMaintenance(): array
+    {
+        return $this->createQueryBuilder('s')
+            ->orWhere("s.state = :state")
+            ->setParameter('state',  "MAINTENANCE")
+            ->orderBy('s.state', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+    public function findAllInstaller(): array
+    {
+        return $this->createQueryBuilder('s')
+            ->orWhere("s.state = :state")
+            ->setParameter('state',  "A_INSTALLER")
+            ->orderBy('s.state', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 
     public function findAllInactive(): array
     {

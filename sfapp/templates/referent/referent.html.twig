@@ -1,39 +1,175 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_referent.html.twig' %}
 
 
 {% block body %}
-    <section class="bandeau_ref">
-        <div class="pres_page">
-            <h1>Bonjour référent</h1>
-            <p>Vous vous trouvez sur la page d'accueil de l'espace référent. Vous pouvez y retrouver l'ensemble de vos SA et y gérer votre plan d'action en gérant les différents SA</p>
-            <p>🟢 Actif 🟠 A Installer 🔴 Maintenance ⚫ Inactif</p>
-        </div>
-        <div class="addSAButton">
-            <a id="saButton" href="{{ path("nouveau_SA") }}">Ajouter un nouveau SA</a>
-        </div>
-    </section>
+    <link rel="stylesheet" href="{{ asset('referent.css') }}">
     <section id="liste_salle">
         <ul class="block_sa">
             <h1>Plan d'action</h1>
-            {% for sa in planAction %}
-                <a href="{{ path('app_view_sa', {'id': sa.getId}) }}">
-                    <li class="listSA"> <!-- UN <LI></LI> = UNE LIGNE : ajouter les elements À L'INTERIEUR du li. Le webdesigner. -->
-                        <span class="sa_info"> {% if sa.state == 'A_INSTALLER' %}🟠 {% elseif sa.state == 'ACTIF' %}🟢 {% elseif sa.state == 'MAINTENANCE' %}🔴 {% endif %}{{ sa.name }} {{ sa.currentRoom.name }}</span>
-                        <a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}">Changer la salle</a>
-                        <a href="{{ path('delete_sa', {'id': sa.getId}) }}">Supprimer</a>
-                    </li>
-                </a>
-            {% endfor %}
-            <p id="test"></p>
+            <div id="filter">
+                <button class="btn active" onclick="filtre('all')">Tous</button>
+                <button class="btn" onclick="filtre('actif')">Actif</button>
+                <button class="btn" onclick="filtre('maintenance')">Maintenance</button>
+                <button class="btn" onclick="filtre('installer')">A Installer</button>
+            </div>
+            <div>
+                {% for sa in maintenance %}
+
+                    <div class="listSA maintenance">
+                        <div onclick="openSAPage({{ sa.id }})" id="left" class="caseListSA">
+                            🔴 {{ sa.name }}
+                            <img id="sa_data" src="{{ asset('images/data-center-table-management.png') }}" alt="trash_can" height="35px" width="35px">
+                        </div>
+                        <div id="center"  class="caseListSA">
+                            {{ sa.currentRoom.name }}
+                        </div>
+                        <div id="center"  class="caseListSA">
+                            <a href="{{ path('delete_sa', {'id': sa.getId}) }}"><span class="retirer_room_btn">Retirer</span></a>
+                        </div>
+                    </div>
+
+                {% endfor %}
+                {% for sa in installer %}
+                    <div class="listSA installer">
+                        <div id="left" class="caseListSA">
+                            🟠 {{ sa.name }}
+                            <img onclick="openSAPage({{ sa.id }})" id="sa_data" src="{{ asset('images/data-center-table-management.png') }}" alt="trash_can" >
+                        </div>
+                        <div id="center" class="caseListSA">
+                            {{ sa.currentRoom.name }}
+                        </div>
+                        <div id="center" class="caseListSA">
+                            <a href="{{ path('delete_sa', {'id': sa.getId}) }}"><span class="retirer_room_btn">Retirer</span></a>
+                        </div>
+                    </div>
+
+                {% endfor %}
+                {% for sa in actif %}
+                        <div class="listSA actif" onclick="viewSa({{ sa.id }})">
+                            <div id="left" class="caseListSA">
+                                🟢 {{ sa.name }}
+                                <img onclick="openSAPage({{ sa.id }})" id="sa_data" src="{{ asset('images/data-center-table-management.png') }}" alt="trash_can" height="35px" width="35px">
+                            </div>
+                            <div id="center"  class="caseListSA">
+                                {{ sa.currentRoom.name }}
+                            </div>
+                            <div id="center"  class="caseListSA">
+                                {{ form_start(formsChange[loop.index0],{'attr': {'id': 'form_changer_salle'}}) }}
+                                {{ form_widget(formsChange[loop.index0].newRoom,{'attr': {'onChange': 'openPopup("popupCS")', 'id':'dropdown'},'placeholder' : 'Changer la salle'})}}
+                                <div id="popupCS" class="popup">
+                                    <div class="popup-content">
+                                        <span class="close" onclick="closePopup('popupCS')">&times;</span>
+                                        <span>Voullez-vous vraiment changer la salle de ce systeme d'acquisition</span>
+                                        <div>
+                                            <button id="non" type="button" onclick="closePopup('popupCS')">Non</button>
+                                            {{ form_widget(formsChange[loop.index0].save) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                {{ form_end(formsChange[loop.index0]) }}
+                            </div>
+                        </div>
+                {% endfor %}
+            </div>
         </ul>
         <ul class="block_sa">
             <h1>SA disponibles</h1>
-            {% for sa in inactive %}
-                <li>
-                    {{ sa.name }}
-                    <a href="{{ path('changer_salle_sa', {'id': sa.getId}) }}">Affecter à une salle</a>
-                </li>
-            {% endfor %}
+            <div>
+                {% for sa in inactive %}
+                    <div class="listSAInactif">
+                        <div id="left" class="caseListSA">
+                            ⚫ {{ sa.name }}
+                        </div>
+                        <div id="center" class="caseListSA">
+                            {{ form_start(formsAdd[loop.index0],{'attr': {'id': 'form_changer_salle'}}) }}
+                            {{ form_widget(formsAdd[loop.index0].newRoom,{'attr': {'onChange': 'openPopup("popupAS")', 'id':'dropdown'}, 'placeholder' : 'Assigner une salle'})}}
+                            <div id="popupAS" class="popup">
+                                <div class="popup-content">
+                                    <span class="close" onclick="closePopup('popupAS')">&times;</span>
+                                    <span>Veuillez confirmer l'assignation</span>
+                                    <div>
+                                        <button id="non" type="button" onclick="closePopup('popupAS')">Non</button>
+                                        {{ form_widget(formsAdd[loop.index0].save) }}
+                                    </div>
+                                </div>
+                            </div>
+                            {{ form_end(formsAdd[loop.index0]) }}
+                        </div>
+                        <div id="right" class="caseListSA">
+                            <a href="{{ path('delete_sa_base', {'id': sa.getId}) }}" onclick="return confirm('Etes-vous sur de vouloir supprimer le SA {{ sa.name }}?')">
+                                <img id="trash_can" src="{{ asset('images/trash_can.png') }}" alt="trash_can" height="47px" width="47px">
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
         </ul>
     </section>
+    <script>
+
+        /*
+        document.querySelectorAll('.listSA').forEach(card => {
+            card.addEventListener('click', () => {
+                window.location.href = card.querySelector("#view").href;
+            });
+        });*/
+        function filtre(c) {
+            var x, i;
+            x = document.getElementsByClassName("listSA");
+            if (c === "all") c = "";
+            for (i = 0; i < x.length; i++) {
+                removeClass(x[i], "show");
+                if (x[i].className.indexOf(c) > -1){
+                    addClass(x[i], "show");
+                }
+            }
+        }
+
+        function addClass(element, name) {
+            var i, arr1, arr2;
+            arr1 = element.className.split(" ");
+            arr2 = name.split(" ");
+            for (i = 0; i < arr2.length; i++) {
+                if (arr1.indexOf(arr2[i]) === -1) {
+                    element.className += " " + arr2[i];
+                }
+            }
+        }
+
+        function removeClass(element, name) {
+            var i, arr1, arr2;
+            arr1 = element.className.split(" ");
+            arr2 = name.split(" ");
+            for (i = 0; i < arr2.length; i++) {
+                while (arr1.indexOf(arr2[i]) > -1) {
+                    arr1.splice(arr1.indexOf(arr2[i]), 1);
+                }
+            }
+            element.className = arr1.join(" ");
+        }
+        filtre('all')
+
+        // Add active class to the current button (highlight it)
+        var btnContainer = document.getElementById("filter");
+        var btns = btnContainer.getElementsByClassName("btn");
+        for (var i = 0; i < btns.length; i++) {
+            btns[i].addEventListener("click", function(){
+                var current = document.getElementsByClassName("active");
+                current[0].className = current[0].className.replace(" active", "");
+                this.className += " active";
+            });
+        }
+        function openPopup(popupId) {
+            document.getElementById(popupId).style.display = 'block';
+        }
+
+        function closePopup(popupId) {
+            document.getElementById(popupId).style.display = 'none';
+        }
+
+        function openSAPage(saID){
+            window.location.href = '/referent/sa/' + saID;
+        }
+
+    </script>
 {% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace Technicien{% endblock %}
+
+{% block body %}
+    {% extends 'base.html.twig' %}
+
+    {% block title %}Espace Technicien{% endblock %}
+
+    {% block body %}
+        <section class="bandeau_tech">
+        <div class="pres_page">
+
+            <div class="buttonPresPage">
+                <a id="button" href="{{ path("plan_salles") }}">Plan des salles</a>
+            </div>
+            <h1>Bonjour Technicien</h1>
+            <p>Vous êtes sur l'espace technicien. Vous pouvez consulter l'ensemble de vos interventions et les valider.</p>
+        </div>
+
+        <section id="liste_interventions">
+            <ul class="block_interv">
+                <h1>Installations en attente</h1>
+                <div>
+
+                    {% for install in installations %}
+
+                        <a id="view" href="{{ path('app_view_sa', {'id': sa.getId}) }}">
+
+                    {% endfor %}
+
+                </div>
+            </ul>
+            <ul class="block_interv">
+                <h1>SA disponibles</h1>
+                <div>
+                    {% for maintain in maintenances %}
+
+
+
+                    {% endfor %}
+                </div>
+            </ul>
+        </section>
+        </section>{% endblock %}
+{% endblock %}
