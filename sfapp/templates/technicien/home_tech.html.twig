@@ -18,11 +18,14 @@
 
                     {% for install in installations %}
 
-                        <a id="view" href="{{ path('app_view_installation', {'id': install.getId}) }}">
-                            <div class="listIntervention"> <!-- UN <LI></LI> = UNE LIGNE : ajouter les elements À L'INTERIEUR du li. Le webdesigner. -->
+                        <a id="view" href="{{ path('app_view_installation', {'id': install.sa.getId}) }}">
+                            <div class="listIntervention">
+                                <div>
+                                    {{ install.sa.name }}
+                                </div>
                                 <div>
                                     {% if install.sa.getOldRoom == NULL%}
-                                        <p>{{ install.sa.getCurrentRoom }}</p>
+                                        <p>{{ install.sa.getCurrentRoom.name }}</p>
                                     {% else %}
                                         <p>{{ install.sa.getOldRoom.getName }} vers {{ install.sa.getCurrentRoom.getName }}</p>
                                     {% endif %}
