@@ -39,10 +39,12 @@ void loop(void)
 {
   screen.clearBuffer();                           // Clears the buffer
 
-  displayScreen(0,15,"CO2 : ", 412.0);            // Displays the CO2 collected by the SGP30
-  displayScreen(0,25,"Temperature : ", 22.0);     // Displays the temperature collected by the DHT22
-  displayScreen(0,50, "Humidite : ", 3.0);        // Displays the humidity collected by the DHT22
-  displayScreen(0,50, "Luminosite : ", 500.0);    // Displays the CO2 collected by the LS06-MΦ
+  screen.drawStr(0,15,"Donnees");
+  displayScreen(0,29,"CO2 : ", 412.0);            // Displays the CO2 collected by the SGP30
+  displayScreen(0,38,"Temperature : ", 22.0);     // Displays the temperature collected by the DHT22
+  displayScreen(0,47, "Humidite : ", 3.0);        // Displays the humidity collected by the DHT22
+  displayScreen(0,56, "Luminosite : ", 500.0);    // Displays the CO2 collected by the LS06-MΦ
+  displayScreen(0,65, "Horodatage : ", 500.0);    // Displays the time where the data above was collected
 
   screen.sendBuffer();                            // Envoie la mémoire interne à l'affichage
   delay(5000);  
@@ -50,9 +52,8 @@ void loop(void)
 
 void displayScreen(int x, int y, string dataType, float value)
 {
-  string message;
   string stringValue = to_string(value);          // Transforming the float value in a string
-  string stringData = dataType + message;         // Fusionning the data type and the value converted to string
+  string stringData = dataType + stringValue;     // Fusionning the data type and the value converted to string
   const char * printedData = stringData.c_str();  // Converting the message from string to char * because drawStr only takes char* and no string
   screen.drawStr(x,y,printedData);                // Writing the message to the internal memory
 }
