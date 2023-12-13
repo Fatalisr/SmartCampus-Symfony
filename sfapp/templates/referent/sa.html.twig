@@ -33,13 +33,14 @@
 
                     {{ form_end(form) }}
                 </div>
-                <div class="pSAr">
-                    Encore des données.
+                <div class="pSAr" id="pSAR">
+                    <div id="graph3"></div>
                 </div>
             </aside>
             <section id="left">
-                <div class="pSAl" id="pSal">
-                    <div id="graph"></div>
+                <div class="pSAl" id="pSAl">
+                    <div id="graph1"></div>
+                    <div id="graph2"></div>
                 </div>
             </section>
         </section>
@@ -52,26 +53,81 @@
         </section>
     {% endif %}
     <script>
-
-        // set the dimensions and margins of the graph
-        var margin = {top: 10, right: 30, bottom: 30, left: 60},
-            width = 460 - margin.left - margin.right,
-            height = 400 - margin.top - margin.bottom;
-
-        // append the svg object to the body of the page
-        var svg = d3.select("#graph")
-            .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform",
-                "translate(" + margin.left + "," + margin.top + ")");
-
         //Read the data
-        /*d3.json("{{ asset("data/data_example.json") }}",*/
+        function traitementDonneeTemp() {
+            // Dimension de l'image SVG
+            var marginTop = (document.getElementById("pSAl").offsetWidth)*0.05,
+                marginRight = 10,
+                marginBottom = (document.getElementById("pSAl").offsetWidth)*0.05,
+                marginLeft= 20,
+                width = (document.getElementById("pSAl").offsetWidth) - marginLeft - marginRight,
+                height = ((document.getElementById("pSAl").offsetHeight)/2) - marginTop - marginBottom;
 
-        function traitementDonnee() {
-            console.log(jsondata);
+            // Ajout de l'image SVG dans la balise prévu
+            var svg1 = d3.select("#graph1")
+                .append("svg")
+                .attr("width",  width )
+                .attr("height", height + marginTop + marginBottom)
+                .append("g")
+                .attr("transform",
+                    "translate(" + marginLeft + "," + marginTop + ")");
+            d_array =  [];
+            // Ajout des données du fichier Json dans un tableau
+            for (let i = 0; i < jsondata.length; i++)
+            {
+                d_array.push({ dateCapture : d3.timeParse("%Y-%m-%d %H:%M:%S")(jsondata[i].dateCapture), valeur : jsondata[i].valeur });
+            }
+            console.log(d_array)
+            // Axe X -> Date de la donnée
+            x = d3.scaleTime()
+                .domain([d3.min(d_array, function(d) { return d.dateCapture; }),d3.max(d_array, function(d) { return +d.dateCapture; })])
+                .range([ 0, width ]);
+            svg1.append("g")
+                .attr("transform", "translate(0," + height + ")")
+                .call(d3.axisBottom(x));
+
+            // Axe Y -> Temp
+            y = d3.scaleLinear()
+                .domain([0,25])
+                .range([ height, 0 ]);
+            svg1.append("g")
+                .call(d3.axisLeft(y));
+
+            svg1.append("text")
+                .attr("class", "y label")
+                .attr("text-anchor", "start")
+                .attr("x", -marginLeft)
+                .attr("y", -5)
+                .text("Température (°C)");
+
+            // Création de la courbe qui passe par tous les points et ajout de la courbe au dessin
+            svg1.append("path")
+                .datum(d_array)
+                .attr("fill", "none")
+                .attr("stroke", "blue")
+                .attr("stroke-width",2)
+                .attr("d", d3.line()
+                    .x(function(d) { return x(d.dateCapture) })
+                    .y(function(d) { return y(d.valeur) })
+                )
+        }
+        function traitementDonneeHum() {
+            // set the dimensions and margins of the graph
+            var marginTop = (document.getElementById("pSAl").offsetWidth)*0.05,
+                marginRight = 10,
+                marginBottom = (document.getElementById("pSAl").offsetWidth)*0.05,
+                marginLeft= 25,
+                width = (document.getElementById("pSAl").offsetWidth) - marginLeft - marginRight,
+                height = ((document.getElementById("pSAl").offsetHeight)/2) - marginTop - marginBottom;
+
+            // append the svg object to the body of the page
+            var svg1 = d3.select("#graph2")
+                .append("svg")
+                .attr("width",  width )
+                .attr("height", height + marginTop + marginBottom)
+                .append("g")
+                .attr("transform",
+                    "translate(" + marginLeft + "," + marginTop + ")");
             d_array =  [];
             for (let i = 0; i < jsondata.length; i++)
             {
@@ -80,35 +136,109 @@
             console.log(d_array)
             // Add X axis --> it is a date format
             x = d3.scaleTime()
-                //d3.extent(d_array, function(d) { console.log(d); d.dateCapture; })
-                .domain([d3.min(d_array, function(d) { return +d.dateCapture; }),d3.max(d_array, function(d) { return +d.dateCapture; })])
-                .range([ 0, 1500 ]);
-            svg.append("g")
+                .domain([d3.min(d_array, function(d) { return d.dateCapture; }),d3.max(d_array, function(d) { return +d.dateCapture; })])
+                .range([ 0, width ]);
+            svg1.append("g")
                 .attr("transform", "translate(0," + height + ")")
                 .call(d3.axisBottom(x));
+            /*.attr("text-anchor", "start")
+            .text("↑ Daily close ($)");*/
 
             // Add Y axis
             y = d3.scaleLinear()
-                .domain([0,25])
+                .domain([0,100])
                 .range([ height, 0 ]);
-            svg.append("g")
+            svg1.append("g")
                 .call(d3.axisLeft(y));
 
+            svg1.append("text")
+                .attr("class", "y label")
+                .attr("text-anchor", "start")
+                .attr("x", -marginLeft)
+                .attr("y", -5)
+                .text("Humidité (%)");
+
             // Add the line
-            svg.append("path")
+            svg1.append("path")
                 .datum(d_array)
                 .attr("fill", "none")
-                .attr("stroke", "steelblue")
-                .attr("stroke-width", 1.5)
+                .attr("stroke", "blue")
+                .attr("stroke-width",2)
+                .attr("d", d3.line()
+                    .x(function(d) { return x(d.dateCapture) })
+                    .y(function(d) { return y(d.valeur) })
+                )
+        }
+        function traitementDonneeCO2() {
+            // set the dimensions and margins of the graph
+            var marginTop = (document.getElementById("pSAR").offsetWidth)*0.05,
+                marginRight = 10,
+                marginBottom = (document.getElementById("pSAR").offsetWidth)*0.05,
+                marginLeft= 35,
+                width = (document.getElementById("pSAR").offsetWidth) - marginLeft - marginRight,
+                height = ((document.getElementById("pSAR").offsetHeight)) - marginTop - marginBottom;
+
+            // append the svg object to the body of the page
+            var svg1 = d3.select("#graph3")
+                .append("svg")
+                .attr("width",  width )
+                .attr("height", height + marginTop + marginBottom)
+                .append("g")
+                .attr("transform",
+                    "translate(" + marginLeft + "," + marginTop + ")");
+            d_array =  [];
+            for (let i = 0; i < jsondata.length; i++)
+            {
+                d_array.push({ dateCapture : d3.timeParse("%Y-%m-%d %H:%M:%S")(jsondata[i].dateCapture), valeur : jsondata[i].valeur });
+            }
+            console.log(d_array)
+            // Add X axis --> it is a date format
+            x = d3.scaleTime()
+                .domain([d3.min(d_array, function(d) { return d.dateCapture; }),d3.max(d_array, function(d) { return +d.dateCapture; })])
+                .range([ 0, width ]);
+            svg1.append("g")
+                .attr("transform", "translate(0," + height + ")")
+                .call(d3.axisBottom(x));
+            /*.attr("text-anchor", "start")
+            .text("↑ Daily close ($)");*/
+
+            // Add Y axis
+            y = d3.scaleLinear()
+                .domain([0,2000])
+                .range([ height, 0 ]);
+            svg1.append("g")
+                .call(d3.axisLeft(y));
+
+            svg1.append("text")
+                .attr("class", "y label")
+                .attr("text-anchor", "start")
+                .attr("x", -marginLeft)
+                .attr("y", -5)
+                .text("CO2 (ppm)");
+
+            // Add the line
+            svg1.append("path")
+                .datum(d_array)
+                .attr("fill", "none")
+                .attr("stroke", "blue")
+                .attr("stroke-width",2)
                 .attr("d", d3.line()
                     .x(function(d) { return x(d.dateCapture) })
                     .y(function(d) { return y(d.valeur) })
                 )
         }
 
-        d3.json("{{ asset("data/data_example.json") }}", function(datafromserver) {
+        d3.json("{{ asset("data/data_example_temp.json") }}", function(datafromserver) {
             jsondata = datafromserver;
-            traitementDonnee();
+            traitementDonneeTemp();
+        });
+        d3.json("{{ asset("data/data_example_hum.json") }}", function(datafromserver) {
+            jsondata = datafromserver;
+            traitementDonneeHum();
+        });
+        d3.json("{{ asset("data/data_example_co2.json") }}", function(datafromserver) {
+            jsondata = datafromserver;
+            traitementDonneeCO2();
         });
 
     </script>
