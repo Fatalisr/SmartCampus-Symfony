@@ -1,0 +1,122 @@
+[
+  {
+    "id" : 51,
+    "nom" : "co2",
+    "valeur" : "452",
+    "dateCapture" : "2022-11-28 08:00:00",
+    "localisation" : "D004",
+    "description" : "",
+    "tag" : 13
+  },
+  {
+    "id" : 52,
+    "nom" : "co2",
+    "valeur" : "503",
+    "dateCapture" : "2022-11-28 08:05:00",
+    "localisation" : "D004",
+    "description" : "",
+    "tag" : 1
+  },
+  {
+    "id" : 53,
+    "nom" : "co2",
+    "valeur" : "621",
+    "dateCapture" : "2022-11-28 08:10:00",
+    "localisation" : "D004",
+    "description" : "",
+    "tag" : 1
+  },
+  {
+    "id" : 54,
+    "nom" : "co2",
+    "valeur" : "550",
+    "dateCapture" : "2022-11-28 08:15:00",
+    "localisation" : "D004",
+    "description" : "",
+    "tag" : 1
+  },
+  {
+    "id" : 55,
+    "nom" : "co2",
+    "valeur" : "700",
+    "dateCapture" : "2022-11-28 08:20:00",
+    "localisation" : "D004",
+    "description" : "",
+    "tag" : 1
+  },
+  {
+    "id" : 56,
+    "nom" : "co2",
+    "valeur" : "800",
+    "dateCapture" : "2022-11-28 08:25:00",
+    "localisation" : "D004",
+    "description" : "",
+    "tag" : 1
+  },
+  {
+    "id" : 57,
+    "nom" : "co2",
+    "valeur" : "1100",
+    "dateCapture" : "2022-11-28 08:30:00",
+    "localisation" : "D004",
+    "description" : "",
+    "tag" : 1
+  },
+  {
+    "id" : 58,
+    "nom" : "co2",
+    "valeur" : "1200",
+    "dateCapture" : "2022-11-28 08:35:00",
+    "localisation" : "D004",
+    "description" : "",
+    "tag" : 1
+  },
+  {
+    "id" : 59,
+    "nom" : "co2",
+    "valeur" : "1000",
+    "dateCapture" : "2022-11-28 08:40:00",
+    "localisation" : "D004",
+    "description" : "",
+    "tag" : 1
+  },
+  {
+    "id" : 60,
+    "nom" : "co2",
+    "valeur" : "950",
+    "dateCapture" : "2022-11-28 08:45:00",
+    "localisation" : "D004",
+    "description" : "",
+    "tag" : 1
+  }
+,
+  {
+    "id" : 61,
+    "nom" : "co2",
+    "valeur" : "750",
+    "dateCapture" : "2022-11-28 08:50:00",
+    "localisation" : "D004",
+    "description" : "",
+    "tag" : 1
+  }
+,
+  {
+    "id" : 62,
+    "nom" : "co2",
+    "valeur" : "700",
+    "dateCapture" : "2022-11-28 08:55:00",
+    "localisation" : "D004",
+    "description" : "",
+    "tag" : 1
+  }
+,
+  {
+    "id" : 63,
+    "nom" : "co2",
+    "valeur" : "520",
+    "dateCapture" : "2022-11-28 09:00:00",
+    "localisation" : "D004",
+    "description" : "",
+    "tag" : 1
+  }
+]

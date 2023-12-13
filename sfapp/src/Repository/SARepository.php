@@ -73,8 +73,7 @@ class SARepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
-
-    public function findMaintenanceBySAId($sa)
+    public function findInstallationBySAId($sa)
     {
         return $this->createQueryBuilder('s')
             ->select('i')
@@ -85,7 +84,6 @@ class SARepository extends ServiceEntityRepository
             ->getOneOrNullResult();
 
     }
-
 //    /**
 //     * @return SA[] Returns an array of SA objects
 //     */
