@@ -1,7 +1,59 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello TechnicienController!{% endblock %}
+{% block title %}Espace Technicien{% endblock %}
 
 {% block body %}
-TECHNICIEN
+
+        <section class="bandeau_tech">
+            <div class="pres_page">
+
+
+                <h1>Bonjour Technicien</h1>
+                <p>Vous êtes sur l'espace technicien. Vous pouvez consulter l'ensemble de vos interventions et les valider.</p>
+
+                <div class="buttonPresPage">
+                    <a id="button" href="{{ path("plan_salles") }}">Plan des salles</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="liste_interventions">
+            <ul class="block_interv">
+                <h1>Installations en attente</h1>
+                <div>
+
+                    {% for install in installations %}
+
+                        <a id="view" href="{{ path('app_view_installation', {'id': install.getId}) }}">
+                            <div class="listIntervention"> <!-- UN <LI></LI> = UNE LIGNE : ajouter les elements À L'INTERIEUR du li. Le webdesigner. -->
+                                <div>
+                                    {% if install.sa.getOldRoom == NULL%}
+                                        <p>{{ install.sa.getCurrentRoom }}</p>
+                                    {% else %}
+                                        <p>{{ install.sa.getOldRoom.getName }} vers {{ install.sa.getCurrentRoom.getName }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+
+                </div>
+            </ul>
+            <ul class="block_interv">
+                <h1>Maintenances en attente</h1>
+                <div>
+                    {% for maintain in maintenances %}
+
+                        <a id="view" href="{{ path('app_view_maintenance', {'id': maintain.getId}) }}">
+                            <div class="listIntervention"> <!-- UN <LI></LI> = UNE LIGNE : ajouter les elements À L'INTERIEUR du li. Le webdesigner. -->
+                                <p>{{ maintain.sa.getName }}</p>
+                                <p>{{ maintain.sa.getCurrentRoom.getName }}</p>
+                            </div>
+                        </a>
+
+
+                    {% endfor %}
+                </div>
+            </ul>
+        </section>
 {% endblock %}

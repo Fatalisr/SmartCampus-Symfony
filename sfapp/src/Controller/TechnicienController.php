@@ -12,12 +12,20 @@ use Symfony\Component\Routing\Annotation\Route;
 class TechnicienController extends AbstractController
 {
     #[Route('/technicien', name: 'app_technicien')]
-    public function index(): Response
+    public function index(ManagerRegistry $doctrine): Response
     {
+        $entityManager = $doctrine->getManager();
+        $interventionRepository = $entityManager->getRepository('App\Entity\Intervention');
+
+        $installations = $interventionRepository->findAllInstallations();
+        $maintenances = $interventionRepository->findAllMaintenances();
+
         return $this->render('technicien/home_tech.html.twig', [
-            'controller_name' => 'TechnicienController',
+            'maintenances' => $maintenances,
+            'installations' => $installations,
         ]);
     }
+
     #[Route('/technicien/maintenance/{id}', name: 'mainteannce')]
     public function maintenance(?int $id, ManagerRegistry $doctrine, Request $request) : Response
     {
@@ -55,4 +63,20 @@ class TechnicienController extends AbstractController
             'form_validMtn' => $form_validMtn,
         ]);
     }
+
+
+
+    #[Route('/technicien/installation/{id}', name: 'app_view_installation')]
+    public function view_installation(?int $id,ManagerRegistry $doctrine,Request $request): Response
+    {
+        $entityManager = $doctrine->getManager();
+        $interventionRepository = $entityManager->getRepository('App\Entity\Intervention');
+
+
+        return $this->render('technicien/installation.html.twig', [
+
+        ]);
+    }
+
+
 }

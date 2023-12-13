@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="icon" href="{{ asset('images/leaf.png') }}">
+    <!-- Fichier CSS -->
+    <link rel="stylesheet" href="{{ asset('base.css') }}">
+
+    <!-- Inclure les nouveaux fichier CSS ici -->
+
+    {% block javascripts %}
+    {% endblock %}
+</head>
+<body>
+<header>
+    <div id="nameAndlogo">
+        <img id="leaf" src="{{ asset('images/leaf.png') }}" alt="leaf" height="50%" width="5%">
+        <h1>SMART CAMPUS</h1>
+    </div>
+    <a href="{{ path("nouveau_SA") }}">Ajouter un nouveau SA</a>
+    <a href="{{ path("plan_salles") }}">Plan des salles</a>
+    <a onclick="openPopup('popupInfo')">Informations</a>
+    <div id="popupInfo" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closePopup('popupInfo')">&times;</span>
+            <span>Informations generales</span>
+            <div>
+                <span>Actif : 🟢</span>
+                <span>Installation : 🟠</span>
+                <span>Maintenance : 🔴</span>
+                <span>Inactif : ⚫</span>
+            </div>
+            <div>
+                Visualisation des données : <img src="{{ asset('images/data-center-table-management.png') }}" alt="trash_can" height="35px" width="35px">
+            </div>
+        </div>
+    </div>
+    <a id="logout" href="{{ path('app_logout') }}">Déconnexion</a>
+</header>
+<script>
+function returnHome(){
+    window.location.href = '/referent';
+}
+function openPopup(popupId) {
+    document.getElementById(popupId).style.display = 'block';
+}
+
+function closePopup(popupId) {
+    document.getElementById(popupId).style.display = 'none';
+}
+</script>
+{% block body %}{% endblock %}
+</body>
+</html>
