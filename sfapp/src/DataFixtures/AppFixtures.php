@@ -389,38 +389,38 @@ class AppFixtures extends Fixture
 
         // SA 1
         $sa = new SA();
-        $sa->setName("SA1");
+        $sa->setName("SA10");
         $sa->setState("ACTIF");
         $sa->setCurrentRoom($this->getReference('D001'));
         $manager->persist($sa);
 
         $sa12 = new SA();
-        $sa12->setName("SA12");
+        $sa12->setName("SA11");
         $sa12->setState("ACTIF");
         $sa12->setCurrentRoom($this->getReference('D306'));
         $manager->persist($sa12);
 
         $sa13 = new SA();
-        $sa13->setName("SA13");
+        $sa13->setName("SA12");
         $sa13->setState("ACTIF");
         $sa13->setCurrentRoom($this->getReference('C004'));
         $manager->persist($sa13);
 
         // SA 2
         $sa2 = new SA();
-        $sa2->setName("SA2");
+        $sa2->setName("SA20");
         $sa2->setState("A_INSTALLER");
         $sa2->setCurrentRoom($this->getReference('C005'));
         $manager->persist($sa2);
         // SA 3
         $sa3 = new SA();
-        $sa3->setName("SA3");
+        $sa3->setName("SA21");
         $sa3->setState("MAINTENANCE");
         $sa3->setCurrentRoom($this->getReference('D304'));
         $manager->persist($sa3);
         // SA 4
         $sa4 = new SA();
-        $sa4->setName("SA3");
+        $sa4->setName("SA30");
         $sa4->setState("INACTIF");
         $manager->persist($sa4);
 
