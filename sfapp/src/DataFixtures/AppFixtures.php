@@ -431,6 +431,13 @@ class AppFixtures extends Fixture
         $Inst1->setStartingDate(new \DateTime());
         $manager->persist($Inst1);
 
+        $Inst2 = new Intervention();
+        $sa13->setOldRoom($sa13->getCurrentRoom());
+        $sa13->setCurrentRoom($this->getReference('D302'));
+        $Inst2->setSa($sa13);
+        $Inst2->setType("INSTALLATION");
+        $Inst2->setStartingDate(new \DateTime());
+        $manager->persist($Inst2);
 
         $ref1 = new User();
         $ref1->setUsername("ref1");

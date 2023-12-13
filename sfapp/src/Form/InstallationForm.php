@@ -17,7 +17,7 @@ class InstallationForm extends \Symfony\Component\Form\AbstractType
     {
         $builder
             ->add('valid', SubmitType::class, [
-                'label' => "VALIDER L'INSATLLATION"
+                'label' => "VALIDER L'INSTALLATION"
             ]);
 
     }
