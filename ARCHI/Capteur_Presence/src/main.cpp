@@ -9,14 +9,18 @@
  */
 bool get_Motion_value();
 
+/*
+ * @brief Initializes the sensor
+ */
+void init_motion_sensor();
 
 /*
  * @brief Setup of the sensor
 */
 void setup()
 {
-  Serial.begin(115200);  // set baud rate as 115200
-  pinMode(digital_pir_sensor,INPUT); // set Pin mode as input
+  Serial.begin(9600);  // set baud rate as 115200
+  init_motion_sensor();
 }
 
 
@@ -38,4 +42,9 @@ bool get_Motion_value()
 {
   bool state = digitalRead(digital_pir_sensor); // read from PIR sensor
   return state; // return 1 if a motion is detected return 0 else
+}
+
+void init_motion_sensor()
+{
+    pinMode(digital_pir_sensor,INPUT); // set Pin mode as input
 }
