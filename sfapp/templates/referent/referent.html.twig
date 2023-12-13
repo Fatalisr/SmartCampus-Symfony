@@ -86,7 +86,7 @@
                             <div id="popupAS" class="popup">
                                 <div class="popup-content">
                                     <span class="close" onclick="closePopup('popupAS')">&times;</span>
-                                    <span>Veuillez confirmer l'assignation</span>
+                                    <span>Veuillez confirmer l'assignation {{ sa.name }}</span>
                                     <div>
                                         <button id="non" type="button" onclick="closePopup('popupAS')">Non</button>
                                         {{ form_widget(formsAdd[loop.index0].save) }}

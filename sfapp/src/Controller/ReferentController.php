@@ -37,42 +37,56 @@ class ReferentController extends AbstractController
         $formsAdd = [];
 
         foreach ($actif as $sa){
-            $form = $this->createForm(changerSalleForm::class);
-            $form->handleRequest($request);
+            $formChanger = $this->createForm(changerSalleForm::class);
+            $formChanger->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()) {
+            if ($formChanger->isSubmitted() && $formChanger->isValid()) {
 
-                if($form->get('newRoom')->getData()) {
+                if($formChanger->get('newRoom')->getData()) {
                     $sa->setState("A_INSTALLER");
+
+                    $installation = new Intervention();
+                    $installation->setType("INSTALLATION");
+                    $installation->setSa($sa);
+                    date_default_timezone_set('UTC');
+                    $installation->setStartingDate(date_create(date("m.d.y")));
+
+                    $entityManager->persist($installation);
                 }
-                else {
-                    $sa->setState("INACTIF");
-                }
+
 
                 $sa->setOldRoom($sa->getCurrentRoom());
-                $sa->setCurrentRoom($form->get('newRoom')->getData());
+                $sa->setCurrentRoom($formChanger->get('newRoom')->getData());
 
                 $entityManager->persist($sa);
                 $entityManager->flush();
 
                 return $this->redirectToRoute('app_referent',[]);
             }
-            $formsChange[] = $form->createView();
+            $formsChange[] = $formChanger->createView();
         }
 
         foreach ($inactive as $sa){
-            $form = $this->createForm(changerSalleForm::class);
-            $form->handleRequest($request);
+            $formAdd = $this->createForm(changerSalleForm::class);
+            $formAdd->handleRequest($request);
+            if ($formAdd->isSubmitted() && $formAdd->isValid()) {
 
-            if ($form->isSubmitted() && $form->isValid()) {
                 $sa->setState("A_INSTALLER");
-                $sa->setCurrentRoom($form->get('newRoom')->getData());
+                $sa->setCurrentRoom($formAdd->get('newRoom')->getData());
+
+                $installation = new Intervention();
+                $installation->setType("INSTALLATION");
+                $installation->setSa($sa);
+                date_default_timezone_set('UTC');
+                $installation->setStartingDate(date_create(date("m.d.y")));
+
                 $entityManager->persist($sa);
+                $entityManager->persist($installation);
                 $entityManager->flush();
 
                 return $this->redirectToRoute('app_referent',[]);
             }
-            $formsAdd[] = $form->createView();
+            $formsAdd[] = $formAdd->createView();
         }
 
         return $this->render("referent/referent.html.twig", [

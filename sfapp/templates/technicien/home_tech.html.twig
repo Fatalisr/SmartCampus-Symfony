@@ -28,7 +28,7 @@
                             <div class="listIntervention"> <!-- UN <LI></LI> = UNE LIGNE : ajouter les elements À L'INTERIEUR du li. Le webdesigner. -->
                                 <div>
                                     {% if install.sa.getOldRoom == NULL%}
-                                        <p>{{ install.sa.getCurrentRoom }}</p>
+                                        <p>{{ install.sa.getCurrentRoom.getName }}</p>
                                     {% else %}
                                         <p>{{ install.sa.getOldRoom.getName }} vers {{ install.sa.getCurrentRoom.getName }}</p>
                                     {% endif %}
@@ -50,7 +50,6 @@
                                 <p>{{ maintain.sa.getCurrentRoom.getName }}</p>
                             </div>
                         </a>
-
 
                     {% endfor %}
                 </div>

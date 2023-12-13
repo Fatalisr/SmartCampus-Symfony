@@ -67,7 +67,6 @@ class SARepository extends ServiceEntityRepository
         return $this->createQueryBuilder('s')
             ->orWhere("s.state = :state")
             ->setParameter('state',  "INACTIF")
-            ->orderBy('s.state', 'ASC')
             ->getQuery()
             ->getResult()
             ;
