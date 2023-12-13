@@ -32,7 +32,7 @@ class TechnicienController extends AbstractController
         $entityManager =  $doctrine->getManager();
         $saRepo = $entityManager->getRepository('App\Entity\SA');
         $curSA = $saRepo->find($id);
-        $maintenance = $saRepo->findMaintenanceBySAId($curSA);
+        $interMaintenance = $saRepo->findMaintenanceBySAId($curSA);
 
         $form_validMtn = $this->createForm(MaintenanceForm::class);
         $form_validMtn->handleRequest($request);
@@ -46,10 +46,11 @@ class TechnicienController extends AbstractController
             }else{
                 $curSA->setState('INACTIF');
             }
-            $maintenance->setEndingDate($dateCourante);
+            $interMaintenance->setReport($form_validMtn->get('report')->getData());
+            $interMaintenance->setEndingDate($dateCourante);
 
             $entityManager->persist($curSA);
-            $entityManager->persist($maintenance);
+            $entityManager->persist($interMaintenance);
 
             $entityManager->flush();
 
@@ -59,7 +60,7 @@ class TechnicienController extends AbstractController
 
         return $this->render('technicien/maintenance.html.twig',[
             'curSA' => $curSA,
-            'maintenance' => $maintenance,
+            'maintenance' => $interMaintenance,
             'form_validMtn' => $form_validMtn,
         ]);
     }
@@ -71,7 +72,6 @@ class TechnicienController extends AbstractController
     {
         $entityManager = $doctrine->getManager();
         $interventionRepository = $entityManager->getRepository('App\Entity\Intervention');
-
 
         return $this->render('technicien/installation.html.twig', [
 

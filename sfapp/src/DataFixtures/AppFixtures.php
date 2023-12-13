@@ -425,8 +425,13 @@ class AppFixtures extends Fixture
         $sa4->setState("INACTIF");
         $manager->persist($sa4);
 
-
-
+        // Intervention Maintenance sur SA3
+        $intervention1 = new Intervention();
+        $intervention1->setSa($sa3);
+        $intervention1->setMessage("Le capteur de CO2 ne remonte plus de données, verifier le capteur et les branchements");
+        $intervention1->setStartingDate(new \DateTime());
+        $intervention1->setType('MAINTENANCE');
+        $manager->persist($intervention1);
 
         $ref1 = new User();
         $ref1->setUsername("ref1");

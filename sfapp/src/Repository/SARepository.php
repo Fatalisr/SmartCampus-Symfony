@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\SA;
-use App\Entity\Maintenance;
+use App\Entity\Intervention;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -77,9 +77,9 @@ class SARepository extends ServiceEntityRepository
     public function findMaintenanceBySAId($sa)
     {
         return $this->createQueryBuilder('s')
-            ->select('m')
-            ->from('App\Entity\Maintenance', 'm')
-            ->where('m.sa = :sa and m.endingDate is null')
+            ->select('i')
+            ->from('App\Entity\Intervention', 'i')
+            ->where('i.sa = :sa and i.endingDate is null')
             ->setParameter('sa', $sa)
             ->getQuery()
             ->getOneOrNullResult();
