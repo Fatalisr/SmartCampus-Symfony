@@ -2,10 +2,10 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Intervention;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use App\Entity\Intervention;
 use App\Entity\Room;
 use App\Entity\SA;
 
@@ -424,7 +424,12 @@ class AppFixtures extends Fixture
         $sa4->setState("INACTIF");
         $manager->persist($sa4);
 
-
+        //Installation 1
+        $Inst1 = new Intervention();
+        $Inst1->setSa($sa2);
+        $Inst1->setType("INSTALLATION");
+        $Inst1->setStartingDate(new \DateTime());
+        $manager->persist($Inst1);
 
 
         $ref1 = new User();
@@ -439,7 +444,6 @@ class AppFixtures extends Fixture
         $ref1->setPassword("$2y$13$/Bpyv7s0SexmSOxxaINszOMmtqs7iSIFINdzBfKAQUAmHMthVAKzS");
         $ref1->setRoles(["ROLE_TECHNICIEN"]);
         $manager->persist($ref1);
-
 
         $manager->flush();
     }

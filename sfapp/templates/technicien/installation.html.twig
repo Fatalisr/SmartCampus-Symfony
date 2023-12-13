@@ -1,5 +1,35 @@
 {% extends 'base.html.twig' %}
 
+
+{% block title %}Installation{% endblock %}
+
+{% block body %}
+    <link rel="stylesheet" href={{ asset('tech_maintenance.css') }}>
+    <div id="div_sa_info">
+        <div class="imgANDtext">
+            <span>  {{ curSA.name }} </span>
+        </div>
+        <div class="imgANDtext">
+            {% if curSA.oldRoom is NULL %}
+                <h2>Salle actuelle :</h2>
+                <p>{{  cursa.oldRoom }}</p>
+            {% endif %}
+            <h2>A installer en :</h2>
+            <span> {{ curSA.currentRoom.name }} </span>
+        </div>
+        <a href="{{ path("app_technicien") }}"><span>Retour</span></a>
+    </div>
+    <div id="block_ref_msg">
+        <div id="ref_msg">
+            <h2>Etapes de l'installation :</h2>
+            <p>1 - Branchement du système d'acquisition</p>
+            <p>2 - Configuration</p>
+            <p>3 - Test des données remontées</p>
+        </div>
+    </div>
+    {{ form_start(form_validInstal) }}
+    {{ form_widget(form_validInstal.valid) }}
+    {{ form_end(form_validInstal) }}
 {% block title %}Espace Technicien{% endblock %}
 
 {% block body %}
