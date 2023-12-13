@@ -3,6 +3,7 @@
 {% block body %}
     <link rel="stylesheet" href="{{ asset('detail_SA.css') }}">
     <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="{{ asset('graph.js') }}"></script>
     <div class="fse">
         <p> {{ nom }}</p>
         <p>{{ salle }}</p>
@@ -33,11 +34,11 @@
                     {{ form_end(form) }}
                 </div>
                 <div class="pSAr">
-                    Right bottom
+                    Encore des données.
                 </div>
             </aside>
             <section id="left">
-                <div class="pSAl">
+                <div class="pSAl" id="pSal">
                     <div id="graph"></div>
                 </div>
             </section>
@@ -50,15 +51,15 @@
             </div>
         </section>
     {% endif %}
-
     <script>
+
         // set the dimensions and margins of the graph
-        var margin = {top: 10, right: 40, bottom: 30, left: 30},
-            width = 450 - margin.left - margin.right,
+        var margin = {top: 10, right: 30, bottom: 30, left: 60},
+            width = 460 - margin.left - margin.right,
             height = 400 - margin.top - margin.bottom;
 
         // append the svg object to the body of the page
-        var svG = d3.select("#graph")
+        var svg = d3.select("#graph")
             .append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
@@ -66,35 +67,49 @@
             .attr("transform",
                 "translate(" + margin.left + "," + margin.top + ")");
 
-        // Create data
-        var data = [ {x:10, y:20}, {x:40, y:90}, {x:80, y:50} ]
+        //Read the data
+        /*d3.json("{{ asset("data/data_example.json") }}",*/
 
-        // X scale and Axis
-        var x = d3.scaleLinear()
-            .domain([0, 100])         // This is the min and the max of the data: 0 to 100 if percentages
-            .range([0, width]);       // This is the corresponding value I want in Pixel
-        svG
-            .append('g')
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x));
+        function traitementDonnee() {
+            console.log(jsondata);
+            d_array =  [];
+            for (let i = 0; i < jsondata.length; i++)
+            {
+                d_array.push({ dateCapture : d3.timeParse("%Y-%m-%d %H:%M:%S")(jsondata[i].dateCapture), valeur : jsondata[i].valeur });
+            }
+            console.log(d_array)
+            // Add X axis --> it is a date format
+            x = d3.scaleTime()
+                //d3.extent(d_array, function(d) { console.log(d); d.dateCapture; })
+                .domain([d3.min(d_array, function(d) { return +d.dateCapture; }),d3.max(d_array, function(d) { return +d.dateCapture; })])
+                .range([ 0, 1500 ]);
+            svg.append("g")
+                .attr("transform", "translate(0," + height + ")")
+                .call(d3.axisBottom(x));
 
-        // X scale and Axis
-        var y = d3.scaleLinear()
-            .domain([0, 100])         // This is the min and the max of the data: 0 to 100 if percentages
-            .range([height, 0]);       // This is the corresponding value I want in Pixel
-        svG
-            .append('g')
-            .call(d3.axisLeft(y));
+            // Add Y axis
+            y = d3.scaleLinear()
+                .domain([0,25])
+                .range([ height, 0 ]);
+            svg.append("g")
+                .call(d3.axisLeft(y));
 
-        // Add 3 dots for 0, 50 and 100%
-        svG
-            .selectAll("whatever")
-            .data(data)
-            .enter()
-            .append("circle")
-            .attr("cx", function(d){ return x(d.x) })
-            .attr("cy", function(d){ return y(d.y) })
-            .attr("r", 5)
-        <!--d3js.org/what-is-d3-->
+            // Add the line
+            svg.append("path")
+                .datum(d_array)
+                .attr("fill", "none")
+                .attr("stroke", "steelblue")
+                .attr("stroke-width", 1.5)
+                .attr("d", d3.line()
+                    .x(function(d) { return x(d.dateCapture) })
+                    .y(function(d) { return y(d.valeur) })
+                )
+        }
+
+        d3.json("{{ asset("data/data_example.json") }}", function(datafromserver) {
+            jsondata = datafromserver;
+            traitementDonnee();
+        });
+
     </script>
 {% endblock %}

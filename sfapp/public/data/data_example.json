@@ -10,18 +10,37 @@
   },
   {
     "id" : 52,
-    "nom" : "hum",
-    "valeur" : "13",
-    "dateCapture" : "2022-11-28 08:00:00",
+    "nom" : "temp",
+    "valeur" : "22",
+    "dateCapture" : "2022-11-28 08:05:00",
     "localisation" : "D004",
     "description" : "",
     "tag" : 1
   },
   {
     "id" : 53,
-    "nom" : "co2",
-    "valeur" : "440",
-    "dateCapture" : "2022-11-28 08:00:00",
+    "nom" : "temp",
+    "valeur" : "19.3",
+    "dateCapture" : "2022-11-28 08:10:00",
+    "localisation" : "D004",
+    "description" : "",
+    "tag" : 1
+  },
+  {
+    "id" : 53,
+    "nom" : "temp",
+    "valeur" : "22",
+    "dateCapture" : "2022-11-28 08:15:00",
+    "localisation" : "D004",
+    "description" : "",
+    "tag" : 1
+  }
+,
+  {
+    "id" : 53,
+    "nom" : "temp",
+    "valeur" : "19.6",
+    "dateCapture" : "2022-11-28 08:20:00",
     "localisation" : "D004",
     "description" : "",
     "tag" : 1
