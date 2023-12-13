@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Welcome!{% endblock %}</title>
+    <title>{% block title %}Espace Référent{% endblock %}</title>
     <link rel="icon" href="{{ asset('images/leaf.png') }}">
     <!-- Fichier CSS -->
     <link rel="stylesheet" href="{{ asset('base.css') }}">
@@ -26,10 +26,10 @@
             <span class="close" onclick="closePopup('popupInfo')">&times;</span>
             <span>Informations generales</span>
             <div>
-                <span>Actif : 🟢</span>
-                <span>Installation : 🟠</span>
-                <span>Maintenance : 🔴</span>
-                <span>Inactif : ⚫</span>
+                <span>Actif : 🟢</span><br>
+                <span>Installation : 🟠</span><br>
+                <span>Maintenance : 🔴</span><br>
+                <span>Inactif : ⚫</span><br>
             </div>
             <div>
                 Visualisation des données : <img src="{{ asset('images/data-center-table-management.png') }}" alt="trash_can" height="35px" width="35px">
