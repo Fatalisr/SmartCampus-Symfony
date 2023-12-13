@@ -20,6 +20,16 @@ class SARepositoryTest extends KernelTestCase
 
     public function testFindAllPlanAction(): void
     {
+
+        // Delete the entry in the database to avoid conflict with the tests
+        $this->entityManager->beginTransaction(); // Begin a transaction
+        $query = $this->entityManager->createQuery('DELETE FROM App\Entity\INTERVENTION');
+        $query->execute();
+        $query = $this->entityManager->createQuery('DELETE FROM App\Entity\SA SA');
+        $query->execute();
+        $this->entityManager->commit();
+
+
         $sa = new SA();
         $sa->setName("Test_SA1");
         $sa->setState("ACTIF");
@@ -43,21 +53,24 @@ class SARepositoryTest extends KernelTestCase
 
         // Delete the entry in the database to avoid conflict with the tests
         $this->entityManager->beginTransaction(); // Begin a transaction
-        $this->entityManager->createQuery("DELETE FROM App\Entity\SA SA WHERE SA.name=:nom")->setParameter('nom','Test_SA1')->execute();
+        $query = $this->entityManager->createQuery('DELETE FROM App\Entity\INTERVENTION');
+        $query = $this->entityManager->createQuery('DELETE FROM App\Entity\SA SA');
+        $query->execute();
         $this->entityManager->commit();
     }
 
     public function testFindAllInactive(): void
     {
-        $sa = new SA();
-        $sa->setName("Test_SA1");
-        $sa->setState("ACTIF");
-        $this->entityManager->persist($sa);
 
-        $sa1 = new SA();
-        $sa1->setName("Test_SA1");
-        $sa1->setState("ACTIF");
-        $this->entityManager->persist($sa1);
+        // Delete the entry in the database to avoid conflict with the tests
+        $this->entityManager->beginTransaction(); // Begin a transaction
+        $query = $this->entityManager->createQuery('DELETE FROM App\Entity\INTERVENTION');
+        $query = $this->entityManager->createQuery('DELETE FROM App\Entity\SA SA');
+        $query->execute();
+        $this->entityManager->commit();
+
+
+
 
         $sa2 = new SA();
         $sa2->setName("Test_SA1");
@@ -72,7 +85,10 @@ class SARepositoryTest extends KernelTestCase
 
         // Delete the entry in the database to avoid conflict with the tests
         $this->entityManager->beginTransaction(); // Begin a transaction
-        $this->entityManager->createQuery("DELETE FROM App\Entity\SA SA WHERE SA.name=:nom")->setParameter('nom','Test_SA1')->execute();
+        $query = $this->entityManager->createQuery('DELETE FROM App\Entity\INTERVENTION');
+        $query = $this->entityManager->createQuery('DELETE FROM App\Entity\SA SA');
+        $query->execute();
+
         $this->entityManager->commit();
     }
 

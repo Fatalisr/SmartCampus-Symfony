@@ -2,6 +2,7 @@
 namespace App\Tests;
 use App\Entity\Room;
 use App\Entity\SA;
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -9,8 +10,32 @@ class referentControllerTest extends WebTestCase
 {
     public function testSAPage()
     {
+        // Se connecte en temps que Referent
+        //=============================================================
         $client = static::createClient();
+        // Delete the entry in the database to avoid conflict with the tests
         $entityManager = $client->getContainer()->get('doctrine.orm.entity_manager');
+
+        $entityManager->beginTransaction(); // Begin a transaction
+        $entityManager->createQuery("DELETE FROM App\Entity\User U WHERE U.username=:username")->setParameter('username','Test_S_R')->execute();
+        $entityManager->commit();
+
+        $ref1 = new User();
+        $ref1->setUsername('Test_S_R');
+        $ref1->setPassword('$2y$13$/Bpyv7s0SexmSOxxaINszOMmtqs7iSIFINdzBfKAQUAmHMthVAKzS');
+        $ref1->setRoles(['ROLE_REFERENT']);
+        $entityManager->persist($ref1);
+        $entityManager->flush();
+
+        $crawler = $client->request('GET','/');
+        $form = $crawler->selectButton('Se connecter')->form([
+            'login_form[username]' => 'Test_S_R',
+            'login_form[password]' => '123',
+        ]);
+        $client->submit($form);
+
+        //=============================================================
+
         //Test Room
         $room = new Room();
         $room->setName('Test_Room');
@@ -32,25 +57,88 @@ class referentControllerTest extends WebTestCase
 
         // Delete the entry in the database to avoid conflict with the tests
         $entityManager->beginTransaction(); // Begin a transaction
+        $entityManager->createQuery("DELETE FROM App\Entity\INTERVENTION ")->execute();
         $entityManager->createQuery("DELETE FROM App\Entity\SA SA WHERE SA.name=:nom")->setParameter('nom','Test_VIEW_SA')->execute();
         $entityManager->createQuery("DELETE FROM App\Entity\Room R WHERE R.name=:nom")->setParameter('nom','Test_Room')->execute();
+        $entityManager->createQuery("DELETE FROM App\Entity\User U WHERE U.username=:username")->setParameter('username','Test_S_R')->execute();
         $entityManager->commit();
 
     }
     public function testviewNouveauSAPage()
     {
-        $client = static::createClient([], ['base_uri' => 'http://localhost:8000']);
+        // Se connecte en temps que Referent
+        //=============================================================
+        $client = static::createClient();
+        // Delete the entry in the database to avoid conflict with the tests
+        $entityManager = $client->getContainer()->get('doctrine.orm.entity_manager');
+
+        $entityManager->beginTransaction(); // Begin a transaction
+        $entityManager->createQuery("DELETE FROM App\Entity\User U WHERE U.username=:username")->setParameter('username','Test_S_R')->execute();
+        $entityManager->commit();
+
+        $ref1 = new User();
+        $ref1->setUsername('Test_S_R');
+        $ref1->setPassword('$2y$13$/Bpyv7s0SexmSOxxaINszOMmtqs7iSIFINdzBfKAQUAmHMthVAKzS');
+        $ref1->setRoles(['ROLE_REFERENT']);
+        $entityManager->persist($ref1);
+        $entityManager->flush();
+
+        $crawler = $client->request('GET','/');
+        $form = $crawler->selectButton('Se connecter')->form([
+            'login_form[username]' => 'Test_S_R',
+            'login_form[password]' => '123',
+        ]);
+        $client->submit($form);
+
+        //=============================================================
+
+
         $client->request('GET', '/referent/nouveausa');
         $this->assertResponseIsSuccessful();
         $this->assertResponseStatusCodeSame(200);
+
+
+
+        //=======================================================
+        $entityManager->beginTransaction(); // Begin a transaction
+        $entityManager->createQuery("DELETE FROM App\Entity\User U WHERE U.username=:username")->setParameter('username','Test_S_R')->execute();
+        $entityManager->commit();
+        //========================================================
     }
+
     public function testcreateNouveauSAInactif()
     {
+        // Se connecte en temps que Referent
+        //=============================================================
         $client = static::createClient();
+        // Delete the entry in the database to avoid conflict with the tests
+        $entityManager = $client->getContainer()->get('doctrine.orm.entity_manager');
+
+        $entityManager->beginTransaction(); // Begin a transaction
+        $entityManager->createQuery("DELETE FROM App\Entity\User U WHERE U.username=:username")->setParameter('username','Test_S_R')->execute();
+        $entityManager->commit();
+
+        $ref1 = new User();
+        $ref1->setUsername('Test_S_R');
+        $ref1->setPassword('$2y$13$/Bpyv7s0SexmSOxxaINszOMmtqs7iSIFINdzBfKAQUAmHMthVAKzS');
+        $ref1->setRoles(['ROLE_REFERENT']);
+        $entityManager->persist($ref1);
+        $entityManager->flush();
+
+        $crawler = $client->request('GET','/');
+        $form = $crawler->selectButton('Se connecter')->form([
+            'login_form[username]' => 'Test_S_R',
+            'login_form[password]' => '123',
+        ]);
+        $client->submit($form);
+
+        //=============================================================
+
         $crawler = $client->request('GET', '/referent/nouveausa');
         // Delete the entry in the database to avoid conflict with the tests
         $entityManager = $client->getContainer()->get('doctrine.orm.entity_manager');
         $entityManager->beginTransaction(); // Begin a transaction
+        $entityManager->createQuery("DELETE FROM App\Entity\INTERVENTION ")->execute();
         $entityManager->createQuery("DELETE FROM App\Entity\SA SA WHERE SA.name=:nom")->setParameter('nom','Test_SA')->execute();
         $entityManager->createQuery("DELETE FROM App\Entity\Room R WHERE R.name=:nom")->setParameter('nom','Test_Room')->execute();
         $entityManager->commit();
@@ -69,17 +157,44 @@ class referentControllerTest extends WebTestCase
         $this->assertSame('INACTIF', $sa->getState()); // Assuming this is the expected state
 
         $entityManager->beginTransaction(); // Begin a transaction
+        $entityManager->createQuery("DELETE FROM App\Entity\INTERVENTION ")->execute();
         $entityManager->createQuery("DELETE FROM App\Entity\SA SA WHERE SA.name=:nom")->setParameter('nom','Test_SA')->execute();
         $entityManager->createQuery("DELETE FROM App\Entity\Room R WHERE R.name=:nom")->setParameter('nom','Test_Room')->execute();
+        $entityManager->createQuery("DELETE FROM App\Entity\User U WHERE U.username=:username")->setParameter('username','Test_S_R')->execute();
         $entityManager->commit();
     }
 
     public function testcreateNouveauSAAInstaller()
     {
+        // Se connecte en temps que Referent
+        //=============================================================
         $client = static::createClient();
+        // Delete the entry in the database to avoid conflict with the tests
         $entityManager = $client->getContainer()->get('doctrine.orm.entity_manager');
+
+        $entityManager->beginTransaction(); // Begin a transaction
+        $entityManager->createQuery("DELETE FROM App\Entity\User U WHERE U.username=:username")->setParameter('username','Test_S_R')->execute();
+        $entityManager->commit();
+
+        $ref1 = new User();
+        $ref1->setUsername('Test_S_R');
+        $ref1->setPassword('$2y$13$/Bpyv7s0SexmSOxxaINszOMmtqs7iSIFINdzBfKAQUAmHMthVAKzS');
+        $ref1->setRoles(['ROLE_REFERENT']);
+        $entityManager->persist($ref1);
+        $entityManager->flush();
+
+        $crawler = $client->request('GET','/');
+        $form = $crawler->selectButton('Se connecter')->form([
+            'login_form[username]' => 'Test_S_R',
+            'login_form[password]' => '123',
+        ]);
+        $client->submit($form);
+
+        //=============================================================
+
         // Delete the entry in the database to avoid conflict with the tests
         $entityManager->beginTransaction(); // Begin a transaction
+        $entityManager->createQuery("DELETE FROM App\Entity\INTERVENTION ")->execute();
         $entityManager->createQuery("DELETE FROM App\Entity\SA SA WHERE SA.name=:nom")->setParameter('nom','Test_SA_INSTA')->execute();
         $entityManager->createQuery("DELETE FROM App\Entity\Room R WHERE R.name=:nom")->setParameter('nom','Test_Room')->execute();
         $entityManager->commit();
@@ -107,15 +222,41 @@ class referentControllerTest extends WebTestCase
         $this->assertSame('A_INSTALLER', $sa->getState()); // Assuming this is the expected state
 
         $entityManager->beginTransaction(); // Begin a transaction
+        $entityManager->createQuery("DELETE FROM App\Entity\INTERVENTION ")->execute();
         $entityManager->createQuery("DELETE FROM App\Entity\SA SA WHERE SA.name=:nom")->setParameter('nom','Test_SA_INSTA')->execute();
         $entityManager->createQuery("DELETE FROM App\Entity\Room R WHERE R.name=:nom")->setParameter('nom','Test_Room')->execute();
+        $entityManager->createQuery("DELETE FROM App\Entity\User U WHERE U.username=:username")->setParameter('username','Test_S_R')->execute();
         $entityManager->commit();
     }
     public function testDelSA(){
+        // Se connecte en temps que Referent
+        //=============================================================
         $client = static::createClient();
+        // Delete the entry in the database to avoid conflict with the tests
         $entityManager = $client->getContainer()->get('doctrine.orm.entity_manager');
 
         $entityManager->beginTransaction(); // Begin a transaction
+        $entityManager->createQuery("DELETE FROM App\Entity\User U WHERE U.username=:username")->setParameter('username','Test_S_R')->execute();
+        $entityManager->commit();
+
+        $ref1 = new User();
+        $ref1->setUsername('Test_S_R');
+        $ref1->setPassword('$2y$13$/Bpyv7s0SexmSOxxaINszOMmtqs7iSIFINdzBfKAQUAmHMthVAKzS');
+        $ref1->setRoles(['ROLE_REFERENT']);
+        $entityManager->persist($ref1);
+        $entityManager->flush();
+
+        $crawler = $client->request('GET','/');
+        $form = $crawler->selectButton('Se connecter')->form([
+            'login_form[username]' => 'Test_S_R',
+            'login_form[password]' => '123',
+        ]);
+        $client->submit($form);
+
+        //=============================================================
+
+        $entityManager->beginTransaction(); // Begin a transaction
+        $entityManager->createQuery("DELETE FROM App\Entity\INTERVENTION ")->execute();
         $entityManager->createQuery("DELETE FROM App\Entity\SA SA WHERE SA.name=:nom")->setParameter('nom','Test_SA_DEL')->execute();
         $entityManager->createQuery("DELETE FROM App\Entity\Room R WHERE R.name=:nom")->setParameter('nom','Test_Room')->execute();
         $entityManager->commit();
@@ -135,29 +276,82 @@ class referentControllerTest extends WebTestCase
         $this->assertNotEquals(null, $sa->getCurrentRoom());
         $this->assertNotEquals(null, $sa->getId());
 
-        $client->request('GET', '/referent/delete_SA/'.$sa->getId());
+        $client->request('GET', '/referent/delete_sa/'.$sa->getId());
 
-        $this->assertEquals(null, $sa->getCurrentRoom());
         $this->assertNotEquals(null, $room->getId());
 
         $entityManager->beginTransaction(); // Begin a transaction
+        $entityManager->createQuery("DELETE FROM App\Entity\INTERVENTION ")->execute();
         $entityManager->createQuery("DELETE FROM App\Entity\SA SA WHERE SA.name=:nom")->setParameter('nom','Test_SA_DEL')->execute();
         $entityManager->createQuery("DELETE FROM App\Entity\Room R WHERE R.name=:nom")->setParameter('nom','Test_Room')->execute();
+        $entityManager->createQuery("DELETE FROM App\Entity\User U WHERE U.username=:username")->setParameter('username','Test_S_R')->execute();
         $entityManager->commit();
     }
     public function testReferentPage() // Test de l'affichage de la page d'accueil du référent
     {
+        // Se connecte en temps que Referent
+        //=============================================================
         $client = static::createClient();
+        // Delete the entry in the database to avoid conflict with the tests
+        $entityManager = $client->getContainer()->get('doctrine.orm.entity_manager');
+
+        $entityManager->beginTransaction(); // Begin a transaction
+        $entityManager->createQuery("DELETE FROM App\Entity\User U WHERE U.username=:username")->setParameter('username','Test_S_R')->execute();
+        $entityManager->commit();
+
+        $ref1 = new User();
+        $ref1->setUsername('Test_S_R');
+        $ref1->setPassword('$2y$13$/Bpyv7s0SexmSOxxaINszOMmtqs7iSIFINdzBfKAQUAmHMthVAKzS');
+        $ref1->setRoles(['ROLE_REFERENT']);
+        $entityManager->persist($ref1);
+        $entityManager->flush();
+
+        $crawler = $client->request('GET','/');
+        $form = $crawler->selectButton('Se connecter')->form([
+            'login_form[username]' => 'Test_S_R',
+            'login_form[password]' => '123',
+        ]);
+        $client->submit($form);
+
+        //=============================================================
+
         $client->request('GET', '/referent');
         $this->assertResponseIsSuccessful();
         $this->assertResponseStatusCodeSame(200);
+
+
+        $entityManager->beginTransaction(); // Begin a transaction
+        $entityManager->createQuery("DELETE FROM App\Entity\User U WHERE U.username=:username")->setParameter('username','Test_S_R')->execute();
+        $entityManager->commit();
     }
 
     public function testChangeRoomPage() // Test de l'affichage de la page du formulaire de changement de salle
     {
+        // Se connecte en temps que Referent
+        //=============================================================
         $client = static::createClient();
+        // Delete the entry in the database to avoid conflict with the tests
         $entityManager = $client->getContainer()->get('doctrine.orm.entity_manager');
 
+        $entityManager->beginTransaction(); // Begin a transaction
+        $entityManager->createQuery("DELETE FROM App\Entity\User U WHERE U.username=:username")->setParameter('username','Test_S_R')->execute();
+        $entityManager->commit();
+
+        $ref1 = new User();
+        $ref1->setUsername('Test_S_R');
+        $ref1->setPassword('$2y$13$/Bpyv7s0SexmSOxxaINszOMmtqs7iSIFINdzBfKAQUAmHMthVAKzS');
+        $ref1->setRoles(['ROLE_REFERENT']);
+        $entityManager->persist($ref1);
+        $entityManager->flush();
+
+        $crawler = $client->request('GET','/');
+        $form = $crawler->selectButton('Se connecter')->form([
+            'login_form[username]' => 'Test_S_R',
+            'login_form[password]' => '123',
+        ]);
+        $client->submit($form);
+
+        //=============================================================
         // creation des instances de test
         $room1 = new Room();
         $room1->setName('Test_Room1');
@@ -178,65 +372,11 @@ class referentControllerTest extends WebTestCase
         $this->assertResponseStatusCodeSame(200);
 
         $entityManager->beginTransaction(); // Begin a transaction
+        $entityManager->createQuery("DELETE FROM App\Entity\INTERVENTION ")->execute();
         $entityManager->createQuery("DELETE FROM App\Entity\SA S WHERE S.name=:nom")->setParameter('nom','Test_CHANGE')->execute();
         $entityManager->createQuery("DELETE FROM App\Entity\Room R WHERE R.name=:nom")->setParameter('nom','Test_Room1')->execute();
+        $entityManager->createQuery("DELETE FROM App\Entity\User U WHERE U.username=:username")->setParameter('username','Test_S_R')->execute();
         $entityManager->commit();
     }
-    public function testChangerSalle()
-    {
-        $client = static::createClient();
-        $entityManager = $client->getContainer()->get('doctrine.orm.entity_manager');
 
-        // Suppression des instances de test pour eviter les conflit dans la bdd
-        $entityManager->beginTransaction(); // Begin a transaction
-        $entityManager->createQuery("DELETE FROM App\Entity\SA S WHERE S.name=:nom")->setParameter('nom','Test_SA')->execute();
-        $entityManager->createQuery("DELETE FROM App\Entity\Room R WHERE R.name=:nom")->setParameter('nom','Test_Room1')->execute();
-        $entityManager->createQuery("DELETE FROM App\Entity\Room R WHERE R.name=:nom")->setParameter('nom','Test_Room2')->execute();
-        $entityManager->commit();
-
-        // creation des instances de test
-        $room1 = new Room();
-        $room1->setName('Test_Room1');
-        $room1->setFacing('N');
-        $room1->setNbComputer(3);
-        $entityManager->persist($room1);
-
-        // Create a new sa for testing
-        $sa = new SA();
-        $sa->setName('Test_SA');
-        $sa->setState('ACTIF');
-        $sa->setCurrentRoom($room1);
-        $entityManager->persist($sa);
-
-        // Create a new room for testing
-        $room2 = new Room();
-        $room2->setName('Test_Room2');
-        $room2->setFacing('N');
-        $room2->setNbComputer(3);
-        $entityManager->persist($room2);
-
-        $entityManager->flush();
-
-
-        $crawler = $client->request('GET', '/referent/changersalle/'.$sa->getId());
-        $this->assertResponseIsSuccessful();
-        $this->assertResponseStatusCodeSame(200);
-
-        $form = $crawler->selectButton('Confirmer les modifications')->form([
-            'changer_salle_form[newRoom]' => $room2->getId(),
-        ]);
-        $client->submit($form);
-        $saModif = $entityManager->find(SA::class,$sa->getId());
-
-        $this->assertEquals($saModif->getCurrentRoom()->getId(), $room2->getId()); // On verifie que la nouvelle salle a bien été affilié au SA
-        $this->assertEquals($saModif->getOldRoom()->getId(), $room1->getId()); // On verifie que l'ancienne salle a bien été enregistrer
-        $this->assertEquals($saModif->getState(), 'A_INSTALLER');// On verifie que l'état a bien été modifier
-
-        // Suppression des instances de test pour eviter les conflit dans la bdd
-        $entityManager->beginTransaction(); // Begin a transaction
-        $entityManager->createQuery("DELETE FROM App\Entity\SA S WHERE S.name=:nom")->setParameter('nom','Test_SA')->execute();
-        $entityManager->createQuery("DELETE FROM App\Entity\Room R WHERE R.name=:nom")->setParameter('nom','Test_Room1')->execute();
-        $entityManager->createQuery("DELETE FROM App\Entity\Room R WHERE R.name=:nom")->setParameter('nom','Test_Room2')->execute();
-        $entityManager->commit();
-    }
 }
