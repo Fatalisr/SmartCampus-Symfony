@@ -10,9 +10,9 @@
             <span>  {{ curSA.name }} </span>
         </div>
         <div class="imgANDtext">
-            {% if curSA.oldRoom is NULL %}
+            {% if curSA.oldRoom is null %}
                 <h2>Salle actuelle :</h2>
-                <p>{{  cursa.oldRoom }}</p>
+                <p>{{  curSA.oldRoom }}</p>
             {% endif %}
             <h2>A installer en :</h2>
             <span> {{ curSA.currentRoom.name }} </span>
@@ -30,47 +30,6 @@
     {{ form_start(form_validInstal) }}
     {{ form_widget(form_validInstal.valid) }}
     {{ form_end(form_validInstal) }}
-{% block title %}Espace Technicien{% endblock %}
-
-{% block body %}
-    {% extends 'base.html.twig' %}
-
-    {% block title %}Espace Technicien{% endblock %}
-
-    {% block body %}
-        <section class="bandeau_tech">
-        <div class="pres_page">
-
-            <div class="buttonPresPage">
-                <a id="button" href="{{ path("plan_salles") }}">Plan des salles</a>
-            </div>
-            <h1>Bonjour Technicien</h1>
-            <p>Vous êtes sur l'espace technicien. Vous pouvez consulter l'ensemble de vos interventions et les valider.</p>
-        </div>
-
-        <section id="liste_interventions">
-            <ul class="block_interv">
-                <h1>Installations en attente</h1>
-                <div>
-
-                    {% for install in installations %}
-
-                        <a id="view" href="{{ path('app_technicien', {'id': sa.getId}) }}">
-
-                    {% endfor %}
-
-                </div>
-            </ul>
-            <ul class="block_interv">
-                <h1>SA disponibles</h1>
-                <div>
-                    {% for maintain in maintenances %}
 
 
-
-                    {% endfor %}
-                </div>
-            </ul>
-        </section>
-        </section>{% endblock %}
 {% endblock %}

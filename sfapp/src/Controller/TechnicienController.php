@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\InstallationForm;
 use App\Form\InterventionFormType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,7 +35,7 @@ class TechnicienController extends AbstractController
         $curSA = $saRepo->find($id);
         $installation = $saRepo->findInstallationBySAId($curSA);
 
-        $form_validMtn = $this->createForm(InterventionFormType::class);
+        $form_validMtn = $this->createForm(InstallationForm::class);
         $form_validMtn->handleRequest($request);
 
         $dateCourante = new \DateTime();
@@ -43,6 +44,7 @@ class TechnicienController extends AbstractController
 
             $curSA->setState('ACTIF');
             $installation->setEndingDate($dateCourante);
+            $installation->setReport('Installation OK');
             $entityManager->persist($curSA);
             $entityManager->persist($installation);
             $entityManager->flush();
