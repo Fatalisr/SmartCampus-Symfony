@@ -64,7 +64,7 @@ class TechnicienController extends AbstractController
         $entityManager =  $doctrine->getManager();
         $saRepo = $entityManager->getRepository('App\Entity\SA');
         $curSA = $saRepo->find($id);
-        $interMaintenance = $saRepo->findMaintenanceBySAId($curSA);
+        $interMaintenance = $saRepo->findInstallationBySAId($curSA);
 
         $form_validMtn = $this->createForm(MaintenanceForm::class);
         $form_validMtn->handleRequest($request);
