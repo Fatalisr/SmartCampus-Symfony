@@ -31,48 +31,47 @@ class ReferentController extends AbstractController
         $installer = $saRepository->findAllInstaller();
         $inactive = $saRepository->findAllInactive();
         $rooms = $roomRepository->findAll();
-
-
         $formsChange = []; //Stockage des instances de formulaire
         $formsAdd = [];
 
+
+
         foreach ($actif as $sa){
-            $form = $this->createForm(changerSalleForm::class);
-            $form->handleRequest($request);
+            $formChange = $this->createForm(changerSalleForm::class);
+            $formChange->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()) {
+            if ($formChange->isSubmitted() && $formChange->isValid()) {
 
-                if($form->get('newRoom')->getData()) {
-                    $sa->setState("A_INSTALLER");
-                }
-                else {
-                    $sa->setState("INACTIF");
-                }
+                $curSa = $saRepository->find($formChange->get('sa_id')->getData());
+                $curSa->setState("A_INSTALLER");
 
-                $sa->setOldRoom($sa->getCurrentRoom());
-                $sa->setCurrentRoom($form->get('newRoom')->getData());
 
-                $entityManager->persist($sa);
+                $curSa->setOldRoom($curSa->getCurrentRoom());
+                $curSa->setCurrentRoom($formChange->get('newRoom')->getData());
+
+                $entityManager->persist($curSa);
                 $entityManager->flush();
 
                 return $this->redirectToRoute('app_referent',[]);
             }
-            $formsChange[] = $form->createView();
+            $formsChange[] = $formChange->createView();
         }
 
         foreach ($inactive as $sa){
-            $form = $this->createForm(changerSalleForm::class);
-            $form->handleRequest($request);
+            $formAdd = $this->createForm(changerSalleForm::class);
+            $formAdd->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                $sa->setState("A_INSTALLER");
-                $sa->setCurrentRoom($form->get('newRoom')->getData());
-                $entityManager->persist($sa);
+            if ($formAdd->isSubmitted() && $formAdd->isValid()) {
+                $curSa = $saRepository->find($formAdd->get('sa_id')->getData());
+
+                $curSa->setState("A_INSTALLER");
+                $curSa->setCurrentRoom($formAdd->get('newRoom')->getData());
+                $entityManager->persist($curSa);
                 $entityManager->flush();
 
                 return $this->redirectToRoute('app_referent',[]);
             }
-            $formsAdd[] = $form->createView();
+            $formsAdd[] = $formAdd->createView();
         }
 
         return $this->render("referent/referent.html.twig", [

@@ -56,6 +56,7 @@
                             <div id="center"  class="caseListSA">
                                 {{ form_start(formsChange[loop.index0],{'attr': {'id': 'form_changer_salle'}}) }}
                                 {{ form_widget(formsChange[loop.index0].newRoom,{'attr': {'onChange': 'openPopup("popupCS")', 'id':'dropdown'},'placeholder' : 'Changer la salle'})}}
+                                {{ form_row(formsChange[loop.index0].sa_id, {'value': sa.id}) }}
                                 <div id="popupCS" class="popup">
                                     <div class="popup-content">
                                         <span class="close" onclick="closePopup('popupCS')">&times;</span>
@@ -83,6 +84,7 @@
                         <div id="center" class="caseListSA">
                             {{ form_start(formsAdd[loop.index0],{'attr': {'id': 'form_changer_salle'}}) }}
                             {{ form_widget(formsAdd[loop.index0].newRoom,{'attr': {'onChange': 'openPopup("popupAS")', 'id':'dropdown'}, 'placeholder' : 'Assigner une salle'})}}
+                            {{ form_row(formsAdd[loop.index0].sa_id, {'value': sa.id}) }}
                             <div id="popupAS" class="popup">
                                 <div class="popup-content">
                                     <span class="close" onclick="closePopup('popupAS')">&times;</span>
