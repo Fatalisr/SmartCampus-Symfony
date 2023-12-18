@@ -1,0 +1,149 @@
+{% extends 'base_referent.html.twig' %}
+
+{% block title %}Plan des salles{% endblock %}
+
+{% block body %}
+    <link rel="stylesheet" href="{{ asset('plan.css') }}">
+    <div id="top_div">
+        <h1>Plan des bâtiments</h1>
+        <select id="dropdown" onchange="showDiv()">
+            <option value="rdc" selected>Rez-de-chaussée</option>
+            <option value="floor1">1er étage</option>
+            <option value="floor2">2ème étage</option>
+            <option value="floor3">3ème étage</option>
+        </select>
+    </div>
+
+    <div id="plan">
+        <!-- REZ-DE-CHAUSSÉ -->
+        <div id="rdc" class="batiment" style="display: flex">
+            <div class="rangee">
+                {% for room in roomRDC %}
+                    <!--DETERMINER LA RANGÉE-->
+                    {% set roomNumber = room.name | slice(-1) %}  <!--extrait le dernier chiffre du numero de la salle-->
+                    <!--DETERMINER LA COULEUR-->
+                    {% if room.sa is not null %}
+                        {% if room.sa.getState == 'ACTIF' %}
+                            {% set roomColorClass = 'green'%}
+                        {% elseif room.sa.getState == 'MAINTENANCE' %}
+                            {% set roomColorClass = 'red'%}
+                        {% elseif room.sa.getState == 'A_INSTALLER' %}
+                            {% set roomColorClass = 'orange'%}
+                        {% endif%}
+                    {% else%}
+                        {% set roomColorClass = '#d6dfe8'%}
+                    {% endif%}
+                    <!--AFFICHAGE-->
+                    {% if roomNumber is odd %}
+                        <div class="plan_salle" style="background-color: {{ roomColorClass }}">
+                            <h2>{{ room.name }}</h2>
+                            {% if room.sa is not null %}
+                                <h2>{{ room.sa.name }}</h2>
+                            {% endif%}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="rangee">
+                {% for room in roomRDC %}
+                    <!--DETERMINER LA RANGÉE-->
+                    {% set roomNumber = room.name | slice(-1) %}  <!--extrait le dernier chiffre du numero de la salle-->
+                    <!--DETERMINER LA COULEUR-->
+                    {% if room.sa is not null %}
+                        {% if room.sa.getState == 'ACTIF' %}
+                            {% set roomColorClass = 'green'%}
+                        {% elseif room.sa.getState == 'MAINTENANCE' %}
+                            {% set roomColorClass = 'red'%}
+                        {% elseif room.sa.getState == 'A_INSTALLER' %}
+                            {% set roomColorClass = 'orange'%}
+                        {% endif%}
+                    {% else%}
+                        {% set roomColorClass = '#d6dfe8'%}
+                    {% endif%}
+                    {% if roomNumber is not odd %}
+                        <div class="plan_salle" style="background-color: {{ roomColorClass }}">
+                            <h2>{{ room.name }}</h2>
+                            {% if room.sa is not null %}
+                                <h2>{{ room.sa.name }}</h2>
+                            {% endif%}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% for floor in [roomFloor1, roomFloor2, roomFloor3] %}
+
+            {% set id = 'floor' ~ loop.index %}
+
+            <div class="batiment" id="{{ id  }}">
+                <div class="rangee">
+                    {% for room in floor %}
+                        <!--DETERMINER LA RANGÉE-->
+                        {% set roomNumber = room.name | slice(-1) %}  <!--extrait le dernier chiffre du numero de la salle-->
+                        <!--DETERMINER LA COULEUR-->
+                        {% if room.sa is not null %}
+                            {% if room.sa.getState == 'ACTIF' %}
+                                {% set roomColorClass = 'green'%}
+                            {% elseif room.sa.getState == 'MAINTENANCE' %}
+                                {% set roomColorClass = 'red'%}
+                            {% elseif room.sa.getState == 'A_INSTALLER' %}
+                                {% set roomColorClass = 'orange'%}
+                            {% endif%}
+                        {% else%}
+                            {% set roomColorClass = '#d6dfe8'%}
+                        {% endif%}
+                        {% if roomNumber is odd %}
+                            <div class="plan_salle" style="background-color: {{ roomColorClass }}">
+                                <h2>{{ room.name }}</h2>
+                                {% if room.sa is not null %}
+                                    <h2>{{ room.sa.name }}</h2>
+                                {% endif%}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="rangee">
+                    {% for room in floor %}
+                        <!--DETERMINER LA RANGÉE-->
+                        {% set roomNumber = room.name | slice(-1) %}  <!--extrait le dernier chiffre du numero de la salle-->
+                        <!--DETERMINER LA COULEUR-->
+                        {% if room.sa is not null %}
+                            {% if room.sa.getState == 'ACTIF' %}
+                                {% set roomColorClass = 'green'%}
+                            {% elseif room.sa.getState == 'MAINTENANCE' %}
+                                {% set roomColorClass = 'red'%}
+                            {% elseif room.sa.getState == 'A_INSTALLER' %}
+                                {% set roomColorClass = 'orange'%}
+                            {% endif%}
+                        {% else%}
+                            {% set roomColorClass = '#d6dfe8'%}
+                        {% endif%}
+                        {% if roomNumber is not odd %}
+                            <div class="plan_salle" style="background-color: {{ roomColorClass }}">
+                                <h2>{{ room.name }}</h2>
+                                {% if room.sa is not null %}
+                                    <h2>{{ room.sa.name }}</h2>
+                                {% endif%}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        function showDiv() {
+            let selectedValue = document.getElementById("dropdown").value;
+            let divs = document.querySelectorAll('.batiment');
+            divs.forEach(function(div) {
+                div.style.display = 'none';
+            });
+            document.getElementById(selectedValue).style.display = 'flex';
+            document.addEventListener('DOMContentLoaded', function() {
+                showDiv();
+            });
+        }
+    </script>
+
+{% endblock %}

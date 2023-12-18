@@ -1,0 +1,122 @@
+[
+  {
+    "id" : 51,
+    "nom" : "temp",
+    "valeur" : "19.2",
+    "dateCapture" : "2022-11-28 08:00:00",
+    "localisation" : "D004",
+    "description" : "",
+    "tag" : 13
+  },
+  {
+    "id" : 52,
+    "nom" : "temp",
+    "valeur" : "22",
+    "dateCapture" : "2022-11-28 08:05:00",
+    "localisation" : "D004",
+    "description" : "",
+    "tag" : 1
+  },
+  {
+    "id" : 53,
+    "nom" : "temp",
+    "valeur" : "19.3",
+    "dateCapture" : "2022-11-28 08:10:00",
+    "localisation" : "D004",
+    "description" : "",
+    "tag" : 1
+  },
+  {
+    "id" : 54,
+    "nom" : "temp",
+    "valeur" : "22",
+    "dateCapture" : "2022-11-28 08:15:00",
+    "localisation" : "D004",
+    "description" : "",
+    "tag" : 1
+  },
+  {
+    "id" : 55,
+    "nom" : "temp",
+    "valeur" : "19.6",
+    "dateCapture" : "2022-11-28 08:20:00",
+    "localisation" : "D004",
+    "description" : "",
+    "tag" : 1
+  },
+  {
+    "id" : 56,
+    "nom" : "temp",
+    "valeur" : "19.9",
+    "dateCapture" : "2022-11-28 08:25:00",
+    "localisation" : "D004",
+    "description" : "",
+    "tag" : 1
+  },
+  {
+    "id" : 57,
+    "nom" : "temp",
+    "valeur" : "20.6",
+    "dateCapture" : "2022-11-28 08:30:00",
+    "localisation" : "D004",
+    "description" : "",
+    "tag" : 1
+  },
+  {
+    "id" : 58,
+    "nom" : "temp",
+    "valeur" : "18.6",
+    "dateCapture" : "2022-11-28 08:35:00",
+    "localisation" : "D004",
+    "description" : "",
+    "tag" : 1
+  },
+  {
+    "id" : 59,
+    "nom" : "temp",
+    "valeur" : "18.2",
+    "dateCapture" : "2022-11-28 08:40:00",
+    "localisation" : "D004",
+    "description" : "",
+    "tag" : 1
+  },
+  {
+    "id" : 60,
+    "nom" : "temp",
+    "valeur" : "17.9",
+    "dateCapture" : "2022-11-28 08:45:00",
+    "localisation" : "D004",
+    "description" : "",
+    "tag" : 1
+  }
+,
+  {
+    "id" : 61,
+    "nom" : "temp",
+    "valeur" : "17.5",
+    "dateCapture" : "2022-11-28 08:50:00",
+    "localisation" : "D004",
+    "description" : "",
+    "tag" : 1
+  }
+,
+  {
+    "id" : 62,
+    "nom" : "temp",
+    "valeur" : "17",
+    "dateCapture" : "2022-11-28 08:55:00",
+    "localisation" : "D004",
+    "description" : "",
+    "tag" : 1
+  }
+,
+  {
+    "id" : 63,
+    "nom" : "temp",
+    "valeur" : "17.3",
+    "dateCapture" : "2022-11-28 09:00:00",
+    "localisation" : "D004",
+    "description" : "",
+    "tag" : 1
+  }
+]

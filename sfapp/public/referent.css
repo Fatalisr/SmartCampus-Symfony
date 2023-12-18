@@ -1,0 +1,243 @@
+/*
+ * referent.html.twig
+ */
+
+#liste_salle{
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    height: fit-content;
+    margin-top: 30px;
+}
+
+
+.buttonPresPage{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*width: 30%;*/
+    padding-right: 2%;
+    padding-left: 2%;
+}
+
+#saButton{
+    color:inherit;
+    text-decoration: none;
+    width: fit-content;
+    padding: 10px;
+    background-color: #5b68c0;
+    border-radius: 5px;
+    border-radius: 5px;
+    font-family: Arial;
+}
+#saButton:hover{
+    cursor: pointer;
+    opacity: 60%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.block_sa{
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+    height: fit-content;
+    list-style-type: none;
+    background-color: #d6dfe8;
+    padding: 0 15px 15px 15px;
+    margin: 10px 20px 10px 20px;
+    border-radius: 20px;
+    /*overflow: scroll;*/
+}
+
+.listSA{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: auto;
+    margin: 10px;
+    padding: 0 10px 0 10px;
+    height: 60px;
+    background-color: #5b68c0;
+    border-radius: 10px;
+    font-size: x-large;
+}
+
+.listSA{
+    display: none;
+}
+.block_sa li:hover{
+    cursor: pointer;
+    /*background-color: #56DAFF;*/
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    opacity: 60%;
+}
+
+
+.out_pa{
+    font-family: Arial;
+    padding: 10px;
+    background-color: red;
+    border-radius: 25px;
+}
+
+.add_room{
+    font-family: Arial;
+    padding: 10px;
+    background-color: #56DAFF;
+    border-radius: 25px;
+}
+
+.show {
+    display: flex;
+}
+
+/* Style the buttons */
+.btn {
+    border: none;
+    outline: none;
+    padding: 12px 16px;
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #ddd;
+}
+
+.btn.active {
+    background-color: #666;
+    color: #f1f1f1;
+}
+.listSAInactif{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px;
+    padding: 0 10px 0 10px;
+    height: 60px;
+    background-color: #5b68c0;
+    border-radius: 10px;
+    font-size: x-large;
+}
+/*
+.listSA:hover{
+    height: 62px;
+    background-color: #5b68c9;
+    box-shadow: 0 4px 30px rgba(0, 0, 0);
+    transition-duration: .2s;
+}*/
+
+.caseListSA{
+    display: flex;
+    flex: 1;
+    height: 100%;
+    width: 25%;
+    justify-content: center;
+    flex-direction: row;
+}
+.caseListSA form{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#form_changer_salle select{
+    height: 60%;
+    border-radius: 5px;
+    background-color: #56DAFF;
+}
+
+#center{
+    align-items: center;
+}
+#right{
+    display: flex;
+    align-items: flex-end;
+}
+#left{
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+#right img:hover{
+    width: 51px;
+    height: 51px;
+}
+
+span{
+    font-size: large;
+    font-family: Arial;
+}
+
+
+.retirer_room_btn{
+    background-color: #FF1D15;
+    padding: 7px;
+    border-radius: 5px;
+}
+
+
+.retirer_room_btn:hover{
+    opacity: 60%;
+    transition-duration: .2s;
+    cursor: pointer;
+}
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.popup-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    width: 350px;
+    text-align: center;
+}
+
+.popup-content div{
+    margin-top: 30px;
+}
+
+.popup-content button{
+    padding: 5px;
+    border-radius: 5px;
+    width: 80px;
+    height: 35px;
+    background-color: green;
+}
+
+#non{
+    background-color: red;
+}
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+#sa_data{
+    width: 35px;
+    height: 35px;
+    margin-left: 5px;
+}
+
+#sa_data:hover{
+    width: 38px;
+    height: 38px;
+}

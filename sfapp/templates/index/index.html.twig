@@ -1,0 +1,43 @@
+{# templates/index/login.html.twig #}
+
+
+{% block body %}
+    <link rel="stylesheet" href="{{ asset('login.css') }}">
+    <div id="block_pres">
+        <div id="bull">
+            <h1>BIENVENUE SUR L'ESPACE SMART CAMPUS</h1>
+            <p>Connectez-vous ou accéder à l'espace usager</p>
+        </div>
+    </div>
+    <div id="form_block">
+        {{ form_start(form) }}
+        <div id="form_header">
+            <h1>Veuillez entrer vos identifiants</h1>
+            <p>Les champs <span style="color: red"> * </span> sont obligatoires</p>
+        </div>
+        {% if error == 'badUser' or error == 'badPwd'%}
+            <div class="err_block">
+                <p id="bad_login">Nom d'utilisateur ou mot de passe incorrect</p>
+            </div>
+        {% endif %}
+        <div class="form_line">
+            {{ form_widget(form.username) }}
+            <div><span class="star_require"> * </span></div>
+        </div>
+        <div class="form_line">
+            {{ form_widget(form.password) }}
+            <div><span class="star_require"> * </span></div>
+        </div>
+        <div id="submit_btn">
+            <button type="submit">Se connecter</button>
+        </div>
+        <div id="lign_or">
+            <span>ou</span>
+        </div>
+        <div id="invit_link">
+            <a href="">Espace usager</a>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

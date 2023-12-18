@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Espace Technicien{% endblock %}</title>
+    <link rel="icon" href="{{ asset('images/leaf.png') }}">
+    <!-- Inclure les nouveaux fichier CSS ici -->
+    <link rel="stylesheet" href="{{ asset('base.css') }}">
+    <link rel="stylesheet" href="{{ asset('referent.css') }}">
+    <link rel="stylesheet" href="{{ asset('technicien.css') }}">
+    <link rel="stylesheet" href="{{ asset('detail_SA.css') }}">
+    <link rel="stylesheet" href="{{ asset('plan.css') }}">
+
+
+</head>
+<body>
+<header>
+    <div id="nameAndlogo" onclick="returnHome()">
+        <img id="leaf" src="{{ asset('images/leaf.png') }}" alt="leaf" height="50%" width="5%">
+        <h1>SMART CAMPUS</h1>
+    </div>
+    <a id="logout" href="{{ path('app_logout') }}">Déconnexion</a>
+</header>
+<script>
+    function returnHome(){
+        window.location.href = '/technicien'
+    }
+</script>
+
+{% block body %}{% endblock %}
+</body>
+</html>
