@@ -49,14 +49,18 @@ class InterventionRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
+    public function findInstallationBySAId($sa)
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.type = :type')
+            ->andWhere('i.sa = :sa')
+            ->andWhere('i.endingDate IS NULL')
+            ->setParameter('type', "INSTALLATION")
+            ->setParameter('sa', $sa)
+            ->orderBy('i.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
 
-//    public function findOneBySomeField($value): ?Intervention
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    }
 }

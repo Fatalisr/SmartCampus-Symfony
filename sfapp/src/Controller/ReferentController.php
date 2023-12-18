@@ -31,48 +31,30 @@ class ReferentController extends AbstractController
         $installer = $saRepository->findAllInstaller();
         $inactive = $saRepository->findAllInactive();
         $rooms = $roomRepository->findAll();
+        $forms = []; //Stockage des instances de formulaire
 
-        $formsChange = []; //Stockage des instances de formulaire
-        $formsAdd = [];
+        $nbForms = sizeof($inactive) + sizeof($actif);
 
-        foreach ($actif as $sa){
+        for ($i = 0; $i < $nbForms; $i++){
             $form = $this->createForm(changerSalleForm::class);
             $form->handleRequest($request);
-
             if ($form->isSubmitted() && $form->isValid()) {
 
-                if($form->get('newRoom')->getData()) {
-                    $sa->setState("A_INSTALLER");
-                }
-                else {
-                    $sa->setState("INACTIF");
-                }
+                $curSa = $saRepository->find($form->get('sa_id')->getData());
+                $curSa->setState("A_INSTALLER");
 
-                $sa->setOldRoom($sa->getCurrentRoom());
-                $sa->setCurrentRoom($form->get('newRoom')->getData());
 
-                $entityManager->persist($sa);
+                $curSa->setOldRoom($curSa->getCurrentRoom());
+                $curSa->setCurrentRoom($form->get('newRoom')->getData());
+
+                $entityManager->persist($curSa);
                 $entityManager->flush();
 
                 return $this->redirectToRoute('app_referent',[]);
             }
-            $formsChange[] = $form->createView();
+            $forms[] = $form->createView();
         }
 
-        foreach ($inactive as $sa){
-            $form = $this->createForm(changerSalleForm::class);
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                $sa->setState("A_INSTALLER");
-                $sa->setCurrentRoom($form->get('newRoom')->getData());
-                $entityManager->persist($sa);
-                $entityManager->flush();
-
-                return $this->redirectToRoute('app_referent',[]);
-            }
-            $formsAdd[] = $form->createView();
-        }
 
         return $this->render("referent/referent.html.twig", [
         'path' => 'src/Controller/ReferentController.php',
@@ -81,8 +63,8 @@ class ReferentController extends AbstractController
         'installer' => $installer,
         'inactive' => $inactive,
         'rooms' => $rooms,
-        'formsChange' => $formsChange,
-        'formsAdd' => $formsAdd,
+        'forms' => $forms,
+        'countFormActive' => sizeof($actif),
         ]);
     }
 
@@ -170,10 +152,15 @@ class ReferentController extends AbstractController
     {
         $entityManager = $doctrine->getManager();
         $sa = $entityManager->find(SA::class, $id);
-
-        $sa->setOldRoom($sa->getCurrentRoom());
-        $sa->setCurrentRoom(null);
         $sa->setState("INACTIF");
+
+        $intervention = new Intervention();
+        $intervention->setSa($sa);
+        //$intervention->setStartingDate();
+        $intervention->setType("INSTALLATION");
+        $intervention->setMessage("Retour du SA au stock");
+
+        $entityManager->persist($intervention);
         $entityManager->persist($sa);
         $entityManager->flush();
 

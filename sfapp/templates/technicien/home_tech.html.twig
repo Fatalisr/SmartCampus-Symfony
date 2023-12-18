@@ -14,6 +14,7 @@
             <ul class="block_interv">
                 <h1>Installations en attente</h1>
                 <div>
+                    {% if installations %}
                     {% for install in installations %}
                         <a id="view" href="{{ path('app_view_installation', {'id': install.sa.getId}) }}">
                             <div class="listIntervention">
@@ -21,15 +22,16 @@
                                     {{ install.sa.name }}
                                 </div>
                                 <div>
-                                    {% if install.sa.getOldRoom == NULL%}
+                                    {% if install.sa.getOldRoom is null%}
                                         <p>{{ install.sa.getCurrentRoom.name }}</p>
                                     {% else %}
-                                        <p>{{ install.sa.getOldRoom.getName }} vers {{ install.sa.getCurrentRoom.getName }}</p>
+                                        <p>{{ install.sa.getOldRoom.name }} vers {{ install.sa.getCurrentRoom.getName }}</p>
                                     {% endif %}
                                 </div>
                             </div>
                         </a>
                     {% endfor %}
+                    {% endif %}
 
                 </div>
             </ul>

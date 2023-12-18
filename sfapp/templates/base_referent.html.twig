@@ -14,7 +14,7 @@
 </head>
 <body>
 <header>
-    <div id="nameAndlogo">
+    <div id="nameAndlogo" onclick="returnHome()">
         <img id="leaf" src="{{ asset('images/leaf.png') }}" alt="leaf" height="50%" width="5%">
         <h1>SMART CAMPUS</h1>
     </div>
@@ -48,6 +48,10 @@ function openPopup(popupId) {
 
 function closePopup(popupId) {
     document.getElementById(popupId).style.display = 'none';
+}
+
+function returnHome(){
+    window.location.href = '/referent'
 }
 </script>
 {% block body %}{% endblock %}

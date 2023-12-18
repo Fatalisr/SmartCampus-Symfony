@@ -4,6 +4,7 @@ namespace App\Form;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -29,7 +30,9 @@ class changerSalleForm extends \Symfony\Component\Form\AbstractType
                 'choice_label' => 'name',
                 'required' => false, // Allow null values
             ])
-
+            ->add('sa_id', HiddenType::class, [
+                'mapped' => false, // Ne pas mapper ce champ à l'entité SA
+            ])
             ->add('save', SubmitType::class,[
                 'label' => 'Oui',
             ]);
