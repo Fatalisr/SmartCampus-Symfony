@@ -1,46 +1,57 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_technicien.html.twig' %}
 
-{% block title %}Espace Technicien{% endblock %}
+
+{% block title %}Maintenance{% endblock %}
 
 {% block body %}
-    {% extends 'base.html.twig' %}
-
-    {% block title %}Espace Technicien{% endblock %}
-
-    {% block body %}
-        <section class="bandeau_tech">
-        <div class="pres_page">
-
-            <div class="buttonPresPage">
-                <a id="button" href="{{ path("plan_salles") }}">Plan des salles</a>
-            </div>
-            <h1>Bonjour Technicien</h1>
-            <p>Vous êtes sur l'espace technicien. Vous pouvez consulter l'ensemble de vos interventions et les valider.</p>
+    <link rel="stylesheet" href={{ asset('tech_maintenance.css') }}>
+    <div id="div_sa_info">
+        <div class="imgANDtext">
+            <img src="{{ asset('images/door.png') }}">
+            <span>  {{ curSA.name }} </span>
         </div>
-
-        <section id="liste_interventions">
-            <ul class="block_interv">
-                <h1>Installations en attente</h1>
-                <div>
-
-                    {% for install in installations %}
-
-                        <a id="view" href="{{ path('app_view_sa', {'id': sa.getId}) }}">
-
-                    {% endfor %}
-
-                </div>
-            </ul>
-            <ul class="block_interv">
-                <h1>SA disponibles</h1>
-                <div>
-                    {% for maintain in maintenances %}
-
-
-
-                    {% endfor %}
-                </div>
-            </ul>
-        </section>
-        </section>{% endblock %}
+        <div class="imgANDtext">
+            <img src="{{ asset('images/processor.png') }}">
+            <span> {{ curSA.currentRoom.name }} </span>
+        </div>
+        <a href="{{ path("app_technicien") }}"><span>Retour</span></a>
+    </div>
+    {{ form_start(form_validMtn, {'attr' : {'id' : 'maintenance_form'}}) }}
+    <div id="block_ref_msg">
+        <div class="ref_msg">
+            <h2>Indications du referent :</h2>
+            <p>{{ maintenance.message }}</p>
+        </div>
+        <div class="ref_msg">
+            <h2>Retour d'installation :</h2>
+            <p>{{ form_widget(form_validMtn.message) }}</p>
+        </div>
+    </div>
+    <div id="block_btns">
+        {{ form_start(form_validMtn, {'attr' : {'id' : 'maintenance_form'}}) }}
+        {{ form_widget(form_validMtn.save) }}
+        <button id="valid_btn" type="button" onclick="sendformulaire('true')">VALIDER LA MAINTENANCE</button>
+        <button id="invalid_btn" type="button" onclick="sendformulaire('false')">MAINTENANCE IMPOSSIBLE</button>
+    </div>
+    <div>
+        <span id="err_sub">Veuillez completer le rapport d'intervention</span>
+    </div>
+    {{ form_end(form_validMtn) }}
+    <script>
+        function sendformulaire(valid){
+            let data = document.getElementById('maintenance_form_valid');
+            let textareaContent = document.getElementById('maintenance_form_report').value;
+            if(textareaContent.trim() !== ''){
+                if(valid === 'true'){
+                    data.value = 'true';
+                }else{
+                    data.value = 'false';
+                }
+                document.getElementById('maintenance_form').submit();
+            }else{
+                document.getElementById('err_sub').style.display = 'flex';
+            }
+        }
+    </script>
 {% endblock %}
+

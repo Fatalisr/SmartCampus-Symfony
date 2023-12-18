@@ -8,7 +8,7 @@
         <p> {{ nom }}</p>
         <p>{{ salle }}</p>
         {% if etat == 'A_INSTALLER' %}
-            <p>🟠 A Installer</p>
+            <p>🟠 Installation</p>
         {% elseif etat == 'ACTIF' %}
             <p>🟢 Actif</p>
         {% elseif etat == 'MAINTENANCE' %}
@@ -28,9 +28,18 @@
                         {{ form_widget(form.message) }}
                     </div>
                     <div id="submit_btn">
-                        <button type="submit" onclick="return confirm('Voulez-vous démarrer une maintenance pour le SA {{ nom }}?')">Envoyer</button>
+                        <a id="maint" onclick="openPopup('popupCS')">Envoyer</a>
+                        <div id="popupCS" class="popup">
+                            <div class="popup-content">
+                                <span class="close" onclick="closePopup('popupCS')">&times;</span>
+                                <span>Voullez-vous vraiment démarrer la maintenance de ce système d'acquisition</span>
+                                <div>
+                                    <button id="non" type="button" onclick="closePopup('popupCS')">Non</button>
+                                    {{ form_widget(form.save) }}
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
                     {{ form_end(form) }}
                 </div>
                 <div class="pSAr" id="pSAR">
@@ -51,8 +60,16 @@
                 <p>Aucun donnée disponible</p>
             </div>
         </section>
+
     {% endif %}
     <script>
+        function openPopup(popupId) {
+            document.getElementById(popupId).style.display = 'block';
+        }
+
+        function closePopup(popupId) {
+            document.getElementById(popupId).style.display = 'none';
+        }
         //Read the data
         function traitementDonneeTemp() {
             // Dimension de l'image SVG

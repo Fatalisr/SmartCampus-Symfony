@@ -61,12 +61,38 @@ class TechnicienController extends AbstractController
     #[Route('/technicien/maintenance/{id}', name: 'app_view_maintenance')]
     public function view_maintenance(?int $id,ManagerRegistry $doctrine,Request $request): Response
     {
-        $entityManager = $doctrine->getManager();
-        $interventionRepository = $entityManager->getRepository('App\Entity\Intervention');
+        $entityManager =  $doctrine->getManager();
+        $saRepo = $entityManager->getRepository('App\Entity\SA');
+        $curSA = $saRepo->find($id);
+        $interMaintenance = $saRepo->findInstallationBySAId($curSA);
+
+        $form_validMtn = $this->createForm(InterventionFormType::class);
+        $form_validMtn->handleRequest($request);
+
+        $dateCourante = new \DateTime();
 
 
-        return $this->render('technicien/maintenance.html.twig', [
+        if($form_validMtn->isSubmitted() && $form_validMtn->isValid()){
+            if($form_validMtn->get('valid')->getData() == 'true'){
+                $curSA->setState('ACTIF');
+            }else{
+                $curSA->setState('INACTIF');
+            }
+            $interMaintenance->setReport($form_validMtn->get('report')->getData());
+            $interMaintenance->setEndingDate($dateCourante);
 
+            $entityManager->persist($curSA);
+            $entityManager->persist($interMaintenance);
+
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_technicien');
+        }
+        return $this->render('technicien/maintenance.html.twig',[
+            'curSA' => $curSA,
+            'maintenance' => $interMaintenance,
+            'form_validMtn' => $form_validMtn,
         ]);
     }
+
 }

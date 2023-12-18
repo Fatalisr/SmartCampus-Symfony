@@ -5,8 +5,8 @@
     <link rel="stylesheet" href="{{ asset('login.css') }}">
     <div id="block_pres">
         <div id="bull">
-            <h1>BIENVENU SUR L'ESPACE SMART CAMPUS</h1>
-            <p>Connectez-vous ou accedez à l'espace usager</p>
+            <h1>BIENVENUE SUR L'ESPACE SMART CAMPUS</h1>
+            <p>Connectez-vous ou accéder à l'espace usager</p>
         </div>
     </div>
     <div id="form_block">
@@ -15,24 +15,19 @@
             <h1>Veuillez entrer vos identifiants</h1>
             <p>Les champs <span style="color: red"> * </span> sont obligatoires</p>
         </div>
-        <div class="form_line">
-            {{ form_widget(form.username) }}
-            <div><span class="star_require"> * </span></div>
-        </div>
         {% if error == 'badUser' or error == 'badPwd'%}
             <div class="err_block">
                 <p id="bad_login">Nom d'utilisateur ou mot de passe incorrect</p>
             </div>
         {% endif %}
         <div class="form_line">
+            {{ form_widget(form.username) }}
+            <div><span class="star_require"> * </span></div>
+        </div>
+        <div class="form_line">
             {{ form_widget(form.password) }}
             <div><span class="star_require"> * </span></div>
         </div>
-        {% if error == 'badUser' or error == 'badPwd'%}
-            <div class="err_block">
-                <p id="bad_pwd">Nom d'utilisateur ou mot de passe incorrect</p>
-            </div>
-        {% endif %}
         <div id="submit_btn">
             <button type="submit">Se connecter</button>
         </div>

@@ -31,7 +31,7 @@ class changerSalleForm extends \Symfony\Component\Form\AbstractType
             ])
 
             ->add('save', SubmitType::class,[
-                'label' => 'oui',
+                'label' => 'Oui',
             ]);
 
     }

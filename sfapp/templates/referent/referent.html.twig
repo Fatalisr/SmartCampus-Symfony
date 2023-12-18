@@ -10,7 +10,7 @@
                 <button class="btn active" onclick="filtre('all')">Tous</button>
                 <button class="btn" onclick="filtre('actif')">Actif</button>
                 <button class="btn" onclick="filtre('maintenance')">Maintenance</button>
-                <button class="btn" onclick="filtre('installer')">A Installer</button>
+                <button class="btn" onclick="filtre('installer')">Installation</button>
             </div>
             <div>
                 {% for sa in maintenance %}
@@ -59,7 +59,7 @@
                                 <div id="popupCS" class="popup">
                                     <div class="popup-content">
                                         <span class="close" onclick="closePopup('popupCS')">&times;</span>
-                                        <span>Voullez-vous vraiment changer la salle de ce systeme d'acquisition</span>
+                                        <span>Voullez-vous vraiment changer la salle de ce système d'acquisition</span>
                                         <div>
                                             <button id="non" type="button" onclick="closePopup('popupCS')">Non</button>
                                             {{ form_widget(formsChange[loop.index0].save) }}
