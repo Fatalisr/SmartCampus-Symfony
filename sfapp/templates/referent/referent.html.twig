@@ -2,7 +2,9 @@
 
 
 {% block body %}
+
     <link rel="stylesheet" href="{{ asset('referent.css') }}">
+
     <section id="liste_salle">
         <ul class="block_sa">
             <h1>Plan d'action</h1>
@@ -165,6 +167,7 @@
 
         function closePopup(popupId) {
             document.getElementById(popupId).style.display = 'none';
+            window.location.href = '/referent';
         }
 
         function openSAPage(saID){

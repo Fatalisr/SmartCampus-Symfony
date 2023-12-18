@@ -15,7 +15,6 @@ body{
     background-image: url("images/fond_feuille.jpeg");
     background-size: cover;
     background-position: center;
-
 }
 
 a{
@@ -152,4 +151,15 @@ header a:hover{
     padding: 10px;
     margin-right: 10px;
     cursor: pointer;
+}
+
+#maint a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50%;
+    padding: 5px 10px 5px 10px;
+    margin-right: 10px;
+    border-radius: 10px;
+    background-color: #5b68c0;
 }

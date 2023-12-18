@@ -32,7 +32,6 @@ class ReferentController extends AbstractController
         $inactive = $saRepository->findAllInactive();
         $rooms = $roomRepository->findAll();
 
-
         $formsChange = []; //Stockage des instances de formulaire
         $formsAdd = [];
 
@@ -140,7 +139,7 @@ class ReferentController extends AbstractController
             $entityManager = $doctrine->getManager();
             if($form->get('currentRoom')->getData())
             {
-                $sa->setState("A_INSTALLER");
+                $sa->setState("INACTIF");
                 $installationSA = new Intervention();
                 $installationSA->setSa($sa);
                 $installationSA->setType("INSTALLATION");
@@ -165,47 +164,6 @@ class ReferentController extends AbstractController
             'form' => $form,
         ]);
 
-    }
-
-    #[Route('/referent/changersalle/{id}', name: 'changer_salle_sa')]
-    public function changeRoom(?int $id,Request $request, ManagerRegistry $doctrine): Response
-    {
-        $entityManager = $doctrine->getManager();
-        $sa = $entityManager->find(SA::class,$id);
-        $nom = $sa->getName();
-
-        $changeRoom = $this->createForm(changerSalleForm::class);
-        $changeRoom->handleRequest($request);
-
-        if ($changeRoom->isSubmitted() && $changeRoom->isValid()) {
-
-            if($changeRoom->get('newRoom')->getData())
-            {
-                $sa->setState("A_INSTALLER");
-                $installationSA = new Intervention();
-                $installationSA->setSa($sa);
-                $installationSA->setType("INSTALLATION");
-                $installationSA->setStartingDate(date_create(date("m.d.y")));
-                $entityManager->persist($installationSA);
-            }
-            else
-            {
-                $sa->setState("INACTIF");
-            }
-            $sa->setOldRoom($sa->getCurrentRoom());
-            $sa->setCurrentRoom($changeRoom->get('newRoom')->getData());
-
-            $entityManager->persist($sa);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_referent', [
-            ]);
-        }
-
-        return $this->render("referent/changersalle.html.twig",[
-            'changeRoom' => $changeRoom,
-            'sa' => $sa,
-        ]);
     }
     #[Route('/referent/delete_SA/{id}', name: 'delete_sa')]
     public function delete_sa(?int $id, ManagerRegistry $doctrine): Response

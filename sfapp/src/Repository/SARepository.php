@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\SA;
+use App\Entity\Intervention;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -72,7 +73,6 @@ class SARepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
-
     public function findInstallationBySAId($sa)
     {
         return $this->createQueryBuilder('s')
@@ -84,8 +84,6 @@ class SARepository extends ServiceEntityRepository
             ->getOneOrNullResult();
 
     }
-
-
 //    /**
 //     * @return SA[] Returns an array of SA objects
 //     */
