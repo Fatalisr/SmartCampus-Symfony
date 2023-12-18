@@ -1,0 +1,34 @@
+{% extends 'base_referent.html.twig' %}
+
+{% block title %}Ajouter un SA{% endblock %}
+
+
+{% block body %}
+    <link rel="stylesheet" href="{{ asset('nouveauSA.css') }}">
+    <div id="default_block">
+        <div id="form_block_cs">
+            {{ form_start(form) }}
+            <div id="form_header">
+                <h3>Création d'un nouveau système d'acquisition </h3>
+                <p>Les champs <span style="color: red">*</span> sont obligatoires</p>
+            </div>
+            <div id="black_line"></div>
+            <div id="door">
+                <img src="{{ asset('images/processor.png') }}">
+            </div>
+            <div id="form_line_cs">
+                {{ form_widget(form.name) }}
+                <div><span class="star_require"> * </span></div>
+            </div>
+            <div id="form_line_cs">
+                {{ form_widget(form.currentRoom) }}
+            </div>
+            <div id="submit_btn_cs">
+                <button type="submit">Créer le SA</button>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+{% endblock %}
+

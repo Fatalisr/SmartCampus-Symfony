@@ -1,0 +1,52 @@
+{% extends 'base_technicien.html.twig' %}
+
+
+{% block body %}
+
+        <section class="bandeau_tech">
+            <div class="pres_page">
+                <div>Bonjour Technicien</div>
+                <div>Vous êtes sur l'espace technicien. Vous pouvez consulter l'ensemble de vos interventions et les valider.</div>
+            </div>
+        </section>
+
+        <section id="liste_interventions">
+            <ul class="block_interv">
+                <h1>Installations en attente</h1>
+                <div>
+                    {% if installations %}
+                    {% for install in installations %}
+                        <a id="view" href="{{ path('app_view_installation', {'id': install.sa.getId}) }}">
+                            <div class="listIntervention">
+                                <div>
+                                    {{ install.sa.name }}
+                                </div>
+                                <div>
+                                    {% if install.sa.getOldRoom is null%}
+                                        <p>{{ install.sa.getCurrentRoom.name }}</p>
+                                    {% else %}
+                                        <p>{{ install.sa.getOldRoom.name }} vers {{ install.sa.getCurrentRoom.getName }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                    {% endif %}
+
+                </div>
+            </ul>
+            <ul class="block_interv">
+                <h1>Maintenances en attente</h1>
+                <div>
+                    {% for maintenance in maintenances %}
+                        <a id="view" href="{{ path('app_view_maintenance', {'id': maintenance.sa.id}) }}">
+                            <div class="listIntervention"> <!-- UN <LI></LI> = UNE LIGNE : ajouter les elements À L'INTERIEUR du li. Le webdesigner. -->
+                                <p>{{ maintenance.sa.getName }}</p>
+                                <p>{{ maintenance.sa.getCurrentRoom.getName }}</p>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            </ul>
+        </section>
+{% endblock %}
