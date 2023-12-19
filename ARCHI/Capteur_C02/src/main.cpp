@@ -48,7 +48,7 @@ void loop()
   {
     Serial.println("Erreur CO2");
   }
-  delay(5000);
+  delay(1000);
 }
 
 /*
