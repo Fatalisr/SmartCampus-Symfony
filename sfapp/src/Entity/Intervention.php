@@ -30,8 +30,11 @@ class Intervention
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $report = null;
 
-    #[ORM\Column(length: 15, options: ['check' => "check (type in ('INSTALLATION','MAINTENANCE'))"])]
-    private ?string $type = null;
+    #[ORM\Column(length: 15, options: ['check' => "check (type_I in ('INSTALLATION','MAINTENANCE'))"])]
+    private ?string $type_I = null;
+
+    #[ORM\Column(length: 8, options: ['check' => "check (state in ('EN_COURS','FINIE','ANNULEE'))"], nullable: true)]
+    private ?string $state = null;
 
     public function getId(): ?int
     {
@@ -100,12 +103,24 @@ class Intervention
 
     public function getType(): ?string
     {
-        return $this->type;
+        return $this->type_I;
     }
 
     public function setType(string $type): static
     {
-        $this->type = $type;
+        $this->type_I = $type;
+
+        return $this;
+    }
+
+    public function getState(): ?string
+    {
+        return $this->state;
+    }
+
+    public function setState(string $state): static
+    {
+        $this->type = $state;
 
         return $this;
     }

@@ -27,8 +27,8 @@ class InterventionRepository extends ServiceEntityRepository
     public function findAllInstallations(): array
     {
         return $this->createQueryBuilder('i')
-            ->andWhere('i.type = :type')
-            ->setParameter('type', "INSTALLATION")
+            ->andWhere('i.type_i = :type_i')
+            ->setParameter('type_i', "INSTALLATION")
             ->andWhere('i.endingDate IS NULL')
             ->orderBy('i.id', 'DESC')
             ->getQuery()
@@ -41,26 +41,60 @@ class InterventionRepository extends ServiceEntityRepository
     public function findAllMaintenances(): array
     {
         return $this->createQueryBuilder('i')
-            ->andWhere('i.type = :type')
+            ->andWhere('i.type_i = :type_i')
             ->andWhere('i.endingDate IS NULL')
-            ->setParameter('type', "MAINTENANCE")
+            ->setParameter('type_i', "MAINTENANCE")
             ->orderBy('i.id', 'DESC')
             ->getQuery()
             ->getResult()
             ;
     }
-    public function findInstallationBySAId($sa)
+    public function findOneById($sa,$type)
     {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.type = :type')
-            ->andWhere('i.sa = :sa')
-            ->andWhere('i.endingDate IS NULL')
-            ->setParameter('type', "INSTALLATION")
-            ->setParameter('sa', $sa)
-            ->orderBy('i.id', 'DESC')
-            ->getQuery()
-            ->getResult()
-            ;
+        if($type == "maint")
+        {
+            $conn = $this->getEntityManager()->getConnection();
+
+            $sql = "
+            SELECT * FROM Intervention I
+            WHERE I.type_i = :type AND I.sa_id = :id AND I.endingDate IS NULL
+            ORDER BY p.price ASC
+            ";
+
+            $resultSet = $conn->executeQuery($sql, ['type' => "MAINTENANCE",'id' => $sa]);
+
+            // returns an array of arrays (i.e. a raw data set)
+            return $resultSet->fetchAllAssociative();
+        }
+        if($type == "insta")
+        {
+            $conn = $this->getEntityManager()->getConnection();
+
+            $sql = "
+            SELECT * FROM Intervention I
+            WHERE I.type_i = :type AND I.sa_id = :id AND I.endingDate IS NULL
+            ORDER BY p.price ASC
+            ";
+
+            $resultSet = $conn->executeQuery($sql, ['type' => "INSTALLATION",'id' => $sa]);
+
+            // returns an array of arrays (i.e. a raw data set)
+            return $resultSet->fetchAllAssociative();
+
+        }
 
     }
 }
+
+/*
+ *  return $this->createQueryBuilder('i')
+                ->andWhere('i.type = :type')
+                ->andWhere('i.sa_id = :sa')
+                ->andWhere('i.endingDate IS NULL')
+                ->setParameter('type', "INSTALLATION")
+                ->setParameter('sa', $sa)
+                ->orderBy('i.id', 'DESC')
+                ->getQuery()
+                ->getResult()
+                ;
+ */
