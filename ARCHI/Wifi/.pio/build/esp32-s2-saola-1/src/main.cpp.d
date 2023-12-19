@@ -192,5 +192,4 @@
  /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/cores/esp32/Udp.h \
  /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/cores/esp32/cbuf.h \
  /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFiClient.h \
- /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFiAP.h \
- /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/wpa_supplicant/esp_supplicant/include/esp_wpa2.h
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFiAP.h

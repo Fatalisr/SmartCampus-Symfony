@@ -3,6 +3,68 @@
 #include <WiFiClient.h>
 #include <WiFiAP.h>
 
+void printLocalTime();
+#include "time.h"
+const char* ssid = "partageDeCo";
+const char* password = "gabin000";
+const char* ntpServer = "pool.ntp.org";
+const long gmtOffset_sec = 0;
+const int daylightOffset_sec = 3600;
+void setup(){
+    Serial.begin(9600);
+    // Connect to Wi-Fi
+    Serial.print("Connecting to ");
+    Serial.println(ssid);
+    WiFi.begin(ssid, password);
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(500);
+        Serial.print(".");
+    }
+    Serial.println("");
+    Serial.println("WiFi connected.");
+    // Init and get the time
+    configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+    printLocalTime();
+    //disconnect WiFi as it's no longer needed
+    WiFi.disconnect(true);
+    WiFi.mode(WIFI_OFF);
+}
+void loop(){
+    delay(1000);
+    printLocalTime();
+}
+void printLocalTime(){
+    struct tm timeinfo;
+    if(!getLocalTime(&timeinfo)){
+        Serial.println("Failed to obtain time");
+        return;
+    }
+    Serial.println(&timeinfo, "%Y-%m-%d %H:%M:%S");
+    Serial.print("Month: ");
+    Serial.println(&timeinfo, "%B");
+    Serial.print("Day of Month: ");
+    Serial.println(&timeinfo, "%d");
+    Serial.print("Year: ");
+    Serial.println(&timeinfo, "%Y");
+    Serial.print("Hour: ");
+    Serial.println(&timeinfo, "%H");
+    Serial.print("Minute: ");
+    Serial.println(&timeinfo, "%M");
+    Serial.print("Second: ");
+    Serial.println(&timeinfo, "%S");
+
+    // Récup l'heure
+    char timeHour[3];
+    strftime(timeHour,3, "%H", &timeinfo);
+    Serial.println(timeHour);
+    //
+    Serial.println();
+}
+
+/*
+--------------------------
+Connexion à Eduroam
+--------------------------
 #include "esp_wpa2.h" //wpa2 library for connections to Enterprise networks
 #define EAP_IDENTITY "gjoyet" //if connecting from another corporation, use identity@organisation.domain in Eduroam
 #define EAP_USERNAME "gjoyet" //oftentimes just a repeat of the identity
@@ -84,8 +146,7 @@ void loop() {
     else{
         Serial.println("Connection unsucessful");
     }
-}
-
+}*/
 
 
 
