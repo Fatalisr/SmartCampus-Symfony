@@ -31,7 +31,7 @@ class ConnexionRequetesAPI
             ],
         ]);
 
-        if($response->getStatusCode() == 200)   // Checks if the request was successful (200 indicates that teh request was successful)
+        if($response->getStatusCode() == 200)   // Checks if the request was successful (200 indicates that the request was successful)
         {
             return $response->getContent();
         }
@@ -41,23 +41,30 @@ class ConnexionRequetesAPI
         //return $response->getInfo();
     }
 
-    public function postCaptures()
+    public function postCaptures(array $requestJson) : array
     {
-
+        
         $response = $this->client->request(                         // Creates and sends the request to the API
             'POST',                                                 // Sets the http request methods of the request (POST)
             'https://sae34.k8s.iut-larochelle.fr/api/captures',[    // URL of the API and the route we want to send a request to
             'headers' => [                                          // Adding the required headers to connect to our database in the API
+                'Content-Type: application/json',
+                'Accept: application/json',
                 'dbname' => 'sae34bdm1eq1',                         // Informing the name of our database
                 'username' => 'm1eq1',                              // Informing the username to connect to our database
                 'userpass' => 'sodqif-vefXym-0cikho',               // Informing the password to connect to our database
 
             ],
+            'body' => $requestJson,
         ]);
 
-        if($response->getStatusCode() == 200)   // Checks if the request was successful (200 indicates that teh request was successful)
+        if (201 != $response->getStatusCode()) {
+            throw new Exception('Response status code is different than expected.');
+        }
+
+        if($response->getStatusCode() == 201)   // Checks if the request was successful (201 indicates that the request was successful)
         {
-            return $response->getContent();
+            return json_decode($response->getContent(), true, );
         }
 
         //return $response->getStatusCode();
@@ -67,13 +74,13 @@ class ConnexionRequetesAPI
     public function getIntervalCaptures()
     {
 
-        $response = $this->client->request(                         // Creates and sends the request to the API
-            'GET',                                                  // Sets the http request methods of the request (GET)
-            'https://sae34.k8s.iut-larochelle.fr/api/captures',[    // URL of the API and the route we want to send a request to
-            'headers' => [                                          // Adding the required headers to connect to our database in the API
-                'dbname' => 'sae34bdm1eq1',                         // Informing the name of our database
-                'username' => 'm1eq1',                              // Informing the username to connect to our database
-                'userpass' => 'sodqif-vefXym-0cikho',               // Informing the password to connect to our database
+        $response = $this->client->request(                                 // Creates and sends the request to the API
+            'GET',                                                          // Sets the http request methods of the request (GET)
+            'https://sae34.k8s.iut-larochelle.fr/api/captures/interval',[   // URL of the API and the route we want to send a request to
+            'headers' => [                                                  // Adding the required headers to connect to our database in the API
+                'dbname' => 'sae34bdm1eq1',                                 // Informing the name of our database
+                'username' => 'm1eq1',                                      // Informing the username to connect to our database
+                'userpass' => 'sodqif-vefXym-0cikho',                       // Informing the password to connect to our database
 
             ],
         ]);
@@ -91,13 +98,13 @@ class ConnexionRequetesAPI
     public function getlastCaptures()
     {
 
-        $response = $this->client->request(                         // Creates and sends the request to the API
-            'GET',                                                  // Sets the http request methods of the request (GET)
-            'https://sae34.k8s.iut-larochelle.fr/api/captures',[    // URL of the API and the route we want to send a request to
-            'headers' => [                                          // Adding the required headers to connect to our database in the API
-                'dbname' => 'sae34bdm1eq1',                         // Informing the name of our database
-                'username' => 'm1eq1',                              // Informing the username to connect to our database
-                'userpass' => 'sodqif-vefXym-0cikho',               // Informing the password to connect to our database
+        $response = $this->client->request(                             // Creates and sends the request to the API
+            'GET',                                                      // Sets the http request methods of the request (GET)
+            'https://sae34.k8s.iut-larochelle.fr/api/captures/last',[   // URL of the API and the route we want to send a request to
+            'headers' => [                                              // Adding the required headers to connect to our database in the API
+                'dbname' => 'sae34bdm1eq1',                             // Informing the name of our database
+                'username' => 'm1eq1',                                  // Informing the username to connect to our database
+                'userpass' => 'sodqif-vefXym-0cikho',                   // Informing the password to connect to our database
 
             ],
         ]);
