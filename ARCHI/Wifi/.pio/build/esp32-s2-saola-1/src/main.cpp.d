@@ -191,5 +191,49 @@
  /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFiUdp.h \
  /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/cores/esp32/Udp.h \
  /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/cores/esp32/cbuf.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/libraries/HTTPClient/src/HTTPClient.h \
  /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFiClient.h \
- /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFiAP.h
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/libraries/WiFiClientSecure/src/WiFiClientSecure.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/libraries/WiFiClientSecure/src/ssl_client.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/mbedtls/include/mbedtls/platform.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/port/include/mbedtls/esp_config.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/mbedtls/include/mbedtls/config.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/mbedtls/include/mbedtls/check_config.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/port/include/esp_mem.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/mbedtls/include/mbedtls/platform_time.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/mbedtls/include/mbedtls/net.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/mbedtls/include/mbedtls/net_sockets.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/mbedtls/include/mbedtls/ssl.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/port/include/mbedtls/bignum.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/mbedtls/include/mbedtls/bignum.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/mbedtls/include/mbedtls/ecp.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/mbedtls/include/mbedtls/ssl_ciphersuites.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/mbedtls/include/mbedtls/pk.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/mbedtls/include/mbedtls/md.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/mbedtls/include/mbedtls/platform_util.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/mbedtls/include/mbedtls/rsa.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/mbedtls/include/mbedtls/ecdsa.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/mbedtls/include/mbedtls/cipher.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/mbedtls/include/mbedtls/x509_crt.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/mbedtls/include/mbedtls/x509.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/mbedtls/include/mbedtls/asn1.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/mbedtls/include/mbedtls/x509_crl.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/mbedtls/include/mbedtls/dhm.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/mbedtls/include/mbedtls/ecdh.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/mbedtls/include/mbedtls/debug.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/mbedtls/include/mbedtls/entropy.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/mbedtls/include/mbedtls/sha512.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/port/include/sha512_alt.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/hal/include/hal/sha_types.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/esp_rom/include/esp32s2/rom/sha.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/esp_rom/include/esp32s2/rom/ets_sys.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/mbedtls/include/mbedtls/ctr_drbg.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/mbedtls/include/mbedtls/aes.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/port/include/aes_alt.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/port/include/aes/esp_aes.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/hal/include/hal/aes_types.h \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/mbedtls/mbedtls/include/mbedtls/error.h \
+ .pio/libdeps/esp32-s2-saola-1/ArduinoJson/src/ArduinoJson.h \
+ .pio/libdeps/esp32-s2-saola-1/ArduinoJson/src/ArduinoJson.hpp \
+ .pio/libdeps/esp32-s2-saola-1/ArduinoJson/src/ArduinoJson/Configuration.hpp \
+ /Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/wpa_supplicant/esp_supplicant/include/esp_wpa2.h
