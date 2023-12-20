@@ -16,7 +16,7 @@
                 <div>
                     {% if installations %}
                     {% for install in installations %}
-                        <a id="view" href="{{ path('app_view_installation', {'id': install.sa.getId}) }}">
+                        <a id="view" href="{{ path('app_view_installation', {'id': install.id}) }}">
                             <div class="listIntervention">
                                 <div>
                                     {{ install.sa.name }}
@@ -39,7 +39,7 @@
                 <h1>Maintenances en attente</h1>
                 <div>
                     {% for maintenance in maintenances %}
-                        <a id="view" href="{{ path('app_view_maintenance', {'id': maintenance.sa.id}) }}">
+                        <a id="view" href="{{ path('app_view_maintenance', {'id': maintenance.id}) }}">
                             <div class="listIntervention"> <!-- UN <LI></LI> = UNE LIGNE : ajouter les elements À L'INTERIEUR du li. Le webdesigner. -->
                                 <p>{{ maintenance.sa.getName }}</p>
                                 <p>{{ maintenance.sa.getCurrentRoom.getName }}</p>

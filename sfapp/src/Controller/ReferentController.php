@@ -81,12 +81,13 @@ class ReferentController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $maintenance = new Intervention();
+            $maintenanceRepo = $doctrine->getRepository("App\Entity\Intervention");
+            $maintenance = $maintenanceRepo->findOneBy(["sa"=> $id]);
             $maintenance->setMessage($form->get('message')->getData());
             date_default_timezone_set('UTC');
             $maintenance->setStartingDate(date_create(date("m.d.y")));
             $maintenance->setSa($sa);
-            $maintenance->setType("MAINTENANCE");
+            $maintenance->setType_I("MAINTENANCE");
             $sa->setState("MAINTENANCE");
             $entityManager = $doctrine->getManager();
             $entityManager->persist($maintenance);
@@ -124,7 +125,7 @@ class ReferentController extends AbstractController
                 $sa->setState("A_INSTALLER");
                 $installationSA = new Intervention();
                 $installationSA->setSa($sa);
-                $installationSA->setType("INSTALLATION");
+                $installationSA->setType_I("INSTALLATION");
                 $installationSA->setStartingDate(date_create(date("m.d.y")));
                 $entityManager->persist($installationSA);
             }
@@ -157,7 +158,7 @@ class ReferentController extends AbstractController
         $intervention = new Intervention();
         $intervention->setSa($sa);
         //$intervention->setStartingDate();
-        $intervention->setType("INSTALLATION");
+        $intervention->setType_I("INSTALLATION");
         $intervention->setMessage("Retour du SA au stock");
 
         $entityManager->persist($intervention);
@@ -207,8 +208,14 @@ class ReferentController extends AbstractController
     public function delete_sa_base(?int $id, ManagerRegistry $doctrine): Response
     {
         $entityManager = $doctrine->getManager();
-
+        $intervRepo = $entityManager->getRepository("App\Entity\Intervention");
         $sa = $entityManager->find(SA::class, $id);
+        $intervention = $intervRepo->findOneSa($sa);
+        if ($intervention != null)
+        {
+            $entityManager->remove($intervention);
+            $entityManager->flush();
+        }
         $entityManager->remove($sa);
         $entityManager->flush();
         return $this->redirectToRoute('app_referent', [

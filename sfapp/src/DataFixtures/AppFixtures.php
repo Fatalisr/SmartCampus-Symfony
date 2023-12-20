@@ -427,24 +427,27 @@ class AppFixtures extends Fixture
 
         // Intervention Maintenance sur SA3
         $intervention1 = new Intervention();
+        $intervention1->setState("EN_COURS");
         $intervention1->setSa($sa3);
         $intervention1->setMessage("Le capteur de CO2 ne remonte plus de données, verifier le capteur et les branchements");
         $intervention1->setStartingDate(new \DateTime());
-        $intervention1->setType('MAINTENANCE');
+        $intervention1->setType_I('MAINTENANCE');
         $manager->persist($intervention1);
 
         //Installation 1
         $Inst1 = new Intervention();
+        $Inst1->setState("EN_COURS");
         $Inst1->setSa($sa2);
-        $Inst1->setType("INSTALLATION");
+        $Inst1->setType_I("INSTALLATION");
         $Inst1->setStartingDate(new \DateTime());
         $manager->persist($Inst1);
 
         $Inst2 = new Intervention();
+        $Inst2->setState("EN_COURS");
         $sa13->setOldRoom($sa13->getCurrentRoom());
         $sa13->setCurrentRoom($this->getReference('D302'));
         $Inst2->setSa($sa13);
-        $Inst2->setType("INSTALLATION");
+        $Inst2->setType_I("INSTALLATION");
         $Inst2->setStartingDate(new \DateTime());
         $manager->persist($Inst2);
 

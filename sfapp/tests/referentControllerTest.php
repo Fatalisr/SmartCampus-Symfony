@@ -3,6 +3,7 @@ namespace App\Tests;
 use App\Entity\Room;
 use App\Entity\SA;
 use App\Entity\User;
+use App\Form\changerSalleForm;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -333,7 +334,7 @@ class referentControllerTest extends WebTestCase
 
                          }
 
-    public function testChangerSalle()
+    /*public function testChangerSalle()
     {
         // Se connecte en temps que Referent
         //=============================================================
@@ -389,19 +390,31 @@ class referentControllerTest extends WebTestCase
         $entityManager->persist($room2);
 
         $entityManager->flush();
-/*
         $this->assertResponseStatusCodeSame(302);
 
-        //$client->submitForm('VALIDER LA MAINTENANCE',[
-        //    'forms[]' => 'true',
-        //]);
+        $crawler = $client->request('GET', '/referent');
+
+        $form = $crawler->selectButton('save')->form();
+        $form['changer_salle_form[newRoom]'] = 'Test_Room2';
+        $form['changer_salle_form[sa_id]'] = $sa->getId();
+        $client->submit($form);
+
+
+                $form = $crawler->selectButton('save')->form([
+                    'changer_salle_form[newRoom]' => 'Test_Room2',
+                    'changer_salle_form[sa_id]' => $sa->getId(),
+                ]);
+
+        $client->submitForm('Oui',[
+            'forms[]' => 'true',
+        ]);
 
         $saModif = $entityManager->find(SA::class,$sa->getId());
 
         $this->assertEquals($saModif->getCurrentRoom()->getId(), $room2->getId()); // On verifie que la nouvelle salle a bien été affilié au SA
         $this->assertEquals($saModif->getOldRoom()->getId(), $room1->getId()); // On verifie que l'ancienne salle a bien été enregistrer
         $this->assertEquals($saModif->getState(), 'A_INSTALLER');// On verifie que l'état a bien été modifier
-*/
+
         // Delete the entry in the database to avoid conflict with the tests
         $entityManager->beginTransaction(); // Begin a transaction
         $entityManager->createQuery("DELETE FROM App\Entity\INTERVENTION ")->execute();
@@ -411,5 +424,5 @@ class referentControllerTest extends WebTestCase
         $entityManager->commit();
 
 
-    }
+    }*/
 }

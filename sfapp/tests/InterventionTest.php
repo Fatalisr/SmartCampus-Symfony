@@ -17,13 +17,13 @@ class InterventionTest extends TestCase
         $interv->setSa($sa);
         $interv->setMessage("Coucou");
         $interv->setReport("Salut");
-        $interv->setType("INSTALLATION");
+        $interv->setType_I("INSTALLATION");
 
         $this->assertEquals(date_create(date("m.d.y")), $interv->getStartingDate());
         $this->assertEquals(date_create(date("m.d.y")), $interv->getEndingDate());
         $this->assertEquals($sa, $interv->getSa());
         $this->assertEquals("Coucou", $interv->getMessage());
         $this->assertEquals("Salut", $interv->getReport());
-        $this->assertEquals("INSTALLATION", $interv->getType());
+        $this->assertEquals("INSTALLATION", $interv->getType_I());
     }
 }

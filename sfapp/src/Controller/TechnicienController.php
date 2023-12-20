@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Intervention;
 use App\Form\MaintenanceForm;
 use App\Form\InstallationForm;
 use App\Form\InterventionFormType;
@@ -63,27 +64,29 @@ class TechnicienController extends AbstractController
     public function view_maintenance(?int $id,ManagerRegistry $doctrine,Request $request): Response
     {
         $entityManager =  $doctrine->getManager();
-        $saRepo = $entityManager->getRepository('App\Entity\SA');
-        $curSA = $saRepo->find($id);
-        $instaRepo = $entityManager->getRepository('App\Entity\Intervention');
-        $interMaintenance = $instaRepo->findOneById($curSA->getId(),"maint");
+
+        $interventionRepo = $entityManager->getRepository('App\Entity\Intervention');
+        $curInterv = $interventionRepo->find($id);
+        $curSA = $curInterv->getSa();
+
         $form_validMtn = $this->createForm(MaintenanceForm::class);
         $form_validMtn->handleRequest($request);
 
-        $dateCourante = new \DateTime();
-
-
         if($form_validMtn->isSubmitted() && $form_validMtn->isValid()){
-            if($form_validMtn->get('valid')->getData() == 'true'){
+            if($form_validMtn->getData()['valid'] == "true"){
                 $curSA->setState('ACTIF');
-            }else{
-                $curSA->setState('INACTIF');
+                $curInterv->setState("FINIE");
+                $curInterv->setEndingDate(new \DateTime());
             }
-            $interMaintenance->setReport($form_validMtn->get('report')->getData());
-            $interMaintenance->setEndingDate($dateCourante);
+            else{
+                $curSA->setState('INACTIF');
+                $curInterv->setState("ANNULEE");
+            }
 
+            $report = $form_validMtn->get('report')->getData();
+            $curInterv->setReport($report);
             $entityManager->persist($curSA);
-            $entityManager->persist($interMaintenance);
+            $entityManager->persist($curInterv);
 
             $entityManager->flush();
 
@@ -91,7 +94,7 @@ class TechnicienController extends AbstractController
         }
         return $this->render('technicien/maintenance.html.twig',[
             'curSA' => $curSA,
-            'maintenance' => $interMaintenance,
+            'maintenance' => $curInterv,
             'form_validMtn' => $form_validMtn,
         ]);
     }

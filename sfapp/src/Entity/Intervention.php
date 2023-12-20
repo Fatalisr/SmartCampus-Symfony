@@ -23,15 +23,15 @@ class Intervention
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $message = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\OneToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?SA $sa = null;
 
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $report = null;
 
-    #[ORM\Column(length: 15, options: ['check' => "check (type_I in ('INSTALLATION','MAINTENANCE'))"])]
-    private ?string $type_I = null;
+    #[ORM\Column(length: 15, options: ['check' => "check (type_i in ('INSTALLATION','MAINTENANCE'))"])]
+    private ?string $type_i = null;
 
     #[ORM\Column(length: 8, options: ['check' => "check (state in ('EN_COURS','FINIE','ANNULEE'))"], nullable: true)]
     private ?string $state = null;
@@ -101,14 +101,14 @@ class Intervention
         return $this;
     }
 
-    public function getType(): ?string
+    public function getType_I(): ?string
     {
-        return $this->type_I;
+        return $this->type_i;
     }
 
-    public function setType(string $type): static
+    public function setType_I(string $type_I): static
     {
-        $this->type_I = $type;
+        $this->type_i = $type_I;
 
         return $this;
     }
@@ -120,7 +120,7 @@ class Intervention
 
     public function setState(string $state): static
     {
-        $this->type = $state;
+        $this->state = $state;
 
         return $this;
     }
