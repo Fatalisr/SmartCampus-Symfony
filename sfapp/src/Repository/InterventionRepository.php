@@ -29,8 +29,10 @@ class InterventionRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('i')
             ->andWhere('i.type_i = :type_i')
+            ->andWhere('i.state = :state')
             ->setParameter('type_i', "INSTALLATION")
             ->andWhere('i.endingDate IS NULL')
+            ->setParameter('state', "EN_COURS")
             ->orderBy('i.id', 'DESC')
             ->getQuery()
             ->getResult();
@@ -52,46 +54,6 @@ class InterventionRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
-    /*
-    public function findOneById($sa,$type) : Intervention
-    {
-        if($type == "maint")
-        {
-
-        }
-        if($type == "insta")
-        {
-            $conn = $this->getEntityManager()->getConnection();
-
-            $sql = "
-            SELECT * FROM Intervention I
-            WHERE I.type_i = :type_i AND I.sa_id = :id AND I.endingDate IS NULL
-            ORDER BY p.price ASC
-            ";
-
-            $resultSet = $conn->executeQuery($sql, ['type_i' => "INSTALLATION",'id' => $sa]);
-
-            // returns an array of arrays (i.e. a raw data set)
-            $installation = new Intervention();
-            $installation = $resultSet->fetchAllAssociative()[0];
-            // returns an array of arrays (i.e. a raw data set)
-            $machin = $resultSet->fetchAllAssociative()[0];
-            $installation = new Intervention();
-            $installation->setState($machin["state"]);
-            $installation->setType_I($machin["type_i"]);
-            $installation->setReport($machin["report"]);
-            $installation->setMessage($machin["message"]);
-            $installation->setStartingDate(new \DateTime($machin["starting_date"]));
-            return $installation;
-
-        }
-        else{
-            return new Intervention();
-        }
-
-    }*/
-
-
     public function findOneById($sa,$type): ?Intervention
     {
 
@@ -109,16 +71,25 @@ class InterventionRepository extends ServiceEntityRepository
         }
     }
 
-    public function findOneSa($sa)
+    public function findOneBySA($sa)
     {
-        try {
-            return $this->createQueryBuilder('i')
-                ->andWhere('i.sa = :sa')
-                ->setParameter('sa', $sa)
-                ->getQuery()
-                ->getOneOrNullResult();
-        } catch (NonUniqueResultException $e) {
-            return null;
-        }
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.sa = :sa')
+            ->setParameter('sa', $sa)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function findOneBySAReport($sa)
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.sa = :sa')
+            ->setParameter('sa', $sa)
+            ->andWhere('i.type_i = :type')
+            ->setParameter('type', "MAITENANCE")
+            ->andWhere('i.state != :state')
+            ->setParameter('state', "EN_COURS")
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

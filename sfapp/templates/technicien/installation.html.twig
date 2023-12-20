@@ -14,16 +14,18 @@
                 <h2>Salle actuelle :</h2>
                 <p>{{  curSA.oldRoom.name }}</p>
             {% endif %}
-            <h2>A installer en :</h2>
+            <h2>A installer en salle :</h2>
             <span> {{ curSA.currentRoom.name }} </span>
         </div>
     </div>
     <div class="block_interv">
         <div>
             <h2>Etapes de l'installation :</h2>
-            <p>1 - Branchement du système d'acquisition</p>
-            <p>2 - Configuration</p>
-            <p>3 - Test des données remontées</p>
+            <ol>
+                <li>Branchement du système d'acquisition</li>
+                <li>Configuration</li>
+                <li>Test des données remontées</li>
+            </ol>
         </div>
     </div>
     {{ form_start(form_validInstal) }}
