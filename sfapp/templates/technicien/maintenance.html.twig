@@ -14,6 +14,61 @@
             <img src="{{ asset('images/processor.png') }}">
             <span> {{ curSA.currentRoom.name }} </span>
         </div>
+
+
+
+
+        {% if maintenance.technicien == null%}
+            <div>
+                {{ form_start(form_assign) }}
+                <div id="submit_btn">
+                    <a id="maint" onclick="openPopup('popupCS')">M'assigner à cette intervention</a>
+                    <div id="popupCS" class="popup">
+                        <div class="popup-content">
+                            <span class="close" onclick="closePopup('popupCS')">&times;</span>
+                            <span>Veuillez confirmer votre assignation à cette intervention</span>
+                            <div>
+                                <button id="non" type="button" onclick="closePopup('popupCS')">Non</button>
+                                {{ form_widget(form_assign.valid) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{ form_end(form_assign) }}
+            </div>
+
+        {% else  %}
+            {% if maintenance.technicien == user%}
+                <div>
+                    <span> {{ maintenance.technicien.username }}</span>
+                </div>
+                {{ form_start(form_unassign) }}
+                <div id="submit_btn">
+                    <a id="maint" onclick="openPopup('popupCS')">X</a>
+                    <div id="popupCS" class="popup">
+                        <div class="popup-content">
+                            <span class="close" onclick="closePopup('popupCS')">&times;</span>
+                            <span>Veuillez confirmer votre retrait de cette intervention</span>
+                            <div>
+                                <button id="non" type="button" onclick="closePopup('popupCS')">Non</button>
+                                {{ form_widget(form_unassign.valid) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{ form_end(form_unassign) }}
+            {% else  %}
+                <div>
+                    <span> {{ maintenance.technicien.username }}</span>
+                </div>
+            {% endif %}
+        {% endif %}
+
+
+
+
+
+
         <a href="{{ path("app_technicien") }}"><span>Retour</span></a>
     </div>
     {{ form_start(form_validMtn, {'attr' : {'id' : 'maintenance_form'}}) }}
@@ -27,6 +82,7 @@
             <p>{{ form_widget(form_validMtn.report) }}</p>
         </div>
     </div>
+
     <div id="block_btns">
         {{ form_start(form_validMtn, {'attr' : {'id' : 'maintenance_form'}}) }}
         {{ form_widget(form_validMtn.valid) }}
@@ -51,6 +107,15 @@
             }else{
                 document.getElementById('err_sub').style.display = 'flex';
             }
+        }
+
+
+        function openPopup(popupId) {
+            document.getElementById(popupId).style.display = 'block';
+        }
+
+            function closePopup(popupId) {
+            document.getElementById(popupId).style.display = 'none';
         }
     </script>
 {% endblock %}
