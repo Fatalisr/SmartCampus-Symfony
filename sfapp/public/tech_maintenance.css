@@ -1,4 +1,4 @@
-#div_sa_info{
+.div_sa_info{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -7,7 +7,7 @@
     height: 10vh;
     padding: 0px 10px 0px 10px;
 }
-#div_sa_info a{
+.div_sa_info a{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,7 +16,7 @@
     border-radius: 10px;
     background-color: #5b68c0;
 }
-#div_sa_info a:hover{
+.div_sa_info a:hover{
     cursor: pointer;
     opacity: 90%;
     transition-duration: .2s;
@@ -43,6 +43,7 @@ a{
 form{
     height: 100%;
 }
+
 
 #block_ref_msg{
     display: flex;

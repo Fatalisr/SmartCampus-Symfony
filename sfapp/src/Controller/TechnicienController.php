@@ -33,19 +33,19 @@ class TechnicienController extends AbstractController
     {
         $entityManager =  $doctrine->getManager();
 
-        $interventionRepo = $entityManager->getRepository('App\Entity\Intervention');
-        $curInterv = $interventionRepo->find($id);
+        $interventionRepository = $entityManager->getRepository('App\Entity\Intervention');
+        $curInterv = $interventionRepository->find($id);
         $curSA = $curInterv->getSa();
 
-        $form_validInst = $this->createForm(InstallationForm::class);
-        $form_validInst->handleRequest($request);
+        $formValidInstallation= $this->createForm(InstallationForm::class);
+        $formValidInstallation->handleRequest($request);
 
-        $dateCourante = new \DateTime();
+        $currentDate = new \DateTime();
 
-        if($form_validInst->isSubmitted() && $form_validInst->isValid()){
+        if($formValidInstallation->isSubmitted() && $formValidInstallation->isValid()){
             $curSA->setState('ACTIF');
             $curInterv->setState("FINIE");
-            $curInterv->setEndingDate($dateCourante);
+            $curInterv->setEndingDate($currentDate);
 
             $entityManager->persist($curSA);
             $entityManager->persist($curInterv);
@@ -57,7 +57,7 @@ class TechnicienController extends AbstractController
         return $this->render('technicien/installation.html.twig',[
             'curSA' => $curSA,
             'installation' => $curInterv,
-            'form_validInstal' => $form_validInst,
+            'formValidInstallation' => $formValidInstallation,
         ]);
 
     }
@@ -66,8 +66,8 @@ class TechnicienController extends AbstractController
     {
         $entityManager =  $doctrine->getManager();
 
-        $interventionRepo = $entityManager->getRepository('App\Entity\Intervention');
-        $curInterv = $interventionRepo->find($id);
+        $interventionRepository = $entityManager->getRepository('App\Entity\Intervention');
+        $curInterv = $interventionRepository->find($id);
         $curSA = $curInterv->getSa();
 
         $form_validMtn = $this->createForm(MaintenanceForm::class);
