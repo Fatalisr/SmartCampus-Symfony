@@ -46,6 +46,19 @@ class TechnicienController extends AbstractController
 
         $dateCourante = new \DateTime();
 
+
+        $form_assign = $this->createForm(AssignFormType::class);
+        $form_assign ->handleRequest($request);
+
+        $form_unassign = $this->createForm(UnassignFormType::class);
+        $form_unassign ->handleRequest($request);
+
+
+        $userRepo = $entityManager->getRepository('App\Entity\User');
+        $user = $this->getUser();
+        $username = $user->getUserIdentifier();
+        $user = $userRepo->findOneByUsername($username);
+
         if($form_validInst->isSubmitted() && $form_validInst->isValid()){
             $curSA->setState('ACTIF');
             $curInterv->setState("FINIE");
@@ -58,13 +71,54 @@ class TechnicienController extends AbstractController
 
             return $this->redirectToRoute('app_technicien');
         }
+        if($form_assign->isSubmitted() && $form_assign->isValid())
+        {
+
+            $curInterv->setTechnicien($user);
+            $entityManager->persist($curInterv);
+
+            $entityManager->flush();
+
+            return $this->render('technicien/maintenance.html.twig',[
+                'curSA' => $curSA,
+                'installation' => $curInterv,
+                'form_validInstal' => $form_validInst,
+                'form_assign' => $form_assign,
+                'form_unassign' => $form_unassign,
+                'user' => $user,
+            ]);
+        }
+
+        if($form_unassign->isSubmitted() && $form_unassign->isValid())
+        {
+
+            $curInterv->setTechnicien(null);
+            $entityManager->persist($curInterv);
+
+            $entityManager->flush();
+
+            return $this->render('technicien/maintenance.html.twig',[
+                'curSA' => $curSA,
+                'installation' => $curInterv,
+                'form_validInstal' => $form_validInst,
+                'form_assign' => $form_assign,
+                'form_unassign' => null,
+                'user' => $user,
+            ]);}
+
+
         return $this->render('technicien/installation.html.twig',[
             'curSA' => $curSA,
             'installation' => $curInterv,
             'form_validInstal' => $form_validInst,
+            'form_assign' => $form_assign,
+            'form_unassign' => $form_unassign,
+            'user' => $user,
         ]);
 
     }
+
+
     #[Route('/technicien/maintenance/{id}', name: 'app_view_maintenance')]
     public function view_maintenance(?int $id,ManagerRegistry $doctrine,Request $request): Response
     {

@@ -39,24 +39,28 @@
 
         {% else  %}
             {% if maintenance.technicien == user%}
-                <div>
-                    <span> {{ maintenance.technicien.username }}</span>
-                </div>
-                {{ form_start(form_unassign) }}
-                <div id="submit_btn">
-                    <a id="maint" onclick="openPopup('popupCS')">X</a>
-                    <div id="popupCS" class="popup">
-                        <div class="popup-content">
-                            <span class="close" onclick="closePopup('popupCS')">&times;</span>
-                            <span>Veuillez confirmer votre retrait de cette intervention</span>
-                            <div>
-                                <button id="non" type="button" onclick="closePopup('popupCS')">Non</button>
-                                {{ form_widget(form_unassign.valid) }}
+                <div class = "imgANDtext">
+                    <div>
+                         {{ maintenance.technicien.username }}
+                    </div>
+                    <div>
+                        {{ form_start(form_unassign) }}
+                        <div id="submit_btn">
+                            <a  id="maint" onclick="openPopup('popupCS')">𝕏</a>
+                            <div id="popupCS" class="popup">
+                                <div class="popup-content">
+                                    <span class="close" onclick="closePopup('popupCS')">x</span>
+                                    <span>Veuillez confirmer votre retrait de cette intervention</span>
+                                    <div>
+                                        <button id="non" type="button" onclick="closePopup('popupCS')">Non</button>
+                                        {{ form_widget(form_unassign.valid) }}
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        {{ form_end(form_unassign) }}
                     </div>
                 </div>
-                {{ form_end(form_unassign) }}
             {% else  %}
                 <div>
                     <span> {{ maintenance.technicien.username }}</span>
