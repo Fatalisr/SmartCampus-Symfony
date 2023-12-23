@@ -79,7 +79,7 @@ class TechnicienController extends AbstractController
 
             $entityManager->flush();
 
-            return $this->render('technicien/maintenance.html.twig',[
+            return $this->render('technicien/installation.html.twig',[
                 'curSA' => $curSA,
                 'installation' => $curInterv,
                 'form_validInstal' => $form_validInst,
@@ -97,7 +97,7 @@ class TechnicienController extends AbstractController
 
             $entityManager->flush();
 
-            return $this->render('technicien/maintenance.html.twig',[
+            return $this->render('technicien/installation.html.twig',[
                 'curSA' => $curSA,
                 'installation' => $curInterv,
                 'form_validInstal' => $form_validInst,

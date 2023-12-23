@@ -91,5 +91,13 @@
     {{ form_end(form_validInstal) }}
     <a href="{{ path("app_technicien") }}"><span>Retour</span></a>
 
+    <script>
+    function openPopup(popupId) {
+    document.getElementById(popupId).style.display = 'block';
+    }
 
+    function closePopup(popupId) {
+    document.getElementById(popupId).style.display = 'none';
+    }
+    </script>
 {% endblock %}
