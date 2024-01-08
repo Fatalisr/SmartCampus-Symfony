@@ -40,6 +40,7 @@ class ConnexionRequetesAPI
         return $response->getStatusCode();
         //return $response->getInfo();
     }
+    
 
     /*
      * @brief Sends a get request to the /api/captures/interval route of the API of the IUT to get available captures between a specified time interval
