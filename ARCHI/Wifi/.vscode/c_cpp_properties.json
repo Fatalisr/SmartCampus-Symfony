@@ -13,6 +13,8 @@
                 "/Users/gjoyet/.platformio/packages/framework-arduinoespressif32/libraries/HTTPClient/src",
                 "/Users/gjoyet/.platformio/packages/framework-arduinoespressif32/libraries/WiFiClientSecure/src",
                 "/Users/gjoyet/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src",
+                "/Users/gjoyet/Desktop/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/.pio/libdeps/esp32-s2-saola-1/Grove SGP30_Gas_Sensor",
+                "/Users/gjoyet/Desktop/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/.pio/libdeps/esp32-s2-saola-1/ESP32Time",
                 "/Users/gjoyet/Desktop/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/.pio/libdeps/esp32-s2-saola-1/ArduinoJson/src",
                 "/Users/gjoyet/Desktop/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/.pio/libdeps/esp32-s2-saola-1/ArduinoHttpClient/src",
                 "/Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/newlib/platform_include",
@@ -191,6 +193,7 @@
                 "/Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/qio_qspi/include",
                 "/Users/gjoyet/.platformio/packages/framework-arduinoespressif32/cores/esp32",
                 "/Users/gjoyet/.platformio/packages/framework-arduinoespressif32/variants/esp32s2",
+                "/Users/gjoyet/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
                 "/Users/gjoyet/Desktop/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/.pio/libdeps/esp32-s2-saola-1/Unity/src",
                 "/Users/gjoyet/.platformio/packages/framework-arduinoespressif32/libraries/ArduinoOTA/src",
                 "/Users/gjoyet/.platformio/packages/framework-arduinoespressif32/libraries/AsyncUDP/src",
@@ -221,7 +224,6 @@
                 "/Users/gjoyet/.platformio/packages/framework-arduinoespressif32/libraries/Update/src",
                 "/Users/gjoyet/.platformio/packages/framework-arduinoespressif32/libraries/WebServer/src",
                 "/Users/gjoyet/.platformio/packages/framework-arduinoespressif32/libraries/WiFiProv/src",
-                "/Users/gjoyet/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
                 ""
             ],
             "browse": {
@@ -232,6 +234,8 @@
                     "/Users/gjoyet/.platformio/packages/framework-arduinoespressif32/libraries/HTTPClient/src",
                     "/Users/gjoyet/.platformio/packages/framework-arduinoespressif32/libraries/WiFiClientSecure/src",
                     "/Users/gjoyet/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src",
+                    "/Users/gjoyet/Desktop/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/.pio/libdeps/esp32-s2-saola-1/Grove SGP30_Gas_Sensor",
+                    "/Users/gjoyet/Desktop/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/.pio/libdeps/esp32-s2-saola-1/ESP32Time",
                     "/Users/gjoyet/Desktop/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/.pio/libdeps/esp32-s2-saola-1/ArduinoJson/src",
                     "/Users/gjoyet/Desktop/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/.pio/libdeps/esp32-s2-saola-1/ArduinoHttpClient/src",
                     "/Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/include/newlib/platform_include",
@@ -410,6 +414,7 @@
                     "/Users/gjoyet/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s2/qio_qspi/include",
                     "/Users/gjoyet/.platformio/packages/framework-arduinoespressif32/cores/esp32",
                     "/Users/gjoyet/.platformio/packages/framework-arduinoespressif32/variants/esp32s2",
+                    "/Users/gjoyet/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
                     "/Users/gjoyet/Desktop/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/.pio/libdeps/esp32-s2-saola-1/Unity/src",
                     "/Users/gjoyet/.platformio/packages/framework-arduinoespressif32/libraries/ArduinoOTA/src",
                     "/Users/gjoyet/.platformio/packages/framework-arduinoespressif32/libraries/AsyncUDP/src",
@@ -440,7 +445,6 @@
                     "/Users/gjoyet/.platformio/packages/framework-arduinoespressif32/libraries/Update/src",
                     "/Users/gjoyet/.platformio/packages/framework-arduinoespressif32/libraries/WebServer/src",
                     "/Users/gjoyet/.platformio/packages/framework-arduinoespressif32/libraries/WiFiProv/src",
-                    "/Users/gjoyet/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
                     ""
                 ]
             },
@@ -452,7 +456,7 @@
                 "UNITY_INCLUDE_CONFIG_H",
                 "WITH_POSIX",
                 "_GNU_SOURCE",
-                "IDF_VER=\"v4.4.5\"",
+                "IDF_VER=\"v4.4.6-dirty\"",
                 "ESP_PLATFORM",
                 "_POSIX_READER_WRITER_LOCKS",
                 "ARDUINO_ARCH_ESP32",
