@@ -83,24 +83,25 @@ class ConnexionRequetesAPI
                 'dbname' => 'sae34bdm1eq1',                                 // Informing the name of our database
                 'username' => 'm1eq1',                                      // Informing the username to connect to our database
                 'userpass' => 'sodqif-vefXym-0cikho',                       // Informing the password to connect to our database
-                'query' => [
-                    'date1' => $date1,
-                    'date2' => $date2,
-                ]
+
+
+                ],
+            'query' => [
+                'date1' => $date1,
+                'date2' => $date2,
             ],
         ]);
 
-        if($response->getStatusCode() == 200)   // Checks if the request was successful (200 indicates that teh request was successful)
+        if($response->getStatusCode() == 200)   // Checks if the request was successful (200 indicates that the request was successful)
         {
             return $response->getContent();
         }
 
-        //return $response->getContent();
         return $response->getStatusCode();
         //return $response->getInfo();
     }
 
-    public function getlastCaptures()
+    public function getlastCaptures(int $nbLines)
     {
 
         $response = $this->client->request(                             // Creates and sends the request to the API
@@ -111,15 +112,20 @@ class ConnexionRequetesAPI
                 'username' => 'm1eq1',                                  // Informing the username to connect to our database
                 'userpass' => 'sodqif-vefXym-0cikho',                   // Informing the password to connect to our database
 
+
+                ],
+            'query' => [
+                'nomsa' => "13",
+                'limit' => $nbLines,
             ],
         ]);
 
-        if($response->getStatusCode() == 200)   // Checks if the request was successful (200 indicates that teh request was successful)
+        if($response->getStatusCode() == 200)   // Checks if the request was successful (200 indicates that the request was successful)
         {
             return $response->getContent();
         }
 
-        //return $response->getStatusCode();
+        return $response->getStatusCode();
         //return $response->getInfo();
     }
 
