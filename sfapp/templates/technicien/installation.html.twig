@@ -76,6 +76,7 @@
             <span> {{ curSA.currentRoom.name }} </span>
         </div>
     </div>
+
     <div class="block_interv">
         <div>
             <h2>Etapes de l'installation :</h2>
@@ -86,9 +87,13 @@
             </ol>
         </div>
     </div>
+
+
     {{ form_start(form_validInstal) }}
     {{ form_widget(form_validInstal.valid) }}
     {{ form_end(form_validInstal) }}
+
+
     <a href="{{ path("app_technicien") }}"><span>Retour</span></a>
 
     <script>

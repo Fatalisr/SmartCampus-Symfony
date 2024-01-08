@@ -60,17 +60,31 @@ class TechnicienController extends AbstractController
         $user = $userRepo->findOneByUsername($username);
 
         if($form_validInst->isSubmitted() && $form_validInst->isValid()){
-            $curSA->setState('ACTIF');
-            $curInterv->setState("FINIE");
-            $curInterv->setEndingDate($dateCourante);
+            if($curInterv->getTechnicien() == $user)
+            {
+                $curSA->setState('ACTIF');
+                $curInterv->setState("FINIE");
+                $curInterv->setEndingDate($dateCourante);
 
-            $entityManager->persist($curSA);
-            $entityManager->persist($curInterv);
+                $entityManager->persist($curSA);
+                $entityManager->persist($curInterv);
 
-            $entityManager->flush();
+                $entityManager->flush();
 
-            return $this->redirectToRoute('app_technicien');
+                return $this->redirectToRoute('app_technicien');
+            }
+
+            return $this->render('technicien/installation.html.twig',[
+                'curSA' => $curSA,
+                'installation' => $curInterv,
+                'form_validInstal' => $form_validInst,
+                'form_assign' => $form_assign,
+                'form_unassign' => $form_unassign,
+                'user' => $user,
+            ]);
         }
+
+
         if($form_assign->isSubmitted() && $form_assign->isValid())
         {
 
