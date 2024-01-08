@@ -3,9 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Intervention;
+use App\Form\AssignFormType;
 use App\Form\MaintenanceForm;
 use App\Form\InstallationForm;
 use App\Form\InterventionFormType;
+use App\Entity\User;
+use App\Form\UnassignFormType;
+use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -42,6 +46,19 @@ class TechnicienController extends AbstractController
 
         $dateCourante = new \DateTime();
 
+
+        $form_assign = $this->createForm(AssignFormType::class);
+        $form_assign ->handleRequest($request);
+
+        $form_unassign = $this->createForm(UnassignFormType::class);
+        $form_unassign ->handleRequest($request);
+
+
+        $userRepo = $entityManager->getRepository('App\Entity\User');
+        $user = $this->getUser();
+        $username = $user->getUserIdentifier();
+        $user = $userRepo->findOneByUsername($username);
+
         if($form_validInst->isSubmitted() && $form_validInst->isValid()){
             $curSA->setState('ACTIF');
             $curInterv->setState("FINIE");
@@ -54,13 +71,54 @@ class TechnicienController extends AbstractController
 
             return $this->redirectToRoute('app_technicien');
         }
+        if($form_assign->isSubmitted() && $form_assign->isValid())
+        {
+
+            $curInterv->setTechnicien($user);
+            $entityManager->persist($curInterv);
+
+            $entityManager->flush();
+
+            return $this->render('technicien/installation.html.twig',[
+                'curSA' => $curSA,
+                'installation' => $curInterv,
+                'form_validInstal' => $form_validInst,
+                'form_assign' => $form_assign,
+                'form_unassign' => $form_unassign,
+                'user' => $user,
+            ]);
+        }
+
+        if($form_unassign->isSubmitted() && $form_unassign->isValid())
+        {
+
+            $curInterv->setTechnicien(null);
+            $entityManager->persist($curInterv);
+
+            $entityManager->flush();
+
+            return $this->render('technicien/installation.html.twig',[
+                'curSA' => $curSA,
+                'installation' => $curInterv,
+                'form_validInstal' => $form_validInst,
+                'form_assign' => $form_assign,
+                'form_unassign' => null,
+                'user' => $user,
+            ]);}
+
+
         return $this->render('technicien/installation.html.twig',[
             'curSA' => $curSA,
             'installation' => $curInterv,
             'form_validInstal' => $form_validInst,
+            'form_assign' => $form_assign,
+            'form_unassign' => $form_unassign,
+            'user' => $user,
         ]);
 
     }
+
+
     #[Route('/technicien/maintenance/{id}', name: 'app_view_maintenance')]
     public function view_maintenance(?int $id,ManagerRegistry $doctrine,Request $request): Response
     {
@@ -73,31 +131,100 @@ class TechnicienController extends AbstractController
         $form_validMtn = $this->createForm(MaintenanceForm::class);
         $form_validMtn->handleRequest($request);
 
+        $form_assign = $this->createForm(AssignFormType::class);
+        $form_assign ->handleRequest($request);
+
+        $form_unassign = $this->createForm(UnassignFormType::class);
+        $form_unassign ->handleRequest($request);
+
+
+        $userRepo = $entityManager->getRepository('App\Entity\User');
+        $user = $this->getUser();
+        $username = $user->getUserIdentifier();
+        $user = $userRepo->findOneByUsername($username);
+
+
+
         if($form_validMtn->isSubmitted() && $form_validMtn->isValid()){
-            if($form_validMtn->getData()['valid'] == "true"){
-                $curSA->setState('ACTIF');
-                $curInterv->setState("FINIE");
-                $curInterv->setEndingDate(new \DateTime());
-            }
-            else{
-                $curSA->setState('INACTIF');
-                $curInterv->setState("ANNULEE");
+            if($curInterv->getTechnicien() == $user)
+            {
+                if ($form_validMtn->getData()['valid'] == "true") {
+                    $curSA->setState('ACTIF');
+                    $curInterv->setState("FINIE");
+                    $curInterv->setEndingDate(new \DateTime());
+                } else {
+                    $curSA->setState('INACTIF');
+                    $curInterv->setState("ANNULEE");
+                }
+
+                $report = $form_validMtn->get('report')->getData();
+                $curInterv->setReport($report);
+                $entityManager->persist($curSA);
+                $entityManager->persist($curInterv);
+
+                $entityManager->flush();
+
+                return $this->redirectToRoute('app_technicien');
             }
 
-            $report = $form_validMtn->get('report')->getData();
-            $curInterv->setReport($report);
-            $entityManager->persist($curSA);
+            return $this->render('technicien/maintenance.html.twig',[
+                'curSA' => $curSA,
+                'maintenance' => $curInterv,
+                'form_validMtn' => $form_validMtn,
+                'form_assign' => $form_assign,
+                'form_unassign' => null,
+                'user' => $user,
+            ]);
+        }
+
+        if($form_assign->isSubmitted() && $form_assign->isValid())
+        {
+
+            $curInterv->setTechnicien($user);
             $entityManager->persist($curInterv);
 
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_technicien');
+            return $this->render('technicien/maintenance.html.twig',[
+                'curSA' => $curSA,
+                'maintenance' => $curInterv,
+                'form_validMtn' => $form_validMtn,
+                'form_assign' => $form_assign,
+                'form_unassign' => $form_unassign,
+                'user' => $user,
+            ]);
         }
+
+        if($form_unassign->isSubmitted() && $form_unassign->isValid())
+        {
+
+            $curInterv->setTechnicien(null);
+            $entityManager->persist($curInterv);
+
+            $entityManager->flush();
+
+            return $this->render('technicien/maintenance.html.twig',[
+                'curSA' => $curSA,
+                'maintenance' => $curInterv,
+                'form_validMtn' => $form_validMtn,
+                'form_assign' => $form_assign,
+                'form_unassign' => null,
+                'user' => $user,
+            ]);
+        }
+
+
+
         return $this->render('technicien/maintenance.html.twig',[
             'curSA' => $curSA,
             'maintenance' => $curInterv,
             'form_validMtn' => $form_validMtn,
+            'form_assign' => $form_assign,
+            'form_unassign' => $form_unassign,
+            'user' => $user,
         ]);
     }
+
+
 
 }
