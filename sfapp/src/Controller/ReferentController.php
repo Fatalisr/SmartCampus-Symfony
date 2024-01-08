@@ -121,7 +121,7 @@ class ReferentController extends AbstractController
             $entityManager = $doctrine->getManager();
             if($form->get('currentRoom')->getData())
             {
-                $sa->setState("INACTIF");
+                $sa->setState("A_INSTALLER");
                 $installationSA = new Intervention();
                 $installationSA->setSa($sa);
                 $installationSA->setType("INSTALLATION");
@@ -202,7 +202,6 @@ class ReferentController extends AbstractController
             'roomFloor3' => $roomFloor3,
         ]);
     }
-
 
     #[Route('/referent/delete_SA_base/{id}', name: 'delete_sa_base')]
     public function delete_sa_base(?int $id, ManagerRegistry $doctrine): Response

@@ -34,7 +34,7 @@ class TechnicienController extends AbstractController
         $saRepo = $entityManager->getRepository('App\Entity\SA');
         $curSA = $saRepo->find($id);
         $instaRepo = $entityManager->getRepository('App\Entity\Intervention');
-        $installation = $instaRepo->findInstallationBySAId($curSA);
+        $installation = $instaRepo->findOneById($curSA->getId(),'insta');
 
         $form_validMtn = $this->createForm(InstallationForm::class);
         $form_validMtn->handleRequest($request);
@@ -65,7 +65,8 @@ class TechnicienController extends AbstractController
         $entityManager =  $doctrine->getManager();
         $saRepo = $entityManager->getRepository('App\Entity\SA');
         $curSA = $saRepo->find($id);
-        $interMaintenance = $saRepo->findInstallationBySAId($curSA);
+        $instaRepo = $entityManager->getRepository('App\Entity\Intervention');
+        $interMaintenance = $instaRepo->findOneById($curSA->getId(),"maint");
         $form_validMtn = $this->createForm(MaintenanceForm::class);
         $form_validMtn->handleRequest($request);
 
