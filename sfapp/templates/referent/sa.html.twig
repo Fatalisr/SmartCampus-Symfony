@@ -60,7 +60,6 @@
                 <p>Aucun donnée disponible</p>
             </div>
         </section>
-
     {% endif %}
     <script>
         function openPopup(popupId) {
@@ -72,15 +71,15 @@
         }
         //Read the data
         function traitementDonneeTemp() {
-            // Dimension de l'image SVG
-            var marginTop = (document.getElementById("pSAl").offsetWidth)*0.05,
+            // set the dimensions and margins of the graph
+            var marginTop = (document.getElementById("pSAR").offsetWidth)*0.05,
                 marginRight = 10,
-                marginBottom = (document.getElementById("pSAl").offsetWidth)*0.05,
-                marginLeft= 20,
-                width = (document.getElementById("pSAl").offsetWidth) - marginLeft - marginRight,
-                height = ((document.getElementById("pSAl").offsetHeight)/2) - marginTop - marginBottom;
+                marginBottom = (document.getElementById("pSAR").offsetWidth)*0.05,
+                marginLeft= 35,
+                width = (document.getElementById("pSAR").offsetWidth) - marginLeft - marginRight,
+                height = ((document.getElementById("pSAR").offsetHeight)) - marginTop - marginBottom;
 
-            // Ajout de l'image SVG dans la balise prévu
+            // append the svg object to the body of the page
             var svg1 = d3.select("#graph1")
                 .append("svg")
                 .attr("width",  width )
@@ -88,28 +87,30 @@
                 .append("g")
                 .attr("transform",
                     "translate(" + marginLeft + "," + marginTop + ")");
+
             d_array =  [];
-            // Ajout des données du fichier Json dans un tableau
-            for (let i = 0; i < jsondata.length; i++)
+            for (let i = 0; i < arrayTemp.length; i++)
             {
-                d_array.push({ dateCapture : d3.timeParse("%Y-%m-%d %H:%M:%S")(jsondata[i].dateCapture), valeur : jsondata[i].valeur });
+                d_array.push({ dateCapture : d3.timeParse("%Y-%m-%d %H:%M:%S")(arrayCO2[i][0]), valeur : arrayCO2[i][1] });
             }
-            console.log(d_array)
-            // Axe X -> Date de la donnée
+            // Add X axis --> it is a date format
             x = d3.scaleTime()
-                .domain([d3.min(d_array, function(d) { return d.dateCapture; }),d3.max(d_array, function(d) { return +d.dateCapture; })])
+                .domain([d3.min(d_array, function(d) { return d.dateCapture; }),d3.max(d_array, function(d) { return d.dateCapture; })])
                 .range([ 0, width ]);
             svg1.append("g")
                 .attr("transform", "translate(0," + height + ")")
                 .call(d3.axisBottom(x));
+            /*.attr("text-anchor", "start")
+            .text("↑ Daily close ($)");*/
 
-            // Axe Y -> Temp
+            // Add Y axis
             y = d3.scaleLinear()
-                .domain([0,25])
+                .domain([0,2000])
                 .range([ height, 0 ]);
             svg1.append("g")
                 .call(d3.axisLeft(y));
 
+            // Add a label to the graph
             svg1.append("text")
                 .attr("class", "y label")
                 .attr("text-anchor", "start")
@@ -117,7 +118,7 @@
                 .attr("y", -5)
                 .text("Température (°C)");
 
-            // Création de la courbe qui passe par tous les points et ajout de la courbe au dessin
+            // Add the line
             svg1.append("path")
                 .datum(d_array)
                 .attr("fill", "none")
@@ -130,12 +131,12 @@
         }
         function traitementDonneeHum() {
             // set the dimensions and margins of the graph
-            var marginTop = (document.getElementById("pSAl").offsetWidth)*0.05,
+            var marginTop = (document.getElementById("pSAR").offsetWidth)*0.05,
                 marginRight = 10,
-                marginBottom = (document.getElementById("pSAl").offsetWidth)*0.05,
-                marginLeft= 25,
-                width = (document.getElementById("pSAl").offsetWidth) - marginLeft - marginRight,
-                height = ((document.getElementById("pSAl").offsetHeight)/2) - marginTop - marginBottom;
+                marginBottom = (document.getElementById("pSAR").offsetWidth)*0.05,
+                marginLeft= 35,
+                width = (document.getElementById("pSAR").offsetWidth) - marginLeft - marginRight,
+                height = ((document.getElementById("pSAR").offsetHeight)) - marginTop - marginBottom;
 
             // append the svg object to the body of the page
             var svg1 = d3.select("#graph2")
@@ -145,15 +146,15 @@
                 .append("g")
                 .attr("transform",
                     "translate(" + marginLeft + "," + marginTop + ")");
+
             d_array =  [];
-            for (let i = 0; i < jsondata.length; i++)
+            for (let i = 0; i < arrayHum.length; i++)
             {
-                d_array.push({ dateCapture : d3.timeParse("%Y-%m-%d %H:%M:%S")(jsondata[i].dateCapture), valeur : jsondata[i].valeur });
+                d_array.push({ dateCapture : d3.timeParse("%Y-%m-%d %H:%M:%S")(arrayCO2[i][0]), valeur : arrayCO2[i][1] });
             }
-            console.log(d_array)
             // Add X axis --> it is a date format
             x = d3.scaleTime()
-                .domain([d3.min(d_array, function(d) { return d.dateCapture; }),d3.max(d_array, function(d) { return +d.dateCapture; })])
+                .domain([d3.min(d_array, function(d) { return d.dateCapture; }),d3.max(d_array, function(d) { return d.dateCapture; })])
                 .range([ 0, width ]);
             svg1.append("g")
                 .attr("transform", "translate(0," + height + ")")
@@ -163,11 +164,12 @@
 
             // Add Y axis
             y = d3.scaleLinear()
-                .domain([0,100])
+                .domain([0,2000])
                 .range([ height, 0 ]);
             svg1.append("g")
                 .call(d3.axisLeft(y));
 
+            // Add a label to the graph
             svg1.append("text")
                 .attr("class", "y label")
                 .attr("text-anchor", "start")
@@ -203,15 +205,15 @@
                 .append("g")
                 .attr("transform",
                     "translate(" + marginLeft + "," + marginTop + ")");
+
             d_array =  [];
-            for (let i = 0; i < jsondata.length; i++)
+            for (let i = 0; i < arrayCO2.length; i++)
             {
-                d_array.push({ dateCapture : d3.timeParse("%Y-%m-%d %H:%M:%S")(jsondata[i].dateCapture), valeur : jsondata[i].valeur });
+                d_array.push({ dateCapture : d3.timeParse("%Y-%m-%d %H:%M:%S")(arrayCO2[i][0]), valeur : arrayCO2[i][1] });
             }
-            console.log(d_array)
             // Add X axis --> it is a date format
             x = d3.scaleTime()
-                .domain([d3.min(d_array, function(d) { return d.dateCapture; }),d3.max(d_array, function(d) { return +d.dateCapture; })])
+                .domain([d3.min(d_array, function(d) { return d.dateCapture; }),d3.max(d_array, function(d) { return d.dateCapture; })])
                 .range([ 0, width ]);
             svg1.append("g")
                 .attr("transform", "translate(0," + height + ")")
@@ -226,6 +228,7 @@
             svg1.append("g")
                 .call(d3.axisLeft(y));
 
+            // Add a label to the graph
             svg1.append("text")
                 .attr("class", "y label")
                 .attr("text-anchor", "start")
@@ -245,18 +248,29 @@
                 )
         }
 
-        d3.json("{{ asset("data/data_example_temp.json") }}", function(datafromserver) {
-            jsondata = datafromserver;
-            traitementDonneeTemp();
-        });
-        d3.json("{{ asset("data/data_example_hum.json") }}", function(datafromserver) {
-            jsondata = datafromserver;
-            traitementDonneeHum();
-        });
-        d3.json("{{ asset("data/data_example_co2.json") }}", function(datafromserver) {
-            jsondata = datafromserver;
-            traitementDonneeCO2();
-        });
-
+        donnees = '{{ donnees }}';
+        donnees = donnees.replace(/&quot;/ig,'\"');
+        monJson = JSON.parse(donnees);
+        arrayCO2 = [];
+        arrayHum = [];
+        arrayTemp = [];
+        for(i = 0 ; i < monJson.length ; i++)
+        {
+            if(monJson[i]["nom"] == "co2")
+            {
+                arrayCO2.push([monJson[i]["dateCapture"],monJson[i]["valeur"]]);
+            }
+            if(monJson[i]["nom"] == "hum")
+            {
+                arrayHum.push([monJson[i]["dateCapture"],monJson[i]["valeur"]]);
+            }
+            if(monJson[i]["nom"] == "temp")
+            {
+                arrayTemp.push([monJson[i]["dateCapture"],monJson[i]["valeur"]]);
+            }
+        }
+        traitementDonneeCO2();
+        traitementDonneeTemp();
+        traitementDonneeHum();
     </script>
 {% endblock %}

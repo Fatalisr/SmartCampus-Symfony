@@ -5,6 +5,7 @@ use App\Entity\Intervention;
 use App\Entity\SA;
 use App\Form\InterventionFormType;
 use App\Repository\RoomRepository;
+use App\Service\ConnexionRequetesAPI;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -69,13 +70,21 @@ class ReferentController extends AbstractController
     }
 
     #[Route('/referent/sa/{id}', name: 'app_view_sa')]
-    public function view_sa(?int $id,ManagerRegistry $doctrine,Request $request): Response
+    public function view_sa(?int $id,ManagerRegistry $doctrine,Request $request,  ConnexionRequetesAPI $requetesAPI): Response
     {
+        date_default_timezone_set('UTC');
+
+
         $entityManager = $doctrine->getManager();
         $sa = $entityManager->find(SA::class,$id);
         $nom = $sa->getName();
         $salle = $sa->getCurrentRoom()->getName();
         $etat = $sa->getState();
+
+        $today = date("Y-m-d");
+        $date = date('Y-m-d', time() + (60 * 60 * 24) );
+        $lastWeek = date('Y-m-d', time() + (60 * 60 * 24 * -7) );
+        $reponse = $requetesAPI->getIntervalCaptures($lastWeek,$date,$salle);
 
         $form = $this->createForm(InterventionFormType::class);
         $form->handleRequest($request);
@@ -83,8 +92,7 @@ class ReferentController extends AbstractController
 
             $maintenance = new Intervention();
             $maintenance->setMessage($form->get('message')->getData());
-            date_default_timezone_set('UTC');
-            $maintenance->setStartingDate(date_create(date("m.d.y")));
+            $maintenance->setStartingDate($today);
             $maintenance->setSa($sa);
             $maintenance->setType("MAINTENANCE");
             $sa->setState("MAINTENANCE");
@@ -96,11 +104,13 @@ class ReferentController extends AbstractController
             return $this->redirectToRoute('app_referent', [
             ]);
         }
+        //var_dump($reponse);
         return $this->render("referent/sa.html.twig",[
             'nom' => $nom,
             'salle' => $salle,
             'etat' => $etat,
             'form' => $form,
+            'donnees' => $reponse,
         ]);
     }
 

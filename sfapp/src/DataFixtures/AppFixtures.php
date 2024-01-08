@@ -391,7 +391,7 @@ class AppFixtures extends Fixture
         $sa = new SA();
         $sa->setName("SA10");
         $sa->setState("ACTIF");
-        $sa->setCurrentRoom($this->getReference('D001'));
+        $sa->setCurrentRoom($this->getReference('D004'));
         $manager->persist($sa);
 
         $sa12 = new SA();
