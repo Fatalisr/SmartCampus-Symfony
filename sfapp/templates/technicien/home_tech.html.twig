@@ -19,6 +19,9 @@
                         <a id="view" href="{{ path('app_view_installation', {'id': install.id}) }}">
                             <div class="listIntervention">
                                 <div>
+                                    Intervention : {{ install.id }}
+                                </div>
+                                <div>
                                     {{ install.sa.name }}
                                 </div>
                                 <div>
@@ -41,6 +44,9 @@
                     {% for maintenance in maintenances %}
                         <a id="view" href="{{ path('app_view_maintenance', {'id': maintenance.id}) }}">
                             <div class="listIntervention"> <!-- UN <LI></LI> = UNE LIGNE : ajouter les elements À L'INTERIEUR du li. Le webdesigner. -->
+                                <div>
+                                    Intervention : {{ maintenance.id }}
+                                </div>
                                 <p>{{ maintenance.sa.getName }}</p>
                                 <p>{{ maintenance.sa.getCurrentRoom.getName }}</p>
                             </div>

@@ -31,32 +31,33 @@ class TechnicienController extends AbstractController
     #[Route('/technicien/installation/{id}', name: 'app_view_installation')]
     public function view_installation(?int $id, ManagerRegistry $doctrine, Request $request): Response
     {
-        $entityManager = $doctrine->getManager();
-        $saRepo = $entityManager->getRepository('App\Entity\SA');
-        $curSA = $saRepo->find($id);
-        $instaRepo = $entityManager->getRepository('App\Entity\Intervention');
-        $installation = $instaRepo->findOneById($curSA->getId(),'insta');
+        $entityManager =  $doctrine->getManager();
 
-        $form_validMtn = $this->createForm(InstallationForm::class);
-        $form_validMtn->handleRequest($request);
+        $interventionRepo = $entityManager->getRepository('App\Entity\Intervention');
+        $curInterv = $interventionRepo->find($id);
+        $curSA = $curInterv->getSa();
+
+        $form_validInst = $this->createForm(InstallationForm::class);
+        $form_validInst->handleRequest($request);
 
         $dateCourante = new \DateTime();
 
-        if($form_validMtn->isSubmitted() && $form_validMtn->isValid()) {
-
+        if($form_validInst->isSubmitted() && $form_validInst->isValid()){
             $curSA->setState('ACTIF');
-            $installation->setEndingDate($dateCourante);
-            $installation->setReport('Installation OK');
+            $curInterv->setState("FINIE");
+            $curInterv->setEndingDate($dateCourante);
+
             $entityManager->persist($curSA);
-            $entityManager->persist($installation);
+            $entityManager->persist($curInterv);
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_technicien');
         }
         return $this->render('technicien/installation.html.twig',[
             'curSA' => $curSA,
-            'installation' => $installation,
-            'form_validInstal' => $form_validMtn,
+            'installation' => $curInterv,
+            'form_validInstal' => $form_validInst,
         ]);
 
     }

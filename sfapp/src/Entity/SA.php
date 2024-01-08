@@ -25,6 +25,9 @@ class SA
     #[ORM\ManyToOne]
     private ?Room $oldRoom = null;
 
+    #[ORM\ManyToOne(inversedBy: 'sa')]
+    private ?Intervention $intervention = null;
+
 
     public function getId(): ?int
     {
@@ -75,6 +78,18 @@ class SA
     public function setOldRoom(?Room $oldRoom): static
     {
         $this->oldRoom = $oldRoom;
+
+        return $this;
+    }
+
+    public function getIntervention(): ?Intervention
+    {
+        return $this->intervention;
+    }
+
+    public function setIntervention(?Intervention $intervention): static
+    {
+        $this->intervention = $intervention;
 
         return $this;
     }
