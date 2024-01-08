@@ -241,5 +241,18 @@ class ReferentController extends AbstractController
         return $this->redirectToRoute('app_referent', [
         ]);
     }
+
+    #[Route('/referent/historique', name: 'historique')]
+    public function historique(ManagerRegistry $doctrine): Response
+    {
+        $entityManager = $doctrine->getManager();
+        $interventionRepo = $entityManager->getRepository(Intervention::class);
+        $interventions = $interventionRepo->findAll();
+
+        return $this->render("referent/historique.html.twig", [
+            'interventions' => $interventions,
+        ]);
+    }
+
 }
 

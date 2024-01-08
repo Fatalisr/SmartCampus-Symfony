@@ -1,0 +1,153 @@
+{% extends 'base_referent.html.twig' %}
+
+{% block title %}Smart Campus - historique{% endblock %}
+
+{% block body %}
+    <link rel="stylesheet" href="{{ asset('historique.css') }}">
+    <div id="headerHistorique">
+
+    </div>
+    <div id="bodyHistorique">
+        <div class="blockInter">
+            <h3>Interventions en cours</h3>
+            {% for intervention in interventions %}
+                {% if intervention.endingDate is null %}
+                    <div class="interLign" style="background-color: {% if intervention.type_i == 'INSTALLATION'%} #ffc97f {% else %} #ff9c97 {% endif %}">
+                        <div class="lignItem" id="sa">
+                            <img class="pictos" src="{{ asset('images/processor.png') }}">
+                            <span>{{ intervention.sa.name }}</span>
+                        </div>
+                        <div class="lignItem " id="salle">
+                            <img class="pictos" src="{{ asset('images/door.png') }}">
+                            {% if intervention.sa.oldRoom is null %}
+                                <span>{{ intervention.sa.currentRoom.name }}</span>
+                            {% else %}
+                                <span>{{ intervention.sa.oldRoom.name }} vers {{ intervention.sa.currentRoom.name }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="lignItem " id="startingDate">
+                            <img class="pictos" src="{{ asset('images/calendar.png') }}">
+                            <span>{{ intervention.startingDate|date('d-m-Y') }}</span>
+                        </div>
+
+                        <div class="lignItem " id="technicien">
+                            <img class="pictos" src="{{ asset('images/tech-image.png') }}">
+                            {% if intervention.technicien is not null %}
+                                <span>{{ intervention.technicien.username }}</span>
+                            {% else %}
+                                <span>Non assignée</span>
+                            {% endif %}
+                        </div>
+                        <img class="pictos" id="pictoMsg" src="{{ asset('images/message-icon.png') }}" onclick="openPopup('popupMsgEC{{ intervention.id }}')">
+                        <!-- POPUP --->
+                        <div id="popupMsgEC{{ intervention.id }}" class="popup_histo">
+                            <div class="popup-content_histo">
+                                <span class="close" onclick="closePopup('popupMsgEC{{ intervention.id }}')">&times;</span>
+                                <div id="msgRefLine">
+                                    <div class="messageblock" id="msgRef">
+                                        <h4>Referent</h4>
+                                        {% if intervention.message is not null %}
+                                            <span>{{ intervention.message }}</span>
+                                        {% else %}
+                                            <span>aucun message</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div id="msgTechLine">
+                                    <div class="messageblock" id="msgTech">
+                                        <h4>Technicien</h4>
+                                        {% if intervention.report is not null %}
+                                            <span>{{ intervention.report }}</span>
+                                        {% else %}
+                                            <span>aucun message</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- FIN POPUP --->
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="blockInter">
+            <h3>Interventions passées</h3>
+            {% for intervention in interventions %}
+                {% if intervention.endingDate is not null %}
+                    <div class="interLign " style="background-color: {% if intervention.type_i == 'INSTALLATION'%} #ffc97f {% else %} #ff9c97 {% endif %}">
+                        <div class="lignItem" id="sa">
+                            <img class="pictos" src="{{ asset('images/processor.png') }}">
+                            <span>{{ intervention.sa.name }}</span>
+                        </div>
+                        <div class="lignItem " id="salle">
+                            <img class="pictos" src="{{ asset('images/door.png') }}">
+                            {% if intervention.sa.oldRoom is null %}
+                                <span>{{ intervention.sa.currentRoom.name }}</span>
+                            {% else %}
+                                <span>{{ intervention.sa.oldRoom.name }} vers {{ intervention.sa.currentRoom.name }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="lignItem " id="startingDate">
+                            <img class="pictos" src="{{ asset('images/calendar.png') }}">
+                            <span>{{ intervention.startingDate|date('d-m-Y') }}</span>
+                        </div>
+                        <div class="lignItem " id="endingDate">
+                            {% if intervention.state == 'ANNULEE' %}
+                                <img class="pictos" src="{{ asset('images/calendar-fail.png') }}">
+                            {% else %}
+                                <img class="pictos" src="{{ asset('images/calendar-pass.png') }}">
+                            {% endif %}
+                            <span>{{ intervention.endingDate|date('d-m-Y') }}</span>
+                        </div>
+                        <div class="lignItem " id="technicien">
+                            <img class="pictos" src="{{ asset('images/tech-image.png') }}">
+                            {% if intervention.technicien is not null %}
+                                <span>{{ intervention.technicien.username }}</span>
+                            {% else %}
+                                <span>Non assignée</span>
+                            {% endif %}
+                        </div>
+                        <img class="pictos" id="pictoMsg" src="{{ asset('images/message-icon.png') }}" onclick="openPopup('popupMsgEC{{ intervention.id }}')">
+                        <!-- POPUP --->
+                        <div id="popupMsgEC{{ intervention.id }}" class="popup_histo">
+                            <div class="popup-content_histo">
+                                <span class="close" onclick="closePopup('popupMsgEC{{ intervention.id }}')">&times;</span>
+                                <div id="msgRefLine">
+                                    <div class="messageblock" id="msgRef">
+                                        <h4>Referent</h4>
+                                        {% if intervention.message is not null %}
+                                            <span>{{ intervention.message }}</span>
+                                        {% else %}
+                                            <span>aucun message</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div id="msgTechLine">
+                                    <div class="messageblock" id="msgTech">
+                                        <h4>Technicien</h4>
+                                        {% if intervention.report is not null %}
+                                            <span>{{ intervention.report }}</span>
+                                        {% else %}
+                                            <span>aucun message</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- FIN POPUP --->
+
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <script>
+        function openPopup(popupId) {
+            document.getElementById(popupId).style.display = 'block';
+        }
+
+        function closePopup(popupId) {
+            document.getElementById(popupId).style.display = 'none';
+        }
+    </script>
+{% endblock %}
