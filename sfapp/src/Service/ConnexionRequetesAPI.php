@@ -41,38 +41,12 @@ class ConnexionRequetesAPI
         //return $response->getInfo();
     }
 
-    public function postCaptures()
-    {
-        
-        $response = $this->client->request(                         // Creates and sends the request to the API
-            'POST',                                                 // Sets the http request methods of the request (POST)
-            'https://sae34.k8s.iut-larochelle.fr/api/captures',[    // URL of the API and the route we want to send a request to
-            'headers' => [                                          // Adding the required headers to connect to our database in the API
-                'Content-Type: application/json',
-                'Accept: application/json',
-                'dbname' => 'sae34bdm1eq1',                         // Informing the name of our database
-                'username' => 'm1eq1',                              // Informing the username to connect to our database
-                'userpass' => 'sodqif-vefXym-0cikho',               // Informing the password to connect to our database
-            ],
-                // 'body' => $requestJson,
-                'json' => ['id' => '51', 'nom' => 'co2', 'valeur' => '402', 'dateCapture' => '2022-11-28 08:00:00', 'localisation' => 'D004', 'description' => '', 'tag' => '13'],
-        ]);
-
-        if (201 != $response->getStatusCode()) {
-            //throw new Exception('Response status code is different than expected.');
-            //return $response->getInfo('debug');
-            return $response->getStatusCode();
-        }
-
-        if($response->getStatusCode() == 201)   // Checks if the request was successful (201 indicates that the request was successful)
-        {
-            return json_decode($response->getContent(), true, );
-        }
-
-        //return $response->getStatusCode();
-        //return $response->getInfo();
-    }
-
+    /*
+     * @brief Sends a get request to the /api/captures/interval route of the API of the IUT to get available captures between a specified time interval
+     * @param date1 : starting date of the interval
+     * @param date2 : ending date of the interval
+     * @return an array containing all the data contained in the interval available on the API
+     */
     public function getIntervalCaptures($date1,$date2)
     {
 
@@ -86,9 +60,9 @@ class ConnexionRequetesAPI
 
 
                 ],
-            'query' => [
-                'date1' => $date1,
-                'date2' => $date2,
+            'query' => [                // Filling in the parameters of the request
+                'date1' => $date1,      // Interval starting date
+                'date2' => $date2,      // Interval ending date
             ],
         ]);
 
@@ -101,6 +75,11 @@ class ConnexionRequetesAPI
         //return $response->getInfo();
     }
 
+    /*
+     * @brief Sends a get request to the /api/captures/last route of the API of the IUT to fetch the last data available
+     * @param nbLines : numbers of data fields to be fetched
+     * @return an array containing the last data available on the API
+     */
     public function getlastCaptures(int $nbLines)
     {
 
@@ -114,9 +93,9 @@ class ConnexionRequetesAPI
 
 
                 ],
-            'query' => [
-                'nomsa' => "13",
-                'limit' => $nbLines,
+            'query' => [                // Filling in the parameters of the request
+                'nomsa' => "13",        // Name of the SA
+                'limit' => $nbLines,    // Number of values we want to fetch
             ],
         ]);
 
@@ -124,9 +103,7 @@ class ConnexionRequetesAPI
         {
             return $response->getContent();
         }
-
         return $response->getStatusCode();
-        //return $response->getInfo();
     }
 
     /**
