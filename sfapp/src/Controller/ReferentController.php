@@ -34,7 +34,7 @@ class ReferentController extends AbstractController
         $rooms = $roomRepository->findAll();
         $forms = []; //Stockage des instances de formulaire
 
-        $nbForms = sizeof($inactive) + sizeof($actif);
+        $nbForms = sizeof($inactive) + sizeof($actif) + sizeof($installer);
 
         for ($i = 0; $i < $nbForms; $i++){
             $form = $this->createForm(changerSalleForm::class);
@@ -42,6 +42,7 @@ class ReferentController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
 
                 $curSa = $saRepository->find($form->get('sa_id')->getData());
+
                 $curSa->setState("A_INSTALLER");
                 $interventionInstallation = new Intervention();
                 $interventionInstallation->setType_I("INSTALLATION");
@@ -54,9 +55,9 @@ class ReferentController extends AbstractController
                 $curSa->setCurrentRoom($form->get('newRoom')->getData());
 
                 $entityManager->persist($interventionInstallation);
+
                 $entityManager->persist($curSa);
                 $entityManager->flush();
-
                 return $this->redirectToRoute('app_referent',[]);
             }
             $forms[] = $form->createView();
@@ -72,6 +73,7 @@ class ReferentController extends AbstractController
         'rooms' => $rooms,
         'forms' => $forms,
         'countFormActive' => sizeof($actif),
+        'countFormInstaller' => sizeof($installer)
         ]);
     }
 
