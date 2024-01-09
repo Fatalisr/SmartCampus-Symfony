@@ -18,14 +18,14 @@
                 {% for sa in maintenance %}
 
                     <div class="listSA maintenance">
-                        <div onclick="openSAPage({{ sa.id }})" id="left" class="caseListSA">
+                        <div  id="left" class="caseListSA">
                             🔴 {{ sa.name }}
-                            <img id="sa_data" src="{{ asset('images/data-center-table-management.png') }}" alt="trash_can" height="35px" width="35px">
+                            <img onclick="openSAPage({{ sa.id }})" id="sa_data" src="{{ asset('images/data-center-table-management.png') }}" alt="trash_can" height="35px" width="35px">
                         </div>
-                        <div id="center"  class="caseListSA">
+                        <div id="center"  class="caseListSA roomCase">
                             {{ sa.currentRoom.name }}
                         </div>
-                        <div id="center"  class="caseListSA">
+                        <div id="center"  class="caseListSA saForm">
                             <a href="{{ path('delete_sa', {'id': sa.getId}) }}"><span class="retirer_room_btn">Retirer</span></a>
                         </div>
                     </div>
@@ -37,10 +37,10 @@
                             🟠 {{ sa.name }}
                             <img onclick="openSAPage({{ sa.id }})" id="sa_data" src="{{ asset('images/data-center-table-management.png') }}" alt="trash_can" >
                         </div>
-                        <div id="center" class="caseListSA">
+                        <div id="center" class="caseListSA roomCase">
                             {{ sa.currentRoom.name }}
                         </div>
-                        <div id="center" class="caseListSA">
+                        <div id="center" class="caseListSA saForm">
                             <a href="{{ path('delete_sa', {'id': sa.getId}) }}"><span class="retirer_room_btn">Retirer</span></a>
                         </div>
                     </div>
@@ -52,19 +52,19 @@
                                 🟢 {{ sa.name }}
                                 <img onclick="openSAPage({{ sa.id }})" id="sa_data" src="{{ asset('images/data-center-table-management.png') }}" alt="trash_can" height="35px" width="35px">
                             </div>
-                            <div id="center"  class="caseListSA">
+                            <div id="center"  class="caseListSA roomCase">
                                 {{ sa.currentRoom.name }}
                             </div>
-                            <div id="center"  class="caseListSA">
+                            <div id="center"  class="caseListSA saForm">
                                 {{ form_start(forms[loop.index0],{'attr': {'id': 'form_changer_salle'}}) }}
-                                {{ form_widget(forms[loop.index0].newRoom,{'attr': {'onChange': 'openPopup("popupCS")', 'id':'dropdown'},'placeholder' : 'Changer la salle'})}}
+                                {{ form_widget(forms[loop.index0].newRoom,{'attr': {'onChange': 'openPopup("popupCS'~ sa.id ~ '")', 'id':'dropdown'},'placeholder' : 'Changer la salle'})}}
                                 {{ form_row(forms[loop.index0].sa_id, {'value': sa.id}) }}
-                                <div id="popupCS" class="popup">
+                                <div id="popupCS{{ sa.id }}" class="popup">
                                     <div class="popup-content">
-                                        <span class="close" onclick="closePopup('popupCS')">&times;</span>
-                                        <span>Voullez-vous vraiment changer la salle de ce système d'acquisition</span>
+                                        <span class="close" onclick="closePopup('popupCS{{ sa.id }}')">&times;</span>
+                                        <span>Voullez-vous vraiment changer la salle de ce système d'acquisition {{ sa.name }}</span>
                                         <div>
-                                            <button id="non" type="button" onclick="closePopup('popupCS')">Non</button>
+                                            <button id="non" type="button" onclick="closePopup('popupCS{{ sa.id }}')">Non</button>
                                             {{ form_widget(forms[loop.index0].save) }}
                                         </div>
                                     </div>
@@ -75,7 +75,7 @@
                 {% endfor %}
             </div>
         </ul>
-        <ul class="block_sa">
+        <ul class="block_sa" id="blockSA">
             <h1>SA disponibles</h1>
             <div>
                 {% for sa in inactive %}
@@ -83,23 +83,23 @@
                         <div id="left" class="caseListSA">
                             ⚫ {{ sa.name }}
                         </div>
-                        <div id="center" class="caseListSA">
+                        <div id="center" class="caseListSA saForm">
                             {{ form_start(forms[loop.index0 + countFormActive],{'attr': {'id': 'form_changer_salle'}}) }}
-                            {{ form_widget(forms[loop.index0 + countFormActive].newRoom,{'attr': {'onChange': 'openPopup("popupAS")', 'id':'dropdown'}, 'placeholder' : 'Assigner une salle'})}}
+                            {{ form_widget(forms[loop.index0 + countFormActive].newRoom,{'attr': {'onChange': 'openPopup("popupAS'~ sa.id ~ '")', 'id':'dropdown'}, 'placeholder' : 'Assigner une salle'})}}
                             {{ form_row(forms[loop.index0 + countFormActive].sa_id, {'value': sa.id}) }}
-                            <div id="popupAS" class="popup">
+                            <div id="popupAS{{ sa.id }}" class="popup">
                                 <div class="popup-content">
-                                    <span class="close" onclick="closePopup('popupAS')">&times;</span>
-                                    <span>Veuillez confirmer l'assignation</span>
+                                    <span class="close" onclick="closePopup('popupAS{{ sa.id }}')">&times;</span>
+                                    <span>Veuillez confirmer l'assignation{{ sa.name }}</span>
                                     <div>
-                                        <button id="non" type="button" onclick="closePopup('popupAS')">Non</button>
+                                        <button id="non" type="button" onclick="closePopup('popupAS{{ sa.id }}')">Non</button>
                                         {{ form_widget(forms[loop.index0 + countFormActive].save) }}
                                     </div>
                                 </div>
                             </div>
                             {{ form_end(forms[loop.index0 + countFormActive]) }}
                         </div>
-                        <div id="right" class="caseListSA">
+                        <div id="right" class="caseListSA roomCase">
                             <a href="{{ path('delete_sa_base', {'id': sa.getId}) }}" onclick="return confirm('Etes-vous sur de vouloir supprimer le SA {{ sa.name }}?')">
                                 <img id="trash_can" src="{{ asset('images/trash_can.png') }}" alt="trash_can" height="47px" width="47px">
                             </a>
@@ -175,6 +175,7 @@
         function openSAPage(saID){
             window.location.href = '/referent/sa/' + saID;
         }
+
 
     </script>
 {% endblock %}

@@ -18,26 +18,29 @@
         <img id="leaf" src="{{ asset('images/leaf.png') }}" alt="leaf" height="50%" width="5%">
         <h1>SMART CAMPUS</h1>
     </div>
-    <a href="{{ path("nouveau_SA") }}">Ajouter un nouveau SA</a>
-    <a href="{{ path("plan_salles") }}">Plan des salles</a>
-    <a href="{{ path("historique") }}">Historique</a>
-    <a onclick="openPopup('popupInfo')">Informations</a>
-    <div id="popupInfo" class="popup">
-        <div class="popup-content">
-            <span class="close" onclick="closePopup('popupInfo')">&times;</span>
-            <span>Informations generales</span>
-            <div>
-                <span>Actif : 🟢</span><br>
-                <span>Installation : 🟠</span><br>
-                <span>Maintenance : 🔴</span><br>
-                <span>Inactif : ⚫</span><br>
-            </div>
-            <div>
-                Visualisation des données : <img src="{{ asset('images/data-center-table-management.png') }}" alt="trash_can" height="35px" width="35px">
+    <div class="header_buttons navItemLineNone" id="headerButtons">
+        <a href="{{ path("nouveau_SA") }}">Ajouter un nouveau SA</a>
+        <a href="{{ path("plan_salles") }}">Plan des salles</a>
+        <a href="{{ path("historique") }}">Historique</a>
+        <a onclick="openPopup('popupInfo')">Informations</a>
+        <div id="popupInfo" class="popup">
+            <div class="popup-content">
+                <span class="close" onclick="closePopup('popupInfo')">&times;</span>
+                <span>Informations generales</span>
+                <div>
+                    <span>Actif : 🟢</span><br>
+                    <span>Installation : 🟠</span><br>
+                    <span>Maintenance : 🔴</span><br>
+                    <span>Inactif : ⚫</span><br>
+                </div>
+                <div>
+                    Visualisation des données : <img src="{{ asset('images/data-center-table-management.png') }}" alt="trash_can" height="35px" width="35px">
+                </div>
             </div>
         </div>
+        <a id="logout" href="{{ path('app_logout') }}">Déconnexion</a>
     </div>
-    <a id="logout" href="{{ path('app_logout') }}">Déconnexion</a>
+    <img id='nav_options_img' src="{{ asset('images/navigation-list-option.png') }}" onclick="showNavbarItem()">
 </header>
 <script>
 function returnHome(){
@@ -54,6 +57,19 @@ function closePopup(popupId) {
 function returnHome(){
     window.location.href = '/referent'
 }
+
+function showNavbarItem(){
+
+    var navbarDiv = document.getElementById('headerButtons');
+    if(navbarDiv.classList.contains("navItemLineFlex")){
+        navbarDiv.classList.add("navItemLineNone")
+        navbarDiv.classList.remove("navItemLineFlex")
+    }else{
+        navbarDiv.classList.add("navItemLineFlex")
+        navbarDiv.classList.remove("navItemLineNone")
+    }
+}
+
 </script>
 {% block body %}{% endblock %}
 </body>

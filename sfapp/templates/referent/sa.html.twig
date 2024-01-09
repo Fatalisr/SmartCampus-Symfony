@@ -14,47 +14,50 @@
         {% elseif etat == 'MAINTENANCE' %}
             <p>🔴 Maintenance</p>
         {% endif %}
-        <a id="maint" href="{{ path("app_referent") }}"><span>Retour</span></a>
+        <button type="button" onclick="goHome()" id="goHomeBtn">Retour</button>
+
     </div>
     {% if etat == 'ACTIF' %}
         <section id="mainsection">
-            <aside>
-                <div class="pSAr">
-                    {{ form_start(form) }}
-                    <div id="form_header">
-                        <h1>Demande de Maintenance</h1>
-                    </div>
-                    <div class="form_line">
-                        {{ form_widget(form.message) }}
-                    </div>
-                    <div id="submit_btn">
-                        <a id="maint" onclick="openPopup('popupCS')">Envoyer</a>
-                        <div id="popupCS" class="popup">
-                            <div class="popup-content">
-                                <span class="close" onclick="closePopup('popupCS')">&times;</span>
-                                <span>Voullez-vous vraiment démarrer la maintenance de ce système d'acquisition</span>
-                                <div>
-                                    <button id="non" type="button" onclick="closePopup('popupCS')">Non</button>
-                                    {{ form_widget(form.save) }}
-                                </div>
+            <!-- graph temp -->
+            <div class="pSA" id="pSAR">
+                <div id="graph1"></div>
+            </div>
+
+            <div class="pSA"> <!-- maintenance -->
+                {{ form_start(form) }}
+                <div id="form_header">
+                    <h1>Demande de Maintenance</h1>
+                </div>
+                <div class="form_line">
+                    {{ form_widget(form.message) }}
+                </div>
+                <div id="submit_btn">
+                    <button type="button" id="maint" onclick="openPopup('popupCS')">Envoyer</button>
+                    <div id="popupCS" class="popup">
+                        <div class="popup-content">
+                            <span class="close" onclick="closePopup('popupCS')">&times;</span>
+                            <span>Voullez-vous vraiment démarrer la maintenance de ce système d'acquisition</span>
+                            <div>
+                                <button id="non" type="button" onclick="closePopup('popupCS')">Non</button>
+                                {{ form_widget(form.save) }}
                             </div>
                         </div>
                     </div>
-                    {{ form_end(form) }}
-                    <div>
-                        {{ report }}
-                    </div>
                 </div>
-                <div class="pSAr" id="pSAR">
-                    <div id="graph3"></div>
-                </div>
-            </aside>
-            <section id="left">
-                <div class="pSAl" id="pSAl">
-                    <div id="graph1"></div>
-                    <div id="graph2"></div>
-                </div>
-            </section>
+                {{ form_end(form) }}
+            </div>
+
+            <!-- graph CO2 -->
+            <div class="pSA" id="pSAR">
+                <div id="graph3"></div>
+            </div>
+
+            <!-- graph humi-->
+            <div class="pSA" id="pSAR">
+                <div id="graph2"></div>
+            </div>
+
         </section>
     {% else %}
         <section id="mainsection">
@@ -76,12 +79,12 @@
         //Read the data
         function traitementDonneeTemp() {
             // Dimension de l'image SVG
-            var marginTop = (document.getElementById("pSAl").offsetWidth)*0.05,
+            var marginTop = (document.getElementById("pSAR").offsetWidth)*0.05,
                 marginRight = 10,
-                marginBottom = (document.getElementById("pSAl").offsetWidth)*0.05,
-                marginLeft= 20,
-                width = (document.getElementById("pSAl").offsetWidth) - marginLeft - marginRight,
-                height = ((document.getElementById("pSAl").offsetHeight)/2) - marginTop - marginBottom;
+                marginBottom = (document.getElementById("pSAR").offsetWidth)*0.05,
+                marginLeft= 35,
+                width = (document.getElementById("pSAR").offsetWidth) - marginLeft - marginRight,
+                height = ((document.getElementById("pSAR").offsetHeight)) - marginTop - marginBottom;
 
             // Ajout de l'image SVG dans la balise prévu
             var svg1 = d3.select("#graph1")
@@ -131,14 +134,16 @@
                     .y(function(d) { return y(d.valeur) })
                 )
         }
+
+
         function traitementDonneeHum() {
             // set the dimensions and margins of the graph
-            var marginTop = (document.getElementById("pSAl").offsetWidth)*0.05,
+            var marginTop = (document.getElementById("pSAR").offsetWidth)*0.05,
                 marginRight = 10,
-                marginBottom = (document.getElementById("pSAl").offsetWidth)*0.05,
-                marginLeft= 25,
-                width = (document.getElementById("pSAl").offsetWidth) - marginLeft - marginRight,
-                height = ((document.getElementById("pSAl").offsetHeight)/2) - marginTop - marginBottom;
+                marginBottom = (document.getElementById("pSAR").offsetWidth)*0.05,
+                marginLeft= 35,
+                width = (document.getElementById("pSAR").offsetWidth) - marginLeft - marginRight,
+                height = ((document.getElementById("pSAR").offsetHeight)) - marginTop - marginBottom;
 
             // append the svg object to the body of the page
             var svg1 = d3.select("#graph2")
@@ -260,6 +265,13 @@
             jsondata = datafromserver;
             traitementDonneeCO2();
         });
+        window.addEventListener('resize', function() {
+            // Appeler la fonction reloadPage à chaque redimensionnement
+            location.reload();
+        });
 
+        function goHome(){
+            window.location.href = '/referent';
+        }
     </script>
 {% endblock %}

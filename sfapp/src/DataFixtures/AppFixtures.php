@@ -13,9 +13,12 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
+
+
         // =============================== //
         //      Création des users         //
         // =============================== //
+
 
         $ref1 = new User();
         $ref1->setUsername("ref1");
@@ -415,6 +418,7 @@ class AppFixtures extends Fixture
         $this->addReference('sa1',$sa1);
         $manager->persist($sa1);
 
+        // SA 2
         $sa2 = new SA();
         $sa2->setName("SA02");
         $sa2->setState("ACTIF");
@@ -422,6 +426,7 @@ class AppFixtures extends Fixture
         $this->addReference('sa2',$sa2);
         $manager->persist($sa2);
 
+        // SA 3
         $sa3 = new SA();
         $sa3->setName("SA03");
         $sa3->setState("A_INSTALLER");
@@ -430,34 +435,36 @@ class AppFixtures extends Fixture
         $this->addReference('sa3',$sa3);
         $manager->persist($sa3);
 
-        // SA 2
+        // SA 4
         $sa4 = new SA();
         $sa4->setName("SA04");
-        $sa4->setState("A_INSTALLER");
+        $sa4->setState("ACTIF");
         $sa4->setCurrentRoom($this->getReference('C005'));
         $this->addReference('sa4',$sa4);
         $manager->persist($sa4);
-        // SA 3
+
+        // SA 5
         $sa5 = new SA();
         $sa5->setName("SA05");
         $sa5->setState("MAINTENANCE");
         $sa5->setCurrentRoom($this->getReference('D304'));
         $this->addReference('sa5',$sa5);
         $manager->persist($sa5);
-        // SA 4
+
+        // SA 6
         $sa6 = new SA();
         $sa6->setName("SA06");
         $sa6->setState("INACTIF");
         $this->addReference('sa6',$sa6);
         $manager->persist($sa6);
 
+        // SA 7
         $sa7 = new SA();
         $sa7->setName("SA07");
-        $sa7->setState("MAINTENANCE");
+        $sa7->setState("ACTIF");
         $sa7->setCurrentRoom($this->getReference('D205'));
         $this->addReference('sa7',$sa7);
         $manager->persist($sa7);
-
 
         // Intervention Maintenance sur SA3
         $intervention1 = new Intervention();
@@ -466,6 +473,7 @@ class AppFixtures extends Fixture
         $intervention1->setMessage("Le capteur de CO2 ne remonte plus de données, verifier le capteur et les branchements");
         $intervention1->setStartingDate(new \DateTime());
         $intervention1->setType_I('INSTALLATION');
+        $intervention1->setTechnicien($this->getReference('tech1'));
         $manager->persist($intervention1);
 
         //Installation 1
@@ -501,5 +509,7 @@ class AppFixtures extends Fixture
 
 
         $manager->flush();
+
+
     }
 }

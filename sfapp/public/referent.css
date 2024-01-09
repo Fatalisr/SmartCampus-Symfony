@@ -136,6 +136,7 @@
     width: 25%;
     justify-content: center;
     flex-direction: row;
+    white-space: nowrap;
 }
 .caseListSA form{
     width: 100%;
@@ -154,11 +155,10 @@
     align-items: center;
 }
 #right{
-    display: flex;
-    align-items: flex-end;
+    align-items: center;
+    justify-content: flex-end;
 }
 #left{
-    display: flex;
     align-items: center;
     justify-content: left;
 }
@@ -240,4 +240,34 @@ span{
 #sa_data:hover{
     width: 38px;
     height: 38px;
+}
+
+@media screen and (max-width: 1000px) {
+    #liste_salle{
+        flex-direction: column;
+        justify-content: center;
+        margin-bottom: 50px;
+    }
+    .block_sa{
+        width: 90%;
+    }
+    body{
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .roomCase{
+        display: none;
+    }
+}
+
+@media screen and (max-width: 330px) {
+    .saForm{
+        display: none;
+    }
+    #left{
+        justify-content: center;
+    }
 }
