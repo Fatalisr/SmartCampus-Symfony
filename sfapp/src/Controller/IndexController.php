@@ -18,7 +18,7 @@ class IndexController extends AbstractController
 
 
     #[Route('/', name: 'login')]
-    public function login(Request $request, AuthenticationUtils $authenticationUtils, ConnexionRequetesAPI $service): Response
+    public function login(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
         // Créer le formulaire de connexion
         $form = $this->createForm(LoginForm::class);
@@ -29,7 +29,7 @@ class IndexController extends AbstractController
 
         //$date1 = new \DateTime('2023-12-20');
         //$date2 = new \DateTime('2023-12-21');
-        $api = $service->getIntervalCaptures('2023-12-20','2023-12-21');
+        //$api = $service->getIntervalCaptures('2023-12-20','2023-12-21');
         //$api = $service->getCaptures();
 
         // get the login error if there is one
@@ -47,7 +47,6 @@ class IndexController extends AbstractController
         return $this->render('index/index.html.twig', [
             'form' => $form->createView(),
             'error' => $error,
-            'api' => $api,
         ]);
     }
 }
