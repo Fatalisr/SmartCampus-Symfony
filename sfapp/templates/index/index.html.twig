@@ -6,7 +6,7 @@
     <div id="block_pres">
         <div id="bull">
             <h1>BIENVENUE SUR L'ESPACE SMART CAMPUS</h1>
-            <p>Connectez-vous ou accéder à l'espace usager</p>
+            <p>Connectez-vous ou accéder à l'espace usager {{ api }}</p>
         </div>
     </div>
     <div id="form_block">
@@ -35,7 +35,7 @@
             <span>ou</span>
         </div>
         <div id="invit_link">
-            <a href="">Espace usager</a>
+            <a href="{{ asset('usager') }}">Espace usager</a>
         </div>
 
         {{ form_end(form) }}

@@ -1,0 +1,34 @@
+{% extends 'base_usager.html.twig' %}
+
+
+{% block body %}
+    <link rel="stylesheet" href={{ asset('usager.css') }}>
+    <div id="presUsager">
+        <h1>ESPACE USAGER</h1>
+        {{ form_start(form, {'attr' : {'id' : 'room_choise_form'}}) }}
+        {{ form_widget(form.room, {'attr': {'onChange': 'choiseRoom()'}}) }}
+        {{ form_end(form) }}
+    </div>
+    {% if room is null %}
+        <div id="contenuUsagerNoRoom">
+            <div id="no_room">
+                <h2>Bienvenue sur l'espace destiné aux usagers des batiments</h2>
+                <span>Veuillez choisir la salle dans laquelle vous êtes pour continuer</span>
+                <img src="{{ asset('images/map.png') }}">
+            </div>
+        </div>
+    {% else %}
+        <div id="contenuUsagerNoRoom"> <!-- id a remplacer par contenuUsagerRoom-->
+            <div id="no_room">
+                Salle : {{ room.name }}<br>
+                SA : {{ sa.name }}
+            </div>
+        </div>
+    {% endif %}
+    <script>
+        function choiseRoom(){
+            document.getElementById('room_choise_form').submit();
+        }
+    </script>
+
+{% endblock %}

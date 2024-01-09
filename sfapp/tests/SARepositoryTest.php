@@ -20,6 +20,11 @@ class SARepositoryTest extends KernelTestCase
 
     public function testFindAllPlanAction(): void
     {
+        $this->entityManager->beginTransaction(); // Begin a transaction
+        $this->entityManager->createQuery("DELETE FROM App\Entity\Intervention")->execute();
+        $this->entityManager->createQuery("DELETE FROM App\Entity\SA")->execute();
+        $this->entityManager->commit();
+
         $sa = new SA();
         $sa->setName("Test_SA1");
         $sa->setState("ACTIF");
@@ -43,12 +48,17 @@ class SARepositoryTest extends KernelTestCase
 
         // Delete the entry in the database to avoid conflict with the tests
         $this->entityManager->beginTransaction(); // Begin a transaction
-        $this->entityManager->createQuery("DELETE FROM App\Entity\SA SA WHERE SA.name=:nom")->setParameter('nom','Test_SA1')->execute();
+        $this->entityManager->createQuery("DELETE FROM App\Entity\Intervention")->execute();
+        $this->entityManager->createQuery("DELETE FROM App\Entity\SA")->execute();
         $this->entityManager->commit();
     }
 
     public function testFindAllInactive(): void
     {
+        $this->entityManager->beginTransaction(); // Begin a transaction
+        $this->entityManager->createQuery("DELETE FROM App\Entity\Intervention")->execute();
+        $this->entityManager->createQuery("DELETE FROM App\Entity\SA")->execute();
+        $this->entityManager->commit();
         $sa = new SA();
         $sa->setName("Test_SA1");
         $sa->setState("ACTIF");
@@ -72,7 +82,8 @@ class SARepositoryTest extends KernelTestCase
 
         // Delete the entry in the database to avoid conflict with the tests
         $this->entityManager->beginTransaction(); // Begin a transaction
-        $this->entityManager->createQuery("DELETE FROM App\Entity\SA SA WHERE SA.name=:nom")->setParameter('nom','Test_SA1')->execute();
+        $this->entityManager->createQuery("DELETE FROM App\Entity\Intervention")->execute();
+        $this->entityManager->createQuery("DELETE FROM App\Entity\SA SA WHERE 1=1")->execute();
         $this->entityManager->commit();
     }
 
