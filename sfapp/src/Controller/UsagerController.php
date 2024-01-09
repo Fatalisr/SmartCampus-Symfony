@@ -6,6 +6,7 @@ use App\Entity\Room;
 use App\Entity\SA;
 use App\Form\choisirSalleUsagerForm;
 use App\Repository\SARepository;
+use App\Service\ConnexionRequetesAPI;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,19 +17,27 @@ use Symfony\Component\Routing\Annotation\Route;
 class UsagerController extends AbstractController
 {
     #[Route('/usager/{id?}', name: 'app_usager')]
-    public function index(?int $id, ManagerRegistry $doctrine, Request $request): Response
+    public function index(?int $id, ManagerRegistry $doctrine, Request $request,ConnexionRequetesAPI $api): Response
     {
         $entityManager = $doctrine->getManager();
+
         $roomRepo = $entityManager->getRepository(Room::class);
         $saRepo = $entityManager->getRepository(SA::class);
+
         $form = $this->createForm(choisirSalleUsagerForm::class);
         $form->handleRequest($request);
-        if($id == null){
+
+        if($id == null)
+        {
             $room = null;
             $sa = null;
-        }else{
+        }
+        else
+        {
             $room = $roomRepo->find($id);
             $sa = $saRepo->findOneBy(['currentRoom' => $room->getId()]);
+
+            $meteo = json_decode($api->getWeather(),true);
         }
 
         if($form->isSubmitted() && $form->isValid()){
@@ -40,6 +49,7 @@ class UsagerController extends AbstractController
             'sa' => $sa,
             'room' => $room,
             'form' => $form,
+            'meteo' => $meteo,
         ]);
     }
 }
