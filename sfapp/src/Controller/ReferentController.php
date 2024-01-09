@@ -5,6 +5,7 @@ use App\Entity\Intervention;
 use App\Entity\SA;
 use App\Form\InterventionFormType;
 use App\Repository\RoomRepository;
+use Cassandra\Date;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -42,11 +43,17 @@ class ReferentController extends AbstractController
 
                 $curSa = $saRepository->find($form->get('sa_id')->getData());
                 $curSa->setState("A_INSTALLER");
-
+                $interventionInstallation = new Intervention();
+                $interventionInstallation->setType_I("INSTALLATION");
+                $interventionInstallation->setState("EN_COURS");
+                $interventionInstallation->setStartingDate(new \DateTime());
+                $interventionInstallation->setMessage("Changement de salle");
+                $interventionInstallation->setSa($curSa);
 
                 $curSa->setOldRoom($curSa->getCurrentRoom());
                 $curSa->setCurrentRoom($form->get('newRoom')->getData());
 
+                $entityManager->persist($interventionInstallation);
                 $entityManager->persist($curSa);
                 $entityManager->flush();
 
@@ -79,17 +86,24 @@ class ReferentController extends AbstractController
 
         $form = $this->createForm(InterventionFormType::class);
         $form->handleRequest($request);
+        $report = "";
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $maintenance = new Intervention();
-            $maintenance->setMessage($form->get('message')->getData());
+            $interventionRepo = $doctrine->getRepository("App\Entity\Intervention");
+            $curMaintenance = $interventionRepo->findOneBySAReport([$sa]);
+            if($curMaintenance != null){
+                $report = $curMaintenance->getReport();
+            }
+            $newMaintenance = new Intervention();
+            $newMaintenance->setMessage($form->get('message')->getData());
             date_default_timezone_set('UTC');
-            $maintenance->setStartingDate(date_create(date("m.d.y")));
-            $maintenance->setSa($sa);
-            $maintenance->setType("MAINTENANCE");
+            $newMaintenance->setStartingDate(date_create(date("m.d.y")));
+            $newMaintenance->setSa($sa);
+            $newMaintenance->setType_I("MAINTENANCE");
+            $newMaintenance->setState("EN_COURS");
             $sa->setState("MAINTENANCE");
             $entityManager = $doctrine->getManager();
-            $entityManager->persist($maintenance);
+            $entityManager->persist($newMaintenance);
             $entityManager->persist($sa);
             $entityManager->flush();
 
@@ -101,6 +115,7 @@ class ReferentController extends AbstractController
             'salle' => $salle,
             'etat' => $etat,
             'form' => $form,
+            'report' => $report,
         ]);
     }
 
@@ -124,7 +139,7 @@ class ReferentController extends AbstractController
                 $sa->setState("A_INSTALLER");
                 $installationSA = new Intervention();
                 $installationSA->setSa($sa);
-                $installationSA->setType("INSTALLATION");
+                $installationSA->setType_I("INSTALLATION");
                 $installationSA->setStartingDate(date_create(date("m.d.y")));
                 $entityManager->persist($installationSA);
             }
@@ -154,10 +169,16 @@ class ReferentController extends AbstractController
         $sa = $entityManager->find(SA::class, $id);
         $sa->setState("INACTIF");
 
-        $intervention = new Intervention();
-        $intervention->setSa($sa);
-        //$intervention->setStartingDate();
-        $intervention->setType("INSTALLATION");
+        $InterventionRepo = $doctrine->getRepository("App\Entity\Intervention");
+        $intervention = $InterventionRepo->findOneBySA($sa);
+        if($intervention == null)
+        {
+            $intervention = new Intervention();
+            $intervention->setSa($sa);
+        }
+        $intervention->setState("EN_COURS");
+        $intervention->setStartingDate(new \DateTime());
+        $intervention->setType_I("INSTALLATION");
         $intervention->setMessage("Retour du SA au stock");
 
         $entityManager->persist($intervention);
@@ -207,12 +228,31 @@ class ReferentController extends AbstractController
     public function delete_sa_base(?int $id, ManagerRegistry $doctrine): Response
     {
         $entityManager = $doctrine->getManager();
-
+        $interventionRepo = $entityManager->getRepository("App\Entity\Intervention");
         $sa = $entityManager->find(SA::class, $id);
+        $intervention = $interventionRepo->findOneBySA($sa);
+        if ($intervention != null)
+        {
+            $entityManager->remove($intervention);
+            $entityManager->flush();
+        }
         $entityManager->remove($sa);
         $entityManager->flush();
         return $this->redirectToRoute('app_referent', [
         ]);
     }
+
+    #[Route('/referent/historique', name: 'historique')]
+    public function historique(ManagerRegistry $doctrine): Response
+    {
+        $entityManager = $doctrine->getManager();
+        $interventionRepo = $entityManager->getRepository(Intervention::class);
+        $interventions = $interventionRepo->findAll();
+
+        return $this->render("referent/historique.html.twig", [
+            'interventions' => $interventions,
+        ]);
+    }
+
 }
 

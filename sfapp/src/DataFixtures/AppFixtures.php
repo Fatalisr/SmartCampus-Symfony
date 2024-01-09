@@ -14,6 +14,25 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         // =============================== //
+        //      Création des users         //
+        // =============================== //
+
+        $ref1 = new User();
+        $ref1->setUsername("ref1");
+        $ref1->setPassword("$2y$13$/Bpyv7s0SexmSOxxaINszOMmtqs7iSIFINdzBfKAQUAmHMthVAKzS");
+        $ref1->setRoles(["ROLE_REFERENT"]);
+        $this->addReference('ref1',$ref1 );
+        $manager->persist($ref1);
+
+        $tech1 = new User();
+        $tech1->setUsername("tec1");
+        //hash le password avec php bin/console security:hash-password
+        $tech1->setPassword("$2y$13$/Bpyv7s0SexmSOxxaINszOMmtqs7iSIFINdzBfKAQUAmHMthVAKzS");
+        $tech1->setRoles(["ROLE_TECHNICIEN"]);
+        $this->addReference('tech1',$tech1 );
+        $manager->persist($tech1);
+
+        // =============================== //
         //      Création des salles        //
         // =============================== //
 
@@ -111,6 +130,7 @@ class AppFixtures extends Fixture
         /*      1er étage      */
 
         // Création de la salle C101
+
         $C101 = new Room();
         $C101->setName("C101");
         $C101->setNbComputer("16");
@@ -388,82 +408,97 @@ class AppFixtures extends Fixture
 
 
         // SA 1
-        $sa = new SA();
-        $sa->setName("SA10");
-        $sa->setState("ACTIF");
-        $sa->setCurrentRoom($this->getReference('D001'));
-        $manager->persist($sa);
+        $sa1 = new SA();
+        $sa1->setName("SA01");
+        $sa1->setState("ACTIF");
+        $sa1->setCurrentRoom($this->getReference('D001'));
+        $this->addReference('sa1',$sa1);
+        $manager->persist($sa1);
 
-        $sa12 = new SA();
-        $sa12->setName("SA11");
-        $sa12->setState("ACTIF");
-        $sa12->setCurrentRoom($this->getReference('D306'));
-        $manager->persist($sa12);
-
-        $sa13 = new SA();
-        $sa13->setName("SA12");
-        $sa13->setState("ACTIF");
-        $sa13->setCurrentRoom($this->getReference('C004'));
-        $manager->persist($sa13);
-
-        // SA 2
         $sa2 = new SA();
-        $sa2->setName("SA20");
-        $sa2->setState("A_INSTALLER");
-        $sa2->setCurrentRoom($this->getReference('C005'));
+        $sa2->setName("SA02");
+        $sa2->setState("ACTIF");
+        $sa2->setCurrentRoom($this->getReference('D306'));
+        $this->addReference('sa2',$sa2);
         $manager->persist($sa2);
-        // SA 3
+
         $sa3 = new SA();
-        $sa3->setName("SA21");
-        $sa3->setState("MAINTENANCE");
-        $sa3->setCurrentRoom($this->getReference('D304'));
+        $sa3->setName("SA03");
+        $sa3->setState("A_INSTALLER");
+        $sa3->setCurrentRoom($this->getReference('C004'));
+        $sa3->setOldRoom($this->getReference('C306'));
         $this->addReference('sa3',$sa3);
         $manager->persist($sa3);
-        // SA 4
+
+        // SA 2
         $sa4 = new SA();
-        $sa4->setName("SA30");
-        $sa4->setState("INACTIF");
+        $sa4->setName("SA04");
+        $sa4->setState("A_INSTALLER");
+        $sa4->setCurrentRoom($this->getReference('C005'));
+        $this->addReference('sa4',$sa4);
         $manager->persist($sa4);
+        // SA 3
+        $sa5 = new SA();
+        $sa5->setName("SA05");
+        $sa5->setState("MAINTENANCE");
+        $sa5->setCurrentRoom($this->getReference('D304'));
+        $this->addReference('sa5',$sa5);
+        $manager->persist($sa5);
+        // SA 4
+        $sa6 = new SA();
+        $sa6->setName("SA06");
+        $sa6->setState("INACTIF");
+        $this->addReference('sa6',$sa6);
+        $manager->persist($sa6);
+
+        $sa7 = new SA();
+        $sa7->setName("SA07");
+        $sa7->setState("MAINTENANCE");
+        $sa7->setCurrentRoom($this->getReference('D205'));
+        $this->addReference('sa7',$sa7);
+        $manager->persist($sa7);
+
 
         // Intervention Maintenance sur SA3
         $intervention1 = new Intervention();
-        $intervention1->setSa($sa3);
+        $intervention1->setState("EN_COURS");
+        $intervention1->setSa($this->getReference('sa3'));
         $intervention1->setMessage("Le capteur de CO2 ne remonte plus de données, verifier le capteur et les branchements");
         $intervention1->setStartingDate(new \DateTime());
-        $intervention1->setType('MAINTENANCE');
+        $intervention1->setType_I('INSTALLATION');
         $manager->persist($intervention1);
 
         //Installation 1
         $Inst1 = new Intervention();
-        $Inst1->setSa($sa2);
-        $Inst1->setType("INSTALLATION");
+        $Inst1->setState("EN_COURS");
+        $Inst1->setSa($this->getReference('sa5'));
+        $Inst1->setType_I("MAINTENANCE");
         $Inst1->setStartingDate(new \DateTime());
+        $Inst1->setTechnicien($this->getReference('tech1'));
         $manager->persist($Inst1);
 
         $Inst2 = new Intervention();
-        $sa13->setOldRoom($sa13->getCurrentRoom());
-        $sa13->setCurrentRoom($this->getReference('D302'));
-        $Inst2->setSa($sa13);
-        $Inst2->setType("INSTALLATION");
+        $Inst2->setState("FINIE");
+        $Inst2->setSa($this->getReference('sa4'));
+        $Inst2->setType_I("INSTALLATION");
+        $Inst2->setMessage("Installation du SA12 en C004");
+        $Inst2->setReport("Installation effectué sans probleme");
         $Inst2->setStartingDate(new \DateTime());
+        $Inst2->setEndingDate(new \DateTime());
+        $Inst2->setTechnicien($this->getReference('tech1'));
         $manager->persist($Inst2);
 
-        // =============================== //
-        //      Création des users         //
-        // =============================== //
+        $Inst3 = new Intervention();
+        $Inst3->setState("ANNULEE");
+        $Inst3->setSa($this->getReference('sa7'));
+        $Inst3->setType_I("MAINTENANCE");
+        $Inst3->setMessage("Les données du sa presentent d'enorment incoherences. Il faut verifier les connectiques capteurs.");
+        $Inst3->setReport("Impossible de trouver d'ou vienne les incoherences. Retour du SA au depot.");
+        $Inst3->setStartingDate(new \DateTime());
+        $Inst3->setEndingDate(new \DateTime());
+        $Inst3->setTechnicien($this->getReference('tech1'));
+        $manager->persist($Inst3);
 
-        $ref1 = new User();
-        $ref1->setUsername("ref1");
-        $ref1->setPassword("$2y$13$/Bpyv7s0SexmSOxxaINszOMmtqs7iSIFINdzBfKAQUAmHMthVAKzS");
-        $ref1->setRoles(["ROLE_REFERENT"]);
-        $manager->persist($ref1);
-
-        $ref1 = new User();
-        $ref1->setUsername("tec1");
-        //hash le password avec php bin/console security:hash-password
-        $ref1->setPassword("$2y$13$/Bpyv7s0SexmSOxxaINszOMmtqs7iSIFINdzBfKAQUAmHMthVAKzS");
-        $ref1->setRoles(["ROLE_TECHNICIEN"]);
-        $manager->persist($ref1);
 
         $manager->flush();
     }

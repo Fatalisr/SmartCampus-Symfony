@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Intervention;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -28,8 +29,10 @@ class InterventionRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('i')
             ->andWhere('i.type_i = :type_i')
+            ->andWhere('i.state = :state')
             ->setParameter('type_i', "INSTALLATION")
             ->andWhere('i.endingDate IS NULL')
+            ->setParameter('state', "EN_COURS")
             ->orderBy('i.id', 'DESC')
             ->getQuery()
             ->getResult();
@@ -43,58 +46,50 @@ class InterventionRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('i')
             ->andWhere('i.type_i = :type_i')
             ->andWhere('i.endingDate IS NULL')
+            ->andWhere('i.state = :state')
             ->setParameter('type_i', "MAINTENANCE")
+            ->setParameter('state', "EN_COURS")
             ->orderBy('i.id', 'DESC')
             ->getQuery()
             ->getResult()
             ;
     }
-    public function findOneById($sa,$type)
+    public function findOneById($sa,$type): ?Intervention
     {
-        if($type == "maint")
-        {
-            $conn = $this->getEntityManager()->getConnection();
 
-            $sql = "
-            SELECT * FROM Intervention I
-            WHERE I.type_i = :type AND I.sa_id = :id AND I.endingDate IS NULL
-            ORDER BY p.price ASC
-            ";
-
-            $resultSet = $conn->executeQuery($sql, ['type' => "MAINTENANCE",'id' => $sa]);
-
-            // returns an array of arrays (i.e. a raw data set)
-            return $resultSet->fetchAllAssociative();
+        try {
+            return $this->createQueryBuilder('i')
+                ->andWhere('i.type_i = :type')
+                ->andWhere('i.sa = :sa')
+                ->andWhere('i.state = EN_COURS')
+                ->setParameter('sa', $sa)
+                ->setParameter('type', $type)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+            return null;
         }
-        if($type == "insta")
-        {
-            $conn = $this->getEntityManager()->getConnection();
+    }
 
-            $sql = "
-            SELECT * FROM Intervention I
-            WHERE I.type_i = :type AND I.sa_id = :id AND I.endingDate IS NULL
-            ORDER BY p.price ASC
-            ";
+    public function findOneBySA($sa)
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.sa = :sa')
+            ->setParameter('sa', $sa)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 
-            $resultSet = $conn->executeQuery($sql, ['type' => "INSTALLATION",'id' => $sa]);
-
-            // returns an array of arrays (i.e. a raw data set)
-            return $resultSet->fetchAllAssociative();
-
-        }
-
+    public function findOneBySAReport($sa)
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.sa = :sa')
+            ->setParameter('sa', $sa)
+            ->andWhere('i.type_i = :type')
+            ->setParameter('type', "MAITENANCE")
+            ->andWhere('i.state != :state')
+            ->setParameter('state', "EN_COURS")
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }
-
-/*
- *  return $this->createQueryBuilder('i')
-                ->andWhere('i.type = :type')
-                ->andWhere('i.sa_id = :sa')
-                ->andWhere('i.endingDate IS NULL')
-                ->setParameter('type', "INSTALLATION")
-                ->setParameter('sa', $sa)
-                ->orderBy('i.id', 'DESC')
-                ->getQuery()
-                ->getResult()
-                ;
- */

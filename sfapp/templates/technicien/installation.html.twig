@@ -5,7 +5,65 @@
 
 {% block body %}
     <link rel="stylesheet" href={{ asset('tech_maintenance.css') }}>
-    <div class="block_interv">
+
+
+
+
+    {% if installation.technicien == null%}
+        <div>
+            {{ form_start(form_assign) }}
+            <div id="submit_btn">
+                <a id="maint" onclick="openPopup('popupCS')">M'assigner à cette intervention</a>
+                <div id="popupCS" class="popup">
+                    <div class="popup-content">
+                        <span class="close" onclick="closePopup('popupCS')">&times;</span>
+                        <span>Veuillez confirmer votre assignation à cette intervention</span>
+                        <div>
+                            <button id="non" type="button" onclick="closePopup('popupCS')">Non</button>
+                            {{ form_widget(form_assign.valid) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{ form_end(form_assign) }}
+        </div>
+{% else  %}
+    {% if installation.technicien == user%}
+        <div class = "imgANDtext">
+            <div>
+                {{ installation.technicien.username }}
+            </div>
+            <div>
+                {{ form_start(form_unassign) }}
+                <div id="submit_btn">
+                    <a  id="maint" onclick="openPopup('popupCS')">𝕏</a>
+                    <div id="popupCS" class="popup">
+                        <div class="popup-content">
+                            <span class="close" onclick="closePopup('popupCS')">x</span>
+                            <span>Veuillez confirmer votre retrait de cette intervention</span>
+                            <div>
+                                <button id="non" type="button" onclick="closePopup('popupCS')">Non</button>
+                                {{ form_widget(form_unassign.valid) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{ form_end(form_unassign) }}
+            </div>
+        </div>
+    {% else  %}
+        <div>
+            <span> {{ installation.technicien.username }}</span>
+        </div>
+    {% endif %}
+        {% endif %}
+
+
+
+
+
+
+<div class="block_interv">
         <div>
             <span>  {{ curSA.name }} </span>
         </div>
@@ -14,16 +72,18 @@
                 <h2>Salle actuelle :</h2>
                 <p>{{  curSA.oldRoom.name }}</p>
             {% endif %}
-            <h2>A installer en :</h2>
+            <h2>A installer en salle :</h2>
             <span> {{ curSA.currentRoom.name }} </span>
         </div>
     </div>
     <div class="block_interv">
         <div>
             <h2>Etapes de l'installation :</h2>
-            <p>1 - Branchement du système d'acquisition</p>
-            <p>2 - Configuration</p>
-            <p>3 - Test des données remontées</p>
+            <ol>
+                <li>Branchement du système d'acquisition</li>
+                <li>Configuration</li>
+                <li>Test des données remontées</li>
+            </ol>
         </div>
     </div>
     {{ form_start(form_validInstal) }}
@@ -31,5 +91,13 @@
     {{ form_end(form_validInstal) }}
     <a href="{{ path("app_technicien") }}"><span>Retour</span></a>
 
+    <script>
+    function openPopup(popupId) {
+    document.getElementById(popupId).style.display = 'block';
+    }
 
+    function closePopup(popupId) {
+    document.getElementById(popupId).style.display = 'none';
+    }
+    </script>
 {% endblock %}

@@ -9,7 +9,7 @@ use Symfony\Component\BrowserKit\AbstractBrowser;
 
 class indexControllerTest extends WebTestCase
 {
-    /*Test de l'affichage de la page*//*
+    /*Test de l'affichage de la page*/
     public function testLoginPage()
     {
         $client = static::createClient();
@@ -17,9 +17,9 @@ class indexControllerTest extends WebTestCase
 
         $this->assertResponseIsSuccessful();
         $this->assertResponseStatusCodeSame(200);
-    }*/
+    }
 /*Test de la connection du referent*/
-/*
+
     public function testSuccessLoginReferent()
     {
         $client = static::createClient();
@@ -44,8 +44,8 @@ class indexControllerTest extends WebTestCase
         $entityManager->beginTransaction(); // Begin a transaction
         $entityManager->createQuery("DELETE FROM App\Entity\User M WHERE M.username=:username")->setParameter('username','Test_S_R')->execute();
         $entityManager->commit();
-    }*/
-/*
+    }
+
  //Test de la connection du technicien
     public function testSuccessLoginTechnicien()
     {
@@ -71,8 +71,7 @@ class indexControllerTest extends WebTestCase
         $entityManager->beginTransaction(); // Begin a transaction
         $entityManager->createQuery("DELETE FROM App\Entity\User M WHERE M.username=:username")->setParameter('username','Test_S_T')->execute();
         $entityManager->commit();
-    }*/
-/*
+    }
     public function testBadLogin()
     {
         $client = static::createClient();
@@ -84,10 +83,9 @@ class indexControllerTest extends WebTestCase
         ]);
 
         $client->submit($form);
-        $this->assertResponseStatusCodeSame(401);
+        $this->assertResponseStatusCodeSame(302);
 
-    }*/
-/*
+    }
     public function testBadPwd()
     {
         $client = static::createClient();
@@ -107,10 +105,9 @@ class indexControllerTest extends WebTestCase
             'login_form[password]' => '456',
         ]);
         $client->submit($form);
-
-        $this->assertResponseRedirects('/referent');
+        $this->assertResponseStatusCodeSame(302);
         $entityManager->beginTransaction(); // Begin a transaction
         $entityManager->createQuery("DELETE FROM App\Entity\User")->execute();
         $entityManager->commit();
-    }*/
+    }
 }
