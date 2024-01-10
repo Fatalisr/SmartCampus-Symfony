@@ -28,6 +28,7 @@ class RoomRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('r')
             ->where('SUBSTRING(r.name, 2, 1) = :etage')
             ->setParameter('etage', $floor)
+            ->orderBy('r.name')
             ->getQuery();
 
         return $query->getResult();
@@ -40,6 +41,7 @@ class RoomRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('r')
             ->where('SUBSTRING(r.name, 2, 1) = :etage')
             ->setParameter('etage', '0')
+            ->orderBy('r.name')
             ->getQuery();
 
         return $query->getResult();

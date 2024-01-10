@@ -13,11 +13,7 @@
     display: flex;
     width: auto;
     height: fit-content;
-
-    background-color: #56DAFF;
-    padding: 10px;
-    border-bottom-right-radius: 15px;
-    border-bottom-left-radius: 15px;
+    justify-content: center;
 }
 
 .pres_page{
@@ -26,12 +22,12 @@
     align-content: space-around;
     justify-content: center;
     align-items: center;
-    width: 90%;
-}
-
-.pres_page h1{
-    margin: 0;
-    font-size: xx-large;
+    width: fit-content;
+    font-size: x-large;
+    padding: 25px 5px 15px 5px;
+    background-color: #d6dfe8;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 
 .buttonPresPage{
@@ -49,7 +45,6 @@
     width: fit-content;
     padding: 10px;
     background-color: #5b68c0;
-    border-radius: 5px;
     border-radius: 5px;
     font-family: Arial;
 }
@@ -90,7 +85,43 @@
     border-radius: 20px;
 }
 
+.caseBlockInterv{
+    display: flex;
+    flex: 1;
+    height: 100%;
+    width: 25%;
+    align-items: center;
+    flex-direction: row;
+    padding: 0 10px 0 10px;
+}
+#rightSide{
+    justify-content: right;
+}
+#leftSide{
+    justify-content: left;
+}
+
+.caseBlockInterv img{
+    width: 50px;
+    height: 50px;
+}
+
 p{
     font-family: Arial;
+}
+
+@media screen and (max-width: 1000px) {
+    #liste_interventions{
+        flex-direction: column;
+        justify-content: center;
+        margin-bottom: 50px;
+    }
+    .block_interv{
+        width: 90%;
+    }
+    body{
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
 }
 

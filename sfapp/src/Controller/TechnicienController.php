@@ -41,7 +41,7 @@ class TechnicienController extends AbstractController
         $curInterv = $interventionRepo->find($id);
         $curSA = $curInterv->getSa();
 
-        $form_validInst = $this->createForm(InstallationForm::class);
+        $form_validInst = $this->createForm(MaintenanceForm::class);
         $form_validInst->handleRequest($request);
 
         $dateCourante = new \DateTime();
@@ -63,6 +63,9 @@ class TechnicienController extends AbstractController
             $curSA->setState('ACTIF');
             $curInterv->setState("FINIE");
             $curInterv->setEndingDate($dateCourante);
+
+            $report = $form_validInst->get('report')->getData();
+            $curInterv->setReport($report);
 
             $entityManager->persist($curSA);
             $entityManager->persist($curInterv);

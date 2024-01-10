@@ -25,10 +25,6 @@ class SA
     #[ORM\ManyToOne]
     private ?Room $oldRoom = null;
 
-    #[ORM\ManyToOne(inversedBy: 'sa')]
-    private ?Intervention $intervention = null;
-
-
     public function getId(): ?int
     {
         return $this->id;
