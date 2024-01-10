@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Entity\Intervention;
 use App\Entity\SA;
 use App\Form\InterventionFormType;
+use App\Form\MaintenanceForm;
 use App\Repository\RoomRepository;
 use Cassandra\Date;
 use Doctrine\ORM\QueryBuilder;
@@ -42,19 +43,21 @@ class ReferentController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
 
                 $curSa = $saRepository->find($form->get('sa_id')->getData());
+                if($curSa->getState() != "A_INSTALLER") {
+                    $curSa->setState("A_INSTALLER");
+                    $interventionInstallation = new Intervention();
+                    $interventionInstallation->setType_I("INSTALLATION");
+                    $interventionInstallation->setState("EN_COURS");
+                    $interventionInstallation->setStartingDate(new \DateTime());
+                    $interventionInstallation->setMessage("Changement de salle");
+                    $interventionInstallation->setSa($curSa);
 
-                $curSa->setState("A_INSTALLER");
-                $interventionInstallation = new Intervention();
-                $interventionInstallation->setType_I("INSTALLATION");
-                $interventionInstallation->setState("EN_COURS");
-                $interventionInstallation->setStartingDate(new \DateTime());
-                $interventionInstallation->setMessage("Changement de salle");
-                $interventionInstallation->setSa($curSa);
+                    $curSa->setOldRoom($curSa->getCurrentRoom());
 
-                $curSa->setOldRoom($curSa->getCurrentRoom());
+                    $entityManager->persist($interventionInstallation);
+                }
+
                 $curSa->setCurrentRoom($form->get('newRoom')->getData());
-
-                $entityManager->persist($interventionInstallation);
 
                 $entityManager->persist($curSa);
                 $entityManager->flush();
@@ -253,6 +256,38 @@ class ReferentController extends AbstractController
 
         return $this->render("referent/historique.html.twig", [
             'interventions' => $interventions,
+        ]);
+    }
+
+    #[Route('/referent/saInt/{id}', name: 'intervention_sa')]
+    public function intervention_sa(?int $id,ManagerRegistry $doctrine,Request $request): Response
+    {
+        $entityManager = $doctrine->getManager();
+        $sa = $entityManager->find(SA::class,$id);
+        $interventionRepo = $entityManager->getRepository(Intervention::class);
+        $curInterv = $interventionRepo->findOneBySAAndCurrent($sa);
+        $message = $curInterv->getMessage();
+
+        $form_validMtn = $this->createForm(MaintenanceForm::class);
+        $form_validMtn->handleRequest($request);
+        if($form_validMtn->isSubmitted() && $form_validMtn->isValid()){
+            if ($form_validMtn->getData()['valid'] == "true") {
+                $report = $form_validMtn->get('report')->getData();
+                $curInterv->setMessage($report);
+            } else {
+                $sa->setState('ACTIF');
+                $curInterv->setState("ANNULEE");
+            }
+            $entityManager->persist($sa);
+            $entityManager->persist($curInterv);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_referent');
+        }
+        return $this->render("referent/saInt.html.twig",[
+            'sa' => $sa,
+            'form_validMtn' => $form_validMtn,
+            'message' => $message,
         ]);
     }
 

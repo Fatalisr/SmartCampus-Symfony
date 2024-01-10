@@ -80,14 +80,12 @@ class InterventionRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    public function findOneBySAReport($sa)
+    public function findOneBySAAndCurrent($sa)
     {
         return $this->createQueryBuilder('i')
             ->andWhere('i.sa = :sa')
             ->setParameter('sa', $sa)
-            ->andWhere('i.type_i = :type')
-            ->setParameter('type', "MAITENANCE")
-            ->andWhere('i.state != :state')
+            ->andWhere('i.state = :state')
             ->setParameter('state', "EN_COURS")
             ->getQuery()
             ->getOneOrNullResult();
