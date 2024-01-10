@@ -27,6 +27,7 @@ class ReferentController extends AbstractController
         $entityManager = $doctrine->getManager();
         $saRepository = $entityManager->getRepository('App\Entity\SA');
         $roomRepository = $entityManager->getRepository('App\Entity\Room');
+        $InterventionRepository = $entityManager->getRepository('App\Entity\Intervention');
 
         $actif = $saRepository->findAllActif();
         $maintenance = $saRepository->findAllMaintenance();
@@ -43,20 +44,38 @@ class ReferentController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
 
                 $curSa = $saRepository->find($form->get('sa_id')->getData());
+
+                $interventionInstallation = $InterventionRepository->findOneBySAAndCurrent($curSa);
+
                 if($curSa->getState() != "A_INSTALLER") {
-                    $curSa->setState("A_INSTALLER");
-                    $interventionInstallation = new Intervention();
-                    $interventionInstallation->setType_I("INSTALLATION");
-                    $interventionInstallation->setState("EN_COURS");
-                    $interventionInstallation->setStartingDate(new \DateTime());
-                    $interventionInstallation->setMessage("Changement de salle");
-                    $interventionInstallation->setSa($curSa);
+
+                    if($interventionInstallation != null){
+                        $curSa->setState("A_INSTALLER");
+                        $interventionInstallation->setType_I("INSTALLATION");
+                        $interventionInstallation->setMessage("Déplacement du " . $curSa->getName() . " de la salle " . $curSa->getOldRoom()->getName() . " en " . $form->get('newRoom')->getData()->getName());
+                    }
+                    else {
+                        $curSa->setState("A_INSTALLER");
+                        $interventionInstallation = new Intervention();
+                        $interventionInstallation->setType_I("INSTALLATION");
+                        $interventionInstallation->setState("EN_COURS");
+                        $interventionInstallation->setStartingDate(new \DateTime());
+                        $interventionInstallation->setMessage("Installation du " . $curSa->getName() . " en " . $form->get('newRoom')->getData()->getName());
+                        $interventionInstallation->setSa($curSa);
+                    }
 
                     $curSa->setOldRoom($curSa->getCurrentRoom());
 
                     $entityManager->persist($interventionInstallation);
                 }
-
+                else{
+                    if($curSa->getOldRoom() != null) {
+                        $interventionInstallation->setMessage("Déplacement du " . $curSa->getName() . " de la salle " . $curSa->getOldRoom()->getName() . " en " . $form->get('newRoom')->getData()->getName());
+                    }
+                    else{
+                        $interventionInstallation->setMessage("Installation du ".$curSa->getName()." en ".$form->get('newRoom')->getData()->getName());
+                    }
+                }
                 $curSa->setCurrentRoom($form->get('newRoom')->getData());
 
                 $entityManager->persist($curSa);
@@ -94,11 +113,6 @@ class ReferentController extends AbstractController
         $report = "";
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $interventionRepo = $doctrine->getRepository("App\Entity\Intervention");
-            $curMaintenance = $interventionRepo->findOneBySAReport([$sa]);
-            if($curMaintenance != null){
-                $report = $curMaintenance->getReport();
-            }
             $newMaintenance = new Intervention();
             $newMaintenance->setMessage($form->get('message')->getData());
             date_default_timezone_set('UTC');
@@ -141,18 +155,22 @@ class ReferentController extends AbstractController
             $entityManager = $doctrine->getManager();
             if($form->get('currentRoom')->getData())
             {
+                $sa->setCurrentRoom($form->get('currentRoom')->getData());
                 $sa->setState("A_INSTALLER");
+                $name = $sa->getName();
+                $room = $sa->getCurrentRoom()->getName();
                 $installationSA = new Intervention();
+                $installationSA->setState("EN_COURS");
                 $installationSA->setSa($sa);
-                $installationSA->setType_I("INSTALLATION");
+                $installationSA->setMessage("Installation du $name en $room");
                 $installationSA->setStartingDate(date_create(date("m.d.y")));
+                $installationSA->setType_I("INSTALLATION");
                 $entityManager->persist($installationSA);
             }
             else
             {
                 $sa->setState("INACTIF");
             }
-            $sa->setCurrentRoom($form->get('currentRoom')->getData());
 
 
             //Ajoute à la base de donnée
@@ -172,19 +190,21 @@ class ReferentController extends AbstractController
     {
         $entityManager = $doctrine->getManager();
         $sa = $entityManager->find(SA::class, $id);
+        $sa->setOldRoom($sa->getCurrentRoom());
+        $sa->setCurrentRoom(null);
         $sa->setState("INACTIF");
 
         $InterventionRepo = $doctrine->getRepository("App\Entity\Intervention");
-        $intervention = $InterventionRepo->findOneBySA($sa);
-        if($intervention == null)
-        {
-            $intervention = new Intervention();
-            $intervention->setSa($sa);
-        }
-        $intervention->setState("EN_COURS");
+        $interventionOld = $InterventionRepo->findOneBySAAndCurrent($sa);
+        $interventionOld->setEndingDate(new \DateTime());
+        $interventionOld->setState("ANNULEE");
+
+        $intervention = new Intervention();
+        $intervention->setMessage("Retirer le ".$sa->getName()." de la salle ".$sa->getOldRoom()->getName());
         $intervention->setStartingDate(new \DateTime());
-        $intervention->setType_I("INSTALLATION");
-        $intervention->setMessage("Retour du SA au stock");
+        $intervention->setSa($sa);
+        $intervention->setType_I("MAINTENANCE");
+        $intervention->setState("EN_COURS");
 
         $entityManager->persist($intervention);
         $entityManager->persist($sa);
@@ -275,7 +295,20 @@ class ReferentController extends AbstractController
                 $report = $form_validMtn->get('report')->getData();
                 $curInterv->setMessage($report);
             } else {
-                $sa->setState('ACTIF');
+                if($sa->getState() == "MAINTENANCE"){
+                    $sa->setState('ACTIF');
+                }
+                else {
+                    if($sa->getOldRoom() != null) {
+                        $sa->setCurrentRoom($sa->getOldRoom());
+                        $sa->setOldRoom(null);
+                        $sa->setState('ACTIF');
+                    }
+                    else{
+                        $sa->setCurrentRoom(null);
+                        $sa->setState('INACTIF');
+                    }
+                }
                 $curInterv->setState("ANNULEE");
             }
             $entityManager->persist($sa);
