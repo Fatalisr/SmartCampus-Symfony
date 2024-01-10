@@ -3,6 +3,7 @@
 namespace App\Controller;
 use App\Entity\User;
 use App\Form\LoginForm;
+use App\Service\ConnexionRequetesAPI;
 use App\Entity\SA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,6 +26,12 @@ class IndexController extends AbstractController
         // Gérer la soumission du formulaire
         $form->handleRequest($request);
         $error = null;
+
+        //$date1 = new \DateTime('2023-12-20');
+        //$date2 = new \DateTime('2023-12-21');
+        //$api = $service->getIntervalCaptures('2023-12-20','2023-12-21');
+        //$api = $service->getCaptures();
+
         // get the login error if there is one
         $erreurServer = $authenticationUtils->getLastAuthenticationError();;
         if($erreurServer)
