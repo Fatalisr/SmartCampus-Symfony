@@ -14,7 +14,7 @@ class InterventionFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('message',TextareaType::class, ['required' => true,'attr' => array('class' => 'textInput')])
+            ->add('message',TextareaType::class, ['required' => true,'attr' => array('class' => 'textInput', 'rows' => 10)])
             ->add('save', SubmitType::class,['label' => 'Oui',]);
     }
 

@@ -13,9 +13,12 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
+
+
         // =============================== //
         //      Création des users         //
         // =============================== //
+
 
         $ref1 = new User();
         $ref1->setUsername("ref1");
@@ -437,7 +440,7 @@ class AppFixtures extends Fixture
         // SA 4
         $sa4 = new SA();
         $sa4->setName("SA04");
-        $sa4->setState("A_INSTALLER");
+        $sa4->setState("ACTIF");
         $sa4->setCurrentRoom($this->getReference('C005'));
         $this->addReference('sa4',$sa4);
         $manager->persist($sa4);
@@ -471,7 +474,6 @@ class AppFixtures extends Fixture
         $sa8->setState("INACTIF");
         $this->addReference('sa8',$sa8);
         $manager->persist($sa8);
-
 
         // =============================== //
         //      Création des Interventions //
@@ -552,5 +554,6 @@ class AppFixtures extends Fixture
         $manager->persist($Maint3);
 
         $manager->flush();
+
     }
 }

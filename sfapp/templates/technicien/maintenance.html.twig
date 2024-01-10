@@ -14,10 +14,6 @@
             <img src="{{ asset('images/processor.png') }}">
             <span> {{ curSA.currentRoom.name }} </span>
         </div>
-
-
-
-
         {% if maintenance.technicien == null%}
             <div>
                 {{ form_start(form_assign) }}
@@ -36,7 +32,6 @@
                 </div>
                 {{ form_end(form_assign) }}
             </div>
-
         {% else  %}
             {% if maintenance.technicien == user%}
                 <div class = "imgANDtext">
@@ -68,11 +63,6 @@
             {% endif %}
         {% endif %}
 
-
-
-
-
-
         <a href="{{ path("app_technicien") }}"><span>Retour</span></a>
     </div>
     {{ form_start(form_validMtn, {'attr' : {'id' : 'maintenance_form'}}) }}
@@ -91,7 +81,7 @@
 
     {% if maintenance.technicien == user%}
         <div id="block_btns">
-            {{ form_start(form_validMtn, {'attr' : {'id' : 'maintenance_form'}}) }}
+            {{ form_start(form_validMtn) }}
             {{ form_widget(form_validMtn.valid) }}
             <button id="valid_btn" type="button" onclick="sendformulaire('true')">VALIDER LA MAINTENANCE</button>
             <button id="invalid_btn" type="button" onclick="sendformulaire('false')">MAINTENANCE IMPOSSIBLE</button>
