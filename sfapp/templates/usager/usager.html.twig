@@ -20,60 +20,50 @@
     {% else %}
         <div id="contenuUsagerRoom">
             <div id="mainData">
-                <div class="data">
-                    <p>20.2 °C</p>
-                </div>
-                <div class="data">
-                    <p>453 ppm</p>
-                </div>
-                <div class="data">
-                    <p>7%</p>
-                </div>
-            </div>
-            <div id="meteo">
-                <p>Température : {{ meteo["current"]["temperature_2m"] }} °C</p><br/>
-                {% set value = meteo["current"]["weather_code"] %}
-                    {% if value == 0 %}
-                        <p>Clear Sky</p>
-                    {% elseif value ==  1 %}
-                        <p>value is "value2"</p>
-                    {% elseif value == 2 %}
-                        <p>value is "value2"</p>
-                    {% elseif value == 3 %}
-                        <p>value is "value3" or "value4"</p>
-                    {% elseif value == 3 %}
-                    {% elseif value == 45 %}
-                    {% elseif value == 48 %}
-                    {% elseif value == 51 %}
-                    {% elseif value == 53 %}
-                    {% elseif value == 55 %}
-                    {% elseif value == 56 %}
-                    {% elseif value == 57 %}
-                    {% elseif value == 61 %}
-                    {% elseif value == 63 %}
-                    {% elseif value == 65 %}
-                    {% elseif value == 66 %}
-                    {% elseif value == 67 %}
-                    {% elseif value == 71 %}
-                    {% elseif value == 73 %}
-                    {% elseif value == 75 %}
-                    {% elseif value == 77 %}
-                    {% elseif value == 80 %}
-                    {% elseif value == 81 %}
-                    {% elseif value == 82 %}
-                    {% elseif value == 85 %}
-                    {% elseif value == 86 %}
-                    {% elseif value == 95 %}
-                    {% elseif value == 96 %}
-                    {% elseif value == 99 %}
-                    {% else %}
-                        <p>Unknown Weater !</p>
+                <h2>Données de la salle</h2>
+                {%for donnee in donnees %}
+
+                    {% if donnee.nom == 'temp' %}
+                    <div class="data" style="background-color: {% if meteo["current"]["temperature_2m"] >= 30 and donnee.valeur > 21 %} #F5AF49 {% elseif donnee.valeur >= 21 or donnee.valeur < 17 %} #FF1D15 {% else %} green {% endif %} ">
+                        <p>Température : {{ donnee.valeur }} °C</p>
+                    </div>
                     {% endif %}
-                <p>CO2 : yeet</p><br/>
-                <p>Humidité : yeet</p>
+
+                    {% if donnee.nom == 'hum' %}
+                    <div class="data" style="background-color: {% if donnee.valeur >= 70 %} #FF1D15 {% else %} green {% endif %} ">
+                        <p>Humidité : {{ donnee.valeur }} %</p>
+                    </div>
+                    {% endif %}
+
+                    {% if donnee.nom == 'co2' %}
+                    <div class="data" style="background-color: {% if donnee.valeur >= 1500 %} #F5AF49 {% elseif donnee.valeur >= 2000 %} #FF1D15 {% else %} green {% endif %}">
+                        <p>Taux de CO2 : {{ donnee.valeur }} ppm</p>
+                    </div>
+                    {% endif %}
+
+                {% endfor %}
+            </div>
+
+            <div id="meteo">
+                <h2>Météo extérieure (La Rochelle)</h2>
+                <div id="meteoData">
+                    <p>Température : {{ meteo["current"]["temperature_2m"] }} °C<br/><br/><br/>Vitesse du vent : {{ meteo["current"]["wind_speed_10m"] }} km/h</p>
+                    {% set value = meteo["current"]["weather_code"] %}
+                    {% if value == 0 %}
+                        <img class="imageMeteo" src="{{ asset('images/soleil.png') }}" alt="soleil">
+                    {% elseif value ==  1 or value == 2%}
+                        <img class="imageMeteo" src="{{ asset('images/nuage-soleil.png') }}" alt="couvert">
+                    {% elseif value == 3 %}
+                        <img class="imageMeteo" src="{{ asset('images/nuage.png') }}" alt="nuage">
+                    {% elseif value ==  61 or value == 63 or value == 65%}
+                        <img class="imageMeteo" src="{{ asset('images/pluie.png') }}" alt="pluie">
+                    {% else %}
+                        <p>Unknown Weather !</p>
+                    {% endif %}
+                </div>
             </div>
             <div id="advice">
-                <p>Mes Conseils</p>
+                <h2>Conseils</h2>
             </div>
         </div>
     {% endif %}

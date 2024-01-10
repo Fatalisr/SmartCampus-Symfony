@@ -36,20 +36,36 @@ class UsagerController extends AbstractController
         {
             $room = $roomRepo->find($id);
             $sa = $saRepo->findOneBy(['currentRoom' => $room->getId()]);
-
-            $meteo = json_decode($api->getWeather(),true);
+            $donnees = json_decode($api->getlastCaptures(3,$room->getName()));
+            //var_dump($donnees);
         }
+
+        $meteo = json_decode($api->getWeather(),true);
 
         if($form->isSubmitted() && $form->isValid()){
             $idRoom = $form->get('room')->getData()->getId();
             return $this->redirectToRoute('app_usager', ['id' => $idRoom]);
         }
 
-        return $this->render('usager/usager.html.twig', [
-            'sa' => $sa,
-            'room' => $room,
-            'form' => $form,
-            'meteo' => $meteo,
-        ]);
+
+        if($id == null)
+        {
+            return $this->render('usager/usager.html.twig', [
+                'sa' => $sa,
+                'room' => $room,
+                'form' => $form,
+                'meteo' => $meteo,
+            ]);
+        }
+        else
+        {
+            return $this->render('usager/usager.html.twig', [
+                'sa' => $sa,
+                'room' => $room,
+                'form' => $form,
+                'meteo' => $meteo,
+                'donnees' => $donnees,
+            ]);
+        }
     }
 }
