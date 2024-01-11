@@ -10,12 +10,12 @@
 #presUsager h1{
     margin: 0 0 0 10px;
 }
-#presUsager select{
+#room_choise_form select{
     margin: 0 10px 0 0;
     display: flex;
     padding: 10px 20px 10px 20px;
     border-radius: 10px;
-    background-color: #d6dfe8;
+    background-color: white;
     font-size: large;
 }
 
@@ -43,9 +43,17 @@
 }
 
 #no_room img{
-    margin-top: 10%;
+    margin-top: 5%;
 }
 
 #contenuUsagerRoom{
 
+}
+#header_changer_salle{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+#header_changer_salle h3{
+    margin-right: 10px;
 }
