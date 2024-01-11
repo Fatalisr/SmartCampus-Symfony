@@ -5,19 +5,19 @@
     <script src="https://d3js.org/d3.v4.js"></script>
     <script src="{{ asset('graph.js') }}"></script>
     <div class="fse">
-        <p> {{ nom }}</p>
-        <p>{{ salle }}</p>
-        {% if etat == 'A_INSTALLER' %}
+        <p> {{ sa.name }}</p>
+        <p>{{ sa.currentRoom.name }}</p>
+        {% if sa.state == 'A_INSTALLER' %}
             <p>🟠 Installation</p>
-        {% elseif etat == 'ACTIF' %}
+        {% elseif sa.state == 'ACTIF' %}
             <p>🟢 Actif</p>
-        {% elseif etat == 'MAINTENANCE' %}
+        {% elseif sa.state == 'MAINTENANCE' %}
             <p>🔴 Maintenance</p>
         {% endif %}
         <button type="button" onclick="goHome()" id="goHomeBtn">Retour</button>
 
     </div>
-    {% if etat == 'ACTIF' %}
+    {% if sa.state == 'ACTIF' %}
         <section id="mainsection">
             <!-- graph temp -->
             <div class="pSA" id="pSAR">

@@ -71,13 +71,16 @@ class InterventionRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @throws NonUniqueResultException
+     */
     public function findOneBySA($sa)
     {
         return $this->createQueryBuilder('i')
             ->andWhere('i.sa = :sa')
             ->setParameter('sa', $sa)
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getResult();
     }
 
     public function findOneBySAAndCurrent($sa)
