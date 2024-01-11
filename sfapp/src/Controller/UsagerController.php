@@ -6,6 +6,7 @@ use App\Entity\Room;
 use App\Entity\SA;
 use App\Form\choisirSalleUsagerForm;
 use App\Repository\SARepository;
+use App\Service\ConnexionRequetesAPI;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +20,7 @@ class UsagerController extends AbstractController
     /*                    PAGE D'ACCEUIL USAGER                  */
     /* --------------------------------------------------------- */
     #[Route('/usager/{id?}', name: 'app_usager')]
-    public function index(?int $id, ManagerRegistry $doctrine, Request $request): Response
+    public function index(?int $id, ManagerRegistry $doctrine, Request $request,ConnexionRequetesAPI $api): Response
     {
         // Manager doctrine
         $entityManager = $doctrine->getManager();
@@ -33,24 +34,50 @@ class UsagerController extends AbstractController
         $form->handleRequest($request);
 
         // gestion des variables de salle et SA en fonction de la salle choisi
-        if($id == null){ // cas ou aucune salle n'a été choisi
+        $roomRepo = $entityManager->getRepository(Room::class);
+        $saRepo = $entityManager->getRepository(SA::class);
+
+        $form = $this->createForm(choisirSalleUsagerForm::class);
+        $form->handleRequest($request);
+
+        if($id == null)
+        {
             $room = null;
             $sa = null;
-        }else{
+        }
+        else
+        {
             $room = $roomRepo->find($id);
             $sa = $saRepo->findOneBy(['currentRoom' => $room->getId()]);
+            $donnees = json_decode($api->getlastCaptures(3,$room->getName()));
+            //var_dump($donnees);
         }
-
         // Gestion du formulaire de choix de la salle
+        $meteo = json_decode($api->getWeather(),true);
         if($form->isSubmitted() && $form->isValid()){
             $idRoom = $form->get('room')->getData()->getId();
             return $this->redirectToRoute('app_usager', ['id' => $idRoom]);
         }
 
-        return $this->render('usager/usager.html.twig', [
-            'sa' => $sa,
-            'room' => $room,
-            'form' => $form,
-        ]);
+
+        if($id == null)
+        {
+            return $this->render('usager/usager.html.twig', [
+                'sa' => $sa,
+                'room' => $room,
+                'form' => $form,
+                'meteo' => $meteo,
+            ]);
+        }
+        else
+        {
+            return $this->render('usager/usager.html.twig', [
+                'sa' => $sa,
+                'room' => $room,
+                'form' => $form,
+                'meteo' => $meteo,
+                'donnees' => $donnees,
+            ]);
+        }
     }
 }

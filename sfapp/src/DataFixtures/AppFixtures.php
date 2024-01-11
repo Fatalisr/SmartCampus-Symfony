@@ -408,7 +408,9 @@ class AppFixtures extends Fixture
         $this->addReference('C307',$C307);
 
 
-
+        // =============================== //
+        //      Création des SA            //
+        // =============================== //
 
         // SA 1
         $sa1 = new SA();
@@ -454,62 +456,104 @@ class AppFixtures extends Fixture
         // SA 6
         $sa6 = new SA();
         $sa6->setName("SA06");
-        $sa6->setState("INACTIF");
+        $sa6->setState("MAINTENANCE");
+        $sa6->setCurrentRoom($this->getReference('D205'));
         $this->addReference('sa6',$sa6);
         $manager->persist($sa6);
 
         // SA 7
         $sa7 = new SA();
         $sa7->setName("SA07");
-        $sa7->setState("ACTIF");
-        $sa7->setCurrentRoom($this->getReference('D205'));
+        $sa7->setState("INACTIF");
         $this->addReference('sa7',$sa7);
         $manager->persist($sa7);
 
-        // Intervention Maintenance sur SA3
-        $intervention1 = new Intervention();
-        $intervention1->setState("EN_COURS");
-        $intervention1->setSa($this->getReference('sa3'));
-        $intervention1->setMessage("Le capteur de CO2 ne remonte plus de données, verifier le capteur et les branchements");
-        $intervention1->setStartingDate(new \DateTime());
-        $intervention1->setType_I('INSTALLATION');
-        $intervention1->setTechnicien($this->getReference('tech1'));
-        $manager->persist($intervention1);
+        // SA 8
+        $sa8 = new SA();
+        $sa8->setName("SA08");
+        $sa8->setState("INACTIF");
+        $this->addReference('sa8',$sa8);
+        $manager->persist($sa8);
 
-        //Installation 1
+        // =============================== //
+        //      Création des Interventions //
+        // =============================== //
+
+        //Interventions Installation sur SA1
         $Inst1 = new Intervention();
-        $Inst1->setState("EN_COURS");
-        $Inst1->setSa($this->getReference('sa5'));
-        $Inst1->setType_I("MAINTENANCE");
+        $Inst1->setState("FINIE");
+        $Inst1->setSa($this->getReference('sa1'));
+        $Inst1->setType_I("INSTALLATION");
+        $Inst1->setMessage("Installation du SA1 en D001");
+        $Inst1->setReport("Installation effectué sans probleme");
         $Inst1->setStartingDate(new \DateTime());
+        $Inst1->setEndingDate(new \DateTime());
         $Inst1->setTechnicien($this->getReference('tech1'));
         $manager->persist($Inst1);
 
+        //Interventions Installation sur SA2
         $Inst2 = new Intervention();
         $Inst2->setState("FINIE");
-        $Inst2->setSa($this->getReference('sa4'));
+        $Inst2->setSa($this->getReference('sa2'));
         $Inst2->setType_I("INSTALLATION");
-        $Inst2->setMessage("Installation du SA12 en C004");
+        $Inst2->setMessage("Installation du SA2 en D306");
         $Inst2->setReport("Installation effectué sans probleme");
         $Inst2->setStartingDate(new \DateTime());
         $Inst2->setEndingDate(new \DateTime());
         $Inst2->setTechnicien($this->getReference('tech1'));
         $manager->persist($Inst2);
 
+        // Intervention Installation sur SA3
         $Inst3 = new Intervention();
-        $Inst3->setState("ANNULEE");
-        $Inst3->setSa($this->getReference('sa7'));
-        $Inst3->setType_I("MAINTENANCE");
-        $Inst3->setMessage("Les données du sa presentent d'enorment incoherences. Il faut verifier les connectiques capteurs.");
-        $Inst3->setReport("Impossible de trouver d'ou vienne les incoherences. Retour du SA au depot.");
+        $Inst3->setState("EN_COURS");
+        $Inst3->setSa($this->getReference('sa3'));
+        $Inst3->setMessage("Changement du SA3 de la salle C306 à la C004");
         $Inst3->setStartingDate(new \DateTime());
-        $Inst3->setEndingDate(new \DateTime());
-        $Inst3->setTechnicien($this->getReference('tech1'));
+        $Inst3->setType_I('INSTALLATION');
         $manager->persist($Inst3);
 
+        //Intervention Installation sur SA4
+        $Inst4 = new Intervention();
+        $Inst4->setState("EN_COURS");
+        $Inst4->setSa($this->getReference('sa4'));
+        $Inst4->setMessage("Installation du SA4 dans la salle C005");
+        $Inst4->setStartingDate(new \DateTime());
+        $Inst4->setType_I("INSTALLATION");
+        $Inst4->setTechnicien($this->getReference('tech1'));
+        $manager->persist($Inst4);
+
+        // Intervention Maintenance sur SA5
+        $Maint1 = new Intervention();
+        $Maint1->setState("EN_COURS");
+        $Maint1->setSa($this->getReference('sa5'));
+        $Maint1->setMessage("Le capteur de CO2 ne remonte plus de données, verifier le capteur et les branchements");
+        $Maint1->setStartingDate(new \DateTime());
+        $Maint1->setType_I('MAINTENANCE');
+        $manager->persist($Maint1);
+
+        //Intervention Maintenance sur SA6
+        $Maint2 = new Intervention();
+        $Maint2->setState("EN_COURS");
+        $Maint2->setSa($this->getReference('sa6'));
+        $Maint2->setMessage("Le capteur d'humidité/température retourne des valeurs anormalement élevé, verifier le capteur et les branchements");
+        $Maint2->setStartingDate(new \DateTime());
+        $Maint2->setType_I("MAINTENANCE");
+        $Maint2->setTechnicien($this->getReference('tech1'));
+        $manager->persist($Maint2);
+
+        //Intervention Maintenance sur SA2
+        $Maint3 = new Intervention();
+        $Maint3->setState("ANNULEE");
+        $Maint3->setSa($this->getReference('sa2'));
+        $Maint3->setType_I("MAINTENANCE");
+        $Maint3->setMessage("Les données du sa presentent d'enorment incoherences. Il faut verifier les connectiques capteurs.");
+        $Maint3->setReport("Impossible de trouver d'ou vienne les incoherences. Retour du SA au depot.");
+        $Maint3->setStartingDate(new \DateTime());
+        $Maint3->setEndingDate(new \DateTime());
+        $Maint3->setTechnicien($this->getReference('tech1'));
+        $manager->persist($Maint3);
 
         $manager->flush();
-
 
     }
 }
