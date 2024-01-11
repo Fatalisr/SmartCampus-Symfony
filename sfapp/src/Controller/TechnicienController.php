@@ -158,6 +158,7 @@ class TechnicienController extends AbstractController
                 } else {
                     $curSA->setState('INACTIF');
                     $curInterv->setState("ANNULEE");
+                    $curInterv->setEndingDate(new \DateTime());
                 }
 
                 $report = $form_validMtn->get('report')->getData();
