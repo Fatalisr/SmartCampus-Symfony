@@ -1,3 +1,6 @@
+/*-----------------------------------------------------------------*/
+/*                            Include                              */
+/*-----------------------------------------------------------------*/
 #include <Arduino.h>
 #include <WiFi.h>
 #include <HTTPClient.h>
@@ -8,13 +11,21 @@
 #include "esp_wpa2.h" //Librairie wpa2 pour la connexion au réseaux d'enterprise
 #include <Adafruit_Sensor.h>
 #include <DHT_U.h>
-
-#define DHTPIN 17     // Digital pin connected to the DHT sensor 
-
-#define DHTTYPE    DHT22     // DHT 22 (AM2302)
-
-// Instance du capteur
-DHT_Unified dht(DHTPIN, DHTTYPE);
+#include <U8g2lib.h>
+#ifdef U8X8_HAVE_HW_SPI
+#include <SPI.h>
+#endif
+#ifdef U8X8_HAVE_HW_I2C
+#include <Wire.h>
+#endif
+/*-----------------------------------------------------------------*/
+/*                          Variables                              */
+/*-----------------------------------------------------------------*/
+#define DHTPIN 17// Digital pin connected to the DHT sensor 
+#define DHTTYPE    DHT22// DHT 22 (AM2302)
+DHT_Unified dht(DHTPIN, DHTTYPE);// Instance du capteur de Hum/Temp
+// Instance de l'écran
+//U8G2_SSD1306_128X64_NONAME_F_SW_I2C screen(U8G2_R0, /* clock=*/ SCL, /* data=*/ SDA, /* reset=*/ U8X8_PIN_NONE); // Software I2C
 
 #define EAP_IDENTITY "ugay" //Login
 #define EAP_USERNAME "ugay" //Login
@@ -36,6 +47,9 @@ float humidity;
 u16 ppm;
 s16 err_CO2;
 
+/*-----------------------------------------------------------------*/
+/*                          Déclarations                           */
+/*-----------------------------------------------------------------*/
 
 /*
 * @brief create the json object
@@ -69,8 +83,10 @@ void initClock();
  * Default value is 400(ppm) for co2,0(ppb) for tvoc
  */
 void initCO2Sensor();
-
 void initTempHumSensor();
+//void initScreen();
+//void clearB();
+//void sendB();
 
 void sendToApi();
 
@@ -99,6 +115,12 @@ void setup()
     Serial.println("End of Setup");
 
     int status = WL_IDLE_STATUS;
+
+    /*-----------------------------------------------------------------*/
+    /*                               TASKS                             */
+    /*-----------------------------------------------------------------*/
+
+
 }
 void loop()
 {
@@ -123,7 +145,7 @@ String convertTOJson(t value,String type)
     file["dateCapture"] = date;
     file["localisation"] = "D004";
     file["description"] = "";
-    file["nomsa"] = "13";
+    file["nomsa"] = "ESP-013";
     serializeJson(file, content);
     return content;
 }
@@ -212,6 +234,48 @@ void initClock()
         rtc.setTimeStruct(timeinfo); 
     }
 }
+/*
+// Initialisation de l'écran
+void initScreen()
+{
+  if(!screen.begin())
+  {
+    Serial.println("Erreur lors de l'initialisation de l'écran");
+  }
+  screen.setFont(u8g2_font_luBIS08_tf);
+  Serial.println("Init Screen OK");
+}
+// accès aux fonction clearBuffer et sendBuffer pour la gestion de l'affichage dans les tasks pour chaque capteur
+void clearB()
+{
+  screen.clearBuffer();
+}
+void sendB()
+{
+  screen.sendBuffer();
+}
+void loadingDisplay()
+{
+    int x = 5;
+    int y = 40;
+    screen.clearBuffer();
+    screen.drawUTF8(x,y,"Chargement");
+    screen.sendBuffer();
+    delay(500);
+    screen.clearBuffer();
+    screen.drawUTF8(x,y,"Chargement .");
+    screen.sendBuffer();
+    delay(500);
+    screen.clearBuffer();
+    screen.drawUTF8(x,y,"Chargement ..");
+    screen.sendBuffer();
+    delay(500);
+    screen.clearBuffer();
+    screen.drawUTF8(x,y,"Chargement ...");
+    screen.sendBuffer();
+    delay(500);
+}
+*/
 
 void sendToApi()
 {
