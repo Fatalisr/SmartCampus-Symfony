@@ -126,3 +126,10 @@
 #contenuUsagerRoom{
 
 }
+
+
+#advice
+{
+    display: flex;
+    flex-direction: column;
+}
