@@ -10,15 +10,22 @@
 #presUsager h1{
     margin: 0 0 0 10px;
 }
-#presUsager select{
+#room_choise_form select{
     margin: 0 10px 0 0;
     display: flex;
     padding: 10px 20px 10px 20px;
     border-radius: 10px;
-    background-color: #d6dfe8;
+    background-color: white;
     font-size: large;
 }
-
+#roomDiv{
+    display: flex;
+    flex-direction: row;
+}
+#roomDiv img{
+    width: 50px;
+    margin: 10px;
+}
 #contenuUsagerNoRoom{
     display: flex;
     width: 100%;
@@ -48,7 +55,24 @@
     margin: 10px 5px;
     box-sizing: border-box;
 }
+#mainData h2{
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    height: fit-content;
+    justify-content: left;
+    align-items: center;
+    margin-left: 5px;
 
+}
+#dataRoomBox{
+    display: flex;
+    width: 100%;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column-reverse;
+}
 .data{
     display: flex;
     background-color: #5B21B6;
@@ -56,9 +80,23 @@
     height: 20%;
     margin:20px;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     border-radius: 20px;
     box-sizing: border-box;
+}
+
+.data img{
+    width: 100px;
+    margin: 2%;
+}
+
+.data h1{
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    font-weight: normal;
+    font-size: xxx-large;
 }
 
 #meteo{
@@ -86,9 +124,21 @@
     height: 50%;
 }
 
+#meteoPicto{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#meteoPicto span{
+    font-size: larger;
+    font-weight: bold;
+}
+
 .imageMeteo{
-    width: 225px;
-    height: 225px;
+    width: 200px;
+    height: 200px;
 }
 
 #advice{
@@ -100,8 +150,6 @@
     margin: 10px 5px;
     box-sizing: border-box;
 }
-
-
 
 #no_room{
     background-color: #d6dfe8;
@@ -120,9 +168,69 @@
 }
 
 #no_room img{
-    margin-top: 10%;
+    margin-top: 3%;
 }
 
-#contenuUsagerRoom{
+#header_changer_salle{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+#header_changer_salle h3{
+    margin-right: 10px;
+}
 
+#APImeteoData{
+    display: flex;
+    width: 50%;
+    height: 80%;
+    flex-direction: row;
+    margin-left: 10%;
+    border-radius: 20px;
+    background-color: #f1f1f1;
+    box-shadow: 5px 5px 0 rgba(0, 0, 0,.6);
+    justify-content: center;
+    align-items: center;
+}
+
+.APImeteoData_block{
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 2%;
+}
+#APImeteoData_humiVent{
+    width: 60%;
+}
+
+#APImeteoData_humiVent div{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: left;
+    align-items: center;
+}
+#APImeteoData_img{
+    width: 50px;
+    margin: 10px;
+}
+#APImeteoData_img_temp{
+    width: 80px;
+}
+
+#APImeteoData div h1{
+    font-weight: normal;
+    white-space: nowrap;
+}
+
+#Xbar{
+    width: 60%;
+    border: solid 1px black;
+}
+#Ybar{
+    height: 80%;
+    border: solid 1px black;
 }
