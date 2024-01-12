@@ -12,7 +12,7 @@
                 <h2>Bienvenue sur l'espace destiné aux usagers des batiments</h2>
                 <span>Veuillez choisir la salle dans laquelle vous êtes pour continuer</span>
                 {{ form_start(form, {'attr' : {'id' : 'room_choise_form'}}) }}
-                {{ form_widget(form.room, {'attr': {'onChange': 'choiseRoom()', 'style' : 'margin-top: 5%;'}}) }}
+                {{ form_widget(form.room, {'attr': {'onChange': 'choiseRoom()', 'style' : 'margin-top: 15%; margin-right : 0;'}}) }}
                 {{ form_end(form) }}
                 <img src="{{ asset('images/map.png') }}">
             </div>
@@ -20,59 +20,106 @@
     {% else %}
         <div id="presUsager">
             <h1>ESPACE USAGER</h1>
-            <div id="header_changer_salle">
-                <h3>Changer de salle :</h3>
-                {{ form_start(form, {'attr' : {'id' : 'room_choise_form'}}) }}
-                {{ form_widget(form.room, {'attr': {'onChange': 'choiseRoom()'}}) }}
-                {{ form_end(form) }}
+            <div id="roomDiv">
+                <img src="{{ asset('images/door.png') }}">
+                <h2>{{ room.name }}</h2>
             </div>
+            <div id="roomDiv">
+                <img src="{{ asset('images/boussole.png') }}">
+                {% if room.facing == 'N'%}
+                    <h2>Nord</h2>
+                {% elseif room.facing == 'S'%}
+                    <h2>Sud</h2>
+                {% elseif room.facing == 'E'%}
+                    <h2>Est</h2>
+                {% elseif room.facing == 'W'%}
+                    <h2>Ouest</h2>
+                {% else %}
+                    <h2>/</h2>
+                {% endif %}
+
+            </div>
+            {{ form_start(form, {'attr' : {'id' : 'room_choise_form'}}) }}
+            {{ form_widget(form.room, {'attr': {'onChange': 'choiseRoom()'}}) }}
+            {{ form_end(form) }}
         </div>
-        <div id="contenuUsagerNoRoom"> <!-- id a remplacer par contenuUsagerRoom-->
-            <div id="no_room">
-                Salle : {{ room.name }}<br>
-                SA : {{ sa.name }}
         <div id="contenuUsagerRoom">
             <div id="mainData">
                 <h2>Données de la salle</h2>
-                {%for donnee in donnees %}
+                <div id="dataRoomBox">
+                    {%for donnee in donnees %}
+                        {% if donnee.nom == 'temp' %}
+                            <div class="data" style="background-color: {% if meteo["current"]["temperature_2m"] >= 30 and donnee.valeur > 21 %} #F5AF49 {% elseif donnee.valeur >= 21 or donnee.valeur < 17 %} #FF1D15 {% else %} green {% endif %} ">
+                                <img src="{{ asset('images/picto-temperature.png') }}">
+                                <h1>{{ donnee.valeur }} °C</h1>
+                            </div>
+                        {% endif %}
 
-                    {% if donnee.nom == 'temp' %}
-                    <div class="data" style="background-color: {% if meteo["current"]["temperature_2m"] >= 30 and donnee.valeur > 21 %} #F5AF49 {% elseif donnee.valeur >= 21 or donnee.valeur < 17 %} #FF1D15 {% else %} green {% endif %} ">
-                        <p>Température : {{ donnee.valeur }} °C</p>
-                    </div>
-                    {% endif %}
+                        {% if donnee.nom == 'hum' %}
+                            <div class="data" style="background-color: {% if donnee.valeur >= 70 %} #FF1D15 {% else %} green {% endif %} ">
+                                <img src="{{ asset('images/picto-humidite.png') }}">
+                                <h1>{{ donnee.valeur }} %</h1>
+                            </div>
+                        {% endif %}
 
-                    {% if donnee.nom == 'hum' %}
-                    <div class="data" style="background-color: {% if donnee.valeur >= 70 %} #FF1D15 {% else %} green {% endif %} ">
-                        <p>Humidité : {{ donnee.valeur }} %</p>
-                    </div>
-                    {% endif %}
-
-                    {% if donnee.nom == 'co2' %}
-                    <div class="data" style="background-color: {% if donnee.valeur >= 1500 %} #F5AF49 {% elseif donnee.valeur >= 2000 %} #FF1D15 {% else %} green {% endif %}">
-                        <p>Taux de CO2 : {{ donnee.valeur }} ppm</p>
-                    </div>
-                    {% endif %}
-
-                {% endfor %}
+                        {% if donnee.nom == 'co2' %}
+                            <div class="data" style="background-color: {% if donnee.valeur >= 1500 %} #F5AF49 {% elseif donnee.valeur >= 2000 %} #FF1D15 {% else %} green {% endif %}">
+                                <img src="{{ asset('images/picto-co2.png') }}">
+                                <h1> {{ donnee.valeur }} ppm</h1>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
             </div>
 
             <div id="meteo">
                 <h2>Météo extérieure (La Rochelle)</h2>
                 <div id="meteoData">
-                    <p>Température : {{ meteo["current"]["temperature_2m"] }} °C<br/><br/><br/>Vitesse du vent : {{ meteo["current"]["wind_speed_10m"] }} km/h</p>
-                    {% set value = meteo["current"]["weather_code"] %}
-                    {% if value == 0 %}
-                        <img class="imageMeteo" src="{{ asset('images/soleil.png') }}" alt="soleil">
-                    {% elseif value ==  1 or value == 2%}
-                        <img class="imageMeteo" src="{{ asset('images/nuage-soleil.png') }}" alt="couvert">
-                    {% elseif value == 3 %}
-                        <img class="imageMeteo" src="{{ asset('images/nuage.png') }}" alt="nuage">
-                    {% elseif value ==  61 or value == 63 or value == 65%}
-                        <img class="imageMeteo" src="{{ asset('images/pluie.png') }}" alt="pluie">
-                    {% else %}
-                        <p>Unknown Weather !</p>
-                    {% endif %}
+                    <div id="meteoPicto">
+                        {% set value = meteo["current"]["weather_code"] %}
+                        {% if value == 0 %}
+                            <img class="imageMeteo" src="{{ asset('images/soleil.png') }}" alt="soleil">
+                            <span> Soleil </span>
+                        {% elseif value ==  1 or value == 2 or value == 3 %}
+                            <img class="imageMeteo" src="{{ asset('images/nuage_soleil.png') }}" alt="soleil_nuage">
+                            <span> Eclaircie </span>
+                        {% elseif value == 45 or value == 48 %}
+                            <img class="imageMeteo" src="{{ asset('images/nuage.png') }}" alt="nuage">
+                            <span> Nuageux </span>
+                        {% elseif value ==  61 or value == 63 or value == 65 or value == 56 or value == 57 %}
+                            <img class="imageMeteo" src="{{ asset('images/pluie.png') }}" alt="pluie">
+                            <span> Pluie </span>
+                        {% elseif value == 80 or value == 81 or value == 82 %}
+                            <img class="imageMeteo" src="{{ asset('images/soleil_pluie.png') }}" alt="soleil_pluie">
+                            <span> Rare averses </span>
+                        {% elseif value ==  71 or value == 73 or value == 75 or value == 77%}
+                            <img class="imageMeteo" src="{{ asset('images/neige.png') }}" alt="neige">
+                            <span> Chute de neige </span>
+                        {% elseif value ==  85 or value == 86 or value == 95 or value == 96 or value == 99%}
+                            <img class="imageMeteo" src="{{ asset('images/orage.png') }}" alt="orage">
+                            <span> Averses orageuses </span>
+                        {% else %}
+                            <p>Unknown Weather !</p>
+                        {% endif %}
+                    </div>
+                    <div id="APImeteoData">
+                        <div class="APImeteoData_block">
+                            <img id="APImeteoData_img_temp" src="{{ asset('images/picto-temperature.png') }}">
+                            <h1>{{ meteo["current"]["temperature_2m"] }} °C</h1>
+                        </div>
+                        <div id="Ybar"></div>
+                        <div class="APImeteoData_block" id="APImeteoData_humiVent">
+                            <div>
+                                <img id="APImeteoData_img" src="{{ asset('images/picto-vent.png') }}">
+                                <h1>{{ meteo["current"]["wind_speed_10m"] }} km/h</h1>
+                            </div>
+                            <div id="Xbar"></div>
+                            <div>
+                                <img id="APImeteoData_img" src="{{ asset('images/picto-humidite.png') }}">
+                                <h1>{{ meteo["current"]["relative_humidity_2m"] }} %</h1>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div id="advice">
