@@ -46,6 +46,7 @@
         <div id="contenuUsagerRoom">
             <div id="mainData">
                 <h2>Données de la salle</h2>
+
                 <div id="dataRoomBox">
                     {%for donnee in donnees %}
                         {% if donnee.nom == 'temp' %}
@@ -124,6 +125,11 @@
             </div>
             <div id="advice">
                 <h2>Conseils</h2>
+                <div id="conseils">
+                    {%for conseil in conseils %}
+                        <p class="conseil">{{ conseil }}</p>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     {% endif %}
