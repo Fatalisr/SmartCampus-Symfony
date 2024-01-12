@@ -438,7 +438,7 @@ class AppFixtures extends Fixture
 
         // SA 1
         $sa1 = new SA();
-        $sa1->setName("sae34bdk1eq1");
+        $sa1->setName("ESP-001");
         $sa1->setState("ACTIF");
         $sa1->setCurrentRoom($this->getReference('D205'));
         $this->addReference('sa1',$sa1);
@@ -446,7 +446,7 @@ class AppFixtures extends Fixture
 
         // SA 2
         $sa2 = new SA();
-        $sa2->setName("sae34bdk1eq2");
+        $sa2->setName("ESP-002");
         $sa2->setState("ACTIF");
         $sa2->setCurrentRoom($this->getReference('D206'));
         $this->addReference('sa2',$sa2);
@@ -454,7 +454,7 @@ class AppFixtures extends Fixture
 
         // SA 3
         $sa3 = new SA();
-        $sa3->setName("sae34bdk1eq3");
+        $sa3->setName("ESP-003");
         $sa3->setState("ACTIF");
         $sa3->setCurrentRoom($this->getReference('D207'));
         $this->addReference('sa3',$sa3);
@@ -462,7 +462,7 @@ class AppFixtures extends Fixture
 
         // SA 4
         $sa4 = new SA();
-        $sa4->setName("sae34bdk2eq1");
+        $sa4->setName("ESP-004");
         $sa4->setState("ACTIF");
         $sa4->setCurrentRoom($this->getReference('D204'));
         $this->addReference('sa4',$sa4);
@@ -470,7 +470,7 @@ class AppFixtures extends Fixture
 
         // SA 5
         $sa5 = new SA();
-        $sa5->setName("sae34bdk2eq2");
+        $sa5->setName("ESP-005");
         $sa5->setState("ACTIF");
         $sa5->setCurrentRoom($this->getReference('D203'));
         $this->addReference('sa5',$sa5);
@@ -478,7 +478,7 @@ class AppFixtures extends Fixture
 
         // SA 6
         $sa6 = new SA();
-        $sa6->setName("sae34bdk2eq3");
+        $sa6->setName("ESP-006");
         $sa6->setState("ACTIF");
         $sa6->setCurrentRoom($this->getReference('D303'));
         $this->addReference('sa6',$sa6);
@@ -486,7 +486,7 @@ class AppFixtures extends Fixture
 
         // SA 7
         $sa7 = new SA();
-        $sa7->setName("sae34bdl1eq1");
+        $sa7->setName("ESP-007");
         $sa7->setState("ACTIF");
         $sa7->setCurrentRoom($this->getReference('D304'));
         $this->addReference('sa7',$sa7);
@@ -494,7 +494,7 @@ class AppFixtures extends Fixture
 
         // SA 8
         $sa8 = new SA();
-        $sa8->setName("sae34bdl1eq2");
+        $sa8->setName("ESP-008");
         $sa8->setState("ACTIF");
         $sa8->setCurrentRoom($this->getReference('C101'));
         $this->addReference('sa8',$sa8);
@@ -502,7 +502,7 @@ class AppFixtures extends Fixture
 
         // SA 9
         $sa9 = new SA();
-        $sa9->setName("sae34bdl1eq3");
+        $sa9->setName("ESP-009");
         $sa9->setState("ACTIF");
         $sa9->setCurrentRoom($this->getReference('D109'));
         $this->addReference('sa9',$sa9);
@@ -510,7 +510,7 @@ class AppFixtures extends Fixture
 
         // SA 10
         $sa10 = new SA();
-        $sa10->setName("sae34bdl2eq1");
+        $sa10->setName("ESP-010");
         $sa10->setState("ACTIF");
         $sa10->setCurrentRoom($this->getReference('Secrétariat'));
         $this->addReference('sa10',$sa10);
@@ -518,7 +518,7 @@ class AppFixtures extends Fixture
 
         // SA 11
         $sa11 = new SA();
-        $sa11->setName("sae34bdl2eq2");
+        $sa11->setName("ESP-011");
         $sa11->setState("ACTIF");
         $sa11->setCurrentRoom($this->getReference('D001'));
         $this->addReference('sa11',$sa11);
@@ -526,7 +526,7 @@ class AppFixtures extends Fixture
 
         // SA 12
         $sa12 = new SA();
-        $sa12->setName("sae34bdl2eq3");
+        $sa12->setName("ESP-012");
         $sa12->setState("ACTIF");
         $sa12->setCurrentRoom($this->getReference('D002'));
         $this->addReference('sa12',$sa12);
@@ -534,7 +534,7 @@ class AppFixtures extends Fixture
 
         // SA 13
         $sa13 = new SA();
-        $sa13->setName("sae34bdm1eq1");
+        $sa13->setName("ESP-013");
         $sa13->setState("ACTIF");
         $sa13->setCurrentRoom($this->getReference('D004'));
         $this->addReference('sa13',$sa13);
@@ -542,7 +542,7 @@ class AppFixtures extends Fixture
 
         // SA 14
         $sa14 = new SA();
-        $sa14->setName("sae34bdm1eq2");
+        $sa14->setName("ESP-014");
         $sa14->setState("ACTIF");
         $sa14->setCurrentRoom($this->getReference('C004'));
         $this->addReference('sa14',$sa14);
@@ -550,7 +550,7 @@ class AppFixtures extends Fixture
 
         // SA 15
         $sa15 = new SA();
-        $sa15->setName("sae34bdm1eq3");
+        $sa15->setName("ESP-015");
         $sa15->setState("ACTIF");
         $sa15->setCurrentRoom($this->getReference('C007'));
         $this->addReference('sa15',$sa15);
@@ -558,7 +558,7 @@ class AppFixtures extends Fixture
 
         // SA 16
         $sa16 = new SA();
-        $sa16->setName("sae34bdm2eq1");
+        $sa16->setName("ESP-016");
         $sa16->setState("ACTIF");
         $sa16->setCurrentRoom($this->getReference('D201'));
         $this->addReference('sa16',$sa16);
@@ -566,7 +566,7 @@ class AppFixtures extends Fixture
 
         // SA 17
         $sa17 = new SA();
-        $sa17->setName("sae34bdm2eq2");
+        $sa17->setName("ESP-017");
         $sa17->setState("ACTIF");
         $sa17->setCurrentRoom($this->getReference('D307'));
         $this->addReference('sa17',$sa17);
@@ -574,7 +574,7 @@ class AppFixtures extends Fixture
 
         // SA 18
         $sa18 = new SA();
-        $sa18->setName("sae34bdm2eq3");
+        $sa18->setName("ESP-018");
         $sa18->setState("ACTIF");
         $sa18->setCurrentRoom($this->getReference('C005'));
         $this->addReference('sa18',$sa18);

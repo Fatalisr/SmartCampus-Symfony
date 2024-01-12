@@ -49,8 +49,10 @@ class UsagerController extends AbstractController
         {
             $room = $roomRepo->find($id);
             $sa = $saRepo->findOneBy(['currentRoom' => $room->getId()]);
-            $donnees = json_decode($api->getlastCaptures(3,$room->getName()));
-            //var_dump($donnees);
+            $donnees = [];
+            $donnees = array_merge($donnees,json_decode($api->getlastCaptures(1,$room->getName(),"hum")));
+            $donnees = array_merge($donnees,json_decode($api->getlastCaptures(1,$room->getName(),"temp")));
+            $donnees = array_merge($donnees,json_decode($api->getlastCaptures(1,$room->getName(),"co2")));
         }
         // Gestion du formulaire de choix de la salle
         $meteo = json_decode($api->getWeather(),true);
