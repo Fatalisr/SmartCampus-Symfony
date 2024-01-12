@@ -56,22 +56,6 @@ class ReferentController extends AbstractController
                 // Creation d'une instance de SA dont l'id correspond a celui remonté par le formulaire
                 $curSa = $saRepository->find($form->get('sa_id')->getData());
 
-                // Gestion du changement de salle
-                $curSa->setState("A_INSTALLER");
-                $curSa->setOldRoom($curSa->getCurrentRoom());
-                $curSa->setCurrentRoom($form->get('newRoom')->getData());
-
-                // Creation de l'intervention correspondante
-                $interventionInstallation = new Intervention();
-                $interventionInstallation->setType_I("INSTALLATION");
-                $interventionInstallation->setState("EN_COURS");
-                $interventionInstallation->setStartingDate(new \DateTime());
-                $interventionInstallation->setMessage("Changement de salle");
-                $interventionInstallation->setSa($curSa);
-
-                // Envoie des entitées à la base
-                $entityManager->persist($interventionInstallation);
-
                 $interventionInstallation = $InterventionRepository->findOneBySAAndCurrent($curSa);
 
                 if($curSa->getState() != "A_INSTALLER") {
@@ -87,7 +71,12 @@ class ReferentController extends AbstractController
                         $interventionInstallation->setType_I("INSTALLATION");
                         $interventionInstallation->setState("EN_COURS");
                         $interventionInstallation->setStartingDate(new \DateTime());
-                        $interventionInstallation->setMessage("Installation du " . $curSa->getName() . " en " . $form->get('newRoom')->getData()->getName());
+                        if($curSa->getCurrentRoom() != null) {
+                            $interventionInstallation->setMessage("Déplacement du " . $curSa->getName() . " de la salle ".$curSa->getCurrentRoom()->getName()." en " . $form->get('newRoom')->getData()->getName());
+                        }
+                        else{
+                            $interventionInstallation->setMessage("Installation du " . $curSa->getName() . " en " . $form->get('newRoom')->getData()->getName());
+                        }
                         $interventionInstallation->setSa($curSa);
                     }
 

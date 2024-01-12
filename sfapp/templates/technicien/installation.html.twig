@@ -61,7 +61,7 @@
                 </div>
             {% else  %}
                 <div>
-                    <span> {{ maintenance.technicien.username }}</span>
+                    <span> {{ installation.technicien.username }}</span>
                 </div>
             {% endif %}
         {% endif %}
@@ -86,10 +86,9 @@
 
         </div>
         {% endif %}
-
     </div>
-    {% if installation.technicien == user%}
 
+    {% if installation.technicien == user%}
     <div id="block_btns">
         {{ form_start(form_validInstal) }}
         {{ form_widget(form_validInstal.valid) }}
@@ -120,6 +119,14 @@
             }else{
                 document.getElementById('err_sub').style.display = 'flex';
             }
+        }
+
+        function openPopup(popupId) {
+            document.getElementById(popupId).style.display = 'block';
+        }
+
+        function closePopup(popupId) {
+            document.getElementById(popupId).style.display = 'none';
         }
     </script>
 {% endblock %}

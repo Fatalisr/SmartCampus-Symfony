@@ -74,9 +74,17 @@ class TechnicienController extends AbstractController
         // Gestion du formulaire de l'intervention
         if($form_validInst->isSubmitted() && $form_validInst->isValid()){
 
-            $curSA->setState('ACTIF');
-            $curInterv->setState("FINIE");
-            $curInterv->setEndingDate($dateCourante);
+            if($curInterv->getTechnicien() == $user) {
+                if ($form_validInst->getData()['valid'] == "true") {
+                    $curSA->setState('ACTIF');
+                    $curInterv->setState("FINIE");
+                    $curInterv->setEndingDate(new \DateTime());
+                } else {
+                    $curSA->setState('INACTIF');
+                    $curInterv->setState("ANNULEE");
+                    $curInterv->setEndingDate(new \DateTime());
+                }
+            }
 
             $report = $form_validInst->get('report')->getData();
             $curInterv->setReport($report);
