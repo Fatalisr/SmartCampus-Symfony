@@ -180,6 +180,16 @@
     margin-right: 10px;
 }
 
+
+
+
+#advice
+{
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+
+}
 #APImeteoData{
     display: flex;
     width: 50%;
