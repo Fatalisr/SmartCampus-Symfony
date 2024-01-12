@@ -100,7 +100,8 @@
                             <img class="imageMeteo" src="{{ asset('images/orage.png') }}" alt="orage">
                             <span> Averses orageuses </span>
                         {% else %}
-                            <p>Unknown Weather !</p>
+                            <img class="imageMeteo" src="{{ asset('images/alien.png') }}" alt="no found">
+                            <span style="white-space: nowrap">Meteo inconnu 👽</span>
                         {% endif %}
                     </div>
                     <div id="APImeteoData">

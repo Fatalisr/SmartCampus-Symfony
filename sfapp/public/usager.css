@@ -134,6 +134,10 @@
 #meteoPicto span{
     font-size: larger;
     font-weight: bold;
+    white-space: nowrap;
+    padding: 2px 5px;
+    border-radius: 10px;
+    background-color: #f1f1f1;
 }
 
 .imageMeteo{
