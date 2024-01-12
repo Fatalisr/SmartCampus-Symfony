@@ -4,6 +4,7 @@ body{
     margin: 0;
     flex-direction: column;
 }
+
 select{
     display: flex;
     margin-right: 10%;
