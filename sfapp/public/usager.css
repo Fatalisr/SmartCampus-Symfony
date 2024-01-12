@@ -1,0 +1,250 @@
+#presUsager{
+    display: flex;
+    width: 100%;
+    height: 10%;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #93c5fd;
+    align-items: center;
+}
+#presUsager h1{
+    margin: 0 0 0 10px;
+}
+#room_choise_form select{
+    margin: 0 10px 0 0;
+    display: flex;
+    padding: 10px 20px 10px 20px;
+    border-radius: 10px;
+    background-color: white;
+    font-size: large;
+}
+#roomDiv{
+    display: flex;
+    flex-direction: row;
+}
+#roomDiv img{
+    width: 50px;
+    margin: 10px;
+}
+#contenuUsagerNoRoom{
+    display: flex;
+    width: 100%;
+    height: 90%;
+    justify-content: center;
+}
+
+#contenuUsagerRoom{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 80%;
+    justify-content: center;
+    align-items: center;
+}
+
+#mainData{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #d6dfe8;
+    width:45%;
+    height:80%;
+    border-radius: 20px;
+    margin: 10px 5px;
+    box-sizing: border-box;
+}
+#mainData h2{
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    height: fit-content;
+    justify-content: left;
+    align-items: center;
+    margin-left: 5px;
+
+}
+#dataRoomBox{
+    display: flex;
+    width: 100%;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column-reverse;
+}
+.data{
+    display: flex;
+    background-color: #5B21B6;
+    width: 60%;
+    height: 20%;
+    margin:20px;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 20px;
+    box-sizing: border-box;
+}
+
+.data img{
+    width: 100px;
+    margin: 2%;
+}
+
+.data h1{
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    font-weight: normal;
+    font-size: xxx-large;
+}
+
+#meteo{
+    display: flex;
+    flex-direction: column;
+    background-color: #d6dfe8;
+    width:45%;
+    height:40%;
+    border-radius: 20px;
+    margin: 10px 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    box-sizing: border-box;
+}
+
+#meteoData{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+#meteoData p{
+    width: 50%;
+    height: 50%;
+}
+
+#meteoPicto{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#meteoPicto span{
+    font-size: larger;
+    font-weight: bold;
+    white-space: nowrap;
+    padding: 2px 5px;
+    border-radius: 10px;
+    background-color: #f1f1f1;
+}
+
+.imageMeteo{
+    width: 200px;
+    height: 200px;
+}
+
+#advice{
+    display: flex;
+    background-color: #d6dfe8;
+    width:45%;
+    height:40%;
+    border-radius: 20px;
+    margin: 10px 5px;
+    box-sizing: border-box;
+}
+
+#no_room{
+    background-color: #d6dfe8;
+    width: 60%;
+    height: 70%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 20px;
+    margin-top: 30px;
+    box-sizing: border-box;
+}
+
+#no_room span{
+    font-size: larger;
+}
+
+#no_room img{
+    margin-top: 3%;
+}
+
+#header_changer_salle{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+#header_changer_salle h3{
+    margin-right: 10px;
+}
+
+
+
+
+#advice
+{
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+
+}
+#APImeteoData{
+    display: flex;
+    width: 50%;
+    height: 80%;
+    flex-direction: row;
+    margin-left: 10%;
+    border-radius: 20px;
+    background-color: #f1f1f1;
+    box-shadow: 5px 5px 0 rgba(0, 0, 0,.6);
+    justify-content: center;
+    align-items: center;
+}
+
+.APImeteoData_block{
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 2%;
+}
+#APImeteoData_humiVent{
+    width: 60%;
+}
+
+#APImeteoData_humiVent div{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: left;
+    align-items: center;
+}
+#APImeteoData_img{
+    width: 50px;
+    margin: 10px;
+}
+#APImeteoData_img_temp{
+    width: 80px;
+}
+
+#APImeteoData div h1{
+    font-weight: normal;
+    white-space: nowrap;
+}
+
+#Xbar{
+    width: 60%;
+    border: solid 1px black;
+}
+#Ybar{
+    height: 80%;
+    border: solid 1px black;
+}

@@ -13,6 +13,28 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
+
+
+        // =============================== //
+        //      Création des users         //
+        // =============================== //
+
+
+        $ref1 = new User();
+        $ref1->setUsername("ref1");
+        $ref1->setPassword("$2y$13$/Bpyv7s0SexmSOxxaINszOMmtqs7iSIFINdzBfKAQUAmHMthVAKzS");
+        $ref1->setRoles(["ROLE_REFERENT"]);
+        $this->addReference('ref1',$ref1 );
+        $manager->persist($ref1);
+
+        $tech1 = new User();
+        $tech1->setUsername("tec1");
+        //hash le password avec php bin/console security:hash-password
+        $tech1->setPassword("$2y$13$/Bpyv7s0SexmSOxxaINszOMmtqs7iSIFINdzBfKAQUAmHMthVAKzS");
+        $tech1->setRoles(["ROLE_TECHNICIEN"]);
+        $this->addReference('tech1',$tech1 );
+        $manager->persist($tech1);
+
         // =============================== //
         //      Création des salles        //
         // =============================== //
@@ -111,6 +133,7 @@ class AppFixtures extends Fixture
         /*      1er étage      */
 
         // Création de la salle C101
+
         $C101 = new Room();
         $C101->setName("C101");
         $C101->setNbComputer("16");
@@ -224,6 +247,14 @@ class AppFixtures extends Fixture
         $manager->persist($D201);
         $this->addReference('D201',$D201);
 
+// Création de la salle D203
+        $D203 = new Room();
+        $D203->setName("D203");
+        $D203->setNbComputer("2");
+        $D203->setFacing("N");
+        $manager->persist($D203);
+        $this->addReference('D203',$D203);
+
 // Création de la salle D205
         $D205 = new Room();
         $D205->setName("D205");
@@ -318,6 +349,14 @@ class AppFixtures extends Fixture
         $manager->persist($D305);
         $this->addReference('D305',$D305);
 
+// Création de la salle D307
+        $D307 = new Room();
+        $D307->setName("D307");
+        $D307->setNbComputer("15");
+        $D307->setFacing("N");
+        $manager->persist($D307);
+        $this->addReference('D307',$D307);
+
 // Création de la salle D302
         $D302 = new Room();
         $D302->setName("D302");
@@ -341,6 +380,14 @@ class AppFixtures extends Fixture
         $D306->setFacing("S");
         $manager->persist($D306);
         $this->addReference('D306',$D306);
+
+// Création de la salle Secrétariat
+        $Secret = new Room();
+        $Secret->setName("Secrétariat");
+        $Secret->setNbComputer("4");
+        $Secret->setFacing("S");
+        $manager->persist($Secret);
+        $this->addReference('Secrétariat',$Secret);
 
 // RESEAU ET TELECOM
 
@@ -385,86 +432,423 @@ class AppFixtures extends Fixture
         $this->addReference('C307',$C307);
 
 
+        // =============================== //
+        //      Création des SA            //
+        // =============================== //
 
-
-        // SA 1
-        $sa = new SA();
-        $sa->setName("SA10");
-        $sa->setState("ACTIF");
-        $sa->setCurrentRoom($this->getReference('D004'));
-        $manager->persist($sa);
-
-        $sa12 = new SA();
-        $sa12->setName("SA11");
-        $sa12->setState("ACTIF");
-        $sa12->setCurrentRoom($this->getReference('D306'));
-        $manager->persist($sa12);
-
-        $sa13 = new SA();
-        $sa13->setName("SA12");
-        $sa13->setState("ACTIF");
-        $sa13->setCurrentRoom($this->getReference('C004'));
-        $manager->persist($sa13);
+        $sa1 = new SA();
+        $sa1->setName("ESP-001");
+        $sa1->setState("ACTIF");
+        $sa1->setCurrentRoom($this->getReference('D205'));
+        $this->addReference('sa1',$sa1);
+        $manager->persist($sa1);
 
         // SA 2
         $sa2 = new SA();
-        $sa2->setName("SA20");
-        $sa2->setState("A_INSTALLER");
-        $sa2->setCurrentRoom($this->getReference('C005'));
+        $sa2->setName("ESP-002");
+        $sa2->setState("ACTIF");
+        $sa2->setCurrentRoom($this->getReference('D206'));
+        $this->addReference('sa2',$sa2);
         $manager->persist($sa2);
+
         // SA 3
         $sa3 = new SA();
-        $sa3->setName("SA21");
-        $sa3->setState("MAINTENANCE");
-        $sa3->setCurrentRoom($this->getReference('D304'));
+        $sa3->setName("ESP-003");
+        $sa3->setState("ACTIF");
+        $sa3->setCurrentRoom($this->getReference('D207'));
         $this->addReference('sa3',$sa3);
         $manager->persist($sa3);
+
         // SA 4
         $sa4 = new SA();
-        $sa4->setName("SA30");
-        $sa4->setState("INACTIF");
+        $sa4->setName("ESP-004");
+        $sa4->setState("ACTIF");
+        $sa4->setCurrentRoom($this->getReference('D204'));
+        $this->addReference('sa4',$sa4);
         $manager->persist($sa4);
 
-        // Intervention Maintenance sur SA3
-        $intervention1 = new Intervention();
-        $intervention1->setSa($sa3);
-        $intervention1->setMessage("Le capteur de CO2 ne remonte plus de données, verifier le capteur et les branchements");
-        $intervention1->setStartingDate(new \DateTime());
-        $intervention1->setType('MAINTENANCE');
-        $manager->persist($intervention1);
+        // SA 5
+        $sa5 = new SA();
+        $sa5->setName("ESP-005");
+        $sa5->setState("ACTIF");
+        $sa5->setCurrentRoom($this->getReference('D203'));
+        $this->addReference('sa5',$sa5);
+        $manager->persist($sa5);
 
-        //Installation 1
+        // SA 6
+        $sa6 = new SA();
+        $sa6->setName("ESP-006");
+        $sa6->setState("ACTIF");
+        $sa6->setCurrentRoom($this->getReference('D303'));
+        $this->addReference('sa6',$sa6);
+        $manager->persist($sa6);
+
+        // SA 7
+        $sa7 = new SA();
+        $sa7->setName("ESP-007");
+        $sa7->setState("ACTIF");
+        $sa7->setCurrentRoom($this->getReference('D304'));
+        $this->addReference('sa7',$sa7);
+        $manager->persist($sa7);
+
+        // SA 8
+        $sa8 = new SA();
+        $sa8->setName("ESP-008");
+        $sa8->setState("ACTIF");
+        $sa8->setCurrentRoom($this->getReference('C101'));
+        $this->addReference('sa8',$sa8);
+        $manager->persist($sa8);
+
+        // SA 9
+        $sa9 = new SA();
+        $sa9->setName("ESP-009");
+        $sa9->setState("ACTIF");
+        $sa9->setCurrentRoom($this->getReference('D109'));
+        $this->addReference('sa9',$sa9);
+        $manager->persist($sa9);
+
+        // SA 10
+        $sa10 = new SA();
+        $sa10->setName("ESP-010");
+        $sa10->setState("ACTIF");
+        $sa10->setCurrentRoom($this->getReference('Secrétariat'));
+        $this->addReference('sa10',$sa10);
+        $manager->persist($sa10);
+
+        // SA 11
+        $sa11 = new SA();
+        $sa11->setName("ESP-011");
+        $sa11->setState("ACTIF");
+        $sa11->setCurrentRoom($this->getReference('D001'));
+        $this->addReference('sa11',$sa11);
+        $manager->persist($sa11);
+
+        // SA 12
+        $sa12 = new SA();
+        $sa12->setName("ESP-012");
+        $sa12->setState("ACTIF");
+        $sa12->setCurrentRoom($this->getReference('D002'));
+        $this->addReference('sa12',$sa12);
+        $manager->persist($sa12);
+
+        // SA 13
+        $sa13 = new SA();
+        $sa13->setName("ESP-013");
+        $sa13->setState("ACTIF");
+        $sa13->setCurrentRoom($this->getReference('D004'));
+        $this->addReference('sa13',$sa13);
+        $manager->persist($sa13);
+
+        // SA 14
+        $sa14 = new SA();
+        $sa14->setName("ESP-014");
+        $sa14->setState("ACTIF");
+        $sa14->setCurrentRoom($this->getReference('C004'));
+        $this->addReference('sa14',$sa14);
+        $manager->persist($sa14);
+
+        // SA 15
+        $sa15 = new SA();
+        $sa15->setName("ESP-015");
+        $sa15->setState("ACTIF");
+        $sa15->setCurrentRoom($this->getReference('C007'));
+        $this->addReference('sa15',$sa15);
+        $manager->persist($sa15);
+
+        // SA 16
+        $sa16 = new SA();
+        $sa16->setName("ESP-016");
+        $sa16->setState("ACTIF");
+        $sa16->setCurrentRoom($this->getReference('D201'));
+        $this->addReference('sa16',$sa16);
+        $manager->persist($sa16);
+
+        // SA 17
+        $sa17 = new SA();
+        $sa17->setName("ESP-017");
+        $sa17->setState("ACTIF");
+        $sa17->setCurrentRoom($this->getReference('D307'));
+        $this->addReference('sa17',$sa17);
+        $manager->persist($sa17);
+
+        // SA 18
+        $sa18 = new SA();
+        $sa18->setName("ESP-018");
+        $sa18->setState("ACTIF");
+        $sa18->setCurrentRoom($this->getReference('C005'));
+        $this->addReference('sa18',$sa18);
+        $manager->persist($sa18);
+
+        // =============================== //
+        // Création des salles d'exemples  //
+        // =============================== //
+
+// Création de la salle test1
+        $test1 = new Room();
+        $test1->setName("test1");
+        $test1->setNbComputer("15");
+        $test1->setFacing("N");
+        $manager->persist($test1);
+        $this->addReference('test1',$test1);
+
+// Création de la salle test2
+        $test2 = new Room();
+        $test2->setName("test2");
+        $test2->setNbComputer("15");
+        $test2->setFacing("N");
+        $manager->persist($test2);
+        $this->addReference('test2',$test2);
+
+        // Création de la salle test3
+        $test3 = new Room();
+        $test3->setName("test3");
+        $test3->setNbComputer("15");
+        $test3->setFacing("N");
+        $manager->persist($test3);
+        $this->addReference('test3',$test3);
+
+        // Création de la salle test4
+        $test4 = new Room();
+        $test4->setName("test4");
+        $test4->setNbComputer("15");
+        $test4->setFacing("N");
+        $manager->persist($test4);
+        $this->addReference('test4',$test4);
+
+        // Création de la salle test5
+        $test5 = new Room();
+        $test5->setName("test5");
+        $test5->setNbComputer("15");
+        $test5->setFacing("N");
+        $manager->persist($test5);
+        $this->addReference('test5',$test5);
+
+        // Création de la salle test6
+        $test6 = new Room();
+        $test6->setName("test6");
+        $test6->setNbComputer("15");
+        $test6->setFacing("N");
+        $manager->persist($test6);
+        $this->addReference('test6',$test6);
+
+        // Création de la salle test7
+        $test7 = new Room();
+        $test7->setName("test7");
+        $test7->setNbComputer("15");
+        $test7->setFacing("N");
+        $manager->persist($test7);
+        $this->addReference('test7',$test7);
+
+        // Création de la salle test8
+        $test8 = new Room();
+        $test8->setName("test8");
+        $test8->setNbComputer("15");
+        $test8->setFacing("N");
+        $manager->persist($test8);
+        $this->addReference('test8',$test8);
+
+        // Création de la salle test9
+        $test9 = new Room();
+        $test9->setName("test9");
+        $test9->setNbComputer("15");
+        $test9->setFacing("N");
+        $manager->persist($test9);
+        $this->addReference('test9',$test9);
+
+        // Création de la salle test10
+        $test10 = new Room();
+        $test10->setName("test10");
+        $test10->setNbComputer("15");
+        $test10->setFacing("N");
+        $manager->persist($test10);
+        $this->addReference('test10',$test10);
+
+        // Création de la salle test11
+        $test11 = new Room();
+        $test11->setName("test11");
+        $test11->setNbComputer("15");
+        $test11->setFacing("N");
+        $manager->persist($test11);
+        $this->addReference('test11',$test11);
+
+        // Création de la salle test12
+        $test12 = new Room();
+        $test12->setName("test12");
+        $test12->setNbComputer("15");
+        $test12->setFacing("N");
+        $manager->persist($test12);
+        $this->addReference('test12',$test12);
+
+        // Création de la salle test13
+        $test13 = new Room();
+        $test13->setName("test13");
+        $test13->setNbComputer("15");
+        $test13->setFacing("N");
+        $manager->persist($test13);
+        $this->addReference('test13',$test13);
+
+        // Création de la salle test14
+        $test14 = new Room();
+        $test14->setName("test14");
+        $test14->setNbComputer("15");
+        $test14->setFacing("N");
+        $manager->persist($test14);
+        $this->addReference('test14',$test14);
+
+        // Création de la salle test15
+        $test15 = new Room();
+        $test15->setName("test15");
+        $test15->setNbComputer("15");
+        $test15->setFacing("N");
+        $manager->persist($test15);
+        $this->addReference('test15',$test15);
+
+        // =============================== //
+        //   Création des SA d'exemples    //
+        // =============================== //
+
+        // SA ex1
+        $saex1 = new SA();
+        $saex1->setName("SA01");
+        $saex1->setState("ACTIF");
+        $saex1->setCurrentRoom($this->getReference('test1'));
+        $this->addReference('saex1',$saex1);
+        $manager->persist($saex1);
+
+        // SA ex2
+        $saex2 = new SA();
+        $saex2->setName("SA02");
+        $saex2->setState("ACTIF");
+        $saex2->setCurrentRoom($this->getReference('test2'));
+        $this->addReference('saex2',$saex2);
+        $manager->persist($saex2);
+
+        // SA ex3
+        $saex3 = new SA();
+        $saex3->setName("SA03");
+        $saex3->setState("A_INSTALLER");
+        $saex3->setCurrentRoom($this->getReference('test4'));
+        $saex3->setOldRoom($this->getReference('test3'));
+        $this->addReference('saex3',$saex3);
+        $manager->persist($saex3);
+
+        // SA ex4
+        $saex4 = new SA();
+        $saex4->setName("SA04");
+        $saex4->setState("A_INSTALLER");
+        $saex4->setCurrentRoom($this->getReference('test5'));
+        $this->addReference('saex4',$saex4);
+        $manager->persist($saex4);
+
+        // SA ex5
+        $saex5 = new SA();
+        $saex5->setName("SA05");
+        $saex5->setState("MAINTENANCE");
+        $saex5->setCurrentRoom($this->getReference('test6'));
+        $this->addReference('saex5',$saex5);
+        $manager->persist($saex5);
+
+        // SA ex6
+        $saex6 = new SA();
+        $saex6->setName("SA06");
+        $saex6->setState("MAINTENANCE");
+        $saex6->setCurrentRoom($this->getReference('test7'));
+        $this->addReference('saex6',$saex6);
+        $manager->persist($saex6);
+
+        // SA ex7
+        $saex7 = new SA();
+        $saex7->setName("SA07");
+        $saex7->setState("INACTIF");
+        $this->addReference('saex7',$saex7);
+        $manager->persist($saex7);
+
+        // SA ex8
+        $saex8 = new SA();
+        $saex8->setName("SA08");
+        $saex8->setState("INACTIF");
+        $this->addReference('saex8',$saex8);
+        $manager->persist($saex8);
+
+        // ===================================== //
+        // Création des Interventions d'exemples //
+        // ===================================== //
+
+        //Interventions Installation sur SAex1
         $Inst1 = new Intervention();
-        $Inst1->setSa($sa2);
-        $Inst1->setType("INSTALLATION");
+        $Inst1->setState("FINIE");
+        $Inst1->setSa($this->getReference('saex1'));
+        $Inst1->setType_I("INSTALLATION");
+        $Inst1->setMessage("Installation du SA1 en test1");
+        $Inst1->setReport("Installation effectué sans probleme");
         $Inst1->setStartingDate(new \DateTime());
+        $Inst1->setEndingDate(new \DateTime());
+        $Inst1->setTechnicien($this->getReference('tech1'));
         $manager->persist($Inst1);
 
+        //Interventions Installation sur SAex2
         $Inst2 = new Intervention();
-        $sa13->setOldRoom($sa13->getCurrentRoom());
-        $sa13->setCurrentRoom($this->getReference('D302'));
-        $Inst2->setSa($sa13);
-        $Inst2->setType("INSTALLATION");
+        $Inst2->setState("FINIE");
+        $Inst2->setSa($this->getReference('saex2'));
+        $Inst2->setType_I("INSTALLATION");
+        $Inst2->setMessage("Installation du SA2 en test2");
+        $Inst2->setReport("Installation effectué sans probleme");
         $Inst2->setStartingDate(new \DateTime());
+        $Inst2->setEndingDate(new \DateTime());
+        $Inst2->setTechnicien($this->getReference('tech1'));
         $manager->persist($Inst2);
 
-        // =============================== //
-        //      Création des users         //
-        // =============================== //
+        // Intervention Installation sur SAex3
+        $Inst3 = new Intervention();
+        $Inst3->setState("EN_COURS");
+        $Inst3->setSa($this->getReference('saex3'));
+        $Inst3->setMessage("Changement du SA3 de la salle test3 à la test4");
+        $Inst3->setStartingDate(new \DateTime());
+        $Inst3->setType_I('INSTALLATION');
+        $manager->persist($Inst3);
 
-        $ref1 = new User();
-        $ref1->setUsername("ref1");
-        $ref1->setPassword("$2y$13$/Bpyv7s0SexmSOxxaINszOMmtqs7iSIFINdzBfKAQUAmHMthVAKzS");
-        $ref1->setRoles(["ROLE_REFERENT"]);
-        $manager->persist($ref1);
+        //Intervention Installation sur SAex4
+        $Inst4 = new Intervention();
+        $Inst4->setState("EN_COURS");
+        $Inst4->setSa($this->getReference('saex4'));
+        $Inst4->setMessage("Installation du SA4 dans la salle test5");
+        $Inst4->setStartingDate(new \DateTime());
+        $Inst4->setType_I("INSTALLATION");
+        $Inst4->setTechnicien($this->getReference('tech1'));
+        $manager->persist($Inst4);
 
-        $ref1 = new User();
-        $ref1->setUsername("tec1");
-        //hash le password avec php bin/console security:hash-password
-        $ref1->setPassword("$2y$13$/Bpyv7s0SexmSOxxaINszOMmtqs7iSIFINdzBfKAQUAmHMthVAKzS");
-        $ref1->setRoles(["ROLE_TECHNICIEN"]);
-        $manager->persist($ref1);
+        // Intervention Maintenance sur SAex5
+        $Maint1 = new Intervention();
+        $Maint1->setState("EN_COURS");
+        $Maint1->setSa($this->getReference('saex5'));
+        $Maint1->setMessage("Le capteur de CO2 ne remonte plus de données, verifier le capteur et les branchements");
+        $Maint1->setStartingDate(new \DateTime());
+        $Maint1->setType_I('MAINTENANCE');
+        $manager->persist($Maint1);
+
+        //Intervention Maintenance sur SAex6
+        $Maint2 = new Intervention();
+        $Maint2->setState("EN_COURS");
+        $Maint2->setSa($this->getReference('saex6'));
+        $Maint2->setMessage("Le capteur d'humidité/température retourne des valeurs anormalement élevé, verifier le capteur et les branchements");
+        $Maint2->setStartingDate(new \DateTime());
+        $Maint2->setType_I("MAINTENANCE");
+        $Maint2->setTechnicien($this->getReference('tech1'));
+        $manager->persist($Maint2);
+
+        //Intervention Maintenance sur SAex2
+        $Maint3 = new Intervention();
+        $Maint3->setState("ANNULEE");
+        $Maint3->setSa($this->getReference('saex2'));
+        $Maint3->setType_I("MAINTENANCE");
+        $Maint3->setMessage("Les données du sa presentent d'enorment incoherences. Il faut verifier les connectiques capteurs.");
+        $Maint3->setReport("Impossible de trouver d'ou vienne les incoherences. Retour du SA au depot.");
+        $Maint3->setStartingDate(new \DateTime());
+        $Maint3->setEndingDate(new \DateTime());
+        $Maint3->setTechnicien($this->getReference('tech1'));
+        $manager->persist($Maint3);
 
         $manager->flush();
+
     }
 }

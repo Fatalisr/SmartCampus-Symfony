@@ -1,21 +1,22 @@
 /*
  * referent.html.twig
  */
+body{
+    overflow-y: scroll;
+}
 
 #liste_salle{
     display: flex;
     flex-direction: row;
     width: auto;
     height: fit-content;
-    margin-top: 30px;
+    padding: 30px 0 30px 0;
 }
-
 
 .buttonPresPage{
     display: flex;
     justify-content: center;
     align-items: center;
-    /*width: 30%;*/
     padding-right: 2%;
     padding-left: 2%;
 }
@@ -30,6 +31,7 @@
     border-radius: 5px;
     font-family: Arial;
 }
+
 #saButton:hover{
     cursor: pointer;
     opacity: 60%;
@@ -46,7 +48,6 @@
     padding: 0 15px 15px 15px;
     margin: 10px 20px 10px 20px;
     border-radius: 20px;
-    /*overflow: scroll;*/
 }
 
 .listSA{
@@ -66,6 +67,7 @@
 .listSA{
     display: none;
 }
+
 .block_sa li:hover{
     cursor: pointer;
     /*background-color: #56DAFF;*/
@@ -136,6 +138,7 @@
     width: 25%;
     justify-content: center;
     flex-direction: row;
+    white-space: nowrap;
 }
 .caseListSA form{
     width: 100%;
@@ -154,11 +157,10 @@
     align-items: center;
 }
 #right{
-    display: flex;
-    align-items: flex-end;
+    align-items: center;
+    justify-content: flex-end;
 }
 #left{
-    display: flex;
     align-items: center;
     justify-content: left;
 }
@@ -240,4 +242,34 @@ span{
 #sa_data:hover{
     width: 38px;
     height: 38px;
+}
+
+@media screen and (max-width: 1000px) {
+    #liste_salle{
+        flex-direction: column;
+        justify-content: center;
+        margin-bottom: 50px;
+    }
+    .block_sa{
+        width: 90%;
+    }
+    body{
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .roomCase{
+        display: none;
+    }
+}
+
+@media screen and (max-width: 330px) {
+    .saForm{
+        display: none;
+    }
+    #left{
+        justify-content: center;
+    }
 }

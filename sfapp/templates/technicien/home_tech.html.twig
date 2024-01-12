@@ -5,8 +5,7 @@
 
         <section class="bandeau_tech">
             <div class="pres_page">
-                <div>Bonjour Technicien</div>
-                <div>Vous êtes sur l'espace technicien. Vous pouvez consulter l'ensemble de vos interventions et les valider.</div>
+                Vous êtes sur l'espace technicien. Vous pouvez consulter l'ensemble de vos interventions et les valider.
             </div>
         </section>
 
@@ -16,33 +15,40 @@
                 <div>
                     {% if installations %}
                     {% for install in installations %}
-                        <a id="view" href="{{ path('app_view_installation', {'id': install.sa.getId}) }}">
+                        <a id="view" href="{{ path('app_view_installation', {'id': install.id}) }}">
                             <div class="listIntervention">
-                                <div>
+                                <div class="caseBlockInterv" id="leftSide">
+                                    <img src="{{ asset('images/processor.png') }}">
                                     {{ install.sa.name }}
                                 </div>
-                                <div>
+                                <div class="caseBlockInterv" id="rightSide">
+                                    <img src="{{ asset('images/door.png') }}">
                                     {% if install.sa.getOldRoom is null%}
-                                        <p>{{ install.sa.getCurrentRoom.name }}</p>
+                                        {{ install.sa.getCurrentRoom.name }}
                                     {% else %}
-                                        <p>{{ install.sa.getOldRoom.name }} vers {{ install.sa.getCurrentRoom.getName }}</p>
+                                        {{ install.sa.getOldRoom.name }} vers {{ install.sa.getCurrentRoom.getName }}
                                     {% endif %}
                                 </div>
                             </div>
                         </a>
                     {% endfor %}
                     {% endif %}
-
                 </div>
             </ul>
             <ul class="block_interv">
                 <h1>Maintenances en attente</h1>
                 <div>
                     {% for maintenance in maintenances %}
-                        <a id="view" href="{{ path('app_view_maintenance', {'id': maintenance.sa.id}) }}">
-                            <div class="listIntervention"> <!-- UN <LI></LI> = UNE LIGNE : ajouter les elements À L'INTERIEUR du li. Le webdesigner. -->
-                                <p>{{ maintenance.sa.getName }}</p>
-                                <p>{{ maintenance.sa.getCurrentRoom.getName }}</p>
+                        <a id="view" href="{{ path('app_view_maintenance', {'id': maintenance.id}) }}">
+                            <div class="listIntervention">
+                                <div class="caseBlockInterv" id="leftSide">
+                                    <img src="{{ asset('images/processor.png') }}">
+                                    {{ maintenance.sa.name }}
+                                </div>
+                                <div class="caseBlockInterv" id="rightSide">
+                                    <img src="{{ asset('images/door.png') }}">
+                                    {{ maintenance.sa.getCurrentRoom.name }}
+                                </div>
                             </div>
                         </a>
                     {% endfor %}

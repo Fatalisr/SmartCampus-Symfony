@@ -16,6 +16,11 @@ class InstallationForm extends \Symfony\Component\Form\AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('report', TextareaType::class, [
+                'label' => "Retour d'intervention",
+                'attr' => ['rows' => 10, 'placeholder' => 'Ecrivez votre rapport ici'],
+
+            ])
             ->add('valid', SubmitType::class, [
                 'label' => "VALIDER L'INSTALLATION"
             ]);

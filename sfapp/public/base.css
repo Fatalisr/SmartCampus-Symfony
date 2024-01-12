@@ -22,26 +22,18 @@ a{
 }
 
 header{
+    position: relative;
     background-color: #08B2E3;
     display: flex;
-    height: 12%;
-    min-height: 55px;
-    min-width: fit-content;
+    height: 100px;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 0;
+    z-index: 1;
+
 }
 
-header h1{
-    height: 100%;
-    width: 100%;
-    display: flex;
-    min-width: fit-content;
-    justify-content: center;
-    align-items: center;
-    font-size: 6vh;
-}
 
 header a{
     width: fit-content;
@@ -71,18 +63,32 @@ header a:hover{
 #nameAndlogo{
     background-color: #5b68c0;
     color: black;
-    border-color: #5b68c0;
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
-    width: 45%;
-    min-width: fit-content;
+    width: 30%;
+    min-width: 440px;
     height: 70%;
-    min-height: fit-content;
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
     padding: 3px 0 5px 0;
+    z-index: 1;
 }
+
+#nameAndlogo h1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    white-space: nowrap;
+    margin-right: 12px;
+}
+
+#nameAndlogo img{
+
+}
+
 #nameAndlogo:hover{
     cursor: pointer;
 }
@@ -138,28 +144,66 @@ header a:hover{
     height: 35px;
     background-color: green;
 }
-#maint{
-    width: fit-content;
-    height: fit-content;
-    background-color: #5b68c0;
-    border-color: #5b68c0;
-    color: black;
-    font-style: normal;
-    border-radius: 15px;
-    font-family: Arial;
-    font-size: 2.5vh;
-    padding: 10px;
-    margin-right: 10px;
-    cursor: pointer;
+
+#nav_options_img{
+    display: none;
+    z-index: 1;
 }
 
-#maint a {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50%;
-    padding: 5px 10px 5px 10px;
-    margin-right: 10px;
-    border-radius: 10px;
-    background-color: #5b68c0;
+@media screen and (max-width: 600px) {
+    #nameAndlogo{
+        width: 30%;
+        min-width: 50px;
+        justify-content: center;
+        align-items: center;
+    }
+    #nameAndlogo h1{
+        display: none;
+    }
 }
+
+@media screen and (max-width: 1403px) {
+
+    .header_buttons{
+        position: fixed;
+        top: 100px;
+        left: 0;
+        width: 100%;
+        height: fit-content;
+        background-color: rgb(8, 178, 227);
+        flex-direction: column;
+        align-items: center;
+        padding-top: 20px;
+        animation-name: slidein;
+        animation-duration: 1s;
+    }
+
+    .header_buttons a{
+        margin: 10px;
+    }
+
+    .navItemLineNone{
+        display: none;
+    }
+    .navItemLineFlex{
+        display: flex;
+    }
+
+    #nav_options_img{
+        display: flex;
+        width: 60px;
+        margin-right: 5%;
+    }
+
+}
+@keyframes slidein {
+    from {
+        top: -300px;
+    }
+
+    to {
+        top: 100px;
+    }
+}
+
+

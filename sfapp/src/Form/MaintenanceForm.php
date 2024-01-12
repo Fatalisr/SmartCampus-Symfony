@@ -18,7 +18,7 @@ class MaintenanceForm extends \Symfony\Component\Form\AbstractType
         $builder
             ->add('report', TextareaType::class, [
                 'label' => "Retour d'intervention",
-                'attr' => ['rows' => 10,'cols'=>60, 'placeholder' => 'Ecrivez votre rapport ici'],
+                'attr' => ['rows' => 10, 'placeholder' => 'Ecrivez votre rapport ici'],
 
             ])
             ->add('valid', TextType::class, [

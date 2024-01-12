@@ -1,0 +1,206 @@
+body{
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+#headerHistorique{
+    display: flex;
+    width: 100%;
+    height: 10%;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255,255,255,.8);
+}
+#headerHistorique form{
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+}
+#headerHistorique select, button{
+    display: flex;
+    padding: 5px 20px 5px 2px;
+    border-radius: 10px;
+    background-color: #d6dfe8;
+    border: solid 1px #d6dfe8;
+    font-size: large;
+    width: 60%;
+    white-space: nowrap;
+}
+
+#refreshBtn{
+    margin-left: 20px;
+    padding: 5px 2px;
+    transition-duration: .5s;
+    border: solid 1px #d6dfe8;
+}
+
+#refreshBtn:hover{
+    cursor: pointer;
+    border: solid 1px black;
+}
+#headerHistorique select:hover{
+    cursor: pointer;
+    border: solid 1px black;
+}
+#headerHistorique label{
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    margin: 0 10px 0 10px;
+    font-size: large;
+}
+
+
+#bodyHistorique{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 30px;
+}
+
+.blockInter{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    height: fit-content;
+    background-color: #d6dfe8;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 10px;
+}
+.blockInter h3{
+    margin: 5px 0 5px 5px;
+}
+
+.interLign{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    width: auto;
+    margin: 10px;
+    padding: 0 10px 0 10px;
+    height: 60px;
+    border-radius: 10px;
+    font-size: x-large;
+}
+.lignItem{
+    display: flex;
+    flex: 1;
+    height: 100%;
+    align-items: center;
+    flex-direction: row;
+}
+
+.center{
+    justify-content: center;
+}
+
+#messages{
+    justify-content: right;
+}
+.popup_histo {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.popup-content_histo {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    width: fit-content;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#msgRefLine{
+    display: flex;
+    width: 100%;
+    justify-content: left;
+    margin-top: 15px;
+}
+#msgTechLine{
+    display: flex;
+    width: 100%;
+    justify-content: right;
+    margin-top: 20px;
+}
+
+.messageblock{
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    border-radius: 20px;
+    background-color: #A29EA9;
+}
+.messageblock  span{
+    margin: 0 5px 20px 5px;
+}
+.messageblock  h4{
+    margin: 10px 5px 10px 5px;
+}
+#msgRef {
+    text-align: left;
+    box-shadow: -10px 10px 2px 1px rgba(0, 0, 0);
+}
+
+#msgTech {
+    text-align: right;
+    box-shadow: 10px 10px 2px 1px rgba(0, 0, 0);
+}
+.messageblockSadowRef{
+    position: absolute;
+    display: flex;
+    background-color: black;
+    border-radius: 20px;
+    z-index: -1;
+    top: 45px;
+    left: 10px;
+}
+
+.messageblockSadowTech{
+    position: absolute;
+    display: flex;
+    background-color: black;
+    border-radius: 20px;
+    z-index: -1;
+
+    right: 10px;
+}
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+.pictos{
+    height: 50px;
+    width: 50px;
+}
+#pictoMsg{
+    right: 80px;
+}
+
+#pictoMsg:hover{
+    cursor: pointer;
+    width: 51px;
+    height: 51px;
+}
+
+.noItMsg{
+    font-size: large;
+    margin: 5px 0 10px 5px;
+}

@@ -18,7 +18,7 @@ class IndexController extends AbstractController
 
 
     #[Route('/', name: 'login')]
-    public function login(Request $request, AuthenticationUtils $authenticationUtils, ConnexionRequetesAPI $service): Response
+    public function login(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
         // Créer le formulaire de connexion
         $form = $this->createForm(LoginForm::class);
@@ -47,7 +47,6 @@ class IndexController extends AbstractController
         return $this->render('index/index.html.twig', [
             'form' => $form->createView(),
             'error' => $error,
-            //'api' => $api,
         ]);
     }
 }

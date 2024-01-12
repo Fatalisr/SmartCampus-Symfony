@@ -5,53 +5,59 @@
     <script src="https://d3js.org/d3.v4.js"></script>
     <script src="{{ asset('graph.js') }}"></script>
     <div class="fse">
-        <p> {{ nom }}</p>
-        <p>{{ salle }}</p>
-        {% if etat == 'A_INSTALLER' %}
+        <p> {{ sa.name }}</p>
+        <p>{{ sa.currentRoom.name }}</p>
+        {% if sa.state == 'A_INSTALLER' %}
             <p>🟠 Installation</p>
-        {% elseif etat == 'ACTIF' %}
+        {% elseif sa.state == 'ACTIF' %}
             <p>🟢 Actif</p>
-        {% elseif etat == 'MAINTENANCE' %}
+        {% elseif sa.state == 'MAINTENANCE' %}
             <p>🔴 Maintenance</p>
         {% endif %}
-        <a id="maint" href="{{ path("app_referent") }}"><span>Retour</span></a>
+        <button type="button" onclick="goHome()" id="goHomeBtn">Retour</button>
+
     </div>
-    {% if etat == 'ACTIF' %}
+    {% if sa.state == 'ACTIF' %}
         <section id="mainsection">
-            <aside>
-                <div class="pSAr">
-                    {{ form_start(form) }}
-                    <div id="form_header">
-                        <h1>Demande de Maintenance</h1>
-                    </div>
-                    <div class="form_line">
-                        {{ form_widget(form.message) }}
-                    </div>
-                    <div id="submit_btn">
-                        <a id="maint" onclick="openPopup('popupCS')">Envoyer</a>
-                        <div id="popupCS" class="popup">
-                            <div class="popup-content">
-                                <span class="close" onclick="closePopup('popupCS')">&times;</span>
-                                <span>Voullez-vous vraiment démarrer la maintenance de ce système d'acquisition</span>
-                                <div>
-                                    <button id="non" type="button" onclick="closePopup('popupCS')">Non</button>
-                                    {{ form_widget(form.save) }}
-                                </div>
+            <!-- graph temp -->
+            <div class="pSA" id="pSAR">
+                <div id="graph1"></div>
+            </div>
+
+            <div class="pSA"> <!-- maintenance -->
+                {{ form_start(form) }}
+                <div id="form_header">
+                    <h1>Demande de Maintenance</h1>
+                </div>
+                <div class="form_line">
+                    {{ form_widget(form.message) }}
+                </div>
+                <div id="submit_btn">
+                    <button type="button" id="maint" onclick="openPopup('popupCS')">Envoyer</button>
+                    <div id="popupCS" class="popup">
+                        <div class="popup-content">
+                            <span class="close" onclick="closePopup('popupCS')">&times;</span>
+                            <span>Voullez-vous vraiment démarrer la maintenance de ce système d'acquisition</span>
+                            <div>
+                                <button id="non" type="button" onclick="closePopup('popupCS')">Non</button>
+                                {{ form_widget(form.save) }}
                             </div>
                         </div>
                     </div>
-                    {{ form_end(form) }}
                 </div>
-                <div class="pSAr" id="pSAR">
-                    <div id="graph3"></div>
-                </div>
-            </aside>
-            <section id="left">
-                <div class="pSAl" id="pSAl">
-                    <div id="graph1"></div>
-                    <div id="graph2"></div>
-                </div>
-            </section>
+                {{ form_end(form) }}
+            </div>
+
+            <!-- graph CO2 -->
+            <div class="pSA" id="pSAR">
+                <div id="graph3"></div>
+            </div>
+
+            <!-- graph humi-->
+            <div class="pSA" id="pSAR">
+                <div id="graph2"></div>
+            </div>
+
         </section>
     {% else %}
         <section id="mainsection">
@@ -71,7 +77,7 @@
         }
         //Read the data
         function traitementDonneeTemp() {
-            // set the dimensions and margins of the graph
+            // Dimension de l'image SVG
             var marginTop = (document.getElementById("pSAR").offsetWidth)*0.05,
                 marginRight = 10,
                 marginBottom = (document.getElementById("pSAR").offsetWidth)*0.05,
@@ -248,9 +254,30 @@
                 )
         }
 
-        donneesT = '{{ donneesT }}';
-        donneesT = donneesT.replace(/&quot;/ig,'\"');
-        monJsonT = JSON.parse(donneesT);
+        // Données du jour
+        donneesCO2T = '{{ donneesCO2T }}';
+        donneesCO2T = donneesCO2T.replace(/&quot;/ig,'\"');
+        donneesHUMT = '{{ donneesHUMT }}';
+        donneesHUMT = donneesHUMT.replace(/&quot;/ig,'\"');
+        donneesTEMPT = '{{ donneesTEMPT }}';
+        donneesTEMPT = donneesTEMPT.replace(/&quot;/ig,'\"');
+        //Données de ll'heure
+        donneesCO2H = '{{ donneesCO2H }}';
+        donneesCO2H = donneesCO2H.replace(/&quot;/ig,'\"');
+        donneesHUMH = '{{ donneesHUMH }}';
+        donneesHUMH = donneesHUMH.replace(/&quot;/ig,'\"');
+        donneesTEMPH = '{{ donneesTEMPH }}';
+        donneesTEMPH = donneesTEMPH.replace(/&quot;/ig,'\"');
+        // Données de la semaine
+        donneesCO2LW = '{{ donneesCO2LW }}';
+        donneesCO2LW = donneesCO2LW.replace(/&quot;/ig,'\"');
+        donneesHUMLW = '{{ donneesHUMLW }}';
+        donneesHUMLW = donneesHUMLW.replace(/&quot;/ig,'\"');
+        donneesTEMPLW = '{{ donneesTEMPLW }}';
+        donneesTEMPLW = donneesTEMPLW.replace(/&quot;/ig,'\"');
+
+
+        monJsonT = JSON.parse(donneesCO2T);
         console.log(monJsonT);
         arrayCO2T = [];
         arrayHumT = [];
@@ -273,5 +300,13 @@
         traitementDonneeCO2();
         traitementDonneeTemp();
         traitementDonneeHum();
+
+        window.addEventListener('resize', function() {
+            // Appeler la fonction reloadPage à chaque redimensionnement
+            location.reload();
+        });
+        function goHome(){
+            window.location.href = '/referent';
+        }
     </script>
 {% endblock %}
