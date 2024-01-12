@@ -22,7 +22,6 @@
             <div id="mainData">
                 <h2>Données de la salle</h2>
                 {%for donnee in donnees %}
-
                     {% if donnee.nom == 'temp' %}
                     <div class="data" style="background-color: {% if meteo["current"]["temperature_2m"] >= 30 and donnee.valeur > 21 %} #F5AF49 {% elseif donnee.valeur >= 21 or donnee.valeur < 17 %} #FF1D15 {% else %} green {% endif %} ">
                         <p>Température : {{ donnee.valeur }} °C</p>
@@ -64,6 +63,17 @@
             </div>
             <div id="advice">
                 <h2>Conseils</h2>
+                <div id="conseil">
+
+
+                    {%for conseil in conseils %}
+                        <p>{{ conseil }}</p>
+                    {% endfor %}
+
+
+
+
+                </div>
             </div>
         </div>
     {% endif %}
