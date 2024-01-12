@@ -89,9 +89,9 @@
                     "translate(" + marginLeft + "," + marginTop + ")");
 
             d_array =  [];
-            for (let i = 0; i < arrayTemp.length; i++)
+            for (let i = 0; i < arrayTempT.length; i++)
             {
-                d_array.push({ dateCapture : d3.timeParse("%Y-%m-%d %H:%M:%S")(arrayCO2[i][0]), valeur : arrayCO2[i][1] });
+                d_array.push({ dateCapture : d3.timeParse("%Y-%m-%d %H:%M:%S")(arrayCO2T[i][0]), valeur : arrayCO2T[i][1] });
             }
             // Add X axis --> it is a date format
             x = d3.scaleTime()
@@ -148,9 +148,9 @@
                     "translate(" + marginLeft + "," + marginTop + ")");
 
             d_array =  [];
-            for (let i = 0; i < arrayHum.length; i++)
+            for (let i = 0; i < arrayHumT.length; i++)
             {
-                d_array.push({ dateCapture : d3.timeParse("%Y-%m-%d %H:%M:%S")(arrayCO2[i][0]), valeur : arrayCO2[i][1] });
+                d_array.push({ dateCapture : d3.timeParse("%Y-%m-%d %H:%M:%S")(arrayCO2T[i][0]), valeur : arrayCO2T[i][1] });
             }
             // Add X axis --> it is a date format
             x = d3.scaleTime()
@@ -207,9 +207,9 @@
                     "translate(" + marginLeft + "," + marginTop + ")");
 
             d_array =  [];
-            for (let i = 0; i < arrayCO2.length; i++)
+            for (let i = 0; i < arrayCO2T.length; i++)
             {
-                d_array.push({ dateCapture : d3.timeParse("%Y-%m-%d %H:%M:%S")(arrayCO2[i][0]), valeur : arrayCO2[i][1] });
+                d_array.push({ dateCapture : d3.timeParseT("%Y-%m-%d %H:%M:%S")(arrayCO2[i][0]), valeur : arrayCO2T[i][1] });
             }
             // Add X axis --> it is a date format
             x = d3.scaleTime()
@@ -248,25 +248,26 @@
                 )
         }
 
-        donnees = '{{ donnees }}';
-        donnees = donnees.replace(/&quot;/ig,'\"');
-        monJson = JSON.parse(donnees);
-        arrayCO2 = [];
-        arrayHum = [];
-        arrayTemp = [];
-        for(i = 0 ; i < monJson.length ; i++)
+        donneesT = '{{ donneesT }}';
+        donneesT = donneesT.replace(/&quot;/ig,'\"');
+        monJsonT = JSON.parse(donneesT);
+        console.log(monJsonT);
+        arrayCO2T = [];
+        arrayHumT = [];
+        arrayTempT = [];
+        for(i = 0 ; i < monJsonT.length ; i++)
         {
             if(monJson[i]["nom"] == "co2")
             {
-                arrayCO2.push([monJson[i]["dateCapture"],monJson[i]["valeur"]]);
+                arrayCO2T.push([monJsonT[i]["dateCapture"],monJsonT[i]["valeur"]]);
             }
             if(monJson[i]["nom"] == "hum")
             {
-                arrayHum.push([monJson[i]["dateCapture"],monJson[i]["valeur"]]);
+                arrayHumT.push([monJsonT[i]["dateCapture"],monJsonT[i]["valeur"]]);
             }
             if(monJson[i]["nom"] == "temp")
             {
-                arrayTemp.push([monJson[i]["dateCapture"],monJson[i]["valeur"]]);
+                arrayTempT.push([monJsonT[i]["dateCapture"],monJsonT[i]["valeur"]]);
             }
         }
         traitementDonneeCO2();

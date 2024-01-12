@@ -72,19 +72,20 @@ class ReferentController extends AbstractController
     #[Route('/referent/sa/{id}', name: 'app_view_sa')]
     public function view_sa(?int $id,ManagerRegistry $doctrine,Request $request,  ConnexionRequetesAPI $requetesAPI): Response
     {
-        date_default_timezone_set('UTC');
+        date_default_timezone_set('Europe/Paris');
 
 
         $entityManager = $doctrine->getManager();
         $sa = $entityManager->find(SA::class,$id);
-        $nom = $sa->getName();
-        $salle = $sa->getCurrentRoom()->getName();
-        $etat = $sa->getState();
+        $room = $sa->getCurrentRoom()->getName();
 
-        $today = date("Y-m-d");
-        $date = date('Y-m-d', time() + (60 * 60 * 24) );
-        $lastWeek = date('Y-m-d', time() + (60 * 60 * 24 * -7) );
-        $reponse = $requetesAPI->getIntervalCaptures($lastWeek,$date,$salle);
+        $today = date("Y-m-d H:i:s"); //Genère la date d'ajourd'hui
+        $yesterday = date('Y-m-d H:i:s', time() + (60 * 60 * 24)*-1 );  // Genère la date d'hier
+        $lastWeek = date('Y-m-d H:i:s', time() + (60 * 60 * 24 * -7) ); // Genère la date de la semain dernière
+        $lastHour = date('Y-m-d H:i:s', time() + (60 * 60 * 1 * -1) ); // Genère la date h-1
+        $reponseT = $requetesAPI->getIntervalCaptures($yesterday,$today,$room); // Récupère les captures d'hier à aujourd'hui
+        $reponseLW = $requetesAPI->getIntervalCaptures($lastWeek,$today,$room); // Récupère les captures depuis la semaine dernière
+        $reponseH = $requetesAPI->getIntervalCaptures($lastHour,$today,$room); // Récupère les captures de la dernière heure
 
         $form = $this->createForm(InterventionFormType::class);
         $form->handleRequest($request);
@@ -104,13 +105,13 @@ class ReferentController extends AbstractController
             return $this->redirectToRoute('app_referent', [
             ]);
         }
-        //var_dump($reponse);
+        //var_dump($lastHour);
         return $this->render("referent/sa.html.twig",[
-            'nom' => $nom,
-            'salle' => $salle,
-            'etat' => $etat,
+            'sa' => $sa,
             'form' => $form,
-            'donnees' => $reponse,
+            'donneesT' => $reponseT,
+            'donneesH' => $reponseH,
+            'donneesLW' => $reponseLW,
         ]);
     }
 
