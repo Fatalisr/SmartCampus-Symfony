@@ -16,11 +16,24 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UsagerController extends AbstractController
 {
+    /* --------------------------------------------------------- */
+    /*                    PAGE D'ACCEUIL USAGER                  */
+    /* --------------------------------------------------------- */
     #[Route('/usager/{id?}', name: 'app_usager')]
     public function index(?int $id, ManagerRegistry $doctrine, Request $request,ConnexionRequetesAPI $api): Response
     {
+        // Manager doctrine
         $entityManager = $doctrine->getManager();
 
+        // Repository
+        $roomRepo = $entityManager->getRepository(Room::class);
+        $saRepo = $entityManager->getRepository(SA::class);
+
+        // Formulaire pour le choix de la salle a afficher
+        $form = $this->createForm(choisirSalleUsagerForm::class);
+        $form->handleRequest($request);
+
+        // gestion des variables de salle et SA en fonction de la salle choisi
         $roomRepo = $entityManager->getRepository(Room::class);
         $saRepo = $entityManager->getRepository(SA::class);
 
@@ -39,9 +52,8 @@ class UsagerController extends AbstractController
             $donnees = json_decode($api->getlastCaptures(3,$room->getName()));
             //var_dump($donnees);
         }
-
+        // Gestion du formulaire de choix de la salle
         $meteo = json_decode($api->getWeather(),true);
-
         if($form->isSubmitted() && $form->isValid()){
             $idRoom = $form->get('room')->getData()->getId();
             return $this->redirectToRoute('app_usager', ['id' => $idRoom]);

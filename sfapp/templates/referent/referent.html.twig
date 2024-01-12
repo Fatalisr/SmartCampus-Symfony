@@ -18,7 +18,7 @@
                 {% for sa in maintenance %}
 
                     <div class="listSA maintenance">
-                        <div  id="left" class="caseListSA">
+                        <div onclick="openInterventionPage({{ sa.id }})" id="left" class="caseListSA">
                             🔴 {{ sa.name }}
                             <img onclick="openSAPage({{ sa.id }})" id="sa_data" src="{{ asset('images/data-center-table-management.png') }}" alt="trash_can" height="35px" width="35px">
                         </div>
@@ -35,13 +35,30 @@
                     <div class="listSA installer">
                         <div id="left" class="caseListSA">
                             🟠 {{ sa.name }}
-                            <img onclick="openSAPage({{ sa.id }})" id="sa_data" src="{{ asset('images/data-center-table-management.png') }}" alt="trash_can" >
+                            <img onclick="openInterventionPage({{ sa.id }})" id="sa_data" src="{{ asset('images/data-center-table-management.png') }}" alt="trash_can" >
                         </div>
                         <div id="center" class="caseListSA roomCase">
+                            {% if sa.oldRoom != null %}
+                                {{ sa.oldRoom.name }}
+                                ->
+                            {% endif %}
                             {{ sa.currentRoom.name }}
                         </div>
                         <div id="center" class="caseListSA saForm">
-                            <a href="{{ path('delete_sa', {'id': sa.getId}) }}"><span class="retirer_room_btn">Retirer</span></a>
+                            {{ form_start(forms[loop.index0],{'attr': {'id': 'form_changer_salle'}}) }}
+                            {{ form_widget(forms[loop.index0].newRoom,{'attr': {'onChange': 'openPopup("popupCS'~ sa.id~'")', 'id':'dropdown'},'placeholder' : 'Changer la salle'})}}
+                            {{ form_row(forms[loop.index0].sa_id, {'value': sa.id}) }}
+                            <div id="popupCS{{ sa.id }}" class="popup">
+                                <div class="popup-content">
+                                    <span class="close" onclick="closePopup('popupCS{{ sa.id }}')">&times;</span>
+                                    <span>Voullez-vous vraiment changer la salle de ce système d'acquisition {{ sa.name }}</span>
+                                    <div>
+                                        <button id="non" type="button" onclick="closePopup('popupCS{{ sa.id }}')">Non</button>
+                                        {{ form_widget(forms[loop.index0].save) }}
+                                    </div>
+                                </div>
+                            </div>
+                            {{ form_end(forms[loop.index0]) }}
                         </div>
                     </div>
 
@@ -56,20 +73,20 @@
                                 {{ sa.currentRoom.name }}
                             </div>
                             <div id="center"  class="caseListSA saForm">
-                                {{ form_start(forms[loop.index0],{'attr': {'id': 'form_changer_salle'}}) }}
-                                {{ form_widget(forms[loop.index0].newRoom,{'attr': {'onChange': 'openPopup("popupCS'~ sa.id ~ '")', 'id':'dropdown'},'placeholder' : 'Changer la salle'})}}
-                                {{ form_row(forms[loop.index0].sa_id, {'value': sa.id}) }}
+                                {{ form_start(forms[loop.index0 + countFormInstaller],{'attr': {'id': 'form_changer_salle'}}) }}
+                                {{ form_widget(forms[loop.index0 + countFormInstaller].newRoom,{'attr': {'onChange': 'openPopup("popupCS'~ sa.id~'")', 'id':'dropdown'},'placeholder' : 'Changer la salle'})}}
+                                {{ form_row(forms[loop.index0 + countFormInstaller].sa_id, {'value': sa.id}) }}
                                 <div id="popupCS{{ sa.id }}" class="popup">
                                     <div class="popup-content">
                                         <span class="close" onclick="closePopup('popupCS{{ sa.id }}')">&times;</span>
                                         <span>Voullez-vous vraiment changer la salle de ce système d'acquisition {{ sa.name }}</span>
                                         <div>
                                             <button id="non" type="button" onclick="closePopup('popupCS{{ sa.id }}')">Non</button>
-                                            {{ form_widget(forms[loop.index0].save) }}
+                                            {{ form_widget(forms[loop.index0 + countFormInstaller].save) }}
                                         </div>
                                     </div>
                                 </div>
-                                {{ form_end(forms[loop.index0]) }}
+                                {{ form_end(forms[loop.index0 + countFormInstaller]) }}
                             </div>
                         </div>
                 {% endfor %}
@@ -84,20 +101,20 @@
                             ⚫ {{ sa.name }}
                         </div>
                         <div id="center" class="caseListSA saForm">
-                            {{ form_start(forms[loop.index0 + countFormActive],{'attr': {'id': 'form_changer_salle'}}) }}
-                            {{ form_widget(forms[loop.index0 + countFormActive].newRoom,{'attr': {'onChange': 'openPopup("popupAS'~ sa.id ~ '")', 'id':'dropdown'}, 'placeholder' : 'Assigner une salle'})}}
-                            {{ form_row(forms[loop.index0 + countFormActive].sa_id, {'value': sa.id}) }}
+                            {{ form_start(forms[loop.index0 + countFormActive + countFormInstaller],{'attr': {'id': 'form_changer_salle'}}) }}
+                            {{ form_widget(forms[loop.index0 + countFormActive + countFormInstaller].newRoom,{'attr': {'onChange': 'openPopup("popupAS'~ sa.id~'")', 'id':'dropdown'}, 'placeholder' : 'Assigner une salle'})}}
+                            {{ form_row(forms[loop.index0 + countFormActive + countFormInstaller].sa_id, {'value': sa.id}) }}
                             <div id="popupAS{{ sa.id }}" class="popup">
                                 <div class="popup-content">
                                     <span class="close" onclick="closePopup('popupAS{{ sa.id }}')">&times;</span>
-                                    <span>Veuillez confirmer l'assignation{{ sa.name }}</span>
+                                    <span>Veuillez confirmer l'assignation {{ sa.name }}</span>
                                     <div>
                                         <button id="non" type="button" onclick="closePopup('popupAS{{ sa.id }}')">Non</button>
-                                        {{ form_widget(forms[loop.index0 + countFormActive].save) }}
+                                        {{ form_widget(forms[loop.index0 + countFormActive + countFormInstaller].save) }}
                                     </div>
                                 </div>
                             </div>
-                            {{ form_end(forms[loop.index0 + countFormActive]) }}
+                            {{ form_end(forms[loop.index0 + countFormActive + countFormInstaller]) }}
                         </div>
                         <div id="right" class="caseListSA roomCase">
                             <a href="{{ path('delete_sa_base', {'id': sa.getId}) }}" onclick="return confirm('Etes-vous sur de vouloir supprimer le SA {{ sa.name }}?')">
@@ -177,6 +194,9 @@
             window.location.href = '/referent/sa/' + saID;
         }
 
+        function openInterventionPage(saID){
+            window.location.href = '/referent/saInt/' + saID;
+        }
 
     </script>
 {% endblock %}

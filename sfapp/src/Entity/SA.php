@@ -78,18 +78,4 @@ class SA
         return $this;
     }
 
-    public function getIntervention(): ?Intervention
-    {
-        return $this->intervention;
-    }
-
-    public function setIntervention(?Intervention $intervention): static
-    {
-        $this->intervention = $intervention;
-
-        return $this;
-    }
-
-
-
 }

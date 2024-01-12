@@ -128,7 +128,8 @@ class ConnexionRequetesAPI
 
         $response = $this->client->request(                             // Creates and sends the request to the API
             'GET',                                                      // Sets the http request methods of the request (GET)
-            'https://api.open-meteo.com/v1/forecast?latitude=46.14&longitude=-1.15&current=temperature_2m,weather_code,wind_speed_10m&timezone=Europe%2FBerlin',[   // URL of the API and the route we want to send a request to
+            //'https://api.open-meteo.com/v1/forecast?latitude=46.14&longitude=-1.15&current=temperature_2m,weather_code,wind_speed_10m&timezone=Europe%2FBerlin'
+            'https://api.open-meteo.com/v1/forecast?latitude=46.1631&longitude=-1.1522&current=temperature_2m,relative_humidity_2m,precipitation,rain,weather_code,wind_speed_10m&timezone=Europe%2FBerlin',[   // URL of the API and the route we want to send a request to
             'headers' => [                                              // Adding the required headers to connect to our database in the API
                 'dbname' => 'sae34bdm1eq1',                    // Informing the name of the database
                 'username' => 'm1eq1',                                  // Informing the username to connect to the database

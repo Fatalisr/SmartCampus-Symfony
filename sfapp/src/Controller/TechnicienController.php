@@ -18,12 +18,17 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TechnicienController extends AbstractController
 {
+
+    /* --------------------------------------------------------- */
+    /*               PAGE D'ACCEUIL DU TECHNICIEN                */
+    /* --------------------------------------------------------- */
     #[Route('/technicien', name: 'app_technicien')]
     public function index(ManagerRegistry $doctrine): Response
     {
         $entityManager = $doctrine->getManager();
         $interventionRepository = $entityManager->getRepository('App\Entity\Intervention');
 
+        // Listes des interventions repartie
         $installations = $interventionRepository->findAllInstallations();
         $maintenances = $interventionRepository->findAllMaintenances();
 
@@ -32,34 +37,43 @@ class TechnicienController extends AbstractController
             'installations' => $installations,
         ]);
     }
+
+    /* --------------------------------------------------------- */
+    /*               PAGE D'INSTALLATION D'UN SA                 */
+    /* --------------------------------------------------------- */
     #[Route('/technicien/installation/{id}', name: 'app_view_installation')]
     public function view_installation(?int $id, ManagerRegistry $doctrine, Request $request): Response
     {
         $entityManager =  $doctrine->getManager();
 
+        // Reccuperation des informations concernant l'intervention
         $interventionRepo = $entityManager->getRepository('App\Entity\Intervention');
         $curInterv = $interventionRepo->find($id);
         $curSA = $curInterv->getSa();
 
+        // Formulaire de validation de l'intervention
         $form_validInst = $this->createForm(MaintenanceForm::class);
         $form_validInst->handleRequest($request);
 
         $dateCourante = new \DateTime();
 
-
+        // Formulaire d'assignation de l'intervention
         $form_assign = $this->createForm(AssignFormType::class);
         $form_assign ->handleRequest($request);
 
+        // Formulaire de suppression de l'assignation de l'intervention
         $form_unassign = $this->createForm(UnassignFormType::class);
         $form_unassign ->handleRequest($request);
 
-
+        // Gestion des users pour l'assignation
         $userRepo = $entityManager->getRepository('App\Entity\User');
         $user = $this->getUser();
         $username = $user->getUserIdentifier();
         $user = $userRepo->findOneByUsername($username);
 
+        // Gestion du formulaire de l'intervention
         if($form_validInst->isSubmitted() && $form_validInst->isValid()){
+
             $curSA->setState('ACTIF');
             $curInterv->setState("FINIE");
             $curInterv->setEndingDate($dateCourante);
@@ -74,6 +88,8 @@ class TechnicienController extends AbstractController
 
             return $this->redirectToRoute('app_technicien');
         }
+
+        // Gestion du formulaire d'assignation de l'intervention
         if($form_assign->isSubmitted() && $form_assign->isValid())
         {
 
@@ -92,6 +108,7 @@ class TechnicienController extends AbstractController
             ]);
         }
 
+        //Gestion du formulaire de suppression de l'assignation de l'intervention
         if($form_unassign->isSubmitted() && $form_unassign->isValid())
         {
 
@@ -121,7 +138,9 @@ class TechnicienController extends AbstractController
 
     }
 
-
+    /* --------------------------------------------------------- */
+    /*               PAGE DE MAINTENANCE D'UN SA                 */
+    /* --------------------------------------------------------- */
     #[Route('/technicien/maintenance/{id}', name: 'app_view_maintenance')]
     public function view_maintenance(?int $id,ManagerRegistry $doctrine,Request $request): Response
     {
@@ -158,6 +177,7 @@ class TechnicienController extends AbstractController
                 } else {
                     $curSA->setState('INACTIF');
                     $curInterv->setState("ANNULEE");
+                    $curInterv->setEndingDate(new \DateTime());
                 }
 
                 $report = $form_validMtn->get('report')->getData();
@@ -227,7 +247,4 @@ class TechnicienController extends AbstractController
             'user' => $user,
         ]);
     }
-
-
-
 }
