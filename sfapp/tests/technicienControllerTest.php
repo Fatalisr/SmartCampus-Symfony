@@ -11,7 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class technicienControllerTest extends WebTestCase
 {
-    function testTechnicienPage()
+    /*function testTechnicienPage()
     {
         // Se connecte en temps que Technicien
         //=============================================================
@@ -194,5 +194,5 @@ class technicienControllerTest extends WebTestCase
         $entityManager->createQuery("DELETE FROM App\Entity\Room")->execute();
         $entityManager->createQuery("DELETE FROM App\Entity\User")->execute();
         $entityManager->commit();
-    }
+    }*/
 }

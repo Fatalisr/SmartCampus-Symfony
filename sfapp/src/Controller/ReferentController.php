@@ -223,7 +223,7 @@ class ReferentController extends AbstractController
         // Manager doctrine
         $entityManager = $doctrine->getManager();
 
-        // Reccuperation du SA avec l'id de la route
+        // Recuperation du SA avec l'id de la route
         $sa = $entityManager->find(SA::class, $id);
         $sa->setOldRoom($sa->getCurrentRoom());
         $sa->setCurrentRoom(null);
