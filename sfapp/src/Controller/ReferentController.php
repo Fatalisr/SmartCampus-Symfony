@@ -414,7 +414,7 @@ class ReferentController extends AbstractController
 
             return $this->redirectToRoute('app_referent');
         }
-        return $this->render("referent/installation.html.twig",[
+        return $this->render("/referent/installation.html.twig",[
             'sa' => $sa,
             'form_validMtn' => $form_validMtn,
             'message' => $message,

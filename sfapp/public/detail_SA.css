@@ -131,15 +131,21 @@ textarea {
     width: 10%;
     height: 45%;
     margin-right: 10px;
-    font-size: x-large;
+    font-size: large;
     border-radius: 10px;
     background-color: #a78bfa;
     border: solid 1px #a78bfa;
     color: black;
     transition-duration: .3s;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 #btGraph:hover{
     background-color: #5b68c0;
     box-shadow: black;
+}
+#listData{
+    overflow: scroll;
 }

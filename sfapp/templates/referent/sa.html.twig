@@ -19,8 +19,9 @@
     </div>
     {% if sa.state == 'ACTIF' %}
         <div id="changeTime">
-            <button id="btGraph" onclick="traitementDonneeCO2(donneesCO2T);traitementDonneeTemp(donneesTEMPT);traitementDonneeHum(donneesHUMT);">JOUR</button>
-            <button id="btGraph" onclick="traitementDonneeCO2(donneesCO2LW);traitementDonneeHum(donneesHUMLW);traitementDonneeTemp(donneesTEMPLW);">SEMAINE</button>
+            <button id="btGraph" onclick="traitementDonneeCO2(donneesCO2T);traitementDonneeTemp(donneesTEMPT);traitementDonneeHum(donneesHUMT);showAlert();">JOUR</button>
+            <button id="btGraph" onclick="traitementDonneeCO2(donneesCO2LW);traitementDonneeHum(donneesHUMLW);traitementDonneeTemp(donneesTEMPLW);showAlert();">SEMAINE</button>
+            <div id="alertValue"></div>
         </div>
         <section id="mainsection">
             <!-- graph temp -->
@@ -72,22 +73,85 @@
         </section>
     {% endif %}
     <script>
+        printAlertTEMP = 0;
+        printAlertCO2 = 0;
+        printAlertHUM = 0;
+        nbAlertTEMP = 0;
+        nbAlertCO2 = 0;
+        nbAlertHUM = 0;
+
         function openPopup(popupId) {
             document.getElementById(popupId).style.display = 'block';
         }
-
         function closePopup(popupId) {
             document.getElementById(popupId).style.display = 'none';
         }
+        function showAlert() {
+            document.getElementById("alertValue").innerText = "Aucun Alerte";
+            if(printAlertHUM)
+            {
+                nb = nbAlertHUM;
+                document.getElementById("alertValue").innerHTML = "🚨 Alerte Humidité<br>"+nb+" Alertes";
+            }
+            if(printAlertCO2)
+            {
+                nb = nbAlertCO2;
+                document.getElementById("alertValue").innerHTML = "🚨 Alerte CO2<br>"+nb+" Alertes";
+            }
+            if(printAlertTEMP)
+            {
+                nb = nbAlertTEMP;
+                document.getElementById("alertValue").innerHTML = "🚨 Alerte Température<br>"+nb+" Alertes";
+            }
+            if(printAlertTEMP && printAlertHUM)
+            {
+                nb = nbAlertTEMP+nbAlertHUM;
+                document.getElementById("alertValue").innerHTML = "🚨 Alerte Température et Humidité<br>"+nb+" Alertes";
+            }
+            if(printAlertHUM && printAlertCO2)
+            {
+                nb = nbAlertHUM+nbAlertCO2;
+                document.getElementById("alertValue").innerHTML = "🚨 Alerte Humidité et CO2<br>"+nb+" Alertes";
+            }
+            if(printAlertTEMP && printAlertCO2)
+            {
+                nb = nbAlertTEMP+nbAlertCO2;
+                document.getElementById("alertValue").innerHTML = "🚨 Alerte Température et CO2<br>"+nb+" Alertes";
+            }
+            if(printAlertTEMP && printAlertHUM && printAlertCO2)
+            {
+                nb = nbAlertTEMP+nbAlertHUM+nbAlertCO2;
+                document.getElementById("alertValue").innerHTML = "🚨 Alerte sur toutes les données<br>"+nb+" Alertes";
+            }
+            //Remise à zéro des variables
+            printAlertTEMP = 0;
+            printAlertCO2 = 0;
+            printAlertHUM = 0;
+            nbAlertTEMP = 0;
+            nbAlertCO2 = 0;
+            nbAlertHUM = 0;
+        }
+        window.addEventListener('resize', function() {
+            // Appeler la fonction reloadPage à chaque redimensionnement
+            location.reload();
+        });
+        function goHome(){
+            window.location.href = '/referent';
+        }
+
         //Read the data and create the graph
         function traitementDonneeTemp(data) {
             document.getElementById("graph1").innerHTML = "";
             data_date_value = [];
-            for(i = 0 ; i < data.length ; i++)
-            {
-                data_date_value.push([data[i]["dateCapture"],data[i]["valeur"]]);
+            for (i = 0; i < data.length; i++) {
+                data_date_value.push([data[i]["dateCapture"], data[i]["valeur"]]);
+                if (data[i]["valeur"] > 21 || data[i]["valeur"] < 17)
+                {
+                    printAlertTEMP = 1;
+                    nbAlertTEMP += 1;
+                }
             }
-            console.log(data_date_value);
+            console.log(printAlertTEMP);
             // Dimension de l'image SVG
             var marginTop = (document.getElementById("pSAR").offsetWidth)*0.05,
                 marginRight = 10,
@@ -150,9 +214,9 @@
                 .style("stroke", "red")
                 .style("stroke-width", 2)
                 .attr("x1", 0)
-                .attr("y1", (height/36)*14)
+                .attr("y1", (height/36)*13.5)
                 .attr("x2", width)
-                .attr("y2", (height/36)*14);
+                .attr("y2", (height/36)*13.5);
             // Deuxième borne à 17°C
             svg1.append('line')
                 .style("stroke", "red")
@@ -168,8 +232,12 @@
             for(i = 0 ; i < data.length ; i++)
             {
                 data_date_value.push([data[i]["dateCapture"],data[i]["valeur"]]);
+                if(data[i]["valeur"] > 70)
+                {
+                    printAlertHUM += 1;
+                    nbAlertHUM += 1;
+                }
             }
-            console.log(data_date_value);
             // Dimension de l'image SVG
             var marginTop = (document.getElementById("pSAR").offsetWidth)*0.05,
                 marginRight = 10,
@@ -243,8 +311,12 @@
             for(i = 0 ; i < data.length ; i++)
             {
                 data_date_value.push([data[i]["dateCapture"],data[i]["valeur"]]);
+                if(data[i]["valeur"] > 1000)
+                {
+                    printAlertCO2 += 1;
+                    nbAlertCO2 += 1;
+                }
             }
-            console.log(data_date_value);
             // Dimension de l'image SVG
             var marginTop = (document.getElementById("pSAR").offsetWidth)*0.05,
                 marginRight = 10,
@@ -336,13 +408,8 @@
         traitementDonneeCO2(donneesCO2T);
         traitementDonneeTemp(donneesTEMPT);
         traitementDonneeHum(donneesHUMT);
+        showAlert();
 
-        window.addEventListener('resize', function() {
-            // Appeler la fonction reloadPage à chaque redimensionnement
-            location.reload();
-        });
-        function goHome(){
-            window.location.href = '/referent';
-        }
+
     </script>
 {% endblock %}
