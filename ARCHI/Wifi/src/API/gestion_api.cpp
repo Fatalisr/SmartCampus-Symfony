@@ -1,6 +1,7 @@
 /*-----------------------------------------------------------------*/
 /*                            Include                              */
 /*-----------------------------------------------------------------*/
+// Librairies
 #include <Arduino.h>
 #include <WiFi.h>
 #include <HTTPClient.h>
@@ -19,46 +20,19 @@
 #include <Wire.h>
 #endif
 
+// Fichiers du projet
 #include "gestion_api.h"
 #include "/home/alex/Documents/UNIV/2023-2024/SAE/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/src/TemperatureHumidite/temperatureHumidite.h"
 #include "/home/alex/Documents/UNIV/2023-2024/SAE/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/src/Co2/co2.h"
+#include "/home/alex/Documents/UNIV/2023-2024/SAE/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/src/LED/led.h"
+#include "/home/alex/Documents/UNIV/2023-2024/SAE/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/src/Date/date.h"
 
-//ESP32Time rtc;
-ESP32Time rtc(3600);  // GMT+1
-const long gmtOffset_sec = 0;
-const int daylightOffset_sec = 3600;
-
-const char* ntpServer = "pool.ntp.org";
 
 /*-----------------------------------------------------------------*/
 /*                           Fonctions                             */
 /*-----------------------------------------------------------------*/
 
-void initClock()
-{
-    /*---------set with NTP---------------*/
-    configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
-    struct tm timeinfo;
-    if (getLocalTime(&timeinfo))
-    {
-        rtc.setTimeStruct(timeinfo); 
-    }
-}
 
-char * getDate()
-{
-    char * date = (char*)malloc(20);
-    snprintf(date, 20,
-            PSTR("%04u-%02u-%02u %02u:%02u:%02u"),
-            rtc.getYear(),
-            rtc.getMonth() + 1,
-            rtc.getDay(),
-            rtc.getHour(true),
-            rtc.getMinute(),
-            rtc.getSecond()
-            );
-  return date;
-}
 
 template <typename t>
 String convertTOJson(t value,String type)
@@ -72,37 +46,41 @@ String convertTOJson(t value,String type)
     file["nom"] = type;
     file["valeur"] = value;
     file["dateCapture"] = date;
-    file["localisation"] = "D004";
+    file["localisation"] = ESPCurrentRoom;
     file["description"] = "";
     file["nomsa"] = "ESP-013";
     serializeJson(file, content);
     return content;
 }
 
-
+// Fonction d'envoi des données a l'API
 void sendToApi()
 {
-    HTTPClient https;
+    HTTPClient https; // Instance du client https
 
+    // Conversion des données capteurs en string
     String SvalueCO2 = String(ppm,DEC);
     String SvalueHum = String(humidity,DEC);
     SvalueHum = SvalueHum.substring(0,4);
     String SvalueTemp = String(temperature,DEC);
     SvalueTemp = SvalueTemp.substring(0,4);
 
+    // Conversion des string en format JSON
     String contentCO2 = convertTOJson(SvalueCO2,"co2");
     String contentHum = convertTOJson(SvalueHum,"hum");
     String contentTemp = convertTOJson(SvalueTemp,"temp");
 
+    // Variable de connexion à la base de donnée
     String contentType = "application/json";
     String dbname = "sae34bdm1eq1";
     String username = "m1eq1";
     String userpass = "sodqif-vefXym-0cikho";
 
 
-    //Check WiFi connection status
+    // Verification de la connexion wifi
     if(WiFi.status()== WL_CONNECTED)
     {
+        // Envoie du CO2
         Serial.println("Sending POST request CO2");
         https.begin("https://sae34.k8s.iut-larochelle.fr/api/captures");
         https.addHeader("accept",contentType);
@@ -112,7 +90,8 @@ void sendToApi()
         https.addHeader("Content-Type", contentType);
         int httpResponseCode1 = https.POST(contentCO2);
         Serial.println(https.errorToString(httpResponseCode1));
-        //
+
+        // Envoie de l'humidité
         Serial.println("Sending POST request Hum");
         https.begin("https://sae34.k8s.iut-larochelle.fr/api/captures");
         https.addHeader("accept",contentType);
@@ -122,7 +101,8 @@ void sendToApi()
         https.addHeader("Content-Type", contentType);
         int httpResponseCode2 = https.POST(contentHum);
         Serial.println(https.errorToString(httpResponseCode2));
-        //
+
+        // Envoie de la temperature
         Serial.println("Sending POST request Temp");
         https.begin("https://sae34.k8s.iut-larochelle.fr/api/captures");
         https.addHeader("accept",contentType);
@@ -132,8 +112,8 @@ void sendToApi()
         https.addHeader("Content-Type", contentType);
         int httpResponseCode3 = https.POST(contentTemp);
         Serial.println(https.errorToString(httpResponseCode3));
+
     }
-   
     delay(1000);
 }
 
@@ -146,6 +126,6 @@ void sendToAPITask(void *parameter){
     vTaskDelay(pdMS_TO_TICKS( 15000 )); 
     for(;;){
         sendToApi();
-        vTaskDelay(pdMS_TO_TICKS( 60000 )); 
+        vTaskDelay(pdMS_TO_TICKS( APIDelay )); 
     }
 }

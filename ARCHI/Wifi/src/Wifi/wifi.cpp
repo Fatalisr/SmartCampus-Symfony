@@ -19,19 +19,27 @@
 #include <Wire.h>
 #endif
 
+#include "/home/alex/Documents/UNIV/2023-2024/SAE/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/src/variables.h"
+
 /*-----------------------------------------------------------------*/
 /*                          Variables                              */
 /*-----------------------------------------------------------------*/
 
-#define EAP_IDENTITY "ugay" //Login
-#define EAP_USERNAME "ugay" //Login
-#define EAP_PASSWORD "LaceulalTelephone7!" //Eduroam password
-const char* ssid = "eduroam"; // Eduroam SSID
+
 int counter;//Compteur pour la connexion
 
+
+
+/*-----------------------------------------------------------------*/
+/*                          Fonction                               */
+/*-----------------------------------------------------------------*/
+
 void connectedToWifi(){
-    WiFi.begin(ssid, WPA2_AUTH_PEAP, EAP_IDENTITY, EAP_USERNAME, EAP_PASSWORD);
+    // Initialisation de la connexion avec les variables adequats
+    WiFi.begin(ssid, WPA2_AUTH_PEAP, EAP_IDENTITY, EAP_USERNAME, EAP_PASSWORD); 
     Serial.println("Tentative de Connexion");
+
+    // Gestion du temps de connexion
     while (WiFi.status() != WL_CONNECTED)
     {
         delay(500);

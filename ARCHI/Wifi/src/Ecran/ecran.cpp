@@ -1,17 +1,8 @@
-/*-----------------------------------------------------------------*/
-/*                            Include                              */
-/*-----------------------------------------------------------------*/
 #include <Arduino.h>
-#include <WiFi.h>
-#include <HTTPClient.h>
-#include <ArduinoJson.h>
-#include <ESP32Time.h>
-#include "sensirion_common.h"
-#include "sgp30.h"
-#include "esp_wpa2.h" //Librairie wpa2 pour la connexion au réseaux d'enterprise
-#include <Adafruit_Sensor.h>
-#include <DHT_U.h>
 #include <U8g2lib.h>
+#include <string>
+using namespace std;
+
 #ifdef U8X8_HAVE_HW_SPI
 #include <SPI.h>
 #endif
@@ -19,50 +10,67 @@
 #include <Wire.h>
 #endif
 
+#include "/home/alex/Documents/UNIV/2023-2024/SAE/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/src/API/gestion_api.h"
+#include "/home/alex/Documents/UNIV/2023-2024/SAE/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/src/variables.h"
+
 // Instance de l'écran
 U8G2_SSD1306_128X64_NONAME_F_SW_I2C screen(U8G2_R0, /* clock=*/ SCL, /* data=*/ SDA, /* reset=*/ U8X8_PIN_NONE); // Software I2C
 
 
-// accès aux fonction clearBuffer et sendBuffer pour la gestion de l'affichage dans les tasks pour chaque capteur
-void clearB()
-{
-  screen.clearBuffer();
-}
-
-void sendB()
-{
-  screen.sendBuffer();
-}
-
 // Initialisation de l'écran
-void initScreen()
-{
-  if(!screen.begin())
-  {
+void init_screen(){
+  if(!screen.begin()){
     Serial.println("Erreur lors de l'initialisation de l'écran");
   }
   screen.setFont(u8g2_font_luBIS08_tf);
-  Serial.println("Init Screen OK");
 }
 
-void loadingDisplay()
-{
-    int x = 5;
-    int y = 40;
-    screen.clearBuffer();
-    screen.drawUTF8(x,y,"Chargement");
-    screen.sendBuffer();
-    delay(500);
-    screen.clearBuffer();
-    screen.drawUTF8(x,y,"Chargement .");
-    screen.sendBuffer();
-    delay(500);
-    screen.clearBuffer();
-    screen.drawUTF8(x,y,"Chargement ..");
-    screen.sendBuffer();
-    delay(500);
-    screen.clearBuffer();
-    screen.drawUTF8(x,y,"Chargement ...");
-    screen.sendBuffer();
-    delay(500);
+// Affichage standard 
+void displayScreen(int x, int y, String data){
+  const char * printedData = data.c_str();
+  screen.drawUTF8(x,y,printedData);
 }
+
+void displaySensorValue(int x, int y, String dataType, String dataUnit, float value)
+{ 
+  // Conversion de la valeur float en string pour l'affichage (precision au dixième)
+  String stringValue = String(value);                            
+  stringValue.remove(stringValue.length()-1);
+  String stringData = dataType + " : " +stringValue+" "+dataUnit;   
+  const char * printedData = stringData.c_str();                   
+  screen.drawUTF8(x,y,printedData);                                
+}
+
+void loadingDisplay(int x, int y){
+  screen.clearBuffer();
+  screen.drawUTF8(x,y,"Chargement");
+  screen.sendBuffer();
+  delay(500);
+  screen.clearBuffer();
+  screen.drawUTF8(x,y,"Chargement .");
+  screen.sendBuffer();
+  delay(500);
+  screen.clearBuffer();
+  screen.drawUTF8(x,y,"Chargement ..");
+  screen.sendBuffer();
+  delay(500);
+  screen.clearBuffer();
+  screen.drawUTF8(x,y,"Chargement ...");
+  screen.sendBuffer();
+  delay(500);
+}
+
+void displayValuesOnScreenTask(void* parameter){
+  loadingDisplay(10, 40);
+  for(;;){
+    screen.clearBuffer();
+    displayScreen(10, 10,getDate());
+    displaySensorValue(10, 28, "Temperature", "°C", temperature);
+    displaySensorValue(10, 40, "Humidité", "%", humidity);
+    displaySensorValue(10, 52, "CO2", "ppm", ppm);
+    screen.sendBuffer();
+    vTaskDelay( pdMS_TO_TICKS( 2000 ) );
+  }
+}
+
+

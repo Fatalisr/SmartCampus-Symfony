@@ -20,13 +20,8 @@
 #endif
 
 #include "co2.h"
+#include "/home/alex/Documents/UNIV/2023-2024/SAE/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/src/LED/led.h"
 
-/*-----------------------------------------------------------------*/
-/*                           Variables                             */
-/*-----------------------------------------------------------------*/
-
-u16 ppm;
-s16 err_CO2;
 
 /*-----------------------------------------------------------------*/
 /*                           Fonctions                             */
@@ -40,6 +35,7 @@ void initCO2Sensor()
   while (sgp_probe() != STATUS_OK)
   {
     Serial.println("Erreur de l'initialisation du Capteur C02");
+    ledCO2Ok = false; 
     while(1);
   }
   /* Read H2 and Ethanol signal in the way of blocking */
@@ -50,16 +46,27 @@ void initCO2Sensor()
   }
   else
   {
-    Serial.println("Erreur de lecture"); 
+    Serial.println("Erreur de lecture du capteur de CO2");
+    ledCO2Ok = false; 
   }
   err = sgp_iaq_init();
   Serial.println("Init CO2 OK");
+  ledCO2Ok = true;
 }
 
 // Fonction de lecture du capteur de CO2
 s16 getCO2Value(u16 &ppm)
 {
   s16 err = 0;
+  u16 scaled_ethanol_signal, scaled_h2_signal;
+
+  if (sgp_measure_signals_blocking_read(&scaled_ethanol_signal,&scaled_h2_signal) == STATUS_OK){
+    //ledCO2Ok = true; 
+  }
+  else{
+    //ledCO2Ok = false; 
+  }
+
   err = sgp_measure_co2_eq_blocking_read(&ppm);
   return err;
 }
@@ -72,6 +79,6 @@ s16 getCO2Value(u16 &ppm)
 void getCO2Task(void *parameter){
     for(;;){
         err_CO2 = getCO2Value(ppm);
-        vTaskDelay( pdMS_TO_TICKS( 15000 ) );
+        vTaskDelay( pdMS_TO_TICKS( 2000 ) );
     }
 }

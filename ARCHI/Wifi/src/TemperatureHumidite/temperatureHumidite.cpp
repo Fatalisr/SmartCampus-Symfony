@@ -1,6 +1,7 @@
 /*-----------------------------------------------------------------*/
 /*                            Include                              */
 /*-----------------------------------------------------------------*/
+// Librairies
 #include <Arduino.h>
 #include <WiFi.h>
 #include <HTTPClient.h>
@@ -19,14 +20,18 @@
 #include <Wire.h>
 #endif
 
+// Fichier du projet
 #include "temperatureHumidite.h"
+#include "/home/alex/Documents/UNIV/2023-2024/SAE/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/src/LED/led.h"
+#include "/home/alex/Documents/UNIV/2023-2024/SAE/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/src/variables.h"
 
-#define DHTPIN 17// Digital pin connected to the DHT sensor 
-#define DHTTYPE    DHT22// DHT 22 (AM2302)
+/*-----------------------------------------------------------------*/
+/*                           Instance                              */
+/*-----------------------------------------------------------------*/
+
+#define DHTTYPE DHT22// DHT 22 (AM2302)
 DHT_Unified dht(DHTPIN, DHTTYPE);// Instance du capteur de Hum/Temp
 
-float temperature;
-float humidity;
 
 /*-----------------------------------------------------------------*/
 /*                           Fonctions                             */
@@ -47,19 +52,23 @@ void getHumTempvalue(float & hum, float & temp){
     // Get temperature event and print its value.
     dht.temperature().getEvent(&event); 
     if (isnan(event.temperature)) {
-    Serial.println(F("Error reading temperature!"));
+        Serial.println(F("Error reading temperature!"));
+        ledTempOk = false; 
     }
     else {
         temperature = event.temperature;
+        ledTempOk = true; 
     }
 
     // Get humidity event and print its value.
         dht.humidity().getEvent(&event);
     if (isnan(event.relative_humidity)) {
         Serial.println(F("Error reading humidity!"));
+        ledHumiOk = false; 
     }
     else {
         humidity = event.relative_humidity;
+        ledHumiOk = true; 
     }
 }
 
