@@ -88,7 +88,6 @@ class ConnexionRequetesAPI
                 'date2' => $date2,      // Interval ending date
             ],
         ]);
-
         if($response->getStatusCode() == 200)   // Checks if the request was successful (200 indicates that the request was successful)
         {
             return $response->getContent();

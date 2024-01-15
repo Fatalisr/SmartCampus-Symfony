@@ -130,10 +130,9 @@ class ReferentController extends AbstractController
         $sa = $entityManager->find(SA::class,$id);
         $room = $sa->getCurrentRoom()->getName();
 
-        $today = date("Y-m-d H:i:s"); //Genère la date d'ajourd'hui
-        $yesterday = date('Y-m-d H:i:s', time() + (60 * 60 * 24)*-1 );  // Genère la date d'hier
-        $lastWeek = date('Y-m-d H:i:s', time() + (60 * 60 * 24 * -7) ); // Genère la date de la semain dernière
-        $lastHour = date('Y-m-d H:i:s', time() + (60 * 60 * 1 * -1) ); // Genère la date h-1
+        $today = date("Y-m-d"); //Genère la date d'ajourd'hui
+        $yesterday = date('Y-m-d', time() + (60 * 60 * 24)*-1 );  // Genère la date d'hier
+        $lastWeek = date('Y-m-d', time() + (60 * 60 * 24 * -7) ); // Genère la date de la semain dernière
         // Récupère les captures d'hier à aujourd'hui
         $reponseCO2T = $requetesAPI->getIntervalCaptures($yesterday,$today,$room,"co2");
         $reponseHUMT = $requetesAPI->getIntervalCaptures($yesterday,$today,$room,"hum");
@@ -143,12 +142,6 @@ class ReferentController extends AbstractController
         $reponseCO2LW = $requetesAPI->getIntervalCaptures($lastWeek,$today,$room,"co2");
         $reponseHUMLW = $requetesAPI->getIntervalCaptures($lastWeek,$today,$room,"hum");
         $reponseTEMPLW = $requetesAPI->getIntervalCaptures($lastWeek,$today,$room,"temp");
-
-        // Récupère les captures de la dernière heure
-        $reponseCO2H = $requetesAPI->getIntervalCaptures($lastHour,$today,$room,"co2");
-        $reponseHUMH = $requetesAPI->getIntervalCaptures($lastHour,$today,$room,"hum");
-        $reponseTEMPH = $requetesAPI->getIntervalCaptures($lastHour,$today,$room,"temp");
-
 
 
 
@@ -182,9 +175,6 @@ class ReferentController extends AbstractController
             'donneesCO2T' => $reponseCO2T,
             'donneesHUMT' => $reponseHUMT,
             'donneesTEMPT' => $reponseTEMPT,
-            'donneesCO2H' => $reponseCO2H,
-            'donneesHUMH' => $reponseHUMH,
-            'donneesTEMPH' => $reponseTEMPH,
             'donneesCO2LW' => $reponseCO2LW,
             'donneesHUMLW' => $reponseHUMLW,
             'donneesTEMPLW' => $reponseTEMPLW,
@@ -424,7 +414,7 @@ class ReferentController extends AbstractController
 
             return $this->redirectToRoute('app_referent');
         }
-        return $this->render("referent/saInt.html.twig",[
+        return $this->render("referent/installation.html.twig",[
             'sa' => $sa,
             'form_validMtn' => $form_validMtn,
             'message' => $message,

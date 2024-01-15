@@ -18,6 +18,10 @@
 
     </div>
     {% if sa.state == 'ACTIF' %}
+        <div id="changeTime">
+            <button id="btGraph" onclick="traitementDonneeCO2(donneesCO2T);traitementDonneeTemp(donneesTEMPT);traitementDonneeHum(donneesHUMT);">JOUR</button>
+            <button id="btGraph" onclick="traitementDonneeCO2(donneesCO2LW);traitementDonneeHum(donneesHUMLW);traitementDonneeTemp(donneesTEMPLW);">SEMAINE</button>
+        </div>
         <section id="mainsection">
             <!-- graph temp -->
             <div class="pSA" id="pSAR">
@@ -75,8 +79,15 @@
         function closePopup(popupId) {
             document.getElementById(popupId).style.display = 'none';
         }
-        //Read the data
-        function traitementDonneeTemp() {
+        //Read the data and create the graph
+        function traitementDonneeTemp(data) {
+            document.getElementById("graph1").innerHTML = "";
+            data_date_value = [];
+            for(i = 0 ; i < data.length ; i++)
+            {
+                data_date_value.push([data[i]["dateCapture"],data[i]["valeur"]]);
+            }
+            console.log(data_date_value);
             // Dimension de l'image SVG
             var marginTop = (document.getElementById("pSAR").offsetWidth)*0.05,
                 marginRight = 10,
@@ -95,9 +106,9 @@
                     "translate(" + marginLeft + "," + marginTop + ")");
 
             d_array =  [];
-            for (let i = 0; i < arrayTempT.length; i++)
+            for (let i = 0; i < data_date_value.length; i++)
             {
-                d_array.push({ dateCapture : d3.timeParse("%Y-%m-%d %H:%M:%S")(arrayCO2T[i][0]), valeur : arrayCO2T[i][1] });
+                d_array.push({ dateCapture : d3.timeParse("%Y-%m-%d %H:%M:%S")(data_date_value[i][0]), valeur : data_date_value[i][1] });
             }
             // Add X axis --> it is a date format
             x = d3.scaleTime()
@@ -111,7 +122,7 @@
 
             // Add Y axis
             y = d3.scaleLinear()
-                .domain([0,2000])
+                .domain([-1,35])
                 .range([ height, 0 ]);
             svg1.append("g")
                 .call(d3.axisLeft(y));
@@ -134,9 +145,32 @@
                     .x(function(d) { return x(d.dateCapture) })
                     .y(function(d) { return y(d.valeur) })
                 )
+            // Première borne à 21°C
+            svg1.append('line')
+                .style("stroke", "red")
+                .style("stroke-width", 2)
+                .attr("x1", 0)
+                .attr("y1", (height/36)*14)
+                .attr("x2", width)
+                .attr("y2", (height/36)*14);
+            // Deuxième borne à 17°C
+            svg1.append('line')
+                .style("stroke", "red")
+                .style("stroke-width", 2)
+                .attr("x1", 0)
+                .attr("y1", (height/36)*18)
+                .attr("x2", width)
+                .attr("y2", (height/36)*18);
         }
-        function traitementDonneeHum() {
-            // set the dimensions and margins of the graph
+        function traitementDonneeHum(data) {
+            document.getElementById("graph2").innerHTML = "";
+            data_date_value = [];
+            for(i = 0 ; i < data.length ; i++)
+            {
+                data_date_value.push([data[i]["dateCapture"],data[i]["valeur"]]);
+            }
+            console.log(data_date_value);
+            // Dimension de l'image SVG
             var marginTop = (document.getElementById("pSAR").offsetWidth)*0.05,
                 marginRight = 10,
                 marginBottom = (document.getElementById("pSAR").offsetWidth)*0.05,
@@ -154,9 +188,9 @@
                     "translate(" + marginLeft + "," + marginTop + ")");
 
             d_array =  [];
-            for (let i = 0; i < arrayHumT.length; i++)
+            for (let i = 0; i < data_date_value.length; i++)
             {
-                d_array.push({ dateCapture : d3.timeParse("%Y-%m-%d %H:%M:%S")(arrayCO2T[i][0]), valeur : arrayCO2T[i][1] });
+                d_array.push({ dateCapture : d3.timeParse("%Y-%m-%d %H:%M:%S")(data_date_value[i][0]), valeur : data_date_value[i][1] });
             }
             // Add X axis --> it is a date format
             x = d3.scaleTime()
@@ -170,7 +204,7 @@
 
             // Add Y axis
             y = d3.scaleLinear()
-                .domain([0,2000])
+                .domain([0,100])
                 .range([ height, 0 ]);
             svg1.append("g")
                 .call(d3.axisLeft(y));
@@ -193,9 +227,25 @@
                     .x(function(d) { return x(d.dateCapture) })
                     .y(function(d) { return y(d.valeur) })
                 )
+
+            // Borne à 70% d'humidité
+            svg1.append('line')
+                .style("stroke", "red")
+                .style("stroke-width", 2)
+                .attr("x1", 0)
+                .attr("y1", (height/10)*3)
+                .attr("x2", width)
+                .attr("y2", (height/10)*3);
         }
-        function traitementDonneeCO2() {
-            // set the dimensions and margins of the graph
+        function traitementDonneeCO2(data) {
+            document.getElementById("graph3").innerHTML = "";
+            data_date_value = [];
+            for(i = 0 ; i < data.length ; i++)
+            {
+                data_date_value.push([data[i]["dateCapture"],data[i]["valeur"]]);
+            }
+            console.log(data_date_value);
+            // Dimension de l'image SVG
             var marginTop = (document.getElementById("pSAR").offsetWidth)*0.05,
                 marginRight = 10,
                 marginBottom = (document.getElementById("pSAR").offsetWidth)*0.05,
@@ -213,9 +263,9 @@
                     "translate(" + marginLeft + "," + marginTop + ")");
 
             d_array =  [];
-            for (let i = 0; i < arrayCO2T.length; i++)
+            for (let i = 0; i < data_date_value.length; i++)
             {
-                d_array.push({ dateCapture : d3.timeParseT("%Y-%m-%d %H:%M:%S")(arrayCO2[i][0]), valeur : arrayCO2T[i][1] });
+                d_array.push({ dateCapture : d3.timeParse("%Y-%m-%d %H:%M:%S")(data_date_value[i][0]), valeur : data_date_value[i][1] });
             }
             // Add X axis --> it is a date format
             x = d3.scaleTime()
@@ -252,54 +302,40 @@
                     .x(function(d) { return x(d.dateCapture) })
                     .y(function(d) { return y(d.valeur) })
                 )
+            // Borne à 1300
+            svg1.append('line')
+                .style("stroke", "red")
+                .style("stroke-width", 2)
+                .attr("x1", 0)
+                .attr("y1", (height/20)*10)
+                .attr("x2", width)
+                .attr("y2", (height/20)*10);
         }
 
         // Données du jour
         donneesCO2T = '{{ donneesCO2T }}';
         donneesCO2T = donneesCO2T.replace(/&quot;/ig,'\"');
+        donneesCO2T = JSON.parse(donneesCO2T);
         donneesHUMT = '{{ donneesHUMT }}';
         donneesHUMT = donneesHUMT.replace(/&quot;/ig,'\"');
+        donneesHUMT = JSON.parse(donneesHUMT);
         donneesTEMPT = '{{ donneesTEMPT }}';
         donneesTEMPT = donneesTEMPT.replace(/&quot;/ig,'\"');
-        //Données de ll'heure
-        donneesCO2H = '{{ donneesCO2H }}';
-        donneesCO2H = donneesCO2H.replace(/&quot;/ig,'\"');
-        donneesHUMH = '{{ donneesHUMH }}';
-        donneesHUMH = donneesHUMH.replace(/&quot;/ig,'\"');
-        donneesTEMPH = '{{ donneesTEMPH }}';
-        donneesTEMPH = donneesTEMPH.replace(/&quot;/ig,'\"');
+        donneesTEMPT = JSON.parse(donneesTEMPT);
         // Données de la semaine
         donneesCO2LW = '{{ donneesCO2LW }}';
         donneesCO2LW = donneesCO2LW.replace(/&quot;/ig,'\"');
+        donneesCO2LW = JSON.parse(donneesCO2LW);
         donneesHUMLW = '{{ donneesHUMLW }}';
         donneesHUMLW = donneesHUMLW.replace(/&quot;/ig,'\"');
+        donneesHUMLW = JSON.parse(donneesHUMLW);
         donneesTEMPLW = '{{ donneesTEMPLW }}';
         donneesTEMPLW = donneesTEMPLW.replace(/&quot;/ig,'\"');
+        donneesTEMPLW = JSON.parse(donneesTEMPLW);
 
-
-        monJsonT = JSON.parse(donneesCO2T);
-        console.log(monJsonT);
-        arrayCO2T = [];
-        arrayHumT = [];
-        arrayTempT = [];
-        for(i = 0 ; i < monJsonT.length ; i++)
-        {
-            if(monJson[i]["nom"] == "co2")
-            {
-                arrayCO2T.push([monJsonT[i]["dateCapture"],monJsonT[i]["valeur"]]);
-            }
-            if(monJson[i]["nom"] == "hum")
-            {
-                arrayHumT.push([monJsonT[i]["dateCapture"],monJsonT[i]["valeur"]]);
-            }
-            if(monJson[i]["nom"] == "temp")
-            {
-                arrayTempT.push([monJsonT[i]["dateCapture"],monJsonT[i]["valeur"]]);
-            }
-        }
-        traitementDonneeCO2();
-        traitementDonneeTemp();
-        traitementDonneeHum();
+        traitementDonneeCO2(donneesCO2T);
+        traitementDonneeTemp(donneesTEMPT);
+        traitementDonneeHum(donneesHUMT);
 
         window.addEventListener('resize', function() {
             // Appeler la fonction reloadPage à chaque redimensionnement
