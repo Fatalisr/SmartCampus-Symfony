@@ -28,7 +28,7 @@ class choisirSalleUsagerForm extends \Symfony\Component\Form\AbstractType
                         ->orderBy('r.name', 'ASC');
                 },
                 'choice_label' => 'name',
-                'placeholder' => 'Selectionnez une salle'
+                'placeholder' => 'Sélectionnez une salle'
             ]);
     }
 

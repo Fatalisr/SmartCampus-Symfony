@@ -6,10 +6,6 @@ use App\Entity\SA;
 use App\Entity\User;
 use App\Form\InterventionFormType;
 use App\Form\MaintenanceForm;
-use App\Repository\RoomRepository;
-use Doctrine\ORM\QueryBuilder;
-use Doctrine\Persistence\ObjectManager;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use App\Form\changerSalleForm;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,7 +26,7 @@ class ReferentController extends AbstractController
 
         $entityManager = $doctrine->getManager(); // Manager doctrine
 
-        // instentiation des repository de salle et de SA
+        // Instanciation des repository ROOM, SA et INTERVENTIONS
         $saRepository = $entityManager->getRepository('App\Entity\SA');
         $roomRepository = $entityManager->getRepository('App\Entity\Room');
         $InterventionRepository = $entityManager->getRepository('App\Entity\Intervention');
@@ -60,11 +56,13 @@ class ReferentController extends AbstractController
 
                 if($curSa->getState() != "A_INSTALLER") {
 
+                    // Modification de l'intervention au cas ou le SA est déjà en cours d'interventions
                     if($interventionInstallation != null){
                         $curSa->setState("A_INSTALLER");
                         $interventionInstallation->setType_I("INSTALLATION");
                         $interventionInstallation->setMessage("Déplacement du " . $curSa->getName() . " de la salle " . $curSa->getOldRoom()->getName() . " en " . $form->get('newRoom')->getData()->getName());
                     }
+                    // Création d'une intervention
                     else {
                         $curSa->setState("A_INSTALLER");
                         $interventionInstallation = new Intervention();
@@ -85,6 +83,7 @@ class ReferentController extends AbstractController
                     $entityManager->persist($interventionInstallation);
                 }
                 else{
+                    // Définit le message par défaut de l'intervention de type INSTALLATION
                     if($curSa->getOldRoom() != null) {
                         $interventionInstallation->setMessage("Déplacement du " . $curSa->getName() . " de la salle " . $curSa->getOldRoom()->getName() . " en " . $form->get('newRoom')->getData()->getName());
                     }
@@ -99,7 +98,6 @@ class ReferentController extends AbstractController
             }
             $forms[] = $form->createView();
         }
-
 
         return $this->render("referent/referent.html.twig", [
         'path' => 'src/Controller/ReferentController.php',
@@ -178,7 +176,7 @@ class ReferentController extends AbstractController
             // Manager doctrine
             $entityManager = $doctrine->getManager();
 
-            // Creation d'une intervention si le SA a été assigné a une salle lors de ca creation
+            // Creation d'une intervention si le SA a été assigné à une salle lors de sa création
             if($form->get('currentRoom')->getData())
             {
                 $sa->setCurrentRoom($form->get('currentRoom')->getData());
@@ -201,7 +199,7 @@ class ReferentController extends AbstractController
             // Set de la salle : si aucune salle n'a été renseigné, currentRoom = null
             $sa->setCurrentRoom($form->get('currentRoom')->getData());
 
-            //Ajoute à la base de donnée
+            //Ajout à la base de donnée
             $entityManager->persist($sa);
             $entityManager->flush();
 
@@ -223,13 +221,13 @@ class ReferentController extends AbstractController
         // Manager doctrine
         $entityManager = $doctrine->getManager();
 
-        // Reccuperation du SA avec l'id de la route
+        // Réccuperation du SA avec l'id de la route
         $sa = $entityManager->find(SA::class, $id);
         $sa->setOldRoom($sa->getCurrentRoom());
         $sa->setCurrentRoom(null);
         $sa->setState("INACTIF");
 
-        // Creation de l'intervention correspondante
+        // Création de l'intervention correspondante
         $InterventionRepo = $doctrine->getRepository("App\Entity\Intervention");
         $interventionOld = $InterventionRepo->findOneBySAAndCurrent($sa);
         $interventionOld->setEndingDate(new \DateTime());
@@ -268,7 +266,7 @@ class ReferentController extends AbstractController
         $roomFloor2 = $roomRepository->getRoomFloor(2);
         $roomFloor3 = $roomRepository->getRoomFloor(3);
 
-        // Creation d'un attribut SA qui porte le SA assigné a la salle
+        // Création d'un attribut SA qui porte le SA assigné à la salle
         foreach ($roomRDC as $room){
             $sa = $entityManager->getRepository(SA::class)->findOneBy(['currentRoom' => $room]);
             $room->sa = $sa;
@@ -334,8 +332,7 @@ class ReferentController extends AbstractController
         $userRepo = $entityManager->getRepository(User::class);
         $interventions = $interventionRepo->findAll();
 
-
-
+        // Récupération des utilisateurs ayant le rôle TECHNICIEN
         $users = $userRepo->findAll();
         $techniciens = [];
         foreach ($users as $user){
@@ -345,7 +342,6 @@ class ReferentController extends AbstractController
                 }
             }
         }
-
 
         return $this->render("referent/historique.html.twig", [
             'interventions' => $interventions,
@@ -357,8 +353,10 @@ class ReferentController extends AbstractController
     public function intervention_sa(?int $id,ManagerRegistry $doctrine,Request $request): Response
     {
         $entityManager = $doctrine->getManager();
+        // Récupération du SA via l'id de la route
         $sa = $entityManager->find(SA::class,$id);
         $interventionRepo = $entityManager->getRepository(Intervention::class);
+        // Récupération de l'intervention correspondante
         $curInterv = $interventionRepo->findOneBySAAndCurrent($sa);
         $message = $curInterv->getMessage();
 
@@ -399,4 +397,3 @@ class ReferentController extends AbstractController
     }
 
 }
-

@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Room;
 use App\Entity\SA;
 use App\Form\choisirSalleUsagerForm;
-use App\Repository\SARepository;
 use App\Service\ConnexionRequetesAPI;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,26 +24,21 @@ class UsagerController extends AbstractController
         // Manager doctrine
         $entityManager = $doctrine->getManager();
 
-        // Repository
+        // Repository ROOM et SA
         $roomRepo = $entityManager->getRepository(Room::class);
         $saRepo = $entityManager->getRepository(SA::class);
 
-        // Formulaire pour le choix de la salle a afficher
+        // Formulaire pour le choix de la salle à afficher
         $form = $this->createForm(choisirSalleUsagerForm::class);
         $form->handleRequest($request);
 
-        // gestion des variables de salle et SA en fonction de la salle choisi
-        $roomRepo = $entityManager->getRepository(Room::class);
-        $saRepo = $entityManager->getRepository(SA::class);
-
-        $form = $this->createForm(choisirSalleUsagerForm::class);
-        $form->handleRequest($request);
-
+        // Si aucune salle n'est choisi
         if($id == null)
         {
             $room = null;
             $sa = null;
         }
+        // Si une salle est choisi on récupere les dernières données
         else
         {
             $room = $roomRepo->find($id);
@@ -61,22 +55,16 @@ class UsagerController extends AbstractController
             return $this->redirectToRoute('app_usager', ['id' => $idRoom]);
         }
 
-
-
-
         //Gestion des conseils
         $conseils = [];
-        if($id != null) {
-
+        if($id != null)
+        {
             $tempINT = null;
-            $tempEXT = $meteo['current']['temperature_2m'];
-            $weather = $meteo['current']['weather_code'];
-
             $coINT = 0;
             $humINT = 0;
+            $tempEXT = $meteo['current']['temperature_2m'];
             $date = 0;
-
-
+            // Affecter les dernières captures aux variables correspondantes
             foreach ($donnees as $donnee) {
                 if ($donnee->nom == 'temp') {
                     $tempINT = (float)$donnee->valeur;
@@ -88,6 +76,7 @@ class UsagerController extends AbstractController
                 }
             }
 
+            // Récupération du mois dans la date
             $month = (int)substr($date, 5, 2);
 
             $intervalleinf = 17;
@@ -95,24 +84,22 @@ class UsagerController extends AbstractController
             if ($month >= 6 and $month <= 8) {
                 $intervallesup = 26;
             }
-
+            // Gestion des conseils
             if($tempINT != null)
             {
-
-
                 if($tempINT  > $intervalleinf and $tempINT < $intervallesup)
                 {
                     if($humINT > 70 and $coINT > 1000)
                     {
-                        array_push($conseils, "Le taux de co2 et l'humidité sont trop élevé, il serait judicieux d'aérer en ouvrant les fenêtres et les portes");
+                        array_push($conseils, "Le taux de CO2 et l'humidité sont trop élevés, il serait judicieux d'aérer en ouvrant les fenêtres et les portes");
                     }
                     elseif ($humINT > 70)
                     {
-                        array_push($conseils, "L'humidité est trop élevé, il serait judicieux d'aérer en ouvrant les fenêtres et les portes");
+                        array_push($conseils, "L'humidité est trop élevée, il serait judicieux d'aérer en ouvrant les fenêtres et les portes");
                     }
                     elseif ($coINT > 1000)
                     {
-                        array_push($conseils, "L'humidité est trop élevé, il serait judicieux d'aérer en ouvrant les fenêtres et les portes");
+                        array_push($conseils, "L'humidité est trop élevée, il serait judicieux d'aérer en ouvrant les fenêtres et les portes");
                     }
                 }
                 elseif($tempINT < $intervalleinf)
@@ -131,7 +118,7 @@ class UsagerController extends AbstractController
                     }
                     else
                     {
-                        array_push($conseils, "Allumez ou augmentez le chauffage pour augmenter la température de la salle.Vérifiez que les fenêtres sont fermées.");
+                        array_push($conseils, "Allumez ou augmentez le chauffage pour augmenter la température de la salle.Vérifiez que les fenêtres sont bien fermées.");
                     }
                 }
                 elseif ($tempINT > $intervallesup)
@@ -146,19 +133,16 @@ class UsagerController extends AbstractController
                     }
                     elseif ($tempINT < $tempEXT)
                     {
-                        array_push($conseils, "La température intérieure élevée est sûrement dûe à la température extérieure élevée. Afin d'essayer de la réduire, éteignez le chauffage, fermez fenêtres et volets et ouvrez la porte afin d'évacuer la chaleur de la salle.");
+                        array_push($conseils, "La température intérieure élevée est sûrement due à la température extérieure élevée. Afin d'essayer de la réduire, éteignez le chauffage, fermez les fenêtres ainsi que les volets et ouvrez la porte afin d'évacuer la chaleur de la salle.");
                     }
                     else
                     {
-                        array_push($conseils, "La température intérieure élevée peut être réduite en s'appuyant sur la température extérieur inférieure. Eteignez le chauffage, ouvrez les fenêtres et ouvrez la porte afin de créer un courant d'air frais.");
+                        array_push($conseils, "La température intérieure élevée peut être réduite en s'appuyant sur la température extérieure. Éteignez le chauffage, ouvrez les fenêtres et ouvrez la porte afin de créer un courant d'air frais.");
                     }
                 }
             }
 
         }
-
-
-
 
         if($id == null)
         {

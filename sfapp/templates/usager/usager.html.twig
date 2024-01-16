@@ -9,7 +9,7 @@
         </div>
         <div id="contenuUsagerNoRoom">
             <div id="no_room">
-                <h2>Bienvenue sur l'espace destiné aux usagers des batiments</h2>
+                <h2>Bienvenue sur l'espace destiné aux usagers</h2>
                 <span>Veuillez choisir la salle dans laquelle vous êtes pour continuer</span>
                 {{ form_start(form, {'attr' : {'id' : 'room_choise_form'}}) }}
                 {{ form_widget(form.room, {'attr': {'onChange': 'choiseRoom()', 'style' : 'margin-top: 15%; margin-right : 0;'}}) }}
@@ -83,7 +83,7 @@
                             <span> Soleil </span>
                         {% elseif value ==  1 or value == 2 or value == 3 %}
                             <img class="imageMeteo" src="{{ asset('images/nuage_soleil.png') }}" alt="soleil_nuage">
-                            <span> Eclaircie </span>
+                            <span> Éclaircie </span>
                         {% elseif value == 45 or value == 48 %}
                             <img class="imageMeteo" src="{{ asset('images/nuage.png') }}" alt="nuage">
                             <span> Nuageux </span>
@@ -101,7 +101,7 @@
                             <span> Averses orageuses </span>
                         {% else %}
                             <img class="imageMeteo" src="{{ asset('images/alien.png') }}" alt="no found">
-                            <span style="white-space: nowrap">Meteo inconnu 👽</span>
+                            <span style="white-space: nowrap">Météo inconnu 👽</span>
                         {% endif %}
                     </div>
                     <div id="APImeteoData">

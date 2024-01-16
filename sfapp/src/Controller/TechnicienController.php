@@ -2,14 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Intervention;
 use App\Form\AssignFormType;
 use App\Form\MaintenanceForm;
-use App\Form\InstallationForm;
-use App\Form\InterventionFormType;
-use App\Entity\User;
 use App\Form\UnassignFormType;
-use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,7 +13,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TechnicienController extends AbstractController
 {
-
     /* --------------------------------------------------------- */
     /*               PAGE D'ACCEUIL DU TECHNICIEN                */
     /* --------------------------------------------------------- */
@@ -28,7 +22,7 @@ class TechnicienController extends AbstractController
         $entityManager = $doctrine->getManager();
         $interventionRepository = $entityManager->getRepository('App\Entity\Intervention');
 
-        // Listes des interventions repartie
+        // Listes des interventions en fonction de leur type
         $installations = $interventionRepository->findAllInstallations();
         $maintenances = $interventionRepository->findAllMaintenances();
 
@@ -46,7 +40,7 @@ class TechnicienController extends AbstractController
     {
         $entityManager =  $doctrine->getManager();
 
-        // Reccuperation des informations concernant l'intervention
+        // Récuperation des informations concernant l'intervention
         $interventionRepo = $entityManager->getRepository('App\Entity\Intervention');
         $curInterv = $interventionRepo->find($id);
         $curSA = $curInterv->getSa();
@@ -54,8 +48,6 @@ class TechnicienController extends AbstractController
         // Formulaire de validation de l'intervention
         $form_validInst = $this->createForm(MaintenanceForm::class);
         $form_validInst->handleRequest($request);
-
-        $dateCourante = new \DateTime();
 
         // Formulaire d'assignation de l'intervention
         $form_assign = $this->createForm(AssignFormType::class);
@@ -100,7 +92,6 @@ class TechnicienController extends AbstractController
         // Gestion du formulaire d'assignation de l'intervention
         if($form_assign->isSubmitted() && $form_assign->isValid())
         {
-
             $curInterv->setTechnicien($user);
             $entityManager->persist($curInterv);
 
@@ -119,7 +110,6 @@ class TechnicienController extends AbstractController
         //Gestion du formulaire de suppression de l'assignation de l'intervention
         if($form_unassign->isSubmitted() && $form_unassign->isValid())
         {
-
             $curInterv->setTechnicien(null);
             $entityManager->persist($curInterv);
 
@@ -133,7 +123,6 @@ class TechnicienController extends AbstractController
                 'form_unassign' => null,
                 'user' => $user,
             ]);}
-
 
         return $this->render('technicien/installation.html.twig',[
             'curSA' => $curSA,
@@ -174,7 +163,7 @@ class TechnicienController extends AbstractController
         $user = $userRepo->findOneByUsername($username);
 
 
-
+        // Gestion du formulaire de la maintenance
         if($form_validMtn->isSubmitted() && $form_validMtn->isValid()){
             if($curInterv->getTechnicien() == $user)
             {
@@ -207,7 +196,7 @@ class TechnicienController extends AbstractController
                 'user' => $user,
             ]);
         }
-
+        // Gestion du formulaire d'assignation à la maintenance
         if($form_assign->isSubmitted() && $form_assign->isValid())
         {
 
@@ -225,7 +214,7 @@ class TechnicienController extends AbstractController
                 'user' => $user,
             ]);
         }
-
+        // Gestion du formulaire de suppression de l'assignation de l'intervention
         if($form_unassign->isSubmitted() && $form_unassign->isValid())
         {
 
@@ -243,8 +232,6 @@ class TechnicienController extends AbstractController
                 'user' => $user,
             ]);
         }
-
-
 
         return $this->render('technicien/maintenance.html.twig',[
             'curSA' => $curSA,
