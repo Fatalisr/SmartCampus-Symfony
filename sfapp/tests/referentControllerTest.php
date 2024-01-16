@@ -1,5 +1,6 @@
 <?php
 namespace App\Tests;
+use App\Entity\Intervention;
 use App\Entity\Room;
 use App\Entity\SA;
 use App\Entity\User;
@@ -275,6 +276,15 @@ class referentControllerTest extends WebTestCase
                          $sa->setState("ACTIF");
                          $sa->setCurrentRoom($room);
                          $entityManager->persist($sa);
+
+                         $Int = new Intervention();
+                         $Int->setMessage("Problème de données");
+                         $Int->setState("EN_COURS");
+                         $Int->setSa($sa);
+                         $Int->setStartingDate(new \DateTime);
+                         $Int->setType_I("MAINTENANCE");
+                         $entityManager->persist($Int);
+
                          $entityManager->flush();
 
                          $this->assertNotEquals(null, $sa->getCurrentRoom());
