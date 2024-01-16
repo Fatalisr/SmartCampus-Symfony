@@ -1,3 +1,5 @@
+#ifndef VARIABLE_H
+#define VARIABLE_H
 /*-----------------------------------------------------------------*/
 /*                            Include                              */
 /*-----------------------------------------------------------------*/
@@ -60,3 +62,5 @@ extern int screenTaskPriority;
 extern int CO2TaskPriority;
 extern int TempHumiTaskPriority;
 extern int APITaskPriority;
+
+#endif

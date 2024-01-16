@@ -10,8 +10,8 @@ using namespace std;
 #include <Wire.h>
 #endif
 
-#include "/home/alex/Documents/UNIV/2023-2024/SAE/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/src/API/gestion_api.h"
-#include "/home/alex/Documents/UNIV/2023-2024/SAE/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/src/variables.h"
+#include "../API/gestion_api.h"
+#include "../variables.h"
 
 // Instance de l'écran
 U8G2_SSD1306_128X64_NONAME_F_SW_I2C screen(U8G2_R0, /* clock=*/ SCL, /* data=*/ SDA, /* reset=*/ U8X8_PIN_NONE); // Software I2C

@@ -1,3 +1,5 @@
+#ifndef CO2_H
+#define CO2_H
 /*-----------------------------------------------------------------*/
 /*                            Include                              */
 /*-----------------------------------------------------------------*/
@@ -18,8 +20,6 @@
 #ifdef U8X8_HAVE_HW_I2C
 #include <Wire.h>
 #endif
-
-#include "/home/alex/Documents/UNIV/2023-2024/SAE/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/src/variables.h"
 
 /*-----------------------------------------------------------------*/
 /*                           Variables                             */
@@ -45,3 +45,5 @@ s16 getCO2Value(u16 &ppm);
 /*-----------------------------------------------------------------*/
 
 void getCO2Task(void *parameter);
+
+#endif

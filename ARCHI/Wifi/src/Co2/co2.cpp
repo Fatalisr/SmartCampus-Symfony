@@ -20,7 +20,8 @@
 #endif
 
 #include "co2.h"
-#include "/home/alex/Documents/UNIV/2023-2024/SAE/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/src/LED/led.h"
+#include "../variables.h"
+#include "../LED/led.h"
 
 
 /*-----------------------------------------------------------------*/
@@ -61,10 +62,10 @@ s16 getCO2Value(u16 &ppm)
   u16 scaled_ethanol_signal, scaled_h2_signal;
 
   if (sgp_measure_signals_blocking_read(&scaled_ethanol_signal,&scaled_h2_signal) == STATUS_OK){
-    //ledCO2Ok = true; 
+    ledCO2Ok = true; 
   }
   else{
-    //ledCO2Ok = false; 
+    ledCO2Ok = false; 
   }
 
   err = sgp_measure_co2_eq_blocking_read(&ppm);

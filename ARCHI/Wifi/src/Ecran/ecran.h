@@ -1,3 +1,6 @@
+#ifndef ECRAN_H
+#define ECRAN_H
+
 #include <Arduino.h>
 #include <U8g2lib.h>
 #include <string>
@@ -11,3 +14,5 @@ void displaySensorValue(int x, int y, String dataType, String dataUnit, float va
 void loadingDisplay(int x, int y);
 
 void displayValuesOnScreenTask(void* parameter);
+
+#endif

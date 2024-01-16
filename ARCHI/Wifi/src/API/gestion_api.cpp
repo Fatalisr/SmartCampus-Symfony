@@ -13,6 +13,7 @@
 #include <Adafruit_Sensor.h>
 #include <DHT_U.h>
 #include <U8g2lib.h>
+#include "../variables.h"
 #ifdef U8X8_HAVE_HW_SPI
 #include <SPI.h>
 #endif
@@ -20,19 +21,12 @@
 #include <Wire.h>
 #endif
 
-// Fichiers du projet
-#include "gestion_api.h"
-#include "/home/alex/Documents/UNIV/2023-2024/SAE/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/src/TemperatureHumidite/temperatureHumidite.h"
-#include "/home/alex/Documents/UNIV/2023-2024/SAE/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/src/Co2/co2.h"
-#include "/home/alex/Documents/UNIV/2023-2024/SAE/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/src/LED/led.h"
-#include "/home/alex/Documents/UNIV/2023-2024/SAE/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/src/Date/date.h"
-
-
 /*-----------------------------------------------------------------*/
 /*                           Fonctions                             */
 /*-----------------------------------------------------------------*/
 
 
+char * getDate();
 
 template <typename t>
 String convertTOJson(t value,String type)

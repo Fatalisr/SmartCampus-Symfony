@@ -22,8 +22,8 @@
 
 // Fichier du projet
 #include "temperatureHumidite.h"
-#include "/home/alex/Documents/UNIV/2023-2024/SAE/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/src/LED/led.h"
-#include "/home/alex/Documents/UNIV/2023-2024/SAE/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/src/variables.h"
+#include "../LED/led.h"
+#include "../variables.h"
 
 /*-----------------------------------------------------------------*/
 /*                           Instance                              */

@@ -19,7 +19,7 @@
 #include <Wire.h>
 #endif
 
-#include "/home/alex/Documents/UNIV/2023-2024/SAE/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/src/variables.h"
+#include "../variables.h"
 
 ESP32Time rtc(3600);  // GMT+1
 const long gmtOffset_sec = 0;

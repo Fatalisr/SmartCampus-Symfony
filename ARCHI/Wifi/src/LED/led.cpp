@@ -2,7 +2,7 @@
 #include <WS2812FX.h>
 
 #include "led.h"
-#include "/home/alex/Documents/UNIV/2023-2024/SAE/2023-2024-but-info-2-a-sae-34-m-1-m-11/ARCHI/Wifi/src/variables.h"
+#include "../variables.h"
 
 /*-----------------------------------------------------------------*/
 /*                           Variables                             */

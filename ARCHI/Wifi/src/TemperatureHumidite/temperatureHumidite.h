@@ -1,3 +1,5 @@
+#ifndef TEMPERATUREHUMIDITE_H
+#define TEMPERATUREHUMIDITE_H
 /*-----------------------------------------------------------------*/
 /*                            Include                              */
 /*-----------------------------------------------------------------*/
@@ -33,3 +35,5 @@ void getHumTempvalue(float & hum, float & temp);
 /*-----------------------------------------------------------------*/
 
 void getHumTempTask(void *parameter);
+
+#endif

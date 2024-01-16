@@ -13,12 +13,12 @@
 #include <Adafruit_Sensor.h>
 #include <DHT_U.h>
 #include <U8g2lib.h>
-#ifdef U8X8_HAVE_HW_SPI
-#include <SPI.h>
-#endif
-#ifdef U8X8_HAVE_HW_I2C
-#include <Wire.h>
-#endif
+// #ifdef U8X8_HAVE_HW_SPI
+// #include <SPI.h>
+// #endif
+// #ifdef U8X8_HAVE_HW_I2C
+// #include <Wire.h>
+// #endif
 #include <WS2812FX.h>
 
 // Fichiers du projet

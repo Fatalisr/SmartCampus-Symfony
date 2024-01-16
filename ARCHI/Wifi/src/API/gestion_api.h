@@ -1,3 +1,5 @@
+#ifndef GESTION_API_H
+#define GESTION_API_H
 /*-----------------------------------------------------------------*/
 /*                            Include                              */
 /*-----------------------------------------------------------------*/
@@ -18,6 +20,13 @@
 #ifdef U8X8_HAVE_HW_I2C
 #include <Wire.h>
 #endif
+
+// Fichiers du projet
+#include "../variables.h"
+#include "../TemperatureHumidite/temperatureHumidite.h"
+#include "../Co2/co2.h"
+#include "../LED/led.h"
+#include "../Date/date.h"
 
 
 /*-----------------------------------------------------------------*/
@@ -48,3 +57,5 @@ char * getDate();
 /*-----------------------------------------------------------------*/
 
 void sendToAPITask(void *parameter);
+
+#endif
