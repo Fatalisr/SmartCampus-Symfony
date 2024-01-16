@@ -42,7 +42,7 @@ class indexControllerTest extends WebTestCase
 
         $this->assertResponseRedirects('/referent');
         $entityManager->beginTransaction(); // Begin a transaction
-        $entityManager->createQuery("DELETE FROM App\Entity\User M WHERE M.username=:username")->setParameter('username','Test_S_R')->execute();
+        $entityManager->createQuery("DELETE FROM App\Entity\User")->execute();
         $entityManager->commit();
     }
 
@@ -69,7 +69,7 @@ class indexControllerTest extends WebTestCase
 
         $this->assertResponseRedirects('/technicien');
         $entityManager->beginTransaction(); // Begin a transaction
-        $entityManager->createQuery("DELETE FROM App\Entity\User M WHERE M.username=:username")->setParameter('username','Test_S_T')->execute();
+        $entityManager->createQuery("DELETE FROM App\Entity\User")->execute();
         $entityManager->commit();
     }
     public function testBadLogin()

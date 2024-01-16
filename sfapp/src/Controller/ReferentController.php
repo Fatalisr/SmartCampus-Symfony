@@ -48,10 +48,9 @@ class ReferentController extends AbstractController
 
             // Gestion du formulaire
             if ($form->isSubmitted() && $form->isValid()) {
-
                 // Creation d'une instance de SA dont l'id correspond a celui remonté par le formulaire
                 $curSa = $saRepository->find($form->get('sa_id')->getData());
-
+                print($curSa->getState()."\n");
                 $interventionInstallation = $InterventionRepository->findOneBySAAndCurrent($curSa);
 
                 if($curSa->getState() != "A_INSTALLER") {
@@ -75,11 +74,9 @@ class ReferentController extends AbstractController
                         else{
                             $interventionInstallation->setMessage("Installation du " . $curSa->getName() . " en " . $form->get('newRoom')->getData()->getName());
                         }
+                        $curSa->setOldRoom($curSa->getCurrentRoom());
                         $interventionInstallation->setSa($curSa);
                     }
-
-                    $curSa->setOldRoom($curSa->getCurrentRoom());
-
                     $entityManager->persist($interventionInstallation);
                 }
                 else{
@@ -90,6 +87,7 @@ class ReferentController extends AbstractController
                     else{
                         $interventionInstallation->setMessage("Installation du ".$curSa->getName()." en ".$form->get('newRoom')->getData()->getName());
                     }
+                    $entityManager->persist($interventionInstallation);
                 }
                 $curSa->setCurrentRoom($form->get('newRoom')->getData());
                 $entityManager->persist($curSa);
@@ -122,10 +120,10 @@ class ReferentController extends AbstractController
 
         $entityManager = $doctrine->getManager(); // Manager doctrine
 
-        // Reccuperation du SA avec l'id de la route
+        // Récuperation du SA avec l'id de la route
         $sa = $entityManager->find(SA::class,$id);
 
-        // Creation d'un intsance de formulaire pour les demandes de maintenances
+        // Création d'un intsance de formulaire pour les demandes de maintenances
         $form = $this->createForm(InterventionFormType::class);
         $form->handleRequest($request);
 
@@ -162,7 +160,7 @@ class ReferentController extends AbstractController
     #[Route('/referent/nouveausa', name: 'nouveau_SA')]
     public function NouveauSA(Request $request, ManagerRegistry $doctrine): Response
     {
-        // Creation de l'instence de formulaire
+        // Création de l'instence de formulaire
         $form = $this->createForm(NouveauSaForm::class);
         $form->handleRequest($request);
 

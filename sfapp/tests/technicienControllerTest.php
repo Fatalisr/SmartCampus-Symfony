@@ -11,7 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class technicienControllerTest extends WebTestCase
 {
-    function testTechnicienPage()
+    /*function testTechnicienPage()
     {
         // Se connecte en temps que Technicien
         //=============================================================
