@@ -50,7 +50,6 @@ class ReferentController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 // Creation d'une instance de SA dont l'id correspond a celui remonté par le formulaire
                 $curSa = $saRepository->find($form->get('sa_id')->getData());
-                print($curSa->getState()."\n");
                 $interventionInstallation = $InterventionRepository->findOneBySAAndCurrent($curSa);
 
                 if($curSa->getState() != "A_INSTALLER") {

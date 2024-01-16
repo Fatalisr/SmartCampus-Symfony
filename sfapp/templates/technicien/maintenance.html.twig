@@ -36,7 +36,7 @@
             {% if maintenance.technicien == user%}
                 <div class = "imgANDtext">
                     <div>
-                         {{ maintenance.technicien.username }}
+                        {{ maintenance.technicien.username }}
                     </div>
                     <div>
                         {{ form_start(form_unassign) }}
@@ -72,10 +72,10 @@
             <p>{{ maintenance.message }}</p>
         </div>
         {% if maintenance.technicien == user%}
-        <div class="ref_msg">
-            <h2>Retour d'installation :</h2>
-            <p>{{ form_widget(form_validMtn.report) }}</p>
-        </div>
+            <div class="ref_msg">
+                <h2>Retour d'installation :</h2>
+                <p>{{ form_widget(form_validMtn.report) }}</p>
+            </div>
         {% endif %}
     </div>
 
@@ -112,7 +112,7 @@
             document.getElementById(popupId).style.display = 'block';
         }
 
-            function closePopup(popupId) {
+        function closePopup(popupId) {
             document.getElementById(popupId).style.display = 'none';
         }
     </script>

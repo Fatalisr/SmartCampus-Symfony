@@ -14,7 +14,6 @@ class InstallationForm extends \Symfony\Component\Form\AbstractType
             ->add('report', TextareaType::class, [
                 'label' => "Retour d'intervention",
                 'attr' => ['rows' => 10, 'placeholder' => 'Écrivez votre rapport ici'],
-
             ])
             ->add('valid', SubmitType::class, [
                 'label' => "VALIDER L'INSTALLATION"

@@ -64,8 +64,8 @@ class TechnicienController extends AbstractController
         $user = $userRepo->findOneByUsername($username);
 
         // Gestion du formulaire de l'intervention
-        if($form_validInst->isSubmitted() && $form_validInst->isValid())
-        {
+        if($form_validInst->isSubmitted() && $form_validInst->isValid()){
+
             if($curInterv->getTechnicien() == $user) {
                 if ($form_validInst->getData()['valid'] == "true") {
                     $curSA->setState('ACTIF');
@@ -81,28 +81,12 @@ class TechnicienController extends AbstractController
             $report = $form_validInst->get('report')->getData();
             $curInterv->setReport($report);
 
-            if($curInterv->getTechnicien() == $user)
-            {
-                $curSA->setState('ACTIF');
-                $curInterv->setState("FINIE");
-                $curInterv->setEndingDate(new \DateTime());
+            $entityManager->persist($curSA);
+            $entityManager->persist($curInterv);
 
-                $entityManager->persist($curSA);
-                $entityManager->persist($curInterv);
+            $entityManager->flush();
 
-                $entityManager->flush();
-
-                return $this->redirectToRoute('app_technicien');
-            }
-
-            return $this->render('technicien/installation.html.twig',[
-                'curSA' => $curSA,
-                'installation' => $curInterv,
-                'form_validInstal' => $form_validInst,
-                'form_assign' => $form_assign,
-                'form_unassign' => $form_unassign,
-                'user' => $user,
-            ]);
+            return $this->redirectToRoute('app_technicien');
         }
 
         // Gestion du formulaire d'assignation de l'intervention
