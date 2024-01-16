@@ -19,6 +19,7 @@ class usagerControllerTest extends WebTestCase
         $entityManager = $client->getContainer()->get('doctrine.orm.entity_manager');
 
         $entityManager->beginTransaction(); // Begin a transaction
+        $entityManager->createQuery("DELETE FROM App\Entity\INTERVENTION")->execute();
         $entityManager->createQuery("DELETE FROM App\Entity\SA")->execute();
         $entityManager->createQuery("DELETE FROM App\Entity\Room")->execute();
         $entityManager->commit();
@@ -49,6 +50,7 @@ class usagerControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isRedirect('/usager/'.$room->getId()));
 
         $entityManager->beginTransaction(); // Begin a transaction
+        $entityManager->createQuery("DELETE FROM App\Entity\INTERVENTION")->execute();
         $entityManager->createQuery("DELETE FROM App\Entity\SA")->execute();
         $entityManager->createQuery("DELETE FROM App\Entity\Room")->execute();
         $entityManager->commit();
@@ -61,6 +63,7 @@ class usagerControllerTest extends WebTestCase
         $entityManager = $client->getContainer()->get('doctrine.orm.entity_manager');
 
         $entityManager->beginTransaction(); // Begin a transaction
+        $entityManager->createQuery("DELETE FROM App\Entity\INTERVENTION")->execute();
         $entityManager->createQuery("DELETE FROM App\Entity\SA")->execute();
         $entityManager->createQuery("DELETE FROM App\Entity\Room")->execute();
         $entityManager->commit();
@@ -122,6 +125,50 @@ class usagerControllerTest extends WebTestCase
 
         // Clear de la BDD après le test
         $entityManager->beginTransaction(); // Begin a transaction
+        $entityManager->createQuery("DELETE FROM App\Entity\INTERVENTION")->execute();
+        $entityManager->createQuery("DELETE FROM App\Entity\SA")->execute();
+        $entityManager->createQuery("DELETE FROM App\Entity\Room")->execute();
+        $entityManager->commit();
+    }
+
+    public function testDonneeUsager()
+    {
+        $client = static::createClient();
+
+        $entityManager = $client->getContainer()->get('doctrine.orm.entity_manager');
+
+        $entityManager->beginTransaction(); // Begin a transaction
+        $entityManager->createQuery("DELETE FROM App\Entity\INTERVENTION")->execute();
+        $entityManager->createQuery("DELETE FROM App\Entity\SA")->execute();
+        $entityManager->createQuery("DELETE FROM App\Entity\Room")->execute();
+        $entityManager->commit();
+
+        // Création de la salle D004
+        $DOO4 = new Room();
+        $DOO4->setName("D004");
+        $DOO4->setNbComputer("0");
+        $DOO4->setFacing("S");
+        $entityManager->persist($DOO4);
+
+
+        // SA 13
+        $sa13 = new SA();
+        $sa13->setName("ESP-013");
+        $sa13->setState("ACTIF");
+        $sa13->setCurrentRoom($DOO4);
+        $entityManager->persist($sa13);
+
+        $entityManager->flush();
+
+        $crawler = $client->request('GET', '/usager/'.$DOO4->getId());
+        $this->assertResponseStatusCodeSame(200);
+
+        
+
+
+        // Clear de la BDD après le test
+        $entityManager->beginTransaction(); // Begin a transaction
+        $entityManager->createQuery("DELETE FROM App\Entity\INTERVENTION")->execute();
         $entityManager->createQuery("DELETE FROM App\Entity\SA")->execute();
         $entityManager->createQuery("DELETE FROM App\Entity\Room")->execute();
         $entityManager->commit();

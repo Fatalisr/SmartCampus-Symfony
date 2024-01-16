@@ -70,6 +70,8 @@ class UsagerController extends AbstractController
 
             $tempINT = null;
             $tempEXT = $meteo['current']['temperature_2m'];
+            $weather = $meteo['current']['weather_code'];
+
             $coINT = 0;
             $humINT = 0;
             $date = 0;
@@ -96,29 +98,60 @@ class UsagerController extends AbstractController
 
             if($tempINT != null)
             {
-                if (($tempINT > $intervallesup and $tempEXT < $intervalleinf)
-                    or ($tempINT < $intervalleinf and $tempEXT > $intervallesup)) {
-                    array_push($conseils, "La température intérieur n'est pas optimal mais ouvrir les fenêtres et la porte permettrai de revenir à une température convenable.");
-                    if ($month >= 10 or $month <= 3) {
-                        array_push($conseils, "Il faut aussi éteindre le chauffage.");
+
+
+                if($tempINT  > $intervalleinf and $tempINT < $intervallesup)
+                {
+                    if($humINT > 70 and $coINT > 1000)
+                    {
+                        array_push($conseils, "Le taux de co2 et l'humidité sont trop élevé, il serait judicieux d'aérer en ouvrant les fenêtres et les portes");
                     }
-                } elseif ($tempINT < $intervalleinf and $tempEXT < $intervalleinf) {
-                    array_push($conseils, "La température est tros basse, il faut fermé les fenêtres et la porte.");
-                    if ($month >= 10 or $month <= 3) {
-                        array_push($conseils, "Il faut aussi allumer le chauffage si il est éteint.");
+                    elseif ($humINT > 70)
+                    {
+                        array_push($conseils, "L'humidité est trop élevé, il serait judicieux d'aérer en ouvrant les fenêtres et les portes");
                     }
-                } elseif ($tempINT > $intervallesup and $tempEXT > $intervallesup) {
-                    array_push($conseils, "La température est tros élevé, il faut fermé les fenêtres, les volets et ouvrir la porte du couloir.");
-                    if ($month >= 10 or $month <= 3) {
-                        array_push($conseils, "Il faut aussi éteindre le chauffage si il est allumé.");
+                    elseif ($coINT > 1000)
+                    {
+                        array_push($conseils, "L'humidité est trop élevé, il serait judicieux d'aérer en ouvrant les fenêtres et les portes");
                     }
-                } elseif ($tempEXT > 30) {
-                    array_push($conseils, "La température exterieur est tros élevé, il faut fermé les fenêtres, les volets et ouvrir la porte du couloir");
-                    if ($month >= 10 or $month <= 3) {
-                        array_push($conseils, "Il faut aussi éteindre le chauffage si il est allumé.");
+                }
+                elseif($tempINT < $intervalleinf)
+                {
+                    if($humINT > 70 and $coINT > 1000)
+                    {
+                        array_push($conseils, "Il faut aérer la pièce afin de diminuer le taux de CO2 et le taux d'humidité. Ouvrez la / les porte(s).");
                     }
-                } elseif ($humINT > 70 and $coINT > 1500) {
-                    array_push($conseils, "Il faut ouvrir les fenêtres pour rétablir la qualité de l'air à l'intérieur de la salle.");
+                    elseif ($humINT > 70)
+                    {
+                        array_push($conseils, "Il faut aérer la pièce afin de diminuer le taux d'humidité. Ouvrez la / les porte(s).");
+                    }
+                    elseif ($coINT > 1000)
+                    {
+                        array_push($conseils, "Il faut aérer la pièce afin de diminuer le taux de CO2. Ouvrez la / les porte(s).");
+                    }
+                    else
+                    {
+                        array_push($conseils, "Allumez ou augmentez le chauffage pour augmenter la température de la salle.Vérifiez que les fenêtres sont fermées.");
+                    }
+                }
+                elseif ($tempINT > $intervallesup)
+                {
+                    if ($humINT > 70)
+                    {
+                        array_push($conseils, "Une température élevée et un taux d'humidité élevé engendre un risque d'inconfort et de création de moisissure. Il est recommandé d'aérer la pièce en ouvrant la porte et les fenêtres.");
+                    }
+                    elseif ($coINT > 1000)
+                    {
+                        array_push($conseils, "Il faut aérer la pièce afin de diminuer le taux de CO2. Ouvrez la / les porte(s).");
+                    }
+                    elseif ($tempINT < $tempEXT)
+                    {
+                        array_push($conseils, "La température intérieure élevée est sûrement dûe à la température extérieure élevée. Afin d'essayer de la réduire, éteignez le chauffage, fermez fenêtres et volets et ouvrez la porte afin d'évacuer la chaleur de la salle.");
+                    }
+                    else
+                    {
+                        array_push($conseils, "La température intérieure élevée peut être réduite en s'appuyant sur la température extérieur inférieure. Eteignez le chauffage, ouvrez les fenêtres et ouvrez la porte afin de créer un courant d'air frais.");
+                    }
                 }
             }
 

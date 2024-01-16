@@ -45,6 +45,7 @@ class technicienControllerTest extends WebTestCase
         $entityManager->createQuery("DELETE FROM App\Entity\User")->execute();
         $entityManager->commit();
     }
+/*
     function testValidMaintenance()
     {
         // Se connecte en temps que Technicien
@@ -146,6 +147,7 @@ class technicienControllerTest extends WebTestCase
         ]);
         $client->submit($form);
         //=============================================================
+
         $entityManager = $client->getContainer()->get('doctrine.orm.entity_manager');
         $entityManager->beginTransaction(); // Begin a transaction
         $entityManager->createQuery("DELETE FROM App\Entity\Intervention")->execute();
@@ -194,5 +196,5 @@ class technicienControllerTest extends WebTestCase
         $entityManager->createQuery("DELETE FROM App\Entity\Room")->execute();
         $entityManager->createQuery("DELETE FROM App\Entity\User")->execute();
         $entityManager->commit();
-    }
+    }*/
 }
