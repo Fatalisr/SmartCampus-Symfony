@@ -10,6 +10,7 @@ use Symfony\Component\BrowserKit\AbstractBrowser;
 class indexControllerTest extends WebTestCase
 {
     /*Test de l'affichage de la page*/
+
     public function testLoginPage()
     {
         $client = static::createClient();
@@ -19,6 +20,7 @@ class indexControllerTest extends WebTestCase
         $this->assertResponseStatusCodeSame(200);
     }
 /*Test de la connection du referent*/
+
 
     public function testSuccessLoginReferent()
     {

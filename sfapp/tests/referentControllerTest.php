@@ -10,6 +10,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class referentControllerTest extends WebTestCase
 {
+
     public function testSAPage()
     {
         // Se connecte en temps que Referent
