@@ -52,10 +52,9 @@ class ReferentController extends AbstractController
 
             // Gestion du formulaire
             if ($form->isSubmitted() && $form->isValid()) {
-
                 // Creation d'une instance de SA dont l'id correspond a celui remonté par le formulaire
                 $curSa = $saRepository->find($form->get('sa_id')->getData());
-
+                print($curSa->getState()."\n");
                 $interventionInstallation = $InterventionRepository->findOneBySAAndCurrent($curSa);
 
                 if($curSa->getState() != "A_INSTALLER") {
@@ -77,11 +76,9 @@ class ReferentController extends AbstractController
                         else{
                             $interventionInstallation->setMessage("Installation du " . $curSa->getName() . " en " . $form->get('newRoom')->getData()->getName());
                         }
+                        $curSa->setOldRoom($curSa->getCurrentRoom());
                         $interventionInstallation->setSa($curSa);
                     }
-
-                    $curSa->setOldRoom($curSa->getCurrentRoom());
-
                     $entityManager->persist($interventionInstallation);
                 }
                 else{
@@ -91,6 +88,7 @@ class ReferentController extends AbstractController
                     else{
                         $interventionInstallation->setMessage("Installation du ".$curSa->getName()." en ".$form->get('newRoom')->getData()->getName());
                     }
+                    $entityManager->persist($interventionInstallation);
                 }
                 $curSa->setCurrentRoom($form->get('newRoom')->getData());
                 $entityManager->persist($curSa);

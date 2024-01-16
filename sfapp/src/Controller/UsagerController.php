@@ -33,13 +33,6 @@ class UsagerController extends AbstractController
         $form = $this->createForm(choisirSalleUsagerForm::class);
         $form->handleRequest($request);
 
-        // gestion des variables de salle et SA en fonction de la salle choisi
-        $roomRepo = $entityManager->getRepository(Room::class);
-        $saRepo = $entityManager->getRepository(SA::class);
-
-        $form = $this->createForm(choisirSalleUsagerForm::class);
-        $form->handleRequest($request);
-
         if($id == null)
         {
             $room = null;

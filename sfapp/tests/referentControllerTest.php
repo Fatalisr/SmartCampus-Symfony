@@ -335,14 +335,12 @@ class referentControllerTest extends WebTestCase
         $room->setFacing('N');
         $room->setNbComputer(3);
         $entityManager->persist($room);
-        $entityManager->flush();
 
         $room2 = new Room();
         $room2->setName('Test_Room_2');
         $room2->setFacing('N');
         $room2->setNbComputer(3);
         $entityManager->persist($room2);
-        $entityManager->flush();
 
         // Test SA
         $sa = new SA();
@@ -350,7 +348,6 @@ class referentControllerTest extends WebTestCase
         $sa->setState("INACTIF");
         $sa->setOldRoom($room);
         $entityManager->persist($sa);
-        $entityManager->flush();
 
         $Int = new Intervention();
         $Int->setMessage("Désinstallation du SA");
@@ -366,22 +363,31 @@ class referentControllerTest extends WebTestCase
 
         $formData = [
             'changer_salle_form[newRoom]' => $room2->getId(),
+            'changer_salle_form[sa_id]' => $sa->getId(),
         ];
 
         $client->submit($form,$formData);
 
-        //$this->assertEquals("A_INSTALLER", $sa->getState());
+        $this->assertTrue($client->getResponse()->isRedirect('/referent'));
+
+        $entityManager = $client->getContainer()->get('doctrine.orm.entity_manager');
+        // Assert that the data is in the database
+        $saRepository = $entityManager->getRepository(SA::class);
+        $sa = $saRepository->findOneBy(['name' => 'Test_VIEW_SA']);
+        $IntRepository = $entityManager->getRepository(Intervention::class);
+        $Int = $IntRepository->findOneBySAAndCurrent($sa);
+
+        $this->assertEquals("A_INSTALLER", $sa->getState());
         $this->assertEquals("Test_Room_2", $sa->getCurrentRoom()->getName());
-        $this->assertEquals("INSTALLATION", $Int->getState());
-        $this->assertEquals("Déplacement du Test_VIEW_SA de la salle Test_Room à la salle Test_Room_2", $Int->getMessage());
-        $this->assertResponseRedirects('/referent');
+        $this->assertEquals("INSTALLATION", $Int->getType_I());
+        $this->assertEquals("Déplacement du Test_VIEW_SA de la salle Test_Room en Test_Room_2", $Int->getMessage());
 
         // Delete the entry in the database to avoid conflict with the tests
         $entityManager->beginTransaction(); // Begin a transaction
         $entityManager->createQuery("DELETE FROM App\Entity\User U ")->execute();
         $entityManager->createQuery("DELETE FROM App\Entity\Intervention ")->execute();
-        $entityManager->createQuery("DELETE FROM App\Entity\Room ")->execute();
         $entityManager->createQuery("DELETE FROM App\Entity\SA ")->execute();
+        $entityManager->createQuery("DELETE FROM App\Entity\Room ")->execute();
         $entityManager->commit();
     }
 
