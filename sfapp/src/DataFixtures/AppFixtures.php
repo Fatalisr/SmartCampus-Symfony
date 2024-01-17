@@ -587,138 +587,84 @@ class AppFixtures extends Fixture
         $manager->persist($sa18);
 
 
-        // =============================== //
-        //   Création des SA d'exemples    //
-        // =============================== //
-
-        // SA ex1
-        $saex1 = new SA();
-        $saex1->setName("SA01");
-        $saex1->setState("ACTIF");
-        $saex1->setCurrentRoom($this->getReference('D301'));
-        $this->addReference('saex1',$saex1);
-        $manager->persist($saex1);
-
-        // SA ex2
-        $saex2 = new SA();
-        $saex2->setName("SA02");
-        $saex2->setState("ACTIF");
-        $saex2->setCurrentRoom($this->getReference('D302'));
-        $this->addReference('saex2',$saex2);
-        $manager->persist($saex2);
-
-        // SA ex3
-        $saex3 = new SA();
-        $saex3->setName("SA03");
-        $saex3->setState("A_INSTALLER");
-        $saex3->setCurrentRoom($this->getReference('D003'));
-        $saex3->setOldRoom($this->getReference('D003'));
-        $this->addReference('saex3',$saex3);
-        $manager->persist($saex3);
-
-        // SA ex4
-        $saex4 = new SA();
-        $saex4->setName("SA04");
-        $saex4->setState("A_INSTALLER");
-        $saex4->setCurrentRoom($this->getReference('D005'));
-        $this->addReference('saex4',$saex4);
-        $manager->persist($saex4);
-
-        // SA ex5
-        $saex5 = new SA();
-        $saex5->setName("SA05");
-        $saex5->setState("MAINTENANCE");
-        $saex5->setCurrentRoom($this->getReference('C006'));
-        $this->addReference('saex5',$saex5);
-        $manager->persist($saex5);
-
-        // SA ex7
-        $saex7 = new SA();
-        $saex7->setName("SA07");
-        $saex7->setState("INACTIF");
-        $this->addReference('saex7',$saex7);
-        $manager->persist($saex7);
-
-        // SA ex8
-        $saex8 = new SA();
-        $saex8->setName("SA08");
-        $saex8->setState("INACTIF");
-        $this->addReference('saex8',$saex8);
-        $manager->persist($saex8);
-
         // ===================================== //
         // Création des Interventions d'exemples //
         // ===================================== //
 
-        //Interventions Installation sur SAex1
+        //Interventions Installation sur ESP-002
         $datehier = new DateTime(date('Y-m-d', time() + (60 * 60 * 24)*-1 ));  // Genère la date d'hier
         $date3jour = new DateTime(date('Y-m-d', time() + (60 * 60 * 24)*-3 ));  // Genère la date d'hier
         $Inst1 = new Intervention();
         $Inst1->setState("FINIE");
-        $Inst1->setSa($this->getReference('saex1'));
+        $Inst1->setSa($this->getReference('sa2'));
         $Inst1->setType_I("INSTALLATION");
-        $Inst1->setMessage("Installation du SA1 en D301");
+        $Inst1->setMessage("Installation ESP-002 en D206");
         $Inst1->setReport("Installation effectué sans probleme");
         $Inst1->setStartingDate($datehier);
         $Inst1->setEndingDate($datehier);
         $Inst1->setTechnicien($this->getReference('tech1'));
         $manager->persist($Inst1);
 
-        //Interventions Installation sur SAex2
+        //Interventions Installation sur ESP-003
         $dateSemaineDerniere = new DateTime(date('Y-m-d', time() + (60 * 60 * 24)*-7 ));  // Genère la date de la semaine dernière
         $Inst2 = new Intervention();
         $Inst2->setState("FINIE");
-        $Inst2->setSa($this->getReference('saex2'));
+        $Inst2->setSa($this->getReference('sa3'));
         $Inst2->setType_I("INSTALLATION");
-        $Inst2->setMessage("Installation du SA2 en D302");
+        $Inst2->setMessage("Installation ESP-003 en D207");
         $Inst2->setReport("Installation effectué sans probleme");
         $Inst2->setStartingDate($dateSemaineDerniere);
         $Inst2->setEndingDate($datehier);
         $Inst2->setTechnicien($this->getReference('tech1'));
         $manager->persist($Inst2);
 
-        // Intervention Installation sur SAex3
+        // Intervention Installation sur ESP-004
         $Inst3 = new Intervention();
         $Inst3->setState("EN_COURS");
-        $Inst3->setSa($this->getReference('saex3'));
-        $Inst3->setMessage("Changement du SA3 de la salle D003 à la C006");
+        $sa4->setState("A_INSTALLER");
+        $Inst3->setSa($this->getReference('sa4'));
+        $Inst3->setMessage("Changement ESP-004 de la salle D003 à la D204");
         $Inst3->setStartingDate($dateSemaineDerniere);
         $Inst3->setType_I('INSTALLATION');
         $manager->persist($Inst3);
 
-        //Intervention Installation sur SAex4
+        //Intervention Installation sur ESP-005
         $Inst4 = new Intervention();
         $Inst4->setState("EN_COURS");
-        $Inst4->setSa($this->getReference('saex4'));
-        $Inst4->setMessage("Installation du SA4 dans la salle D005");
+        $sa4->setState("A_INSTALLER");
+        $Inst4->setSa($this->getReference('sa5'));
+        $Inst4->setMessage("Installation ESP-005 dans la salle D203");
         $Inst4->setStartingDate($date3jour);
         $Inst4->setType_I("INSTALLATION");
         $Inst4->setTechnicien($this->getReference('tech1'));
         $manager->persist($Inst4);
 
-        // Intervention Maintenance sur SAex5
+        // Intervention Maintenance sur ESP-006
         $Maint1 = new Intervention();
         $Maint1->setState("EN_COURS");
-        $Maint1->setSa($this->getReference('saex5'));
+        $sa6->setState("MAINTENANCE");
+        $Maint1->setSa($this->getReference('sa6'));
         $Maint1->setMessage("Le capteur de CO2 ne remonte plus de données, verifier le capteur et les branchements");
         $Maint1->setStartingDate($datehier);
         $Maint1->setType_I('MAINTENANCE');
         $manager->persist($Maint1);
 
-        //Intervention Maintenance sur SAex5
+        //Intervention Maintenance sur ESP-007
         $Maint2 = new Intervention();
         $Maint2->setState("EN_COURS");
-        $Maint2->setSa($this->getReference('saex5'));
+        $sa7->setState("MAINTENANCE");
+        $Maint2->setSa($this->getReference('sa7'));
         $Maint2->setMessage("Le capteur d'humidité/température retourne des valeurs anormalement élevé, verifier le capteur et les branchements");
         $Maint2->setStartingDate(new \DateTime());
         $Maint2->setType_I("MAINTENANCE");
         $Maint2->setTechnicien($this->getReference('tech1'));
         $manager->persist($Maint2);
 
-        //Intervention Maintenance sur SAex2
+        //Intervention Maintenance sur ESP-008
         $Maint3 = new Intervention();
         $Maint3->setState("ANNULEE");
-        $Maint3->setSa($this->getReference('saex2'));
+        $sa8->setState("MAINTENANCE");
+        $Maint3->setSa($this->getReference('sa8'));
         $Maint3->setType_I("MAINTENANCE");
         $Maint3->setMessage("Les données du sa presentent d'enorment incoherences. Il faut verifier les connectiques capteurs.");
         $Maint3->setReport("Impossible de trouver d'ou vienne les incoherences. Retour du SA au depot.");

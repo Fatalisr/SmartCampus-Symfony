@@ -6,11 +6,13 @@ use App\Entity\Room;
 use App\Entity\SA;
 use App\Form\choisirSalleUsagerForm;
 use App\Service\ConnexionRequetesAPI;
+use Cassandra\Date;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use function MongoDB\BSON\fromPHP;
 
 
 class UsagerController extends AbstractController
@@ -47,6 +49,9 @@ class UsagerController extends AbstractController
             $donnees = array_merge($donnees,json_decode($api->getlastCaptures(1,$room->getName(),"hum")));
             $donnees = array_merge($donnees,json_decode($api->getlastCaptures(1,$room->getName(),"temp")));
             $donnees = array_merge($donnees,json_decode($api->getlastCaptures(1,$room->getName(),"co2")));
+            $lastValue = json_decode(json_encode($donnees[0]), true);
+            $dateRemontee = $lastValue["dateCapture"];
+            //var_dump($dateRemontee);
         }
         // Gestion du formulaire de choix de la salle
         $meteo = json_decode($api->getWeather(),true);
@@ -162,6 +167,7 @@ class UsagerController extends AbstractController
                 'meteo' => $meteo,
                 'donnees' => $donnees,
                 'conseils' => $conseils,
+                'date' => $dateRemontee
             ]);
         }
     }

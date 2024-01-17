@@ -48,6 +48,7 @@
                 <h2>Données de la salle</h2>
 
                 <div id="dataRoomBox">
+                    <div>Date de la dernière remontée : {{ donnees.0.dateCapture }}</div>
                     {%for donnee in donnees %}
                         {% if donnee.nom == 'temp' %}
                             <div class="data" style="background-color: {% if meteo["current"]["temperature_2m"] >= 30 and donnee.valeur > 21 %} #F5AF49 {% elseif donnee.valeur >= 21 or donnee.valeur < 17 %} #FF1D15 {% else %} green {% endif %} ">

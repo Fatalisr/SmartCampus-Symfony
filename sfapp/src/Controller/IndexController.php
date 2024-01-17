@@ -8,8 +8,14 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
+/*
+ * @brief Controller that handles the login page and the connection
+ */
 class IndexController extends AbstractController
 {
+    /*
+     * Route gérant la page de connexion et la connexion à l'application
+     */
     #[Route('/', name: 'login')]
     public function login(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
@@ -20,7 +26,7 @@ class IndexController extends AbstractController
         $form->handleRequest($request);
         $error = null;
 
-        // Récuperer l'erreur précedente si il y en a eu une
+        // Récupérer l'erreur précedente s'il y en a eu une
         $erreurServer = $authenticationUtils->getLastAuthenticationError();
         if($erreurServer)
         {
@@ -31,6 +37,7 @@ class IndexController extends AbstractController
                 $error = 'badPwd';
             }
         }
+        // Renvoie vers la page de connexion
         return $this->render('index/index.html.twig', [
             'form' => $form->createView(),
             'error' => $error,

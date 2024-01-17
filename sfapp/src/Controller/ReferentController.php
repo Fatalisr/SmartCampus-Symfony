@@ -15,19 +15,21 @@ use App\Form\NouveauSaForm;
 use Symfony\Component\HttpFoundation\Request;
 use App\Service\ConnexionRequetesAPI;
 
-
+/*
+ * @brief Controller qui gère la partie référent de l'application
+ */
 class ReferentController extends AbstractController
 {
-    /* --------------------------------------------------------- */
-    /*                      PAGE D'ACCUEIL                       */
-    /* --------------------------------------------------------- */
+    /*
+     * Route qui gère la page d'accueil de l'espace référent
+     */
     #[Route('/referent', name: 'app_referent')]
     public function index(ManagerRegistry $doctrine, Request $request): Response
     {
 
         $entityManager = $doctrine->getManager(); // Manager doctrine
 
-        // Instanciation des repository ROOM, SA et INTERVENTIONS
+        // Instantiation des repository SA, Room et Interventions
         $saRepository = $entityManager->getRepository('App\Entity\SA');
         $roomRepository = $entityManager->getRepository('App\Entity\Room');
         $InterventionRepository = $entityManager->getRepository('App\Entity\Intervention');
@@ -38,8 +40,11 @@ class ReferentController extends AbstractController
         $installer = $saRepository->findAllInstaller();
         $inactive = $saRepository->findAllInactive();
 
-        $rooms = $roomRepository->findAll(); // Liste des salles
-        $forms = []; //Liste pour le stockage des instances de formulaire de changement de salle
+        // Liste des salles
+        $rooms = $roomRepository->findAll();
+        // Liste pour le stockage des instances de formulaire de changement de salle
+        $forms = [];
+        // Nombre de formulaires à créer
         $nbForms = sizeof($inactive) + sizeof($actif) + sizeof($installer);
 
         for ($i = 0; $i < $nbForms; $i++){
@@ -48,30 +53,35 @@ class ReferentController extends AbstractController
             $form->handleRequest($request);
 
             // Gestion du formulaire
-            if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid())
+            {
                 // Creation d'une instance de SA dont l'id correspond a celui remonté par le formulaire
                 $curSa = $saRepository->find($form->get('sa_id')->getData());
                 $interventionInstallation = $InterventionRepository->findOneBySAAndCurrent($curSa);
 
-                if($curSa->getState() != "A_INSTALLER") {
-
-                    // Modification de l'intervention au cas ou le SA est déjà en cours d'interventions
-                    if($interventionInstallation != null){
+                if($curSa->getState() != "A_INSTALLER")
+                {
+                    if($interventionInstallation != null)
+                    {
+                        // Modification de l'intervention au cas où le SA est déjà en cours d'interventions
                         $curSa->setState("A_INSTALLER");
                         $interventionInstallation->setType_I("INSTALLATION");
                         $interventionInstallation->setMessage("Déplacement du " . $curSa->getName() . " de la salle " . $curSa->getOldRoom()->getName() . " en " . $form->get('newRoom')->getData()->getName());
                     }
-                    // Création d'une intervention
-                    else {
+                    else
+                    {
+                        // Création d'une intervention
                         $curSa->setState("A_INSTALLER");
                         $interventionInstallation = new Intervention();
                         $interventionInstallation->setType_I("INSTALLATION");
                         $interventionInstallation->setState("EN_COURS");
                         $interventionInstallation->setStartingDate(new \DateTime());
-                        if($curSa->getCurrentRoom() != null) {
+                        if($curSa->getCurrentRoom() != null)
+                        {
                             $interventionInstallation->setMessage("Déplacement du " . $curSa->getName() . " de la salle ".$curSa->getCurrentRoom()->getName()." en " . $form->get('newRoom')->getData()->getName());
                         }
-                        else{
+                        else
+                        {
                             $interventionInstallation->setMessage("Installation du " . $curSa->getName() . " en " . $form->get('newRoom')->getData()->getName());
                         }
                         $curSa->setOldRoom($curSa->getCurrentRoom());
@@ -79,12 +89,15 @@ class ReferentController extends AbstractController
                     }
                     $entityManager->persist($interventionInstallation);
                 }
-                else{
+                else
+                {
                     // Définit le message par défaut de l'intervention de type INSTALLATION
-                    if($curSa->getOldRoom() != null) {
+                    if($curSa->getOldRoom() != null)
+                    {
                         $interventionInstallation->setMessage("Déplacement du " . $curSa->getName() . " de la salle " . $curSa->getOldRoom()->getName() . " en " . $form->get('newRoom')->getData()->getName());
                     }
-                    else{
+                    else
+                    {
                         $interventionInstallation->setMessage("Installation du ".$curSa->getName()." en ".$form->get('newRoom')->getData()->getName());
                     }
                     $entityManager->persist($interventionInstallation);
@@ -111,9 +124,9 @@ class ReferentController extends AbstractController
     }
 
 
-    /* --------------------------------------------------------- */
-    /*                   PAGE DE DETAIL DU SA                    */
-    /* --------------------------------------------------------- */
+    /*
+     * Route qui gère la page d'un SA
+     */
     #[Route('/referent/sa/{id}', name: 'app_view_sa')]
     public function view_sa(?int $id,ManagerRegistry $doctrine,Request $request,ConnexionRequetesAPI $requetesAPI): Response
     {
