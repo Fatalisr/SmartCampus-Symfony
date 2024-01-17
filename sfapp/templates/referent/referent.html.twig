@@ -51,7 +51,7 @@
                             <div id="popupCS{{ sa.id }}" class="popup">
                                 <div class="popup-content">
                                     <span class="close" onclick="closePopup('popupCS{{ sa.id }}')">&times;</span>
-                                    <span>Voullez-vous vraiment changer la salle de ce système d'acquisition {{ sa.name }}</span>
+                                    <span>Voullez-vous vraiment changer la salle<br>de ce système d'acquisition : {{ sa.name }}</span>
                                     <div>
                                         <button id="non" type="button" onclick="closePopup('popupCS{{ sa.id }}')">Non</button>
                                         {{ form_widget(forms[loop.index0].save) }}
@@ -79,7 +79,7 @@
                                 <div id="popupCS{{ sa.id }}" class="popup">
                                     <div class="popup-content">
                                         <span class="close" onclick="closePopup('popupCS{{ sa.id }}')">&times;</span>
-                                        <span>Voullez-vous vraiment changer la salle de ce système d'acquisition {{ sa.name }}</span>
+                                        <span>Voullez-vous vraiment changer la salle<br>de ce système d'acquisition : {{ sa.name }}</span>
                                         <div>
                                             <button id="non" type="button" onclick="closePopup('popupCS{{ sa.id }}')">Non</button>
                                             {{ form_widget(forms[loop.index0 + countFormInstaller].save) }}

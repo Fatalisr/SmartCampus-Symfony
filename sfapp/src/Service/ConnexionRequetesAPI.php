@@ -72,22 +72,22 @@ class ConnexionRequetesAPI
      */
     public function getIntervalCaptures($date1,$date2,string $salle, string $dataType)
     {
-
         $response = $this->client->request(                                 // Creates and sends the request to the API
             'GET',                                                          // Sets the http request methods of the request (GET)
             'https://sae34.k8s.iut-larochelle.fr/api/captures/interval',[   // URL of the API and the route we want to send a request to
             'headers' => [                                                  // Adding the required headers to connect to our database in the API
-                'dbname' => $this->nomSa[$salle][1],                        // Informing the name of the database associated with the room
-                'username' => 'm1eq1',                                      // Informing the username to connect to the database
-                'userpass' => 'sodqif-vefXym-0cikho',                       // Informing the password to connect to the database
-            ],
+                'dbname' => $this->nomSa[$salle][1],                        // Informing the name of the database
+                'username' => 'm1eq1',                                      // Informing the username to connect to our database
+                'userpass' => 'sodqif-vefXym-0cikho',                       // Informing the password to connect to our database
+
+
+                ],
             'query' => [                   // Filling in the parameters of the request
                 'nom' => $dataType,       // Interval starting date
                 'date1' => $date1,       // Interval starting date
                 'date2' => $date2,      // Interval ending date
             ],
         ]);
-
         if($response->getStatusCode() == 200)   // Checks if the request was successful (200 indicates that the request was successful)
         {
             return $response->getContent();
@@ -110,8 +110,8 @@ class ConnexionRequetesAPI
             'https://sae34.k8s.iut-larochelle.fr/api/captures/last',[   // URL of the API and the route we want to send a request to
             'headers' => [                                              // Adding the required headers to connect to our database in the API
                 'dbname' => $this->nomSa[$salle][1],                    // Informing the name of the database
-                'username' => 'm1eq1',                                  // Informing the username to connect to the database
-                'userpass' => 'sodqif-vefXym-0cikho',                   // Informing the password to connect to the database
+                'username' => 'm1eq1',                                  // Informing the username to connect to our database
+                'userpass' => 'sodqif-vefXym-0cikho',                   // Informing the password to connect to our database
 
 
             ],

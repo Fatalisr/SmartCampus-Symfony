@@ -442,7 +442,6 @@ class AppFixtures extends Fixture
         //      Création des SA            //
         // =============================== //
 
-        // SA 1
         $sa1 = new SA();
         $sa1->setName("ESP-001");
         $sa1->setState("ACTIF");

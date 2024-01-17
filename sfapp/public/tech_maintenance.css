@@ -1,3 +1,11 @@
+textarea {
+    width: 96%;
+    height: 60%;
+    box-sizing: border-box;
+    resize: vertical;
+    margin: 0 2% 0 2%;
+}
+
 #div_sa_info{
     display: flex;
     justify-content: space-between;
