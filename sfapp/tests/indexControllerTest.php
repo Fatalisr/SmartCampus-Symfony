@@ -10,6 +10,7 @@ use Symfony\Component\BrowserKit\AbstractBrowser;
 class indexControllerTest extends WebTestCase
 {
     /*Test de l'affichage de la page*/
+
     public function testLoginPage()
     {
         $client = static::createClient();
@@ -19,6 +20,7 @@ class indexControllerTest extends WebTestCase
         $this->assertResponseStatusCodeSame(200);
     }
 /*Test de la connection du referent*/
+
 
     public function testSuccessLoginReferent()
     {
@@ -42,7 +44,7 @@ class indexControllerTest extends WebTestCase
 
         $this->assertResponseRedirects('/referent');
         $entityManager->beginTransaction(); // Begin a transaction
-        $entityManager->createQuery("DELETE FROM App\Entity\User M WHERE M.username=:username")->setParameter('username','Test_S_R')->execute();
+        $entityManager->createQuery("DELETE FROM App\Entity\User")->execute();
         $entityManager->commit();
     }
 
@@ -69,7 +71,7 @@ class indexControllerTest extends WebTestCase
 
         $this->assertResponseRedirects('/technicien');
         $entityManager->beginTransaction(); // Begin a transaction
-        $entityManager->createQuery("DELETE FROM App\Entity\User M WHERE M.username=:username")->setParameter('username','Test_S_T')->execute();
+        $entityManager->createQuery("DELETE FROM App\Entity\User")->execute();
         $entityManager->commit();
     }
     public function testBadLogin()

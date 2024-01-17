@@ -11,7 +11,7 @@
 
         <section id="liste_interventions">
             <ul class="block_interv">
-                <h1>Installations en attente</h1>
+                <h1>Installation(s) en attente</h1>
                 <div>
                     {% if installations %}
                     {% for install in installations %}
@@ -36,7 +36,7 @@
                 </div>
             </ul>
             <ul class="block_interv">
-                <h1>Maintenances en attente</h1>
+                <h1>Maintenance(s) en attente</h1>
                 <div>
                     {% for maintenance in maintenances %}
                         <a id="view" href="{{ path('app_view_maintenance', {'id': maintenance.id}) }}">

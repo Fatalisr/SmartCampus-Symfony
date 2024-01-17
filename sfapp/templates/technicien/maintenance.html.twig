@@ -18,7 +18,7 @@
             <div>
                 {{ form_start(form_assign) }}
                 <div id="submit_btn">
-                    <a id="maint" onclick="openPopup('popupCS')">M'assigner à cette intervention</a>
+                    <div style="background-color: green" id="assignTechBtn" onclick="openPopup('popupCS')">M'assigner à cette intervention</div>
                     <div id="popupCS" class="popup">
                         <div class="popup-content">
                             <span class="close" onclick="closePopup('popupCS')">&times;</span>
@@ -36,12 +36,12 @@
             {% if maintenance.technicien == user%}
                 <div class = "imgANDtext">
                     <div>
-                         {{ maintenance.technicien.username }}
+                        {{ maintenance.technicien.username }}
                     </div>
                     <div>
                         {{ form_start(form_unassign) }}
                         <div id="submit_btn">
-                            <a  id="maint" onclick="openPopup('popupCS')">𝕏</a>
+                            <div style="background-color: red"  id="assignTechBtn" onclick="openPopup('popupCS')">Abandonner cette intervention</div>
                             <div id="popupCS" class="popup">
                                 <div class="popup-content">
                                     <span class="close" onclick="closePopup('popupCS')">x</span>
@@ -63,7 +63,7 @@
             {% endif %}
         {% endif %}
 
-        <a href="{{ path("app_technicien") }}"><span>Retour</span></a>
+        <button type="button" onclick="goHome()" id="goHomeBtn">Retour</button>
     </div>
     {{ form_start(form_validMtn, {'attr' : {'id' : 'maintenance_form'}}) }}
     <div id="block_ref_msg">
@@ -72,10 +72,10 @@
             <p>{{ maintenance.message }}</p>
         </div>
         {% if maintenance.technicien == user%}
-        <div class="ref_msg">
-            <h2>Retour d'installation :</h2>
-            <p>{{ form_widget(form_validMtn.report) }}</p>
-        </div>
+            <div class="ref_msg">
+                <h2>Retour d'installation :</h2>
+                <p>{{ form_widget(form_validMtn.report) }}</p>
+            </div>
         {% endif %}
     </div>
 
@@ -112,10 +112,12 @@
             document.getElementById(popupId).style.display = 'block';
         }
 
-            function closePopup(popupId) {
+        function closePopup(popupId) {
             document.getElementById(popupId).style.display = 'none';
         }
+
+        function goHome(){
+            window.location.href = '/technicien';
+        }
     </script>
-
-
 {% endblock %}

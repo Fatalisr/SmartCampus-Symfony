@@ -6,9 +6,7 @@
     <link rel="icon" href="{{ asset('images/leaf.png') }}">
     <!-- Fichier CSS -->
     <link rel="stylesheet" href="{{ asset('base.css') }}">
-
     <!-- Inclure les nouveaux fichier CSS ici -->
-
     {% block javascripts %}
     {% endblock %}
 </head>
@@ -26,7 +24,7 @@
         <div id="popupInfo" class="popup">
             <div class="popup-content">
                 <span class="close" onclick="closePopup('popupInfo')">&times;</span>
-                <span>Informations generales</span>
+                <span>Informations générales</span>
                 <div>
                     <span>Actif : 🟢</span><br>
                     <span>Installation : 🟠</span><br>
@@ -60,7 +58,6 @@ function returnHome(){
 }
 
 function showNavbarItem(){
-
     var navbarDiv = document.getElementById('headerButtons');
     if(navbarDiv.classList.contains("navItemLineFlex")){
         navbarDiv.classList.add("navItemLineNone")
