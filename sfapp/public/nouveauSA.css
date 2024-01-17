@@ -45,14 +45,16 @@
     padding: 10px 20px 10px 20px;
     border-radius: 10px;
     background-color: #d6dfe8;
+    border: solid 1px black;
     font-size: large;
-    width: 60%;
+    width: 65%;
 }
 #form_line_cs input{
     display: flex;
     padding: 10px 20px 10px 20px;
     border-radius: 10px;
     background-color: #d6dfe8;
+    border: solid 1px black;
     font-size: large;
     width: 60%;
 }
