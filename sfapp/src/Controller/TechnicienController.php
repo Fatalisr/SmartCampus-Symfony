@@ -72,7 +72,12 @@ class TechnicienController extends AbstractController
                     $curInterv->setState("FINIE");
                     $curInterv->setEndingDate(new \DateTime());
                 } else {
-                    $curSA->setState('INACTIF');
+                    if($curSA->getOldRoom != null){
+                        $curSA->setState('ACTIF');
+                    }
+                    else{
+                        $curSA->setState('INACTIF');
+                    }
                     $curInterv->setState("ANNULEE");
                     $curInterv->setEndingDate(new \DateTime());
                 }
@@ -168,14 +173,17 @@ class TechnicienController extends AbstractController
             if($curInterv->getTechnicien() == $user)
             {
                 if ($form_validMtn->getData()['valid'] == "true") {
-                    $curSA->setState('ACTIF');
                     $curInterv->setState("FINIE");
-                    $curInterv->setEndingDate(new \DateTime());
                 } else {
-                    $curSA->setState('INACTIF');
                     $curInterv->setState("ANNULEE");
-                    $curInterv->setEndingDate(new \DateTime());
                 }
+                if($curSA->getState() == 'INACTIF') {
+                    $curSA->setOldRoom(null);
+                }
+                else {
+                    $curSA->setState('ACTIF');
+                }
+                $curInterv->setEndingDate(new \DateTime());
 
                 $report = $form_validMtn->get('report')->getData();
                 $curInterv->setReport($report);

@@ -24,7 +24,10 @@ class changerSalleForm extends \Symfony\Component\Form\AbstractType
                 'query_builder' => function (RoomRepository $er) {
                     return $er->createQueryBuilder('r')
                         ->leftJoin('App\Entity\SA', 's', 'WITH', 's.currentRoom = r')
-                        ->where('s.id IS NULL') // Exclude rooms with foreign key in sa table
+                        ->leftJoin('App\Entity\SA', 's2', 'WITH', 's2.oldRoom = r')
+                        ->where('s.id IS NULL and (s2.id IS NULL or (s2.state != :state and s2.state != :state2))' ) // Exclude rooms with foreign key in sa table
+                        ->setParameter('state', "A_INSTALLER")
+                        ->setParameter('state2', "INACTIF")
                         ->orderBy('r.name', 'ASC');
                 },
                 'choice_label' => 'name',
