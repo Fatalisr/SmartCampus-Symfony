@@ -1,21 +1,12 @@
 {% extends 'base_referent.html.twig' %}
 
 {% block body %}
-    <link rel="stylesheet" href="{{ asset('tech_maintenance.css') }}">
     <link rel="stylesheet" href="{{ asset('detail_SA.css') }}">
     <script src="https://d3js.org/d3.v4.js"></script>
     <script src="{{ asset('graph.js') }}"></script>
-    <div id="div_sa_info">
-        <div class="imgANDtext">
-            <img src="{{ asset('images/door.png') }}">
-            <span>  {{ sa.name }} </span>
-        </div>
-        <div class="imgANDtext">
-            <img src="{{ asset('images/processor.png') }}">
-            <span>
-                {{ sa.currentRoom.name }}
-            </span>
-        </div>
+    <div class="fse">
+        <p> {{ sa.name }}</p>
+        <p>{{ sa.currentRoom.name }}</p>
         {% if sa.state == 'A_INSTALLER' %}
             <p>🟠 Installation</p>
         {% elseif sa.state == 'ACTIF' %}
@@ -27,6 +18,11 @@
 
     </div>
     {% if sa.state == 'ACTIF' %}
+        <div id="changeTime">
+            <button id="btGraph" onclick="traitementDonneeCO2(donneesCO2T);traitementDonneeTemp(donneesTEMPT);traitementDonneeHum(donneesHUMT);showAlert();">JOUR</button>
+            <button id="btGraph" onclick="traitementDonneeCO2(donneesCO2LW);traitementDonneeHum(donneesHUMLW);traitementDonneeTemp(donneesTEMPLW);showAlert();">SEMAINE</button>
+            <div id="alertValue"></div>
+        </div>
         <section id="mainsection">
             <!-- graph temp -->
             <div class="pSA" id="pSAR">
@@ -75,18 +71,86 @@
                 <p>Aucun donnée disponible</p>
             </div>
         </section>
-
     {% endif %}
     <script>
+        printAlertTEMP = 0;
+        printAlertCO2 = 0;
+        printAlertHUM = 0;
+        nbAlertTEMP = 0;
+        nbAlertCO2 = 0;
+        nbAlertHUM = 0;
+
         function openPopup(popupId) {
             document.getElementById(popupId).style.display = 'block';
         }
-
         function closePopup(popupId) {
             document.getElementById(popupId).style.display = 'none';
         }
-        //Read the data
-        function traitementDonneeTemp() {
+        function showAlert() {
+            document.getElementById("alertValue").innerText = "Aucun Alerte";
+            if(printAlertHUM)
+            {
+                nb = nbAlertHUM;
+                document.getElementById("alertValue").innerHTML = "🚨 Alerte Humidité<br>"+nb+" Alertes";
+            }
+            if(printAlertCO2)
+            {
+                nb = nbAlertCO2;
+                document.getElementById("alertValue").innerHTML = "🚨 Alerte CO2<br>"+nb+" Alertes";
+            }
+            if(printAlertTEMP)
+            {
+                nb = nbAlertTEMP;
+                document.getElementById("alertValue").innerHTML = "🚨 Alerte Température<br>"+nb+" Alertes";
+            }
+            if(printAlertTEMP && printAlertHUM)
+            {
+                nb = nbAlertTEMP+nbAlertHUM;
+                document.getElementById("alertValue").innerHTML = "🚨 Alerte Température et Humidité<br>"+nb+" Alertes";
+            }
+            if(printAlertHUM && printAlertCO2)
+            {
+                nb = nbAlertHUM+nbAlertCO2;
+                document.getElementById("alertValue").innerHTML = "🚨 Alerte Humidité et CO2<br>"+nb+" Alertes";
+            }
+            if(printAlertTEMP && printAlertCO2)
+            {
+                nb = nbAlertTEMP+nbAlertCO2;
+                document.getElementById("alertValue").innerHTML = "🚨 Alerte Température et CO2<br>"+nb+" Alertes";
+            }
+            if(printAlertTEMP && printAlertHUM && printAlertCO2)
+            {
+                nb = nbAlertTEMP+nbAlertHUM+nbAlertCO2;
+                document.getElementById("alertValue").innerHTML = "🚨 Alerte sur toutes les données<br>"+nb+" Alertes";
+            }
+            //Remise à zéro des variables
+            printAlertTEMP = 0;
+            printAlertCO2 = 0;
+            printAlertHUM = 0;
+            nbAlertTEMP = 0;
+            nbAlertCO2 = 0;
+            nbAlertHUM = 0;
+        }
+        window.addEventListener('resize', function() {
+            // Appeler la fonction reloadPage à chaque redimensionnement
+            location.reload();
+        });
+        function goHome(){
+            window.location.href = '/referent';
+        }
+
+        //Read the data and create the graph
+        function traitementDonneeTemp(data) {
+            document.getElementById("graph1").innerHTML = "";
+            data_date_value = [];
+            for (i = 0; i < data.length; i++) {
+                data_date_value.push([data[i]["dateCapture"], data[i]["valeur"]]);
+                if (data[i]["valeur"] > 21 || data[i]["valeur"] < 17)
+                {
+                    printAlertTEMP = 1;
+                    nbAlertTEMP += 1;
+                }
+            }
             // Dimension de l'image SVG
             var marginTop = (document.getElementById("pSAR").offsetWidth)*0.05,
                 marginRight = 10,
@@ -95,7 +159,7 @@
                 width = (document.getElementById("pSAR").offsetWidth) - marginLeft - marginRight,
                 height = ((document.getElementById("pSAR").offsetHeight)) - marginTop - marginBottom;
 
-            // Ajout de l'image SVG dans la balise prévu
+            // append the svg object to the body of the page
             var svg1 = d3.select("#graph1")
                 .append("svg")
                 .attr("width",  width )
@@ -103,28 +167,30 @@
                 .append("g")
                 .attr("transform",
                     "translate(" + marginLeft + "," + marginTop + ")");
+
             d_array =  [];
-            // Ajout des données du fichier Json dans un tableau
-            for (let i = 0; i < jsondata.length; i++)
+            for (let i = 0; i < data_date_value.length; i++)
             {
-                d_array.push({ dateCapture : d3.timeParse("%Y-%m-%d %H:%M:%S")(jsondata[i].dateCapture), valeur : jsondata[i].valeur });
+                d_array.push({ dateCapture : d3.timeParse("%Y-%m-%d %H:%M:%S")(data_date_value[i][0]), valeur : data_date_value[i][1] });
             }
-            console.log(d_array)
-            // Axe X -> Date de la donnée
+            // Add X axis --> it is a date format
             x = d3.scaleTime()
-                .domain([d3.min(d_array, function(d) { return d.dateCapture; }),d3.max(d_array, function(d) { return +d.dateCapture; })])
+                .domain([d3.min(d_array, function(d) { return d.dateCapture; }),d3.max(d_array, function(d) { return d.dateCapture; })])
                 .range([ 0, width ]);
             svg1.append("g")
                 .attr("transform", "translate(0," + height + ")")
                 .call(d3.axisBottom(x));
+            /*.attr("text-anchor", "start")
+            .text("↑ Daily close ($)");*/
 
-            // Axe Y -> Temp
+            // Add Y axis
             y = d3.scaleLinear()
-                .domain([0,25])
+                .domain([-1,35])
                 .range([ height, 0 ]);
             svg1.append("g")
                 .call(d3.axisLeft(y));
 
+            // Add a label to the graph
             svg1.append("text")
                 .attr("class", "y label")
                 .attr("text-anchor", "start")
@@ -132,7 +198,7 @@
                 .attr("y", -5)
                 .text("Température (°C)");
 
-            // Création de la courbe qui passe par tous les points et ajout de la courbe au dessin
+            // Add the line
             svg1.append("path")
                 .datum(d_array)
                 .attr("fill", "none")
@@ -142,11 +208,36 @@
                     .x(function(d) { return x(d.dateCapture) })
                     .y(function(d) { return y(d.valeur) })
                 )
+            // Première borne à 21°C
+            svg1.append('line')
+                .style("stroke", "red")
+                .style("stroke-width", 2)
+                .attr("x1", 0)
+                .attr("y1", (height/36)*13.5)
+                .attr("x2", width)
+                .attr("y2", (height/36)*13.5);
+            // Deuxième borne à 17°C
+            svg1.append('line')
+                .style("stroke", "red")
+                .style("stroke-width", 2)
+                .attr("x1", 0)
+                .attr("y1", (height/36)*18)
+                .attr("x2", width)
+                .attr("y2", (height/36)*18);
         }
-
-
-        function traitementDonneeHum() {
-            // set the dimensions and margins of the graph
+        function traitementDonneeHum(data) {
+            document.getElementById("graph2").innerHTML = "";
+            data_date_value = [];
+            for(i = 0 ; i < data.length ; i++)
+            {
+                data_date_value.push([data[i]["dateCapture"],data[i]["valeur"]]);
+                if(data[i]["valeur"] > 70)
+                {
+                    printAlertHUM += 1;
+                    nbAlertHUM += 1;
+                }
+            }
+            // Dimension de l'image SVG
             var marginTop = (document.getElementById("pSAR").offsetWidth)*0.05,
                 marginRight = 10,
                 marginBottom = (document.getElementById("pSAR").offsetWidth)*0.05,
@@ -162,15 +253,15 @@
                 .append("g")
                 .attr("transform",
                     "translate(" + marginLeft + "," + marginTop + ")");
+
             d_array =  [];
-            for (let i = 0; i < jsondata.length; i++)
+            for (let i = 0; i < data_date_value.length; i++)
             {
-                d_array.push({ dateCapture : d3.timeParse("%Y-%m-%d %H:%M:%S")(jsondata[i].dateCapture), valeur : jsondata[i].valeur });
+                d_array.push({ dateCapture : d3.timeParse("%Y-%m-%d %H:%M:%S")(data_date_value[i][0]), valeur : data_date_value[i][1] });
             }
-            console.log(d_array)
             // Add X axis --> it is a date format
             x = d3.scaleTime()
-                .domain([d3.min(d_array, function(d) { return d.dateCapture; }),d3.max(d_array, function(d) { return +d.dateCapture; })])
+                .domain([d3.min(d_array, function(d) { return d.dateCapture; }),d3.max(d_array, function(d) { return d.dateCapture; })])
                 .range([ 0, width ]);
             svg1.append("g")
                 .attr("transform", "translate(0," + height + ")")
@@ -185,6 +276,7 @@
             svg1.append("g")
                 .call(d3.axisLeft(y));
 
+            // Add a label to the graph
             svg1.append("text")
                 .attr("class", "y label")
                 .attr("text-anchor", "start")
@@ -202,9 +294,29 @@
                     .x(function(d) { return x(d.dateCapture) })
                     .y(function(d) { return y(d.valeur) })
                 )
+
+            // Borne à 70% d'humidité
+            svg1.append('line')
+                .style("stroke", "red")
+                .style("stroke-width", 2)
+                .attr("x1", 0)
+                .attr("y1", (height/10)*3)
+                .attr("x2", width)
+                .attr("y2", (height/10)*3);
         }
-        function traitementDonneeCO2() {
-            // set the dimensions and margins of the graph
+        function traitementDonneeCO2(data) {
+            document.getElementById("graph3").innerHTML = "";
+            data_date_value = [];
+            for(i = 0 ; i < data.length ; i++)
+            {
+                data_date_value.push([data[i]["dateCapture"],data[i]["valeur"]]);
+                if(data[i]["valeur"] > 1000)
+                {
+                    printAlertCO2 += 1;
+                    nbAlertCO2 += 1;
+                }
+            }
+            // Dimension de l'image SVG
             var marginTop = (document.getElementById("pSAR").offsetWidth)*0.05,
                 marginRight = 10,
                 marginBottom = (document.getElementById("pSAR").offsetWidth)*0.05,
@@ -220,15 +332,15 @@
                 .append("g")
                 .attr("transform",
                     "translate(" + marginLeft + "," + marginTop + ")");
+
             d_array =  [];
-            for (let i = 0; i < jsondata.length; i++)
+            for (let i = 0; i < data_date_value.length; i++)
             {
-                d_array.push({ dateCapture : d3.timeParse("%Y-%m-%d %H:%M:%S")(jsondata[i].dateCapture), valeur : jsondata[i].valeur });
+                d_array.push({ dateCapture : d3.timeParse("%Y-%m-%d %H:%M:%S")(data_date_value[i][0]), valeur : data_date_value[i][1] });
             }
-            console.log(d_array)
             // Add X axis --> it is a date format
             x = d3.scaleTime()
-                .domain([d3.min(d_array, function(d) { return d.dateCapture; }),d3.max(d_array, function(d) { return +d.dateCapture; })])
+                .domain([d3.min(d_array, function(d) { return d.dateCapture; }),d3.max(d_array, function(d) { return d.dateCapture; })])
                 .range([ 0, width ]);
             svg1.append("g")
                 .attr("transform", "translate(0," + height + ")")
@@ -243,6 +355,7 @@
             svg1.append("g")
                 .call(d3.axisLeft(y));
 
+            // Add a label to the graph
             svg1.append("text")
                 .attr("class", "y label")
                 .attr("text-anchor", "start")
@@ -260,27 +373,42 @@
                     .x(function(d) { return x(d.dateCapture) })
                     .y(function(d) { return y(d.valeur) })
                 )
+            // Borne à 1300
+            svg1.append('line')
+                .style("stroke", "red")
+                .style("stroke-width", 2)
+                .attr("x1", 0)
+                .attr("y1", (height/20)*10)
+                .attr("x2", width)
+                .attr("y2", (height/20)*10);
         }
 
-        d3.json("{{ asset("data/data_example_temp.json") }}", function(datafromserver) {
-            jsondata = datafromserver;
-            traitementDonneeTemp();
-        });
-        d3.json("{{ asset("data/data_example_hum.json") }}", function(datafromserver) {
-            jsondata = datafromserver;
-            traitementDonneeHum();
-        });
-        d3.json("{{ asset("data/data_example_co2.json") }}", function(datafromserver) {
-            jsondata = datafromserver;
-            traitementDonneeCO2();
-        });
-        window.addEventListener('resize', function() {
-            // Appeler la fonction reloadPage à chaque redimensionnement
-            location.reload();
-        });
+        // Données du jour
+        donneesCO2T = '{{ donneesCO2T }}';
+        donneesCO2T = donneesCO2T.replace(/&quot;/ig,'\"');
+        donneesCO2T = JSON.parse(donneesCO2T);
+        donneesHUMT = '{{ donneesHUMT }}';
+        donneesHUMT = donneesHUMT.replace(/&quot;/ig,'\"');
+        donneesHUMT = JSON.parse(donneesHUMT);
+        donneesTEMPT = '{{ donneesTEMPT }}';
+        donneesTEMPT = donneesTEMPT.replace(/&quot;/ig,'\"');
+        donneesTEMPT = JSON.parse(donneesTEMPT);
+        // Données de la semaine
+        donneesCO2LW = '{{ donneesCO2LW }}';
+        donneesCO2LW = donneesCO2LW.replace(/&quot;/ig,'\"');
+        donneesCO2LW = JSON.parse(donneesCO2LW);
+        donneesHUMLW = '{{ donneesHUMLW }}';
+        donneesHUMLW = donneesHUMLW.replace(/&quot;/ig,'\"');
+        donneesHUMLW = JSON.parse(donneesHUMLW);
+        donneesTEMPLW = '{{ donneesTEMPLW }}';
+        donneesTEMPLW = donneesTEMPLW.replace(/&quot;/ig,'\"');
+        donneesTEMPLW = JSON.parse(donneesTEMPLW);
 
-        function goHome(){
-            window.location.href = '/referent';
-        }
+        traitementDonneeCO2(donneesCO2T);
+        traitementDonneeTemp(donneesTEMPT);
+        traitementDonneeHum(donneesHUMT);
+        showAlert();
+
+
     </script>
 {% endblock %}

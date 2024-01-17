@@ -6,24 +6,24 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class ConnexionRequetesAPI
 {
     public $nomSa = array(
-        "D205" => ["1","sae34bdk1eq1"],
-        "D206" => ["2","sae34bdk1eq2"],
-        "D207" => ["3","sae34bdk1eq3"],
-        "D204" => ["4","sae34bdk2eq1"],
-        "D203" => ["5","sae34bdk2eq2"],
-        "D303" => ["6","sae34bdk2eq3"],
-        "D304" => ["7","sae34bdl1eq1"],
-        "C101" => ["8","sae34bdl1eq2"],
-        "D109" => ["9","sae34bdl1eq3"],
-        "Secrétariat" => ["10","sae34bdl2eq1"],
-        "D001" => ["11","sae34bdl2eq2"],
-        "D002" => ["12","sae34bdl2eq3"],
-        "D004" => ["13","sae34bdm1eq1"],
-        "C004" => ["14","sae34bdm1eq2"],
-        "C007" => ["15","sae34bdm1eq3"],
-        "D201" => ["16","sae34bdm2eq1"],
-        "D307" => ["17","sae34bdm2eq2"],
-        "C005" => ["18","sae34bdm2eq3"]
+        "D205" => ["ESP-001","sae34bdk1eq1"],
+        "D206" => ["ESP-002","sae34bdk1eq2"],
+        "D207" => ["ESP-003","sae34bdk1eq3"],
+        "D204" => ["ESP-004","sae34bdk2eq1"],
+        "D203" => ["ESP-005","sae34bdk2eq2"],
+        "D303" => ["ESP-006","sae34bdk2eq3"],
+        "D304" => ["ESP-007","sae34bdl1eq1"],
+        "C101" => ["ESP-008","sae34bdl1eq2"],
+        "D109" => ["ESP-009","sae34bdl1eq3"],
+        "Secrétariat" => ["ESP-010","sae34bdl2eq1"],
+        "D001" => ["ESP-011","sae34bdl2eq2"],
+        "D002" => ["ESP-012","sae34bdl2eq3"],
+        "D004" => ["ESP-013","sae34bdm1eq1"],
+        "C004" => ["ESP-014","sae34bdm1eq2"],
+        "C007" => ["ESP-015","sae34bdm1eq3"],
+        "D201" => ["ESP-016","sae34bdm2eq1"],
+        "D307" => ["ESP-017","sae34bdm2eq2"],
+        "C005" => ["ESP-018","sae34bdm2eq3"]
     );
     /*
      * @brief Constructor of the ConnexionRequetesAPI service
@@ -72,22 +72,22 @@ class ConnexionRequetesAPI
      */
     public function getIntervalCaptures($date1,$date2,string $salle, string $dataType)
     {
-
         $response = $this->client->request(                                 // Creates and sends the request to the API
             'GET',                                                          // Sets the http request methods of the request (GET)
             'https://sae34.k8s.iut-larochelle.fr/api/captures/interval',[   // URL of the API and the route we want to send a request to
             'headers' => [                                                  // Adding the required headers to connect to our database in the API
-                'dbname' => $this->nomSa[$salle][1],                        // Informing the name of the database associated with the room
-                'username' => 'm1eq1',                                      // Informing the username to connect to the database
-                'userpass' => 'sodqif-vefXym-0cikho',                       // Informing the password to connect to the database
-            ],
+                'dbname' => $this->nomSa[$salle][1],                        // Informing the name of the database
+                'username' => 'm1eq1',                                      // Informing the username to connect to our database
+                'userpass' => 'sodqif-vefXym-0cikho',                       // Informing the password to connect to our database
+
+
+                ],
             'query' => [                   // Filling in the parameters of the request
                 'nom' => $dataType,       // Interval starting date
                 'date1' => $date1,       // Interval starting date
                 'date2' => $date2,      // Interval ending date
             ],
         ]);
-
         if($response->getStatusCode() == 200)   // Checks if the request was successful (200 indicates that the request was successful)
         {
             return $response->getContent();
@@ -110,8 +110,8 @@ class ConnexionRequetesAPI
             'https://sae34.k8s.iut-larochelle.fr/api/captures/last',[   // URL of the API and the route we want to send a request to
             'headers' => [                                              // Adding the required headers to connect to our database in the API
                 'dbname' => $this->nomSa[$salle][1],                    // Informing the name of the database
-                'username' => 'm1eq1',                                  // Informing the username to connect to the database
-                'userpass' => 'sodqif-vefXym-0cikho',                   // Informing the password to connect to the database
+                'username' => 'm1eq1',                                  // Informing the username to connect to our database
+                'userpass' => 'sodqif-vefXym-0cikho',                   // Informing the password to connect to our database
 
 
             ],

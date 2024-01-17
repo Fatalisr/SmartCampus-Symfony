@@ -1,17 +1,16 @@
 <?php
 
 namespace App\Controller;
-use App\Entity\Intervention;
+
+use App\Service\ConnexionRequetesAPI;
 use App\Entity\SA;
-use App\Entity\User;
-use App\Form\InterventionFormType;
-use App\Form\MaintenanceForm;
 use App\Form\changerSalleForm;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\NouveauSaForm;
+use App\Form\InterventionFormType;
 use Symfony\Component\HttpFoundation\Request;
 
 
@@ -114,13 +113,29 @@ class ReferentController extends AbstractController
     /*                   PAGE DE DETAIL DU SA                    */
     /* --------------------------------------------------------- */
     #[Route('/referent/sa/{id}', name: 'app_view_sa')]
-    public function view_sa(?int $id,ManagerRegistry $doctrine,Request $request): Response
+    public function view_sa(?int $id,ManagerRegistry $doctrine,Request $request,  ConnexionRequetesAPI $requetesAPI): Response
     {
+        date_default_timezone_set('Europe/Paris');
 
-        $entityManager = $doctrine->getManager(); // Manager doctrine
+        $entityManager = $doctrine->getManager();
 
         // Récuperation du SA avec l'id de la route
         $sa = $entityManager->find(SA::class,$id);
+        $room = $sa->getCurrentRoom()->getName();
+
+        $today = date("Y-m-d"); //Genère la date d'ajourd'hui
+        $yesterday = date('Y-m-d', time() + (60 * 60 * 24)*-1 );  // Genère la date d'hier
+        $lastWeek = date('Y-m-d', time() + (60 * 60 * 24 * -7) ); // Genère la date de la semain dernière
+        // Récupère les captures d'hier à aujourd'hui
+        $reponseCO2T = $requetesAPI->getIntervalCaptures($yesterday,$today,$room,"co2");
+        $reponseHUMT = $requetesAPI->getIntervalCaptures($yesterday,$today,$room,"hum");
+        $reponseTEMPT = $requetesAPI->getIntervalCaptures($yesterday,$today,$room,"temp");
+
+        // Récupère les captures depuis la semaine dernière
+        $reponseCO2LW = $requetesAPI->getIntervalCaptures($lastWeek,$today,$room,"co2");
+        $reponseHUMLW = $requetesAPI->getIntervalCaptures($lastWeek,$today,$room,"hum");
+        $reponseTEMPLW = $requetesAPI->getIntervalCaptures($lastWeek,$today,$room,"temp");
+
 
         // Création d'un intsance de formulaire pour les demandes de maintenances
         $form = $this->createForm(InterventionFormType::class);
@@ -131,14 +146,13 @@ class ReferentController extends AbstractController
             // Creation de l'instance de maintennance
             $newMaintenance = new Intervention();
             $newMaintenance->setMessage($form->get('message')->getData()); // reccuperation du message du referent
-            date_default_timezone_set('UTC');
-            $newMaintenance->setStartingDate(date_create(date("m.d.y")));
+            $newMaintenance->setStartingDate(date_create(date("Y-m-d")));
             $newMaintenance->setSa($sa);
             $newMaintenance->setType_I("MAINTENANCE");
             $newMaintenance->setState("EN_COURS");
-            $sa->setState("MAINTENANCE");
+            $sa->setState("MAINTENANCE"); //Changement de l'état du SA en conséquence
 
-            // Envoie de la maintenance dans la BDD
+            // Envoie de l'Intervention de type MAINTENANCE dans la BD
             $entityManager = $doctrine->getManager();
             $entityManager->persist($newMaintenance);
             $entityManager->persist($sa);
@@ -150,6 +164,12 @@ class ReferentController extends AbstractController
         return $this->render("referent/sa.html.twig",[
             'sa' => $sa,
             'form' => $form,
+            'donneesCO2T' => $reponseCO2T,
+            'donneesHUMT' => $reponseHUMT,
+            'donneesTEMPT' => $reponseTEMPT,
+            'donneesCO2LW' => $reponseCO2LW,
+            'donneesHUMLW' => $reponseHUMLW,
+            'donneesTEMPLW' => $reponseTEMPLW,
         ]);
     }
 
@@ -386,7 +406,7 @@ class ReferentController extends AbstractController
 
             return $this->redirectToRoute('app_referent');
         }
-        return $this->render("referent/saInt.html.twig",[
+        return $this->render("/referent/installation.html.twig",[
             'sa' => $sa,
             'form_validMtn' => $form_validMtn,
             'message' => $message,
