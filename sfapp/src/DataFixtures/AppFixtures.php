@@ -8,17 +8,15 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Room;
 use App\Entity\SA;
+use \Datetime;
 
 class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-
-
         // =============================== //
         //      Création des users         //
         // =============================== //
-
 
         $ref1 = new User();
         $ref1->setUsername("ref1");
@@ -34,6 +32,14 @@ class AppFixtures extends Fixture
         $tech1->setRoles(["ROLE_TECHNICIEN"]);
         $this->addReference('tech1',$tech1 );
         $manager->persist($tech1);
+
+        $tech2 = new User();
+        $tech2->setUsername("tec2");
+        //hash le password avec php bin/console security:hash-password
+        $tech2->setPassword("$2y$13$/Bpyv7s0SexmSOxxaINszOMmtqs7iSIFINdzBfKAQUAmHMthVAKzS");
+        $tech2->setRoles(["ROLE_TECHNICIEN"]);
+        $this->addReference('tech2',$tech2 );
+        $manager->persist($tech2);
 
         // =============================== //
         //      Création des salles        //
@@ -212,7 +218,7 @@ class AppFixtures extends Fixture
         $D108->setFacing("S");
         $manager->persist($D108);
         $this->addReference('D108',$D108);
-// Création de la salle D105
+        // Création de la salle D105
         $D105 = new Room();
         $D105->setName("D105");
         $D105->setNbComputer("1");
@@ -220,7 +226,7 @@ class AppFixtures extends Fixture
         $manager->persist($D105);
         $this->addReference('D105',$D105);
 
-// Création de la salle D107
+        // Création de la salle D107
         $D107 = new Room();
         $D107->setName("D107");
         $D107->setNbComputer("1");
@@ -228,7 +234,7 @@ class AppFixtures extends Fixture
         $manager->persist($D107);
         $this->addReference('D107',$D107);
 
-// Création de la salle D109
+        // Création de la salle D109
         $D109 = new Room();
         $D109->setName("D109");
         $D109->setNbComputer("1");
@@ -236,10 +242,10 @@ class AppFixtures extends Fixture
         $manager->persist($D109);
         $this->addReference('D109',$D109);
 
-// ------ 2eme étage --------
-// INFORMATIQUE
+        // ------ 2eme étage --------
+        // INFORMATIQUE
 
-// Création de la salle D201
+        // Création de la salle D201
         $D201 = new Room();
         $D201->setName("D201");
         $D201->setNbComputer("0");
@@ -247,7 +253,7 @@ class AppFixtures extends Fixture
         $manager->persist($D201);
         $this->addReference('D201',$D201);
 
-// Création de la salle D203
+        // Création de la salle D203
         $D203 = new Room();
         $D203->setName("D203");
         $D203->setNbComputer("2");
@@ -255,7 +261,7 @@ class AppFixtures extends Fixture
         $manager->persist($D203);
         $this->addReference('D203',$D203);
 
-// Création de la salle D205
+        // Création de la salle D205
         $D205 = new Room();
         $D205->setName("D205");
         $D205->setNbComputer("15");
@@ -263,7 +269,7 @@ class AppFixtures extends Fixture
         $manager->persist($D205);
         $this->addReference('D205',$D205);
 
-// Création de la salle D207
+        // Création de la salle D207
         $D207 = new Room();
         $D207->setName("D207");
         $D207->setNbComputer("15");
@@ -271,7 +277,7 @@ class AppFixtures extends Fixture
         $manager->persist($D207);
         $this->addReference('D207',$D207);
 
-// Création de la salle D204
+        // Création de la salle D204
         $D204 = new Room();
         $D204->setName("D204");
         $D204->setNbComputer("15");
@@ -279,7 +285,7 @@ class AppFixtures extends Fixture
         $manager->persist($D204);
         $this->addReference('D204',$D204);
 
-// Création de la salle D206
+        // Création de la salle D206
         $D206 = new Room();
         $D206->setName("D206");
         $D206->setNbComputer("15");
@@ -288,9 +294,9 @@ class AppFixtures extends Fixture
         $this->addReference('D206',$D206);
 
 
-// RESEAU ET TELECOM
+        // RESEAU ET TELECOM
 
-// Création de la salle C205
+        // Création de la salle C205
         $C205 = new Room();
         $C205->setName("C205");
         $C205->setNbComputer("15");
@@ -299,7 +305,7 @@ class AppFixtures extends Fixture
         $this->addReference('C205',$C205);
 
 
-// Création de la salle C207
+        // Création de la salle C207
         $C207 = new Room();
         $C207->setName("C207");
         $C207->setNbComputer("15");
@@ -307,7 +313,7 @@ class AppFixtures extends Fixture
         $manager->persist($C207);
         $this->addReference('C207',$C207);
 
-// Création de la salle C204
+        // Création de la salle C204
         $C204 = new Room();
         $C204->setName("C204");
         $C204->setNbComputer("15");
@@ -315,7 +321,7 @@ class AppFixtures extends Fixture
         $manager->persist($C204);
         $this->addReference('C204',$C204);
 
-// Création de la salle C206
+        // Création de la salle C206
         $C206 = new Room();
         $C206->setName("C206");
         $C206->setNbComputer("15");
@@ -323,9 +329,9 @@ class AppFixtures extends Fixture
         $manager->persist($C206);
         $this->addReference('C206',$C206);
 
-// ------ 3eme étage --------
+        // ------ 3eme étage --------
 
-// Création de la salle D301
+        // Création de la salle D301
         $D301 = new Room();
         $D301->setName("D301");
         $D301->setNbComputer("15");
@@ -333,7 +339,7 @@ class AppFixtures extends Fixture
         $manager->persist($D301);
         $this->addReference('D301',$D301);
 
-// Création de la salle D303
+        // Création de la salle D303
         $D303 = new Room();
         $D303->setName("D303");
         $D303->setNbComputer("15");
@@ -341,7 +347,7 @@ class AppFixtures extends Fixture
         $manager->persist($D303);
         $this->addReference('D303',$D303);
 
-// Création de la salle D305
+        // Création de la salle D305
         $D305 = new Room();
         $D305->setName("D305");
         $D305->setNbComputer("15");
@@ -349,7 +355,7 @@ class AppFixtures extends Fixture
         $manager->persist($D305);
         $this->addReference('D305',$D305);
 
-// Création de la salle D307
+        // Création de la salle D307
         $D307 = new Room();
         $D307->setName("D307");
         $D307->setNbComputer("15");
@@ -357,7 +363,7 @@ class AppFixtures extends Fixture
         $manager->persist($D307);
         $this->addReference('D307',$D307);
 
-// Création de la salle D302
+        // Création de la salle D302
         $D302 = new Room();
         $D302->setName("D302");
         $D302->setNbComputer("15");
@@ -365,7 +371,7 @@ class AppFixtures extends Fixture
         $manager->persist($D302);
         $this->addReference('D302',$D302);
 
-// Création de la salle D304
+        // Création de la salle D304
         $D304 = new Room();
         $D304->setName("D304");
         $D304->setNbComputer("15");
@@ -373,7 +379,7 @@ class AppFixtures extends Fixture
         $manager->persist($D304);
         $this->addReference('D304',$D304);
 
-// Création de la salle D306
+        // Création de la salle D306
         $D306 = new Room();
         $D306->setName("D306");
         $D306->setNbComputer("15");
@@ -381,7 +387,7 @@ class AppFixtures extends Fixture
         $manager->persist($D306);
         $this->addReference('D306',$D306);
 
-// Création de la salle Secrétariat
+        // Création de la salle Secrétariat
         $Secret = new Room();
         $Secret->setName("Secrétariat");
         $Secret->setNbComputer("4");
@@ -389,9 +395,9 @@ class AppFixtures extends Fixture
         $manager->persist($Secret);
         $this->addReference('Secrétariat',$Secret);
 
-// RESEAU ET TELECOM
+        // RESEAU ET TELECOM
 
-// Création de la salle C302
+        // Création de la salle C302
         $C302 = new Room();
         $C302->setName("C302");
         $C302->setNbComputer("15");
@@ -399,7 +405,7 @@ class AppFixtures extends Fixture
         $manager->persist($C302);
         $this->addReference('C302',$C302);
 
-// Création de la salle C304
+        // Création de la salle C304
         $C304 = new Room();
         $C304->setName("C304");
         $C304->setNbComputer("15");
@@ -407,7 +413,7 @@ class AppFixtures extends Fixture
         $manager->persist($C304);
         $this->addReference('C304',$C304);
 
-// Création de la salle C306
+        // Création de la salle C306
         $C306 = new Room();
         $C306->setName("C306");
         $C306->setNbComputer("15");
@@ -415,7 +421,7 @@ class AppFixtures extends Fixture
         $manager->persist($C306);
         $this->addReference('C306',$C306);
 
-// Création de la salle C305
+        // Création de la salle C305
         $C305 = new Room();
         $C305->setName("C305");
         $C305->setNbComputer("15");
@@ -423,7 +429,7 @@ class AppFixtures extends Fixture
         $manager->persist($C305);
         $this->addReference('C305',$C305);
 
-// Création de la salle C307
+        // Création de la salle C307
         $C307 = new Room();
         $C307->setName("C307");
         $C307->setNbComputer("15");
@@ -580,129 +586,6 @@ class AppFixtures extends Fixture
         $this->addReference('sa18',$sa18);
         $manager->persist($sa18);
 
-        // =============================== //
-        // Création des salles d'exemples  //
-        // =============================== //
-
-// Création de la salle test1
-        $test1 = new Room();
-        $test1->setName("test1");
-        $test1->setNbComputer("15");
-        $test1->setFacing("N");
-        $manager->persist($test1);
-        $this->addReference('test1',$test1);
-
-// Création de la salle test2
-        $test2 = new Room();
-        $test2->setName("test2");
-        $test2->setNbComputer("15");
-        $test2->setFacing("N");
-        $manager->persist($test2);
-        $this->addReference('test2',$test2);
-
-        // Création de la salle test3
-        $test3 = new Room();
-        $test3->setName("test3");
-        $test3->setNbComputer("15");
-        $test3->setFacing("N");
-        $manager->persist($test3);
-        $this->addReference('test3',$test3);
-
-        // Création de la salle test4
-        $test4 = new Room();
-        $test4->setName("test4");
-        $test4->setNbComputer("15");
-        $test4->setFacing("N");
-        $manager->persist($test4);
-        $this->addReference('test4',$test4);
-
-        // Création de la salle test5
-        $test5 = new Room();
-        $test5->setName("test5");
-        $test5->setNbComputer("15");
-        $test5->setFacing("N");
-        $manager->persist($test5);
-        $this->addReference('test5',$test5);
-
-        // Création de la salle test6
-        $test6 = new Room();
-        $test6->setName("test6");
-        $test6->setNbComputer("15");
-        $test6->setFacing("N");
-        $manager->persist($test6);
-        $this->addReference('test6',$test6);
-
-        // Création de la salle test7
-        $test7 = new Room();
-        $test7->setName("test7");
-        $test7->setNbComputer("15");
-        $test7->setFacing("N");
-        $manager->persist($test7);
-        $this->addReference('test7',$test7);
-
-        // Création de la salle test8
-        $test8 = new Room();
-        $test8->setName("test8");
-        $test8->setNbComputer("15");
-        $test8->setFacing("N");
-        $manager->persist($test8);
-        $this->addReference('test8',$test8);
-
-        // Création de la salle test9
-        $test9 = new Room();
-        $test9->setName("test9");
-        $test9->setNbComputer("15");
-        $test9->setFacing("N");
-        $manager->persist($test9);
-        $this->addReference('test9',$test9);
-
-        // Création de la salle test10
-        $test10 = new Room();
-        $test10->setName("test10");
-        $test10->setNbComputer("15");
-        $test10->setFacing("N");
-        $manager->persist($test10);
-        $this->addReference('test10',$test10);
-
-        // Création de la salle test11
-        $test11 = new Room();
-        $test11->setName("test11");
-        $test11->setNbComputer("15");
-        $test11->setFacing("N");
-        $manager->persist($test11);
-        $this->addReference('test11',$test11);
-
-        // Création de la salle test12
-        $test12 = new Room();
-        $test12->setName("test12");
-        $test12->setNbComputer("15");
-        $test12->setFacing("N");
-        $manager->persist($test12);
-        $this->addReference('test12',$test12);
-
-        // Création de la salle test13
-        $test13 = new Room();
-        $test13->setName("test13");
-        $test13->setNbComputer("15");
-        $test13->setFacing("N");
-        $manager->persist($test13);
-        $this->addReference('test13',$test13);
-
-        // Création de la salle test14
-        $test14 = new Room();
-        $test14->setName("test14");
-        $test14->setNbComputer("15");
-        $test14->setFacing("N");
-        $manager->persist($test14);
-        $this->addReference('test14',$test14);
-
-        // Création de la salle test15
-        $test15 = new Room();
-        $test15->setName("test15");
-        $test15->setNbComputer("15");
-        $test15->setFacing("N");
-        $manager->persist($test15);
-        $this->addReference('test15',$test15);
 
         // =============================== //
         //   Création des SA d'exemples    //
@@ -712,7 +595,7 @@ class AppFixtures extends Fixture
         $saex1 = new SA();
         $saex1->setName("SA01");
         $saex1->setState("ACTIF");
-        $saex1->setCurrentRoom($this->getReference('test1'));
+        $saex1->setCurrentRoom($this->getReference('D301'));
         $this->addReference('saex1',$saex1);
         $manager->persist($saex1);
 
@@ -720,7 +603,7 @@ class AppFixtures extends Fixture
         $saex2 = new SA();
         $saex2->setName("SA02");
         $saex2->setState("ACTIF");
-        $saex2->setCurrentRoom($this->getReference('test2'));
+        $saex2->setCurrentRoom($this->getReference('D302'));
         $this->addReference('saex2',$saex2);
         $manager->persist($saex2);
 
@@ -728,8 +611,8 @@ class AppFixtures extends Fixture
         $saex3 = new SA();
         $saex3->setName("SA03");
         $saex3->setState("A_INSTALLER");
-        $saex3->setCurrentRoom($this->getReference('test4'));
-        $saex3->setOldRoom($this->getReference('test3'));
+        $saex3->setCurrentRoom($this->getReference('D003'));
+        $saex3->setOldRoom($this->getReference('D003'));
         $this->addReference('saex3',$saex3);
         $manager->persist($saex3);
 
@@ -737,7 +620,7 @@ class AppFixtures extends Fixture
         $saex4 = new SA();
         $saex4->setName("SA04");
         $saex4->setState("A_INSTALLER");
-        $saex4->setCurrentRoom($this->getReference('test5'));
+        $saex4->setCurrentRoom($this->getReference('D005'));
         $this->addReference('saex4',$saex4);
         $manager->persist($saex4);
 
@@ -745,17 +628,9 @@ class AppFixtures extends Fixture
         $saex5 = new SA();
         $saex5->setName("SA05");
         $saex5->setState("MAINTENANCE");
-        $saex5->setCurrentRoom($this->getReference('test6'));
+        $saex5->setCurrentRoom($this->getReference('C006'));
         $this->addReference('saex5',$saex5);
         $manager->persist($saex5);
-
-        // SA ex6
-        $saex6 = new SA();
-        $saex6->setName("SA06");
-        $saex6->setState("MAINTENANCE");
-        $saex6->setCurrentRoom($this->getReference('test7'));
-        $this->addReference('saex6',$saex6);
-        $manager->persist($saex6);
 
         // SA ex7
         $saex7 = new SA();
@@ -776,26 +651,29 @@ class AppFixtures extends Fixture
         // ===================================== //
 
         //Interventions Installation sur SAex1
+        $datehier = new DateTime(date('Y-m-d', time() + (60 * 60 * 24)*-1 ));  // Genère la date d'hier
+        $date3jour = new DateTime(date('Y-m-d', time() + (60 * 60 * 24)*-3 ));  // Genère la date d'hier
         $Inst1 = new Intervention();
         $Inst1->setState("FINIE");
         $Inst1->setSa($this->getReference('saex1'));
         $Inst1->setType_I("INSTALLATION");
-        $Inst1->setMessage("Installation du SA1 en test1");
+        $Inst1->setMessage("Installation du SA1 en D301");
         $Inst1->setReport("Installation effectué sans probleme");
-        $Inst1->setStartingDate(new \DateTime());
-        $Inst1->setEndingDate(new \DateTime());
+        $Inst1->setStartingDate($datehier);
+        $Inst1->setEndingDate($datehier);
         $Inst1->setTechnicien($this->getReference('tech1'));
         $manager->persist($Inst1);
 
         //Interventions Installation sur SAex2
+        $dateSemaineDerniere = new DateTime(date('Y-m-d', time() + (60 * 60 * 24)*-7 ));  // Genère la date de la semaine dernière
         $Inst2 = new Intervention();
         $Inst2->setState("FINIE");
         $Inst2->setSa($this->getReference('saex2'));
         $Inst2->setType_I("INSTALLATION");
-        $Inst2->setMessage("Installation du SA2 en test2");
+        $Inst2->setMessage("Installation du SA2 en D302");
         $Inst2->setReport("Installation effectué sans probleme");
-        $Inst2->setStartingDate(new \DateTime());
-        $Inst2->setEndingDate(new \DateTime());
+        $Inst2->setStartingDate($dateSemaineDerniere);
+        $Inst2->setEndingDate($datehier);
         $Inst2->setTechnicien($this->getReference('tech1'));
         $manager->persist($Inst2);
 
@@ -803,8 +681,8 @@ class AppFixtures extends Fixture
         $Inst3 = new Intervention();
         $Inst3->setState("EN_COURS");
         $Inst3->setSa($this->getReference('saex3'));
-        $Inst3->setMessage("Changement du SA3 de la salle test3 à la test4");
-        $Inst3->setStartingDate(new \DateTime());
+        $Inst3->setMessage("Changement du SA3 de la salle D003 à la C006");
+        $Inst3->setStartingDate($dateSemaineDerniere);
         $Inst3->setType_I('INSTALLATION');
         $manager->persist($Inst3);
 
@@ -812,8 +690,8 @@ class AppFixtures extends Fixture
         $Inst4 = new Intervention();
         $Inst4->setState("EN_COURS");
         $Inst4->setSa($this->getReference('saex4'));
-        $Inst4->setMessage("Installation du SA4 dans la salle test5");
-        $Inst4->setStartingDate(new \DateTime());
+        $Inst4->setMessage("Installation du SA4 dans la salle D005");
+        $Inst4->setStartingDate($date3jour);
         $Inst4->setType_I("INSTALLATION");
         $Inst4->setTechnicien($this->getReference('tech1'));
         $manager->persist($Inst4);
@@ -823,14 +701,14 @@ class AppFixtures extends Fixture
         $Maint1->setState("EN_COURS");
         $Maint1->setSa($this->getReference('saex5'));
         $Maint1->setMessage("Le capteur de CO2 ne remonte plus de données, verifier le capteur et les branchements");
-        $Maint1->setStartingDate(new \DateTime());
+        $Maint1->setStartingDate($datehier);
         $Maint1->setType_I('MAINTENANCE');
         $manager->persist($Maint1);
 
-        //Intervention Maintenance sur SAex6
+        //Intervention Maintenance sur SAex5
         $Maint2 = new Intervention();
         $Maint2->setState("EN_COURS");
-        $Maint2->setSa($this->getReference('saex6'));
+        $Maint2->setSa($this->getReference('saex5'));
         $Maint2->setMessage("Le capteur d'humidité/température retourne des valeurs anormalement élevé, verifier le capteur et les branchements");
         $Maint2->setStartingDate(new \DateTime());
         $Maint2->setType_I("MAINTENANCE");
@@ -844,12 +722,11 @@ class AppFixtures extends Fixture
         $Maint3->setType_I("MAINTENANCE");
         $Maint3->setMessage("Les données du sa presentent d'enorment incoherences. Il faut verifier les connectiques capteurs.");
         $Maint3->setReport("Impossible de trouver d'ou vienne les incoherences. Retour du SA au depot.");
-        $Maint3->setStartingDate(new \DateTime());
-        $Maint3->setEndingDate(new \DateTime());
+        $Maint3->setStartingDate($date3jour);
+        $Maint3->setEndingDate($datehier);
         $Maint3->setTechnicien($this->getReference('tech1'));
         $manager->persist($Maint3);
 
         $manager->flush();
-
     }
 }

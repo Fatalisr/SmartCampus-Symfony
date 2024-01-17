@@ -1,0 +1,79 @@
+{% extends 'base_referent.html.twig' %}
+
+{% block body %}
+    <link rel="stylesheet" href="{{ asset('tech_maintenance.css') }}">
+    <link rel="stylesheet" href="{{ asset('detail_SA.css') }}">
+    <div id="div_sa_info">
+        <div class="imgANDtext">
+            <img src="{{ asset('images/door.png') }}">
+            <span>  {{ sa.name }} </span>
+        </div>
+        <div class="imgANDtext">
+            <img src="{{ asset('images/processor.png') }}">
+            <span>
+                {% if sa.oldRoom != null %}
+                    {{ sa.oldRoom.name }}
+                    ->
+                {% endif %}
+                {{ sa.currentRoom.name }}
+            </span>
+        </div>
+        {% if sa.state == 'A_INSTALLER' %}
+            <p>🟠 Installation</p>
+        {% else %}
+            <p>🔴 Maintenance</p>
+        {% endif %}
+        <button type="button" onclick="goHome()" id="goHomeBtn">Retour</button>
+    </div>
+    {{ form_start(form_validMtn, {'attr' : {'id' : 'maintenance_form'}}) }}
+    <div id="block_ref_msg">
+        <div class="ref_msg">
+            <h2>Ancien message :</h2>
+            <p>{{ message }}</p>
+        </div>
+        <div class="ref_msg">
+            <h2>Nouveau message :</h2>
+            <p>{{ form_widget(form_validMtn.report) }}</p>
+        </div>
+    </div>
+
+    <div id="block_btns">
+        {{ form_start(form_validMtn, {'attr' : {'id' : 'maintenance_form'}}) }}
+        {{ form_widget(form_validMtn.valid) }}
+        <button id="valid_btn" type="button" onclick="sendformulaire('true')">CHANGER LE MESSAGE</button>
+        <button id="invalid_btn" type="button" onclick="sendformulaire('false')">ANNULER L'INTERVENTION</button>
+    </div>
+    <div>
+        <span id="err_sub">Veuillez mettre un message </span>
+    </div>
+    {{ form_end(form_validMtn) }}
+    <script>
+        function sendformulaire(valid){
+            let data = document.getElementById('maintenance_form_valid');
+            let textareaContent = document.getElementById('maintenance_form_report').value;
+            if(valid === 'true'){
+                if(textareaContent.trim() !== ''){
+                    data.value = 'true';
+                    document.getElementById('maintenance_form').submit();
+                }
+                else {
+                    document.getElementById('err_sub').style.display = 'flex';
+                }
+            }else{
+                data.value = 'false';
+                document.getElementById('maintenance_form').submit();
+            }
+        }
+        function openPopup(popupId) {
+            document.getElementById(popupId).style.display = 'block';
+        }
+
+        function closePopup(popupId) {
+            document.getElementById(popupId).style.display = 'none';
+        }
+
+        function goHome(){
+            window.location.href = '/referent';
+        }
+    </script>
+{% endblock %}

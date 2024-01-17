@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\InterventionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -17,10 +18,10 @@ class Intervention
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $startingDate = null;
+    private ?Datetime $startingDate = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $endingDate = null;
+    private ?Datetime $endingDate = null;
 
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $message = null;
@@ -47,24 +48,24 @@ class Intervention
         return $this->id;
     }
 
-    public function getStartingDate(): ?\DateTimeInterface
+    public function getStartingDate(): ?\DateTime
     {
         return $this->startingDate;
     }
 
-    public function setStartingDate(\DateTimeInterface $startingDate): static
+    public function setStartingDate(\DateTime $startingDate): static
     {
         $this->startingDate = $startingDate;
 
         return $this;
     }
 
-    public function getEndingDate(): ?\DateTimeInterface
+    public function getEndingDate(): ?\DateTime
     {
         return $this->endingDate;
     }
 
-    public function setEndingDate(\DateTimeInterface $endingDate): static
+    public function setEndingDate(\DateTime $endingDate): static
     {
         $this->endingDate = $endingDate;
 
