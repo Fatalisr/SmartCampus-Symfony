@@ -1,12 +1,21 @@
 {% extends 'base_referent.html.twig' %}
 
 {% block body %}
+    <link rel="stylesheet" href="{{ asset('tech_maintenance.css') }}">
     <link rel="stylesheet" href="{{ asset('detail_SA.css') }}">
     <script src="https://d3js.org/d3.v4.js"></script>
     <script src="{{ asset('graph.js') }}"></script>
-    <div class="fse">
-        <p> {{ sa.name }}</p>
-        <p>{{ sa.currentRoom.name }}</p>
+    <div id="div_sa_info">
+        <div class="imgANDtext">
+            <img src="{{ asset('images/door.png') }}">
+            <span>  {{ sa.name }} </span>
+        </div>
+        <div class="imgANDtext">
+            <img src="{{ asset('images/processor.png') }}">
+            <span>
+                {{ sa.currentRoom.name }}
+            </span>
+        </div>
         {% if sa.state == 'A_INSTALLER' %}
             <p>🟠 Installation</p>
         {% elseif sa.state == 'ACTIF' %}

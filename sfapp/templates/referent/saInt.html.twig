@@ -2,6 +2,7 @@
 
 {% block body %}
     <link rel="stylesheet" href="{{ asset('tech_maintenance.css') }}">
+    <link rel="stylesheet" href="{{ asset('detail_SA.css') }}">
     <div id="div_sa_info">
         <div class="imgANDtext">
             <img src="{{ asset('images/door.png') }}">
@@ -22,7 +23,7 @@
         {% else %}
             <p>🔴 Maintenance</p>
         {% endif %}
-        <a id="maint" href="{{ path("app_referent") }}"><span>Retour</span></a>
+        <button type="button" onclick="goHome()" id="goHomeBtn">Retour</button>
     </div>
     {{ form_start(form_validMtn, {'attr' : {'id' : 'maintenance_form'}}) }}
     <div id="block_ref_msg">
@@ -69,6 +70,10 @@
 
         function closePopup(popupId) {
             document.getElementById(popupId).style.display = 'none';
+        }
+
+        function goHome(){
+            window.location.href = '/referent';
         }
     </script>
 {% endblock %}
