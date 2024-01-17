@@ -138,8 +138,8 @@ class ReferentController extends AbstractController
         $sa = $entityManager->find(SA::class,$id);
         $room = $sa->getCurrentRoom()->getName();
 
-        $today = date("Y-m-d"); //Genère la date d'ajourd'hui
-        $yesterday = date('Y-m-d', time() + (60 * 60 * 24)*-1 );  // Genère la date d'hier
+        $today = date("Y-m-d",time() + (60 * 60 * 24)); //Genère la date d'ajourd'hui
+        $yesterday = date('Y-m-d');  // Genère la date d'hier
         $lastWeek = date('Y-m-d', time() + (60 * 60 * 24 * -7) ); // Genère la date de la semain dernière
         // Récupère les captures d'hier à aujourd'hui
         $reponseCO2T = $requetesAPI->getIntervalCaptures($yesterday,$today,$room,"co2");
