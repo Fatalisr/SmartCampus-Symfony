@@ -12,7 +12,11 @@
         </div>
         <div class="imgANDtext">
             <img src="{{ asset('images/processor.png') }}">
-            <span> {{ curSA.currentRoom.name }} </span>
+            <span> {% if curSA.currentRoom is null%}
+                Retour au stock
+            {% else %}
+                {{ curSA.currentRoom.name }}
+            {% endif %}</span>
         </div>
         {% if maintenance.technicien == null%}
             <div>

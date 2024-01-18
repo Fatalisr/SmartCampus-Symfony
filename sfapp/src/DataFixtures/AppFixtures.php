@@ -536,7 +536,7 @@ class AppFixtures extends Fixture
         $sa12->setCurrentRoom($this->getReference('D002'));
         $this->addReference('sa12',$sa12);
         $manager->persist($sa12);
-
+/*
         // SA 13
         $sa13 = new SA();
         $sa13->setName("ESP-013");
@@ -544,7 +544,7 @@ class AppFixtures extends Fixture
         $sa13->setCurrentRoom($this->getReference('D004'));
         $this->addReference('sa13',$sa13);
         $manager->persist($sa13);
-
+*/
         // SA 14
         $sa14 = new SA();
         $sa14->setName("ESP-014");
@@ -589,7 +589,7 @@ class AppFixtures extends Fixture
         // ===================================== //
         // Création des Interventions d'exemples //
         // ===================================== //
-
+/*
         //Interventions Installation sur ESP-002
         $datehier = new DateTime(date('Y-m-d', time() + (60 * 60 * 24)*-1 ));  // Genère la date d'hier
         $date3jour = new DateTime(date('Y-m-d', time() + (60 * 60 * 24)*-3 ));  // Genère la date d'hier
@@ -662,7 +662,6 @@ class AppFixtures extends Fixture
         //Intervention Maintenance sur ESP-008
         $Maint3 = new Intervention();
         $Maint3->setState("ANNULEE");
-        $sa8->setState("MAINTENANCE");
         $Maint3->setSa($this->getReference('sa8'));
         $Maint3->setType_I("MAINTENANCE");
         $Maint3->setMessage("Les données du sa presentent d'enorment incoherences. Il faut verifier les connectiques capteurs.");
@@ -671,7 +670,7 @@ class AppFixtures extends Fixture
         $Maint3->setEndingDate($datehier);
         $Maint3->setTechnicien($this->getReference('tech1'));
         $manager->persist($Maint3);
-
+*/
         $manager->flush();
     }
 }

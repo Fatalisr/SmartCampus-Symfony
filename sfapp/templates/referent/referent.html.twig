@@ -23,7 +23,9 @@
                             <img onclick="openSAPage({{ sa.id }})" id="sa_data" src="{{ asset('images/data-center-table-management.png') }}" alt="trash_can" height="35px" width="35px">
                         </div>
                         <div id="center"  class="caseListSA roomCase">
-                            {{ sa.currentRoom.name }}
+                            {% if sa.currentRoom is not null %}
+                                {{ sa.currentRoom.name }}
+                            {% endif %}
                         </div>
                         <div id="center"  class="caseListSA saForm">
                             <a href="{{ path('delete_sa', {'id': sa.getId}) }}"><span class="retirer_room_btn">Retirer</span></a>

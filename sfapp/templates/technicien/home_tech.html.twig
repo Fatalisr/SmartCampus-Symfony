@@ -47,7 +47,11 @@
                                 </div>
                                 <div class="caseBlockInterv" id="rightSide">
                                     <img src="{{ asset('images/door.png') }}">
-                                    {{ maintenance.sa.getCurrentRoom.name }}
+                                    {% if maintenance.sa.getCurrentRoom is null%}
+                                        Retour au stock
+                                    {% else %}
+                                        {{ maintenance.sa.getCurrentRoom.name }}
+                                    {% endif %}
                                 </div>
                             </div>
                         </a>

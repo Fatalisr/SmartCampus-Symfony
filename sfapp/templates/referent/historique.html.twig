@@ -48,10 +48,14 @@
                         </div>
                         <div class="lignItem " id="salle">
                             <img class="pictos" src="{{ asset('images/door.png') }}">
-                            {% if intervention.sa.oldRoom is null %}
-                                <span>{{ intervention.sa.currentRoom.name }}</span>
+                            {% if intervention.sa.currentRoom is not null %}
+                                {% if intervention.sa.oldRoom is null %}
+                                    <span>{{ intervention.sa.currentRoom.name }}</span>
+                                {% else %}
+                                    <span>{{ intervention.sa.oldRoom.name }} vers {{ intervention.sa.currentRoom.name }}</span>
+                                {% endif %}
                             {% else %}
-                                <span>{{ intervention.sa.oldRoom.name }} vers {{ intervention.sa.currentRoom.name }}</span>
+                                <span>Retour au stock</span>
                             {% endif %}
                         </div>
                         <div class="lignItem " id="startingDate">
@@ -111,10 +115,14 @@
                         </div>
                         <div class="lignItem " id="salle">
                             <img class="pictos" src="{{ asset('images/door.png') }}">
-                            {% if intervention.sa.oldRoom is null %}
-                                <span>{{ intervention.sa.currentRoom.name }}</span>
+                            {% if intervention.sa.currentRoom is not null %}
+                                {% if intervention.sa.oldRoom is null %}
+                                    <span>{{ intervention.sa.currentRoom.name }}</span>
+                                {% else %}
+                                    <span>{{ intervention.sa.oldRoom.name }} vers {{ intervention.sa.currentRoom.name }}</span>
+                                {% endif %}
                             {% else %}
-                                <span>{{ intervention.sa.oldRoom.name }} vers {{ intervention.sa.currentRoom.name }}</span>
+                                <span>Retour au stock</span>
                             {% endif %}
                         </div>
                         <div class="lignItem " id="startingDate">
@@ -269,7 +277,7 @@
                 // Conditions pour le filtre de technicien
                 var technicianFilterPass = (
                     (selectedTechnician === 'all') ||
-                    (selectedTechnician === 'tec1' && username === 'tec1') ||
+                    (selectedTechnician === selectedTechnician && username === selectedTechnician) ||
                     (selectedTechnician === 'unassigned' && username === 'Non assignée')
                 );
 
