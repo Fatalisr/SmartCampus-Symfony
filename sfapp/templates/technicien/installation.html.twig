@@ -5,31 +5,129 @@
 
 {% block body %}
     <link rel="stylesheet" href={{ asset('tech_maintenance.css') }}>
-    <div class="block_interv">
-        <div>
+    <div id="div_sa_info">
+        <div class="imgANDtext">
+            <img src="{{ asset('images/door.png') }}">
             <span>  {{ curSA.name }} </span>
         </div>
-        <div>
+        <div class="imgANDtext">
+            <img src="{{ asset('images/processor.png') }}">
             {% if curSA.oldRoom is not null %}
-                <h2>Salle actuelle :</h2>
-                <p>{{  curSA.oldRoom.name }}</p>
+                <span style="padding-right: 5px">Salle actuelle :{{  curSA.oldRoom.name }} </span>
             {% endif %}
-            <h2>A installer en :</h2>
-            <span> {{ curSA.currentRoom.name }} </span>
+            <span>A installer en : {{ curSA.currentRoom.name }} </span>
         </div>
+        {% if installation.technicien == null%}
+            <div>
+                {{ form_start(form_assign) }}
+                <div id="submit_btn">
+                    <div style="background-color: green" id="assignTechBtn" onclick="openPopup('popupCS')">M'assigner à cette intervention</div>
+                    <div id="popupCS" class="popup">
+                        <div class="popup-content">
+                            <span class="close" onclick="closePopup('popupCS')">&times;</span>
+                            <span>Veuillez confirmer votre assignation à cette intervention</span>
+                            <div>
+                                <button id="non" type="button" onclick="closePopup('popupCS')">Non</button>
+                                {{ form_widget(form_assign.valid) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{ form_end(form_assign) }}
+            </div>
+        {% else  %}
+            {% if installation.technicien == user%}
+                <div class = "imgANDtext">
+                    <div>
+                        {{ installation.technicien.username }}
+                    </div>
+                    <div>
+                        {{ form_start(form_unassign) }}
+                        <div id="submit_btn">
+                            <div style="background-color: red"  id="assignTechBtn" onclick="openPopup('popupCS')">Abandonner cette intervention</div>
+                            <div id="popupCS" class="popup">
+                                <div class="popup-content">
+                                    <span class="close" onclick="closePopup('popupCS')">x</span>
+                                    <span>Veuillez confirmer votre retrait de cette intervention</span>
+                                    <div>
+                                        <button id="non" type="button" onclick="closePopup('popupCS')">Non</button>
+                                        {{ form_widget(form_unassign.valid) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{ form_end(form_unassign) }}
+                    </div>
+                </div>
+            {% else  %}
+                <div>
+                    <span> Assignée à : {{ installation.technicien.username }}</span>
+                </div>
+            {% endif %}
+        {% endif %}
+        <button type="button" onclick="goHome()" id="goHomeBtn">Retour</button>
     </div>
-    <div class="block_interv">
+    {{ form_start(form_validInstal, {'attr' : {'id' : 'maintenance_form'}}) }}
+    <div id="block_ref_msg">
+        <div class="ref_msg">
+            <h2>Étapes de l'installation :</h2>
+            <ol>
+                <li>Effectuer les branchements du système d'acquisition</li>
+                <li>Configuration</li>
+                <li>Vérifier les données remontées</li>
+            </ol>
+        </div>
+        {% if installation.technicien == user%}
+            <div class="ref_msg">
+                <h2>Retour d'installation :</h2>
+                {{ form_widget(form_validInstal.report) }}
+            </div>
+        {% endif %}
+    </div>
+
+    {% if installation.technicien == user%}
+        <div id="block_btns">
+            {{ form_start(form_validInstal) }}
+            {{ form_widget(form_validInstal.valid) }}
+            <button id="valid_btn" type="button" onclick="sendformulaire('true')">VALIDER L'INSTALLATION</button>
+            <button id="invalid_btn" type="button" onclick="sendformulaire('false')">INSTALLATION IMPOSSIBLE</button>
+        </div>
         <div>
-            <h2>Etapes de l'installation :</h2>
-            <p>1 - Branchement du système d'acquisition</p>
-            <p>2 - Configuration</p>
-            <p>3 - Test des données remontées</p>
+            <span id="err_sub">Veuillez completer le rapport d'intervention</span>
         </div>
-    </div>
-    {{ form_start(form_validInstal) }}
-    {{ form_widget(form_validInstal.valid) }}
-    {{ form_end(form_validInstal) }}
-    <a href="{{ path("app_technicien") }}"><span>Retour</span></a>
+        {{ form_end(form_validInstal) }}
+    {% endif %}
 
+    <script>
+        function sendformulaire(valid){
+            let data = document.getElementById('maintenance_form_valid');
+            let textareaContent = document.getElementById('maintenance_form_report').value;
+            console.log(data);
+            console.log(textareaContent);
+            console.log(document.getElementById('maintenance_form'));
 
+            if(textareaContent.trim() !== ''){
+                if(valid === 'true'){
+                    data.value = 'true';
+                }else{
+                    data.value = 'false';
+                }
+                document.getElementById('maintenance_form').submit();
+            }else{
+                document.getElementById('err_sub').style.display = 'flex';
+            }
+        }
+
+        function openPopup(popupId) {
+            document.getElementById(popupId).style.display = 'block';
+        }
+
+        function closePopup(popupId) {
+            document.getElementById(popupId).style.display = 'none';
+        }
+
+        function goHome(){
+            window.location.href = '/technicien';
+        }
+    </script>
 {% endblock %}

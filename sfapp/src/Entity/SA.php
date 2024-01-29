@@ -25,7 +25,6 @@ class SA
     #[ORM\ManyToOne]
     private ?Room $oldRoom = null;
 
-
     public function getId(): ?int
     {
         return $this->id;
@@ -78,7 +77,5 @@ class SA
 
         return $this;
     }
-
-
 
 }

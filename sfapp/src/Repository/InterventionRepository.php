@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Intervention;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -27,9 +28,11 @@ class InterventionRepository extends ServiceEntityRepository
     public function findAllInstallations(): array
     {
         return $this->createQueryBuilder('i')
-            ->andWhere('i.type = :type')
-            ->setParameter('type', "INSTALLATION")
+            ->andWhere('i.type_i = :type_i')
+            ->andWhere('i.state = :state')
+            ->setParameter('type_i', "INSTALLATION")
             ->andWhere('i.endingDate IS NULL')
+            ->setParameter('state', "EN_COURS")
             ->orderBy('i.id', 'DESC')
             ->getQuery()
             ->getResult();
@@ -41,26 +44,53 @@ class InterventionRepository extends ServiceEntityRepository
     public function findAllMaintenances(): array
     {
         return $this->createQueryBuilder('i')
-            ->andWhere('i.type = :type')
+            ->andWhere('i.type_i = :type_i')
             ->andWhere('i.endingDate IS NULL')
-            ->setParameter('type', "MAINTENANCE")
+            ->andWhere('i.state = :state')
+            ->setParameter('type_i', "MAINTENANCE")
+            ->setParameter('state', "EN_COURS")
             ->orderBy('i.id', 'DESC')
             ->getQuery()
             ->getResult()
             ;
     }
-    public function findInstallationBySAId($sa)
+    public function findOneById($sa,$type): ?Intervention
+    {
+
+        try {
+            return $this->createQueryBuilder('i')
+                ->andWhere('i.type_i = :type')
+                ->andWhere('i.sa = :sa')
+                ->andWhere('i.state = EN_COURS')
+                ->setParameter('sa', $sa)
+                ->setParameter('type', $type)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+            return null;
+        }
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function findOneBySA($sa)
     {
         return $this->createQueryBuilder('i')
-            ->andWhere('i.type = :type')
             ->andWhere('i.sa = :sa')
-            ->andWhere('i.endingDate IS NULL')
-            ->setParameter('type', "INSTALLATION")
             ->setParameter('sa', $sa)
-            ->orderBy('i.id', 'DESC')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
+    }
 
+    public function findOneBySAAndCurrent($sa)
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.sa = :sa')
+            ->setParameter('sa', $sa)
+            ->andWhere('i.state = :state')
+            ->setParameter('state', "EN_COURS")
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

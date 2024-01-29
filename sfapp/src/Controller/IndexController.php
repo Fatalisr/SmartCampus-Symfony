@@ -1,42 +1,43 @@
 <?php
 
 namespace App\Controller;
-use App\Entity\User;
 use App\Form\LoginForm;
-use App\Entity\SA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
+/*
+ * @brief Controller that handles the login page and the connection
+ */
 class IndexController extends AbstractController
 {
-
-
+    /*
+     * Route gérant la page de connexion et la connexion à l'application
+     */
     #[Route('/', name: 'login')]
     public function login(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
-        // Créer le formulaire de connexion
+        // Création du formulaire de connexion
         $form = $this->createForm(LoginForm::class);
 
         // Gérer la soumission du formulaire
         $form->handleRequest($request);
         $error = null;
-        // get the login error if there is one
-        $erreurServer = $authenticationUtils->getLastAuthenticationError();;
+
+        // Récupérer l'erreur précedente s'il y en a eu une
+        $erreurServer = $authenticationUtils->getLastAuthenticationError();
         if($erreurServer)
         {
-            // Customizing error message based on the error type
+            // Envoi d'un message d'erreur personnalisé
             if ($erreurServer->getMessage() ==  "Bad credentials.") {
-                $error = 'badUser'; // You can customize this message
+                $error = 'badUser';
             } elseif ($erreurServer->getMessage() == "The presented password is invalid.") {
-                $error = 'badPwd'; // You can customize this message
+                $error = 'badPwd';
             }
         }
-        //dump($error);
+        // Renvoie vers la page de connexion
         return $this->render('index/index.html.twig', [
             'form' => $form->createView(),
             'error' => $error,

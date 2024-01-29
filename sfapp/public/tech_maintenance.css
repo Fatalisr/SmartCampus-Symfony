@@ -1,3 +1,11 @@
+textarea {
+    width: 96%;
+    height: 60%;
+    box-sizing: border-box;
+    resize: vertical;
+    margin: 0 2% 0 2%;
+}
+
 #div_sa_info{
     display: flex;
     justify-content: space-between;
@@ -112,4 +120,32 @@ form{
     justify-content: center;
     align-items: center;
     margin-top: 10px;
+}
+#goHomeBtn{
+    width: 10%;
+    height: 45%;
+    margin-right: 10px;
+    font-size: x-large;
+    border-radius: 10px;
+    background-color: #a78bfa;
+    border: solid 1px #a78bfa;
+    color: black;
+    transition-duration: .3s;
+}
+#assignTechBtn{
+    width: fit-content;
+    height: 45%;
+    padding: 3% 7% 3% 7%;
+    background-color: #d6dfe8;
+    border-radius: 10px;
+    white-space: nowrap;
+    font-size: medium;
+    margin-left: 40px;
+    transition-duration: .5s;
+}
+
+#assignTechBtn:hover{
+    padding: 4% 8% 4% 8%;
+    border: solid 1px black;
+    cursor: pointer;
 }

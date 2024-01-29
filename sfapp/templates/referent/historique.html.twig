@@ -1,0 +1,334 @@
+{% extends 'base_referent.html.twig' %}
+
+{% block title %}Smart Campus - historique{% endblock %}
+
+{% block body %}
+    <link rel="stylesheet" href="{{ asset('historique.css') }}">
+    <div id="headerHistorique">
+        <!-- Ajoutez un formulaire avec un champ select pour le filtre -->
+        <form id="filterForm">
+            <label for="floorFilter">Étage :</label>
+            <select id="floorFilter">
+                <option value="all" selected="selected">Tous</option>
+                <option value="rdc">Rez-de-chaussée</option>
+                <option value="1">1er étage</option>
+                <option value="2">2ème étage</option>
+                <option value="3">3ème étage</option>
+            </select>
+
+            <label for="dateFilter">Date :</label>
+            <select id="dateFilter">
+                <option value="all" selected="selected">Tous</option>
+                <option value="curDay">Ce jour</option>
+                <option value="week">Une semaine</option>
+                <option value="mounth">Un mois</option>
+                <option value="year">Un an</option>
+            </select>
+
+            <label for="technicianFilter">Technicien :</label>
+            <select id="technicianFilter">
+                <option value="all" selected="selected">Tous</option>
+                {% for tech in techniciens %}
+                    <option value="{{ tech }}">{{ tech }}</option>
+                {% endfor %}
+                <option value="unassigned">Non assignée</option>
+            </select>
+            <button type="button" onclick="refreshPage()" id="refreshBtn">Toutes les interventions</button>
+        </form>
+    </div>
+    <div id="bodyHistorique">
+        <div class="blockInter" id="blockItEnCours">
+            <h3>Interventions en cours</h3>
+            {% for intervention in interventions %}
+                {% if intervention.endingDate is null %}
+                    <div class="interLign" style="background-color: {% if intervention.type_i == 'INSTALLATION'%} #ffc97f {% else %} #ff9c97 {% endif %}">
+                        <div class="lignItem" id="sa">
+                            <img class="pictos" src="{{ asset('images/processor.png') }}">
+                            <span>{{ intervention.sa.name }}</span>
+                        </div>
+                        <div class="lignItem " id="salle">
+                            <img class="pictos" src="{{ asset('images/door.png') }}">
+                            {% if intervention.sa.currentRoom is not null %}
+                                {% if intervention.sa.oldRoom is null %}
+                                    <span>{{ intervention.sa.currentRoom.name }}</span>
+                                {% else %}
+                                    <span>{{ intervention.sa.oldRoom.name }} vers {{ intervention.sa.currentRoom.name }}</span>
+                                {% endif %}
+                            {% else %}
+                                <span>Retour au stock</span>
+                            {% endif %}
+                        </div>
+                        <div class="lignItem " id="startingDate">
+                            <img class="pictos" src="{{ asset('images/calendar.png') }}">
+                            <span>{{ intervention.startingDate|date('d-m-Y') }}</span>
+                        </div>
+
+                        <div class="lignItem " id="technicien">
+                            <img class="pictos" src="{{ asset('images/tech-image.png') }}">
+                            {% if intervention.technicien is not null %}
+                                <span>{{ intervention.technicien.username }}</span>
+                            {% else %}
+                                <span>Non assignée</span>
+                            {% endif %}
+                        </div>
+                        <img class="pictos" id="pictoMsg" src="{{ asset('images/message-icon.png') }}" onclick="openPopup('popupMsgEC{{ intervention.id }}')">
+                        <!-- POPUP --->
+                        <div id="popupMsgEC{{ intervention.id }}" class="popup_histo">
+                            <div class="popup-content_histo">
+                                <span class="close" onclick="closePopup('popupMsgEC{{ intervention.id }}')">&times;</span>
+                                <div id="msgRefLine">
+                                    <div class="messageblock" id="msgRef">
+                                        <h4>Referent</h4>
+                                        {% if intervention.message is not null %}
+                                            <span>{{ intervention.message }}</span>
+                                        {% else %}
+                                            <span>aucun message</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div id="msgTechLine">
+                                    <div class="messageblock" id="msgTech">
+                                        <h4>Technicien</h4>
+                                        {% if intervention.report is not null %}
+                                            <span>{{ intervention.report }}</span>
+                                        {% else %}
+                                            <span>aucun message</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- FIN POPUP --->
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <span class="noItMsg" id="noItEnCours" style="display:none;"> Aucune intervention</span>
+        </div>
+        <div class="blockInter" id="blockItPasse">
+            <h3>Interventions passées</h3>
+            {% for intervention in interventions %}
+                {% if intervention.endingDate is not null %}
+                    <div class="interLign " style="background-color: {% if intervention.type_i == 'INSTALLATION'%} #ffc97f {% else %} #ff9c97 {% endif %}">
+                        <div class="lignItem" id="sa">
+                            <img class="pictos" src="{{ asset('images/processor.png') }}">
+                            <span>{{ intervention.sa.name }}</span>
+                        </div>
+                        <div class="lignItem " id="salle">
+                            <img class="pictos" src="{{ asset('images/door.png') }}">
+                            {% if intervention.sa.currentRoom is not null %}
+                                {% if intervention.sa.oldRoom is null %}
+                                    <span>{{ intervention.sa.currentRoom.name }}</span>
+                                {% else %}
+                                    <span>{{ intervention.sa.oldRoom.name }} vers {{ intervention.sa.currentRoom.name }}</span>
+                                {% endif %}
+                            {% else %}
+                                <span>Retour au stock</span>
+                            {% endif %}
+                        </div>
+                        <div class="lignItem " id="startingDate">
+                            <img class="pictos" src="{{ asset('images/calendar.png') }}">
+                            <span>{{ intervention.startingDate|date('d-m-Y') }}</span>
+                        </div>
+                        <div class="lignItem " id="endingDate">
+                            {% if intervention.state == 'ANNULEE' %}
+                                <img class="pictos" src="{{ asset('images/calendar-fail.png') }}">
+                            {% else %}
+                                <img class="pictos" src="{{ asset('images/calendar-pass.png') }}">
+                            {% endif %}
+                            <span>{{ intervention.endingDate|date('d-m-Y') }}</span>
+                        </div>
+                        <div class="lignItem " id="technicien">
+                            <img class="pictos" src="{{ asset('images/tech-image.png') }}">
+                            {% if intervention.technicien is not null %}
+                                <span>{{ intervention.technicien.username }}</span>
+                            {% else %}
+                                <span>Non assignée</span>
+                            {% endif %}
+                        </div>
+                        <img class="pictos" id="pictoMsg" src="{{ asset('images/message-icon.png') }}" onclick="openPopup('popupMsgEC{{ intervention.id }}')">
+                        <!-- POPUP --->
+                        <div id="popupMsgEC{{ intervention.id }}" class="popup_histo">
+                            <div class="popup-content_histo">
+                                <span class="close" onclick="closePopup('popupMsgEC{{ intervention.id }}')">&times;</span>
+                                <div id="msgRefLine">
+                                    <div class="messageblock" id="msgRef">
+                                        <h4>Referent</h4>
+                                        {% if intervention.message is not null %}
+                                            <span>{{ intervention.message }}</span>
+                                        {% else %}
+                                            <span>aucun message</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div id="msgTechLine">
+                                    <div class="messageblock" id="msgTech">
+                                        <h4>Technicien</h4>
+                                        {% if intervention.report is not null %}
+                                            <span>{{ intervention.report }}</span>
+                                        {% else %}
+                                            <span>aucun message</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- FIN POPUP --->
+
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <span class="noItMsg" id="noItPasse" style="display:none;"> Aucune intervention</span>
+        </div>
+    </div>
+    <script>
+        afficherDivSiVide('blockItEnCours','noItEnCours');
+        afficherDivSiVide('blockItPasse','noItPasse');
+        function openPopup(popupId) {
+            document.getElementById(popupId).style.display = 'block';
+        }
+
+        function closePopup(popupId) {
+            document.getElementById(popupId).style.display = 'none';
+        }
+
+        document.getElementById('dateFilter').addEventListener('change', function() {
+            updateFilters();
+            afficherDivSiVide('blockItEnCours','noItEnCours');
+            afficherDivSiVide('blockItPasse','noItPasse');
+        });
+
+        document.getElementById('technicianFilter').addEventListener('change', function() {
+            updateFilters();
+            afficherDivSiVide('blockItEnCours','noItEnCours');
+            afficherDivSiVide('blockItPasse','noItPasse');
+        });
+
+        document.getElementById('floorFilter').addEventListener('change', function() {
+            updateFilters();
+            afficherDivSiVide('blockItEnCours','noItEnCours');
+            afficherDivSiVide('blockItPasse','noItPasse');
+        });
+
+
+        function updateFilters() {
+
+            var selectedDate = document.getElementById('dateFilter').value;
+            var selectedTechnician = document.getElementById('technicianFilter').value;
+            var selectedFloor = document.getElementById('floorFilter').value;
+
+            var interLigns = document.querySelectorAll('.interLign');
+
+            interLigns.forEach(function (interLign) {
+                var dateSpan = interLign.querySelector('.lignItem#startingDate span');
+                var startingDateText = dateSpan ? dateSpan.innerText.trim() : '';
+                var startingDateParts = startingDateText.split('-');
+
+                // Vérifiez si le format de date est correct (jour-mois-année)
+                if (startingDateParts.length === 3) {
+                    var date = new Date(
+                        parseInt(startingDateParts[2], 10),  // année
+                        parseInt(startingDateParts[1], 10) - 1,  // mois (0-indexé)
+                        parseInt(startingDateParts[0], 10)  // jour
+                    );
+                }
+
+                var usernameSpan = interLign.querySelector('.lignItem#technicien span');
+                var username = usernameSpan ? usernameSpan.innerText.trim() : '';
+
+                var roomSpan = interLign.querySelector('.lignItem#salle span');
+                var room = roomSpan ? roomSpan.innerText.trim() : '';
+                var floor = room[1];
+
+                var currentDate = new Date();
+                // Conditions pour le filtre de date
+                var dateFilterPass = false;
+                switch (selectedDate) {
+                    case 'curDay':
+                        if (isSameDay(date, currentDate)) {
+                            dateFilterPass = true;
+                        }
+                        break;
+                    case 'week':
+                        var oneWeekAgo = new Date();
+                        oneWeekAgo.setDate(currentDate.getDate() - 7);
+                        if (date >= oneWeekAgo && date <= currentDate) {
+                            dateFilterPass = true;
+                        }
+                        break;
+                    case 'mounth':
+                        var oneMounthAgo = new Date();
+                        oneMounthAgo.setDate(currentDate.getDate() - 30);
+                        if (date >= oneMounthAgo && date <= currentDate) {
+                            dateFilterPass = true;
+                        }
+                        break;
+                    case 'year':
+                        var oneYearAgo = new Date();
+                        oneYearAgo.setDate(currentDate.getDate() - 365);
+                        if (date >= oneYearAgo && date <= currentDate) {
+                            dateFilterPass = true;
+                        }
+                        break;
+                    default:
+                        dateFilterPass = true;
+                        break;
+                }
+
+                // Conditions pour le filtre de technicien
+                var technicianFilterPass = (
+                    (selectedTechnician === 'all') ||
+                    (selectedTechnician === selectedTechnician && username === selectedTechnician) ||
+                    (selectedTechnician === 'unassigned' && username === 'Non assignée')
+                );
+
+                // Conditions pour le filtre d'étage
+                var floorFilterPass = (
+                    (selectedFloor === 'all') ||
+                    (selectedFloor === 'rdc' && (floor !== '1' && floor !== '2' && floor !== '3')) ||
+                    (selectedFloor === floor)
+                );
+
+                // Affichage ou non en fonction des filtres
+                if (dateFilterPass && technicianFilterPass && floorFilterPass) {
+                    interLign.style.display = 'flex';
+                } else {
+                    interLign.style.display = 'none';
+                }
+            });
+        }
+
+
+        function afficherDivSiVide(idBlockList, idSpanMsg) {
+            // Récupérer l'élément div parent par son ID
+            var parentDiv = document.getElementById(idBlockList);
+
+            // Vérifier si toutes les div enfants ont display : 'none'
+            var toutesEnNone = true;
+            var divEnfants = parentDiv.getElementsByTagName('div');
+
+            for (var i = 0; i < divEnfants.length; i++) {
+                if (divEnfants[i].style.display !== 'none' && divEnfants[i].classList[0] === 'interLign') {
+                    toutesEnNone = false;
+                    break;
+                }
+            }
+
+            // Si toutes les div enfants ont display : 'none', afficher la div parent
+            if (toutesEnNone) {
+                document.getElementById(idSpanMsg).style.display = 'flex';
+            }else{
+                document.getElementById(idSpanMsg).style.display = 'none';
+            }
+        }
+
+        function isSameDay(date1, date2) {
+            return date1.getDate() === date2.getDate() &&
+                date1.getMonth() === date2.getMonth() &&
+                date1.getFullYear() === date2.getFullYear();
+        }
+        function refreshPage(){
+            location.reload(true);
+        }
+
+    </script>
+{% endblock %}
