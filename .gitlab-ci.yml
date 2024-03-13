@@ -1,9 +1,9 @@
-stage :
+stages:
     - sonar
 
 
 sonarqube-check:
-    stage :
+    stage:
         - sonar
     tags:
         - docker
