@@ -3,8 +3,7 @@ stages:
 
 
 sonarqube-check:
-    stage:
-        - sonar
+    stage: sonar
     tags:
         - docker
     image: 
