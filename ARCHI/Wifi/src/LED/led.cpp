@@ -1,8 +1,8 @@
-#include <Arduino.h>
-#include <WS2812FX.h>
+/*-----------------------------------------------------------------*/
+/*                            Include                              */
+/*-----------------------------------------------------------------*/
 
 #include "led.h"
-#include "../variables.h"
 
 /*-----------------------------------------------------------------*/
 /*                           Variables                             */
@@ -11,8 +11,6 @@
 #define LED_COUNT 13
 #define LED_PIN 18
 WS2812FX ws2812fx = WS2812FX(LED_COUNT, LED_PIN, NEO_RGB + NEO_KHZ800);
-
-
 
 /*-----------------------------------------------------------------*/
 /*                           Fonctions                             */
@@ -33,6 +31,7 @@ void initLed(){
 /*-----------------------------------------------------------------*/
 /*                             Tasks                               */
 /*-----------------------------------------------------------------*/
+
 void setLedColorTask(void* parameter){
     for(;;){
         if(ledTempOk && ledHumiOk && ledCO2Ok){ // Si la variable globale a été modifié par l'echecs d'une capture, on passe la led en rouge

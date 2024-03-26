@@ -1,12 +1,17 @@
 #ifndef ECRAN_H
 #define ECRAN_H
+/*-----------------------------------------------------------------*/
+/*                            Include                              */
+/*-----------------------------------------------------------------*/
 
-#include <Arduino.h>
 #include <U8g2lib.h>
-#include <string>
-
+#include "../variables.h"
 
 using namespace std;
+
+/*-----------------------------------------------------------------*/
+/*                           Fonctions                             */
+/*-----------------------------------------------------------------*/
 
 void init_screen();
 void displayScreen(int x, int y, String data);
